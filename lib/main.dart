@@ -40,7 +40,11 @@ void main() async {
               conditionKey: ConditionKey(name: "Polypoint")),
           Cell(name: "Sodomie", imgPath: ""),
           Cell(name: "Depardieu", imgPath: ""),
-          Cell(name: "4a", imgPath: ""),
+          Cell(
+              name: "4a",
+              imgPath: "",
+              cellType: CellType.conditionKey,
+              conditionKey: ConditionKey(name: "Polypoint")),
           Cell(name: "BressomLand", imgPath: ""),
           Cell(name: "BressomLand", imgPath: ""),
           Cell(name: "Polypoint", imgPath: ""),

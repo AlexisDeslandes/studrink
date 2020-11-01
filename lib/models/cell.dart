@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:ptit_godet/models/condition_key.dart';
 import 'package:ptit_godet/models/resource.dart';
 
-enum CellType { noEffect }
+enum CellType { noEffect, conditionKey }
 
 class Cell extends Resource {
   final String name;
@@ -25,12 +25,14 @@ class Cell extends Resource {
       "name": name,
       "imgPath": imgPath,
       "sideEffectList": sideEffectList,
-      "conditionKey": conditionKey?.toJson()
+      "conditionKey": conditionKey?.toJson(),
+      "cellType": cellType.index
     };
   }
 
   @override
-  List<Object> get props => [name, imgPath, sideEffectList, conditionKey];
+  List<Object> get props =>
+      [name, imgPath, sideEffectList, conditionKey, cellType];
 
   Cell.fromJson(Map<String, dynamic> map)
       : this(
@@ -39,6 +41,7 @@ class Cell extends Resource {
                 ? ConditionKey.fromJson(map["conditionKey"])
                 : null,
             imgPath: map["imgPath"],
+            cellType: CellType.values[map["cellType"]],
             sideEffectList: List<String>.from(map["sideEffectList"]));
 
   String get effectsLabel =>

@@ -21,55 +21,16 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
     if (event is InitModelCurrentGame) {
       yield CurrentGameState.copy(state, boardGame: event.boardGame);
     } else if (event is AddPlayer) {
-      final playerList = [Player(), ...state.playerList];
-      yield CurrentGameState.copy(state, playerList: playerList);
-    } else if (event is ChangeNamePlayer) {
-      final playerList = state.playerList.map((player) {
-        if (player == event.player) {
-          return Player.copy(player, name: event.name);
-        }
-        return player;
-      }).toList();
-      yield CurrentGameState.copy(state, playerList: playerList);
-    } else if (event is ValidateGame) {
-      if (state.playerList.every((element) => element.filled)) {
-        navBloc.add(PushNav(pageBuilder: (_) => const GamePage()));
-      } else {
-        //emit alert
-      }
-    } else if (event is ThrowDice) {
-      final random = Random(),
-          diceValue = random.nextInt(6) + 1,
-          currentPlayer = state.currentPlayer,
-          idNextCell = currentPlayer.idCurrentCell + diceValue,
-          nextCell = state.boardGame.cells[idNextCell],
-          nextCellType = nextCell.cellType,
-          playerState = _playerStateFromCellType(nextCellType);
-      var playerList;
-      if (playerState == PlayerState.canEnd) {
-        playerList = state.playerList.map((player) {
-          if (player == currentPlayer) {
-            return Player.copy(player,
-                idCurrentCell: idNextCell,
-                state: playerState,
-                conditionKeyList: [
-                  nextCell.conditionKey,
-                  ...player.conditionKeyList
-                ]);
-          }
-          return player;
-        }).toList();
-      }
-      yield CurrentGameState.copy(state, playerList: playerList);
-    } else if (event is SwitchToOtherPlayer) {
-      final playerList = state.playerList.map((player) {
-        if (player == state.currentPlayer) {
-          return Player.copy(player, state: PlayerState.ready);
-        }
-        return player;
-      }).toList();
       yield CurrentGameState.copy(state,
-          playerList: playerList, indexCurrentPlayer: state.nextIndexPlayer);
+          playerList: [Player(), ...state.playerList]);
+    } else if (event is ChangeNamePlayer) {
+      yield* _changeNamePlayer(event);
+    } else if (event is ValidateGame) {
+      yield* _validateGame(event);
+    } else if (event is ThrowDice) {
+      yield* _throwDice(event);
+    } else if (event is SwitchToOtherPlayer) {
+      yield* _switchToOtherPlayer(event);
     }
   }
 
@@ -78,6 +39,71 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
       return PlayerState.canEnd;
     }
     return PlayerState.canEnd;
+  }
+
+  Stream<CurrentGameState> _throwDice(ThrowDice event) async* {
+    final random = Random(),
+        diceValue = random.nextInt(6) + 1,
+        currentPlayer = state.currentPlayer,
+        idNextCell = _getNextCell(currentPlayer.idCurrentCell, diceValue),
+        nextCell = state.boardGame.cells[idNextCell],
+        nextCellType = nextCell.cellType,
+        nextPlayerState = _playerStateFromCellType(nextCellType);
+    var playerList;
+    if (nextPlayerState == PlayerState.canEnd) {
+      playerList = state.playerList.map((player) {
+        if (player == currentPlayer) {
+          return Player.copy(player,
+              idCurrentCell: idNextCell,
+              state: nextPlayerState,
+              conditionKeyList: [
+                nextCell.conditionKey,
+                ...player.conditionKeyList
+              ]);
+        }
+        return player;
+      }).toList();
+    }
+    yield CurrentGameState.copy(state, playerList: playerList);
+  }
+
+  Stream<CurrentGameState> _changeNamePlayer(ChangeNamePlayer event) async* {
+    final playerList = state.playerList.map((player) {
+      if (player == event.player) {
+        return Player.copy(player, name: event.name);
+      }
+      return player;
+    }).toList();
+    yield CurrentGameState.copy(state, playerList: playerList);
+  }
+
+  Stream<CurrentGameState> _validateGame(ValidateGame event) async* {
+    if (state.playerList.every((element) => element.filled)) {
+      navBloc.add(PushNav(pageBuilder: (_) => const GamePage()));
+    } else {
+      //emit alert
+    }
+  }
+
+  Stream<CurrentGameState> _switchToOtherPlayer(
+      SwitchToOtherPlayer event) async* {
+    final playerList = state.playerList.map((player) {
+      if (player == state.currentPlayer) {
+        return Player.copy(player, state: PlayerState.ready);
+      }
+      return player;
+    }).toList();
+    yield CurrentGameState.copy(state,
+        playerList: playerList, indexCurrentPlayer: state.nextIndexPlayer);
+  }
+
+  int _getNextCell(int idCurrentCell, int diceValue) {
+    for (var i = idCurrentCell; i < idCurrentCell + diceValue; i++) {
+      if (state.boardGame.cells[i].cellType == CellType.conditionKey) {
+        return i;
+      }
+    }
+    return idCurrentCell + diceValue;
   }
 }
 
