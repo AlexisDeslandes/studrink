@@ -19,7 +19,10 @@ void main() async {
       LocalStorageKeywords.boardGameList,
       jsonEncode([
         BoardGame(name: "Jeu de l'oie", cells: [
-          Cell(name: "Polypoint", imgPath: ""),
+          Cell(
+              name: "Rentrée",
+              imgPath: "",
+              sideEffectList: ["C'est la rentrée !"]),
           Cell(name: "BressomLand", imgPath: ""),
           Cell(name: "BressomLand", imgPath: ""),
           Cell(name: "BressomLand", imgPath: ""),

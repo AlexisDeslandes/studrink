@@ -40,16 +40,36 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
     } else if (event is ThrowDice) {
       Random random = Random();
       int diceValue = random.nextInt(6) + 1;
-      final currentPlayer = state.currentPlayer;
+      final currentPlayer = state.currentPlayer,
+          idNextCell = currentPlayer.idCurrentCell + diceValue,
+          nextCell = state.boardGame.cells[idNextCell],
+          nextCellType = nextCell.cellType;
+      final playerState = _playerStateFromCellType(nextCellType);
       final playerList = state.playerList.map((player) {
         if (player == currentPlayer) {
           return Player.copy(player,
-              idCurrentCell: player.idCurrentCell + diceValue);
+              idCurrentCell: idNextCell, state: playerState);
         }
         return player;
       }).toList();
       yield CurrentGameState.copy(state, playerList: playerList);
+    } else if (event is SwitchToOtherPlayer) {
+      final playerList = state.playerList.map((player) {
+        if (player == state.currentPlayer) {
+          return Player.copy(player, state: PlayerState.ready);
+        }
+        return player;
+      }).toList();
+      yield CurrentGameState.copy(state,
+          playerList: playerList, indexCurrentPlayer: state.nextIndexPlayer);
     }
+  }
+
+  PlayerState _playerStateFromCellType(CellType nextCellType) {
+    if (nextCellType == CellType.noEffect) {
+      return PlayerState.canEnd;
+    }
+    return PlayerState.canEnd;
   }
 }
 
@@ -73,6 +93,10 @@ class AddPlayer extends CurrentGameEvent {
 
 class ThrowDice extends CurrentGameEvent {
   const ThrowDice();
+}
+
+class SwitchToOtherPlayer extends CurrentGameEvent {
+  const SwitchToOtherPlayer();
 }
 
 class ChangeNamePlayer extends CurrentGameEvent {
@@ -100,7 +124,7 @@ class CurrentGameState extends Equatable {
       this.playerList = const [],
       this.indexCurrentPlayer = 0});
 
-  CurrentGameState.empty() : this(playerList: [Player()]);
+  CurrentGameState.empty() : this(playerList: [Player(name: "Pseudo")]);
 
   @override
   List<Object> get props => [boardGame, playerList, indexCurrentPlayer];
@@ -118,4 +142,11 @@ class CurrentGameState extends Equatable {
   Player get currentPlayer => playerList[indexCurrentPlayer];
 
   Cell get currentCell => boardGame.cells[currentPlayer.idCurrentCell];
+
+  get nextIndexPlayer {
+    if (indexCurrentPlayer == playerList.length - 1) {
+      return 0;
+    }
+    return indexCurrentPlayer + 1;
+  }
 }

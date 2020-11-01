@@ -1,23 +1,37 @@
 import 'package:flutter/cupertino.dart';
 import 'package:ptit_godet/models/resource.dart';
 
+enum CellType { noEffect }
+
 class Cell extends Resource {
   final String name;
   final String imgPath;
+  final List<String> sideEffectList;
+  final CellType cellType;
 
-  Cell({@required this.name, @required this.imgPath})
+  Cell(
+      {@required this.name,
+      @required this.imgPath,
+      this.sideEffectList = const [],
+      this.cellType = CellType.noEffect})
       : assert(name != null && imgPath != null);
 
   @override
   Map<String, dynamic> toJson() {
-    return {"name": name, "imgPath": imgPath};
+    return {"name": name, "imgPath": imgPath, "sideEffectList": sideEffectList};
   }
 
   @override
-  List<Object> get props => [name, imgPath];
+  List<Object> get props => [name, imgPath, sideEffectList];
 
   Cell.fromJson(Map<String, dynamic> map)
-      : this(name: map["name"], imgPath: map["imgPath"]);
+      : this(
+            name: map["name"],
+            imgPath: map["imgPath"],
+            sideEffectList: List<String>.from(map["sideEffectList"]));
 
-  String get effectsLabel => "Tu passes ton tour";
+  String get effectsLabel =>
+      sideEffectList.fold<String>("", (previousValue, element) {
+        return previousValue + element;
+      });
 }

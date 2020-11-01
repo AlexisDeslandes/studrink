@@ -14,7 +14,13 @@ class PlayerField extends StatefulWidget {
 }
 
 class _PlayerFieldState extends State<PlayerField> {
-  final TextEditingController _controller = TextEditingController();
+  TextEditingController _controller;
+
+  @override
+  void initState() {
+    _controller = TextEditingController(text: widget.player.name);
+    super.initState();
+  }
 
   @override
   void dispose() {
