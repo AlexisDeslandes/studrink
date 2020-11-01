@@ -38,20 +38,28 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
         //emit alert
       }
     } else if (event is ThrowDice) {
-      Random random = Random();
-      int diceValue = random.nextInt(6) + 1;
-      final currentPlayer = state.currentPlayer,
+      final random = Random(),
+          diceValue = random.nextInt(6) + 1,
+          currentPlayer = state.currentPlayer,
           idNextCell = currentPlayer.idCurrentCell + diceValue,
           nextCell = state.boardGame.cells[idNextCell],
-          nextCellType = nextCell.cellType;
-      final playerState = _playerStateFromCellType(nextCellType);
-      final playerList = state.playerList.map((player) {
-        if (player == currentPlayer) {
-          return Player.copy(player,
-              idCurrentCell: idNextCell, state: playerState);
-        }
-        return player;
-      }).toList();
+          nextCellType = nextCell.cellType,
+          playerState = _playerStateFromCellType(nextCellType);
+      var playerList;
+      if (playerState == PlayerState.canEnd) {
+        playerList = state.playerList.map((player) {
+          if (player == currentPlayer) {
+            return Player.copy(player,
+                idCurrentCell: idNextCell,
+                state: playerState,
+                conditionKeyList: [
+                  nextCell.conditionKey,
+                  ...player.conditionKeyList
+                ]);
+          }
+          return player;
+        }).toList();
+      }
       yield CurrentGameState.copy(state, playerList: playerList);
     } else if (event is SwitchToOtherPlayer) {
       final playerList = state.playerList.map((player) {

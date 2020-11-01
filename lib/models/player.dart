@@ -1,3 +1,4 @@
+import 'package:ptit_godet/models/condition_key.dart';
 import 'package:ptit_godet/models/resource.dart';
 
 enum PlayerState { ready, canEnd }
@@ -10,10 +11,12 @@ class Player extends Resource {
   final String avatar;
   final int idCurrentCell;
   final PlayerState state;
+  final List<ConditionKey> conditionKeyList;
 
   Player(
       {this.name = "",
       this.avatar = "test",
+      this.conditionKeyList = const [],
       this.idCurrentCell = 0,
       this.state = PlayerState.ready})
       : id = idGenerator++;
@@ -21,6 +24,10 @@ class Player extends Resource {
   Player.fromJson(Map<String, dynamic> map)
       : this(
             name: map["name"],
+            conditionKeyList:
+                List<Map<String, dynamic>>.from(map["conditionKeyList"])
+                    .map((map) => ConditionKey.fromJson(map))
+                    .toList(),
             state: map["state"],
             avatar: map["avatar"],
             idCurrentCell: map["idCurrentCell"]);
@@ -33,7 +40,8 @@ class Player extends Resource {
       "name": name,
       "avatar": avatar,
       "idCurrentCell": idCurrentCell,
-      "state": state
+      "state": state,
+      "conditionKeyList": conditionKeyList.map((e) => e.toJson()).toList()
     };
   }
 
@@ -41,10 +49,17 @@ class Player extends Resource {
   List<Object> get props => [name, avatar, id, idCurrentCell, state];
 
   Player.copy(Player player,
-      {String name, String avatar, int idCurrentCell, PlayerState state})
+      {String name,
+      String avatar,
+      int idCurrentCell,
+      PlayerState state,
+      List<ConditionKey> conditionKeyList})
       : this(
             name: name ?? player.name,
             state: state ?? player.state,
+            conditionKeyList:
+                conditionKeyList?.where((element) => element != null)?.toList() ??
+                    player.conditionKeyList,
             avatar: avatar ?? player.avatar,
             idCurrentCell: idCurrentCell ?? player.idCurrentCell);
 }

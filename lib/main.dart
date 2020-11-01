@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:ptit_godet/blocs/provider/app_provider.dart';
 import 'package:ptit_godet/models/board_game.dart';
 import 'package:ptit_godet/models/cell.dart';
+import 'package:ptit_godet/models/condition_key.dart';
 import 'package:ptit_godet/storage/local_storage.dart';
 import 'package:ptit_godet/theme/app_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,17 +24,23 @@ void main() async {
               name: "Rentrée",
               imgPath: "",
               sideEffectList: ["C'est la rentrée !"]),
+          Cell(
+              name: "Polypoint",
+              imgPath: "",
+              conditionKey: ConditionKey(name: "Polypoint")),
           Cell(name: "BressomLand", imgPath: ""),
-          Cell(name: "BressomLand", imgPath: ""),
-          Cell(name: "BressomLand", imgPath: ""),
-          Cell(name: "BressomLand", imgPath: ""),
-          Cell(name: "BressomLand", imgPath: ""),
-          Cell(name: "BressomLand", imgPath: ""),
-          Cell(name: "Polypoint", imgPath: ""),
-          Cell(name: "BressomLand", imgPath: ""),
-          Cell(name: "BressomLand", imgPath: ""),
-          Cell(name: "BressomLand", imgPath: ""),
-          Cell(name: "BressomLand", imgPath: ""),
+          Cell(name: "Clausse", imgPath: ""),
+          Cell(name: "WEC1", imgPath: ""),
+          Cell(name: "Parking", imgPath: ""),
+          Cell(name: "Partiel", imgPath: ""),
+          Cell(name: "Balais-couille", imgPath: ""),
+          Cell(
+              name: "Polypoint",
+              imgPath: "",
+              conditionKey: ConditionKey(name: "Polypoint")),
+          Cell(name: "Sodomie", imgPath: ""),
+          Cell(name: "Depardieu", imgPath: ""),
+          Cell(name: "4a", imgPath: ""),
           Cell(name: "BressomLand", imgPath: ""),
           Cell(name: "BressomLand", imgPath: ""),
           Cell(name: "Polypoint", imgPath: ""),
