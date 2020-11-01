@@ -12,7 +12,7 @@ class PlayerReturnPreviousCheckPointArea extends StatelessWidget {
       children: [
         Align(
             child: FlatButton(
-              child: Text("Retour à l'année précédente."),
+              child: Text("Retour en arrière."),
               onPressed: () {
                 context.bloc<CurrentGameBloc>().add(const ReturnPreviousCheckpoint());
               },
