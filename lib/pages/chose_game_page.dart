@@ -1,0 +1,37 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ptit_godet/blocs/board_game/board_game_bloc.dart';
+import 'package:ptit_godet/widgets/back_element_screen.dart';
+
+class ChoseGamePage extends CupertinoPage {
+  const ChoseGamePage()
+      : super(
+            child: const ChoseGameScreen(),
+            key: const ValueKey<String>("/chose_game"));
+}
+
+class ChoseGameScreen extends BackElementScreen {
+  const ChoseGameScreen();
+
+  @override
+  String backButtonText() => "Accueil";
+
+  @override
+  Widget body(BuildContext context) {
+    return BlocBuilder<BoardGameBloc, BoardGameState>(builder: (context, state) {
+      final boardGameList = state.boardGameList;
+      if (boardGameList.isNotEmpty) {
+        return Container();
+      } else {
+        return Center(
+          child: Text("Aucun plateau de jeu n'a été créé.", style: Theme.of(context).textTheme.bodyText2),
+        );
+      }
+    });
+  }
+
+  @override
+  String title() => "Jouer";
+
+}
