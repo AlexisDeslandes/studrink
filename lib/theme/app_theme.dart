@@ -15,6 +15,9 @@ class AppTheme {
         fontWeight: FontWeight.bold,
         fontSize: 30);
     return lightTheme.copyWith(
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: lightTheme.scaffoldBackgroundColor,
+        ),
         primaryColor: Color(0xffEFCF88),
         buttonTheme: lightTheme.buttonTheme.copyWith(
           height: 68,

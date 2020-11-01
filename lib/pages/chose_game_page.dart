@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/board_game/board_game_bloc.dart';
 import 'package:ptit_godet/widgets/back_element_screen.dart';
+import 'package:ptit_godet/widgets/board_game_tile.dart';
 
 class ChoseGamePage extends CupertinoPage {
   const ChoseGamePage()
@@ -19,13 +20,24 @@ class ChoseGameScreen extends BackElementScreen {
 
   @override
   Widget body(BuildContext context) {
-    return BlocBuilder<BoardGameBloc, BoardGameState>(builder: (context, state) {
+    return BlocBuilder<BoardGameBloc, BoardGameState>(
+        builder: (context, state) {
       final boardGameList = state.boardGameList;
       if (boardGameList.isNotEmpty) {
-        return Container();
+        return Padding(
+          padding: const EdgeInsets.only(top: 30.0),
+          child: ListView.builder(
+            itemBuilder: (context, index) => Padding(
+              padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+              child: BoardGameTile(boardGame: boardGameList[index]),
+            ),
+            itemCount: boardGameList.length,
+          ),
+        );
       } else {
         return Center(
-          child: Text("Aucun plateau de jeu n'a été créé.", style: Theme.of(context).textTheme.bodyText2),
+          child: Text("Aucun plateau de jeu n'a été créé.",
+              style: Theme.of(context).textTheme.bodyText2),
         );
       }
     });
@@ -33,5 +45,4 @@ class ChoseGameScreen extends BackElementScreen {
 
   @override
   String title() => "Jouer";
-
 }

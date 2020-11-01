@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:ptit_godet/blocs/board_game/board_game_bloc.dart';
+import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
+import 'package:ptit_godet/storage/local_storage.dart';
 
 class AppProvider extends StatelessWidget {
   final Widget child;
@@ -13,7 +15,12 @@ class AppProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(providers: [
       BlocProvider<NavBloc>(create: (context) => NavBloc()),
-      BlocProvider<BoardGameBloc>(create: (context) => BoardGameBloc())
+      BlocProvider<BoardGameBloc>(
+          create: (context) => BoardGameBloc(storage: LocalStorage())
+            ..add(const InitBoardGame())),
+      BlocProvider<CurrentGameBloc>(
+          create: (context) =>
+              CurrentGameBloc(navBloc: context.bloc<NavBloc>()))
     ], child: child);
   }
 }
