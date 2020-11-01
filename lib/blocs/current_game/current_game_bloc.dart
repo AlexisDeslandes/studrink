@@ -31,12 +31,22 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
       yield* _throwDice(event);
     } else if (event is SwitchToOtherPlayer) {
       yield* _switchToOtherPlayer(event);
+    } else if (event is ReturnPreviousCheckpoint) {
+      yield* _returnPreviousCheckpoint();
     }
   }
 
-  PlayerState _playerStateFromCellType(CellType nextCellType) {
+  PlayerState _playerStateFromCellType(Cell nextCell) {
+    final nextCellType = nextCell.cellType;
     if (nextCellType == CellType.noEffect) {
       return PlayerState.canEnd;
+    } else if (nextCellType == CellType.conditionKey) {
+      if (state.currentPlayer.conditionKeyList
+          .contains(nextCell.requiredConditionKey)) {
+        return PlayerState.canEnd;
+      } else {
+        return PlayerState.returnPreviousCheckPoint;
+      }
     }
     return PlayerState.canEnd;
   }
@@ -47,8 +57,7 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
         currentPlayer = state.currentPlayer,
         idNextCell = _getNextCell(currentPlayer.idCurrentCell, diceValue),
         nextCell = state.boardGame.cells[idNextCell],
-        nextCellType = nextCell.cellType,
-        nextPlayerState = _playerStateFromCellType(nextCellType);
+        nextPlayerState = _playerStateFromCellType(nextCell);
     var playerList;
     if (nextPlayerState == PlayerState.canEnd) {
       playerList = state.playerList.map((player) {
@@ -57,7 +66,22 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
               idCurrentCell: idNextCell,
               state: nextPlayerState,
               conditionKeyList: [
-                nextCell.conditionKey,
+                nextCell.requiredConditionKey != null
+                    ? null
+                    : nextCell.givenConditionKey,
+                ...player.conditionKeyList
+              ]);
+        }
+        return player;
+      }).toList();
+    } else if (nextPlayerState == PlayerState.returnPreviousCheckPoint) {
+      playerList = state.playerList.map((player) {
+        if (player == currentPlayer) {
+          return Player.copy(player,
+              idCurrentCell: idNextCell,
+              state: nextPlayerState,
+              conditionKeyList: [
+                nextCell.givenConditionKey,
                 ...player.conditionKeyList
               ]);
         }
@@ -98,12 +122,34 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
   }
 
   int _getNextCell(int idCurrentCell, int diceValue) {
-    for (var i = idCurrentCell; i < idCurrentCell + diceValue; i++) {
+    for (var i = idCurrentCell + 1; i < idCurrentCell + diceValue; i++) {
       if (state.boardGame.cells[i].cellType == CellType.conditionKey) {
         return i;
       }
     }
     return idCurrentCell + diceValue;
+  }
+
+  Stream<CurrentGameState> _returnPreviousCheckpoint() async* {
+    final playerList = state.playerList.map((player) {
+      if (player == state.currentPlayer) {
+        return Player.copy(player,
+            idCurrentCell: _previousCheckpointId(player),
+            state: PlayerState.canEnd);
+      }
+      return player;
+    }).toList();
+    yield CurrentGameState.copy(state, playerList: playerList);
+  }
+
+  int _previousCheckpointId(Player player) {
+    int idCellPlayer = player.idCurrentCell;
+    for (var i = idCellPlayer - 1; i >= 0; i--) {
+      if (state.boardGame.cells[i].cellType == CellType.conditionKey) {
+        return i;
+      }
+    }
+    return 0;
   }
 }
 
@@ -127,6 +173,10 @@ class AddPlayer extends CurrentGameEvent {
 
 class ThrowDice extends CurrentGameEvent {
   const ThrowDice();
+}
+
+class ReturnPreviousCheckpoint extends CurrentGameEvent {
+  const ReturnPreviousCheckpoint();
 }
 
 class SwitchToOtherPlayer extends CurrentGameEvent {

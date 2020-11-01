@@ -4,6 +4,7 @@ import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
 import 'package:ptit_godet/models/player.dart';
 import 'package:ptit_godet/widgets/player_end_area.dart';
 import 'package:ptit_godet/widgets/player_ready_area.dart';
+import 'package:ptit_godet/widgets/player_return_previous_checkpoint_area.dart';
 
 class PlayArea extends StatelessWidget {
   const PlayArea();
@@ -23,6 +24,9 @@ class PlayArea extends StatelessWidget {
               return const PlayerReadyArea();
             } else if (state.currentPlayer.state == PlayerState.canEnd) {
               return const PlayerEndArea();
+            } else if (state.currentPlayer.state ==
+                PlayerState.returnPreviousCheckPoint) {
+              return const PlayerReturnPreviousCheckPointArea();
             }
             return Container();
           },
