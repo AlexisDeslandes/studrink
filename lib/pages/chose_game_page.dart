@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/board_game/board_game_bloc.dart';
 import 'package:ptit_godet/widgets/back_element_screen.dart';
+import 'package:ptit_godet/widgets/base_building.dart';
 import 'package:ptit_godet/widgets/board_game_tile.dart';
+import 'package:ptit_godet/widgets/simple_title_screen.dart';
 
 class ChoseGamePage extends CupertinoPage {
   const ChoseGamePage()
@@ -12,7 +14,7 @@ class ChoseGamePage extends CupertinoPage {
             key: const ValueKey<String>("/chose_game"));
 }
 
-class ChoseGameScreen extends BackElementScreen {
+class ChoseGameScreen extends BackElementScreen with BaseBuilding, SimpleTitleScreen {
   const ChoseGameScreen();
 
   @override
@@ -44,5 +46,5 @@ class ChoseGameScreen extends BackElementScreen {
   }
 
   @override
-  String title() => "Jouer";
+  String titleContent() => "Jouer";
 }

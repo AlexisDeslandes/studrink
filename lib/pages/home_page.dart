@@ -55,7 +55,7 @@ class HomeScreen extends NoBackElementScreen {
   }
 
   @override
-  String title() {
+  String titleContent() {
     return "P'tit Godet";
   }
 }

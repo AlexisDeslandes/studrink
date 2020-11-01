@@ -6,6 +6,7 @@ import 'package:ptit_godet/widgets/add_player_button.dart';
 import 'package:ptit_godet/widgets/back_element_screen.dart';
 import 'package:ptit_godet/widgets/fab_camera.dart';
 import 'package:ptit_godet/widgets/player_field.dart';
+import 'package:ptit_godet/widgets/simple_title_screen.dart';
 
 class ChosePlayersPage extends CupertinoPage {
   const ChosePlayersPage()
@@ -14,7 +15,7 @@ class ChosePlayersPage extends CupertinoPage {
             key: const ValueKey<String>("/chose_players"));
 }
 
-class ChosePlayersScreen extends BackElementScreen {
+class ChosePlayersScreen extends BackElementScreen with SimpleTitleScreen{
   const ChosePlayersScreen();
 
   @override
@@ -82,7 +83,7 @@ class ChosePlayersScreen extends BackElementScreen {
   }
 
   @override
-  String title() {
+  String titleContent() {
     return "Joueurs";
   }
 }

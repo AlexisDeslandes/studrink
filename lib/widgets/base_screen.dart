@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 abstract class BaseScreen extends StatelessWidget {
   const BaseScreen();
 
-  String title();
+  Widget title(BuildContext context);
 
   Widget body(BuildContext context);
 
