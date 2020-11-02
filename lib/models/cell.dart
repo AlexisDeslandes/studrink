@@ -63,8 +63,27 @@ class Cell extends Resource {
             cellType: CellType.values[map["cellType"]],
             sideEffectList: List<String>.from(map["sideEffectList"]));
 
-  String get effectsLabel =>
-      sideEffectList.fold<String>("", (previousValue, element) {
-        return previousValue + element;
-      });
+  String get givenCondition {
+    if (givenConditionKey != null) {
+      return "Tu gagnes : ${givenConditionKey.name}.\n";
+    }
+    return "";
+  }
+
+  String get movingLabel {
+    if (moving != null) {
+      final action =
+          moving.movingType == MovingType.forward ? "avances" : "recules";
+      return "Tu $action de ${moving.count} cases.\n";
+    }
+    return "";
+  }
+
+  String get effectsLabel {
+    final sideEffects =
+        sideEffectList.fold<String>("", (previousValue, element) {
+      return previousValue + element;
+    });
+    return givenCondition + movingLabel + sideEffects;
+  }
 }
