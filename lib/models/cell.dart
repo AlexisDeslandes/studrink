@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:ptit_godet/models/condition_key.dart';
 import 'package:ptit_godet/models/moving.dart';
+import 'package:ptit_godet/models/prison_condition.dart';
 import 'package:ptit_godet/models/resource.dart';
 
-enum CellType { noEffect, conditionKey, selfMoving, turnLose }
+enum CellType { noEffect, conditionKey, selfMoving, turnLose, prison }
 
 class Cell extends Resource {
   final String name;
@@ -13,12 +14,14 @@ class Cell extends Resource {
   final ConditionKey givenConditionKey;
   final ConditionKey requiredConditionKey;
   final CellType cellType;
+  final PrisonCondition prisonCondition;
   final Moving moving;
 
   Cell(
       {@required this.name,
       @required this.imgPath,
       this.givenConditionKey,
+      this.prisonCondition,
       this.moving,
       this.requiredConditionKey,
       this.sideEffectList = const [],
@@ -31,6 +34,7 @@ class Cell extends Resource {
     return {
       "name": name,
       "imgPath": imgPath,
+      "prisonCondition": prisonCondition?.toJson(),
       "moving": moving?.toJson(),
       "sideEffectList": sideEffectList,
       "sideEffectListAfterTurnLost": sideEffectListAfterTurnLost,
@@ -45,6 +49,7 @@ class Cell extends Resource {
         name,
         imgPath,
         sideEffectList,
+        prisonCondition,
         sideEffectListAfterTurnLost,
         moving,
         givenConditionKey,
@@ -55,6 +60,9 @@ class Cell extends Resource {
   Cell.fromJson(Map<String, dynamic> map)
       : this(
             name: map["name"],
+            prisonCondition: map["prisonCondition"] != null
+                ? PrisonCondition.fromJson(map["prisonCondition"])
+                : null,
             moving:
                 map["moving"] != null ? Moving.fromJson(map["moving"]) : null,
             givenConditionKey: map["conditionKey"] != null
@@ -100,10 +108,18 @@ class Cell extends Resource {
   String get turnLost =>
       cellType == CellType.turnLose ? "Passe ton prochain tour.\n" : "";
 
+  String get prisonLabel {
+    if (cellType == CellType.prison) {
+      return "Fait ${prisonCondition.dicePossibilitiesLabel} pour sortir.";
+    }
+    return "";
+  }
+
   String get effectsLabel {
     return givenCondition +
         movingLabel +
         sideEffectsLabel +
+        prisonLabel +
         turnLost +
         sideEffectsLabelAfterTurnLost;
   }

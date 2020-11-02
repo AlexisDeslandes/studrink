@@ -5,6 +5,7 @@ import 'package:ptit_godet/blocs/provider/app_provider.dart';
 import 'package:ptit_godet/models/board_game.dart';
 import 'package:ptit_godet/models/cell.dart';
 import 'package:ptit_godet/models/condition_key.dart';
+import 'package:ptit_godet/models/prison_condition.dart';
 import 'package:ptit_godet/storage/local_storage.dart';
 import 'package:ptit_godet/theme/app_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,8 +43,16 @@ void main() async {
               sideEffectList: ["Tu bois"],
               sideEffectListAfterTurnLost: ["Tu bois"],
               cellType: CellType.turnLose),
-          Cell(name: "Parking", imgPath: ""),
-          Cell(name: "Partiel", imgPath: ""),
+          Cell(
+              name: "Parking",
+              imgPath: "",
+              sideEffectList: ["Invente ta propre règle."]),
+          Cell(
+              name: "Partiel",
+              imgPath: "",
+              cellType: CellType.prison,
+              prisonCondition: PrisonCondition([3, 4]),
+              sideEffectList: ["Plus le droit de boire."]),
           Cell(name: "Balais-couille", imgPath: ""),
           Cell(
               name: "Polypoint",

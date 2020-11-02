@@ -117,6 +117,12 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
   }
 
   int _getNextCell(int idCurrentCell, int diceValue) {
+    final currentCell = state.currentCell,
+        inPrison = currentCell.cellType == CellType.prison;
+    if (inPrison &&
+        !currentCell.prisonCondition.dicePossibilities.contains(diceValue)) {
+      return idCurrentCell;
+    }
     for (var i = idCurrentCell + 1; i < idCurrentCell + diceValue; i++) {
       if (state.boardGame.cells[i].cellType == CellType.conditionKey) {
         return i;
