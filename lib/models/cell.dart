@@ -3,12 +3,13 @@ import 'package:ptit_godet/models/condition_key.dart';
 import 'package:ptit_godet/models/moving.dart';
 import 'package:ptit_godet/models/resource.dart';
 
-enum CellType { noEffect, conditionKey, selfMoving }
+enum CellType { noEffect, conditionKey, selfMoving, turnLose }
 
 class Cell extends Resource {
   final String name;
   final String imgPath;
   final List<String> sideEffectList;
+  final List<String> sideEffectListAfterTurnLost;
   final ConditionKey givenConditionKey;
   final ConditionKey requiredConditionKey;
   final CellType cellType;
@@ -21,6 +22,7 @@ class Cell extends Resource {
       this.moving,
       this.requiredConditionKey,
       this.sideEffectList = const [],
+      this.sideEffectListAfterTurnLost = const [],
       this.cellType = CellType.noEffect})
       : assert(name != null && imgPath != null);
 
@@ -31,6 +33,7 @@ class Cell extends Resource {
       "imgPath": imgPath,
       "moving": moving?.toJson(),
       "sideEffectList": sideEffectList,
+      "sideEffectListAfterTurnLost": sideEffectListAfterTurnLost,
       "conditionKey": givenConditionKey?.toJson(),
       "requiredConditionKey": requiredConditionKey?.toJson(),
       "cellType": cellType.index
@@ -42,6 +45,7 @@ class Cell extends Resource {
         name,
         imgPath,
         sideEffectList,
+        sideEffectListAfterTurnLost,
         moving,
         givenConditionKey,
         cellType,
@@ -61,6 +65,8 @@ class Cell extends Resource {
                 : null,
             imgPath: map["imgPath"],
             cellType: CellType.values[map["cellType"]],
+            sideEffectListAfterTurnLost:
+                List<String>.from(map["sideEffectListAfterTurnLost"]),
             sideEffectList: List<String>.from(map["sideEffectList"]));
 
   String get givenCondition {
@@ -79,11 +85,26 @@ class Cell extends Resource {
     return "";
   }
 
+  String get sideEffectsLabel =>
+      sideEffectList.fold<String>("", (previousValue, element) {
+        return previousValue + element;
+      }) +
+      "\n";
+
+  String get sideEffectsLabelAfterTurnLost =>
+      sideEffectListAfterTurnLost.fold<String>("", (previousValue, element) {
+        return previousValue + element;
+      }) +
+      "\n";
+
+  String get turnLost =>
+      cellType == CellType.turnLose ? "Passe ton prochain tour.\n" : "";
+
   String get effectsLabel {
-    final sideEffects =
-        sideEffectList.fold<String>("", (previousValue, element) {
-      return previousValue + element;
-    });
-    return givenCondition + movingLabel + sideEffects;
+    return givenCondition +
+        movingLabel +
+        sideEffectsLabel +
+        turnLost +
+        sideEffectsLabelAfterTurnLost;
   }
 }

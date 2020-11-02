@@ -23,7 +23,11 @@ class PlayArea extends StatelessWidget {
           builder: (context, state) {
             if (state.currentPlayer.state == PlayerState.ready) {
               return const PlayerReadyArea();
-            } else if (state.currentPlayer.state == PlayerState.canEnd) {
+            } else if ([
+              PlayerState.canEnd,
+              PlayerState.preTurnLost,
+              PlayerState.turnLost
+            ].contains(state.currentPlayer.state)) {
               return const PlayerEndArea();
             } else if (state.currentPlayer.state ==
                 PlayerState.returnPreviousCheckPoint) {

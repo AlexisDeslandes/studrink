@@ -42,17 +42,15 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
 
   PlayerState _playerStateFromCellType(Cell nextCell) {
     final nextCellType = nextCell.cellType;
-    if (nextCellType == CellType.noEffect) {
-      return PlayerState.canEnd;
-    } else if (nextCellType == CellType.conditionKey) {
-      if (state.currentPlayer.conditionKeyList
+    if (nextCellType == CellType.conditionKey) {
+      if (!state.currentPlayer.conditionKeyList
           .contains(nextCell.requiredConditionKey)) {
-        return PlayerState.canEnd;
-      } else {
         return PlayerState.returnPreviousCheckPoint;
       }
     } else if (nextCellType == CellType.selfMoving) {
       return PlayerState.moving;
+    } else if (nextCellType == CellType.turnLose) {
+      return PlayerState.preTurnLost;
     }
     return PlayerState.canEnd;
   }
@@ -100,8 +98,17 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
   Stream<CurrentGameState> _switchToOtherPlayer(
       SwitchToOtherPlayer event) async* {
     final playerList = state.playerList.map((player) {
+      var newState;
       if (player == state.currentPlayer) {
-        return Player.copy(player, state: PlayerState.ready);
+        switch (player.state) {
+          case PlayerState.preTurnLost:
+            newState = PlayerState.turnLost;
+            break;
+          default:
+            newState = PlayerState.ready;
+            break;
+        }
+        return Player.copy(player, state: newState);
       }
       return player;
     }).toList();
@@ -230,4 +237,6 @@ class CurrentGameState extends Equatable {
     }
     return indexCurrentPlayer + 1;
   }
+
+  Player get nextPlayer => playerList[nextIndexPlayer];
 }

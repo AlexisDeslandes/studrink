@@ -1,7 +1,14 @@
 import 'package:ptit_godet/models/condition_key.dart';
 import 'package:ptit_godet/models/resource.dart';
 
-enum PlayerState { ready, canEnd, returnPreviousCheckPoint, moving }
+enum PlayerState {
+  ready,
+  canEnd,
+  returnPreviousCheckPoint,
+  moving,
+  preTurnLost,
+  turnLost
+}
 
 class Player extends Resource {
   static int idGenerator = 0;
@@ -57,9 +64,10 @@ class Player extends Resource {
       : this(
             name: name ?? player.name,
             state: state ?? player.state,
-            conditionKeyList:
-                conditionKeyList?.where((element) => element != null)?.toList() ??
-                    player.conditionKeyList,
+            conditionKeyList: conditionKeyList
+                    ?.where((element) => element != null)
+                    ?.toList() ??
+                player.conditionKeyList,
             avatar: avatar ?? player.avatar,
             idCurrentCell: idCurrentCell ?? player.idCurrentCell);
 }
