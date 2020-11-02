@@ -37,7 +37,13 @@ class CardCell extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.only(top: verticalPadding),
-          child: Center(child: Text(cell.effectsLabel)),
+          child: SizedBox(
+              height: 80,
+              child: Center(
+                  child: Text(
+                cell.effectsLabel,
+                style: Theme.of(context).textTheme.bodyText1,
+              ))),
         )
       ],
     );

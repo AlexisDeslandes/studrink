@@ -1,7 +1,7 @@
 import 'package:ptit_godet/models/condition_key.dart';
 import 'package:ptit_godet/models/resource.dart';
 
-enum PlayerState { ready, canEnd, returnPreviousCheckPoint }
+enum PlayerState { ready, canEnd, returnPreviousCheckPoint, moving }
 
 class Player extends Resource {
   static int idGenerator = 0;

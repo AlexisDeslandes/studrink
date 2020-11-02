@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/models/board_game.dart';
 import 'package:ptit_godet/models/cell.dart';
+import 'package:ptit_godet/models/moving.dart';
 import 'package:ptit_godet/models/player.dart';
 import 'package:ptit_godet/pages/game_page.dart';
 
@@ -28,11 +29,14 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
     } else if (event is ValidateGame) {
       yield* _validateGame(event);
     } else if (event is ThrowDice) {
-      yield* _throwDice(event);
+      final random = Random(), diceValue = random.nextInt(6) + 1;
+      yield* _throwDice(diceValue);
     } else if (event is SwitchToOtherPlayer) {
       yield* _switchToOtherPlayer(event);
     } else if (event is ReturnPreviousCheckpoint) {
       yield* _returnPreviousCheckpoint();
+    } else if (event is MovePlayer) {
+      yield* _movePlayer();
     }
   }
 
@@ -47,47 +51,31 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
       } else {
         return PlayerState.returnPreviousCheckPoint;
       }
+    } else if (nextCellType == CellType.selfMoving) {
+      return PlayerState.moving;
     }
     return PlayerState.canEnd;
   }
 
-  Stream<CurrentGameState> _throwDice(ThrowDice event) async* {
-    final random = Random(),
-        diceValue = random.nextInt(6) + 1,
-        currentPlayer = state.currentPlayer,
+  Stream<CurrentGameState> _throwDice(int diceValue) async* {
+    final currentPlayer = state.currentPlayer,
         idNextCell = _getNextCell(currentPlayer.idCurrentCell, diceValue),
         nextCell = state.boardGame.cells[idNextCell],
         nextPlayerState = _playerStateFromCellType(nextCell);
-    var playerList;
-    if (nextPlayerState == PlayerState.canEnd) {
-      playerList = state.playerList.map((player) {
-        if (player == currentPlayer) {
-          return Player.copy(player,
-              idCurrentCell: idNextCell,
-              state: nextPlayerState,
-              conditionKeyList: [
-                nextCell.requiredConditionKey != null
-                    ? null
-                    : nextCell.givenConditionKey,
-                ...player.conditionKeyList
-              ]);
-        }
-        return player;
-      }).toList();
-    } else if (nextPlayerState == PlayerState.returnPreviousCheckPoint) {
-      playerList = state.playerList.map((player) {
-        if (player == currentPlayer) {
-          return Player.copy(player,
-              idCurrentCell: idNextCell,
-              state: nextPlayerState,
-              conditionKeyList: [
-                nextCell.givenConditionKey,
-                ...player.conditionKeyList
-              ]);
-        }
-        return player;
-      }).toList();
-    }
+
+    final playerList = state.playerList.map((player) {
+      if (player == currentPlayer) {
+        return Player.copy(player,
+            idCurrentCell: idNextCell,
+            state: nextPlayerState,
+            conditionKeyList: [
+              nextCell.givenConditionKey,
+              ...player.conditionKeyList
+            ]);
+      }
+      return player;
+    }).toList();
+
     yield CurrentGameState.copy(state, playerList: playerList);
   }
 
@@ -151,6 +139,11 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
     }
     return 0;
   }
+
+  Stream<CurrentGameState> _movePlayer() async* {
+    final moving = state.currentCell.moving, count = moving.count;
+    yield* _throwDice(moving.movingType == MovingType.forward ? count : -count);
+  }
 }
 
 abstract class CurrentGameEvent extends Equatable {
@@ -181,6 +174,10 @@ class ReturnPreviousCheckpoint extends CurrentGameEvent {
 
 class SwitchToOtherPlayer extends CurrentGameEvent {
   const SwitchToOtherPlayer();
+}
+
+class MovePlayer extends CurrentGameEvent {
+  const MovePlayer();
 }
 
 class ChangeNamePlayer extends CurrentGameEvent {

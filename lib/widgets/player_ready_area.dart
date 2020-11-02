@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
+import 'package:ptit_godet/widgets/bottom_button.dart';
 
 class PlayerReadyArea extends StatelessWidget {
   const PlayerReadyArea();
@@ -11,8 +12,8 @@ class PlayerReadyArea extends StatelessWidget {
     return Stack(
       children: [
         Align(
-          child: FlatButton(
-            child: Text("Lancer dé"),
+          child: BottomButton(
+            text: "Lancer dé",
             onPressed: () {
               context.bloc<CurrentGameBloc>().add(const ThrowDice());
             },

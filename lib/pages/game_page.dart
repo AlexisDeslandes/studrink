@@ -21,7 +21,7 @@ class GameScreen extends StatelessWidget {
       builder: (context, constraints) {
         final maxHeight = constraints.maxHeight,
             maxWidth = constraints.maxWidth,
-            pageViewHeight = maxHeight * 0.6;
+            pageViewHeight = maxHeight * 0.7;
         return Stack(
           children: [
             const Positioned(

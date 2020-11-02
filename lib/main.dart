@@ -9,6 +9,7 @@ import 'package:ptit_godet/storage/local_storage.dart';
 import 'package:ptit_godet/theme/app_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'models/moving.dart';
 import 'navigators/main_navigator.dart';
 
 void main() async {
@@ -25,6 +26,8 @@ void main() async {
               imgPath: "",
               sideEffectList: ["C'est la rentrée !"]),
           Cell(
+              cellType: CellType.selfMoving,
+              moving: Moving(count: 2, movingType: MovingType.forward),
               name: "Polypoint",
               imgPath: "",
               givenConditionKey: ConditionKey(name: "Polypoint")),

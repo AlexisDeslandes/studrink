@@ -27,7 +27,7 @@ class _GamePageViewState extends State<GamePageView> {
       listener: _changeCell,
       listenWhen: _currentPlayerChangedCell,
       child: PageView.builder(
-          physics: NeverScrollableScrollPhysics(),
+          //physics: NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             final cell = cells[index];
             return CardCell(cell: cell);

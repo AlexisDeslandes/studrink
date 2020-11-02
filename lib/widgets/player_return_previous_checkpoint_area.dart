@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
+import 'package:ptit_godet/widgets/bottom_button.dart';
 
 class PlayerReturnPreviousCheckPointArea extends StatelessWidget {
   const PlayerReturnPreviousCheckPointArea();
@@ -11,8 +12,8 @@ class PlayerReturnPreviousCheckPointArea extends StatelessWidget {
     return Stack(
       children: [
         Align(
-            child: FlatButton(
-              child: Text("Retour en arrière."),
+            child: BottomButton(
+              text: "Retour en arrière.",
               onPressed: () {
                 context.bloc<CurrentGameBloc>().add(const ReturnPreviousCheckpoint());
               },
