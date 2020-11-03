@@ -11,7 +11,8 @@ enum CellType {
   selfMoving,
   turnLose,
   prison,
-  selfThrowDice
+  selfThrowDice,
+  selfChallenge
 }
 
 class Cell extends Resource {
@@ -25,6 +26,7 @@ class Cell extends Resource {
   final PrisonCondition prisonCondition;
   final Moving moving;
   final ThrowDiceEffect throwDiceEffect;
+  final String challenge;
 
   Cell(
       {@required this.name,
@@ -36,13 +38,15 @@ class Cell extends Resource {
       this.requiredConditionKey,
       this.sideEffectList = const [],
       this.sideEffectListAfterTurnLost = const [],
-      this.cellType = CellType.noEffect})
+      this.cellType = CellType.noEffect,
+      this.challenge})
       : assert(name != null && imgPath != null);
 
   @override
   Map<String, dynamic> toJson() {
     return {
       "name": name,
+      "challenge": challenge,
       "throwDiceEffect": throwDiceEffect?.toJson(),
       "imgPath": imgPath,
       "prisonCondition": prisonCondition?.toJson(),
@@ -59,6 +63,7 @@ class Cell extends Resource {
   List<Object> get props => [
         name,
         imgPath,
+        challenge,
         throwDiceEffect,
         sideEffectList,
         prisonCondition,
@@ -72,6 +77,7 @@ class Cell extends Resource {
   Cell.fromJson(Map<String, dynamic> map)
       : this(
             name: map["name"],
+            challenge: map["challenge"],
             throwDiceEffect: map["throwDiceEffect"] != null
                 ? ThrowDiceEffect.fromJson(map["throwDiceEffect"])
                 : null,
@@ -137,8 +143,15 @@ class Cell extends Resource {
     return "";
   }
 
+  String get challengeLabel {
+    if (cellType == CellType.selfChallenge) {
+      return "$challenge ";
+    }
+    return "";
+  }
+
   String get effectsLabel {
-    return givenCondition +
+    return challengeLabel + givenCondition +
         movingLabel +
         sideEffectsLabel +
         prisonLabel +

@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/models/board_game.dart';
 import 'package:ptit_godet/models/cell.dart';
+import 'package:ptit_godet/models/condition_key.dart';
 import 'package:ptit_godet/models/moving.dart';
 import 'package:ptit_godet/models/player.dart';
 import 'package:ptit_godet/pages/game_page.dart';
@@ -37,6 +38,10 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
       yield* _returnPreviousCheckpoint();
     } else if (event is MovePlayer) {
       yield* _movePlayer();
+    } else if (event is FailChallenge) {
+      yield* _failChallenge();
+    } else if (event is SucceedChallenge) {
+      yield* _succeedChallenge();
     }
   }
 
@@ -56,6 +61,8 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
         return PlayerState.throwDice;
       }
       return PlayerState.thrownDice;
+    } else if (nextCellType == CellType.selfChallenge) {
+      return PlayerState.selfChallenge;
     }
     return PlayerState.canEnd;
   }
@@ -64,17 +71,16 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
     final currentPlayer = state.currentPlayer,
         idNextCell = _getNextCell(currentPlayer.idCurrentCell, diceValue),
         nextCell = state.boardGame.cells[idNextCell],
-        nextPlayerState = _playerStateFromCellType(nextCell);
+        nextPlayerState = _playerStateFromCellType(nextCell),
+        conditionKeyList = _getConditionKeyList(nextPlayerState,
+            currentPlayer.conditionKeyList, nextCell.givenConditionKey);
 
     final playerList = state.playerList.map((player) {
       if (player == currentPlayer) {
         return Player.copy(player,
             idCurrentCell: idNextCell,
             state: nextPlayerState,
-            conditionKeyList: [
-              nextCell.givenConditionKey,
-              ...player.conditionKeyList
-            ]);
+            conditionKeyList: conditionKeyList);
       }
       return player;
     }).toList();
@@ -166,6 +172,39 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
     final moving = state.currentCell.moving, count = moving.count;
     yield* _throwDice(moving.movingType == MovingType.forward ? count : -count);
   }
+
+  Stream<CurrentGameState> _failChallenge() async* {
+    final playerList = state.playerList.map((player) {
+      if (player == state.currentPlayer) {
+        return Player.copy(player, state: PlayerState.canEnd);
+      }
+      return player;
+    }).toList();
+    yield CurrentGameState.copy(state, playerList: playerList);
+  }
+
+  Stream<CurrentGameState> _succeedChallenge() async* {
+    final playerList = state.playerList.map((player) {
+      if (player == state.currentPlayer) {
+        return Player.copy(player,
+            state: PlayerState.canEnd,
+            conditionKeyList: [
+              state.currentCell.givenConditionKey,
+              ...player.conditionKeyList
+            ]);
+      }
+      return player;
+    }).toList();
+    yield CurrentGameState.copy(state, playerList: playerList);
+  }
+
+  List<ConditionKey> _getConditionKeyList(PlayerState playerState,
+      List<ConditionKey> currentList, ConditionKey givenConditionKey) {
+    if ([PlayerState.canEnd, PlayerState.moving].contains(playerState)) {
+      return [givenConditionKey, ...currentList];
+    }
+    return currentList;
+  }
 }
 
 abstract class CurrentGameEvent extends Equatable {
@@ -184,6 +223,14 @@ class InitModelCurrentGame extends CurrentGameEvent {
 
 class AddPlayer extends CurrentGameEvent {
   const AddPlayer();
+}
+
+class FailChallenge extends CurrentGameEvent {
+  const FailChallenge();
+}
+
+class SucceedChallenge extends CurrentGameEvent {
+  const SucceedChallenge();
 }
 
 class ThrowDice extends CurrentGameEvent {
