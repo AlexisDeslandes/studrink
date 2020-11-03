@@ -7,7 +7,9 @@ enum PlayerState {
   returnPreviousCheckPoint,
   moving,
   preTurnLost,
-  turnLost
+  turnLost,
+  throwDice,
+  thrownDice
 }
 
 class Player extends Resource {

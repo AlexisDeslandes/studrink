@@ -41,9 +41,9 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
   }
 
   PlayerState _playerStateFromCellType(Cell nextCell) {
-    final nextCellType = nextCell.cellType;
+    final nextCellType = nextCell.cellType, currentPlayer = state.currentPlayer;
     if (nextCellType == CellType.conditionKey) {
-      if (!state.currentPlayer.conditionKeyList
+      if (!currentPlayer.conditionKeyList
           .contains(nextCell.requiredConditionKey)) {
         return PlayerState.returnPreviousCheckPoint;
       }
@@ -51,6 +51,11 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
       return PlayerState.moving;
     } else if (nextCellType == CellType.turnLose) {
       return PlayerState.preTurnLost;
+    } else if (nextCellType == CellType.selfThrowDice) {
+      if (currentPlayer.state != PlayerState.throwDice) {
+        return PlayerState.throwDice;
+      }
+      return PlayerState.thrownDice;
     }
     return PlayerState.canEnd;
   }
@@ -119,8 +124,12 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
   int _getNextCell(int idCurrentCell, int diceValue) {
     final currentCell = state.currentCell,
         inPrison = currentCell.cellType == CellType.prison;
-    if (inPrison &&
-        !currentCell.prisonCondition.dicePossibilities.contains(diceValue)) {
+    if ((inPrison &&
+            !currentCell.prisonCondition.dicePossibilities
+                .contains(diceValue)) ||
+        (state.currentPlayer.state != PlayerState.ready &&
+            currentCell.cellType == CellType.selfThrowDice &&
+            state.currentPlayer.state != PlayerState.thrownDice)) {
       return idCurrentCell;
     }
     for (var i = idCurrentCell + 1; i < idCurrentCell + diceValue; i++) {

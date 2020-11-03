@@ -21,12 +21,14 @@ class PlayArea extends StatelessWidget {
                 (previous.currentPlayer.state != current.currentPlayer.state);
           },
           builder: (context, state) {
-            if (state.currentPlayer.state == PlayerState.ready) {
+            if ([PlayerState.ready, PlayerState.throwDice]
+                .contains(state.currentPlayer.state)) {
               return const PlayerReadyArea();
             } else if ([
               PlayerState.canEnd,
               PlayerState.preTurnLost,
-              PlayerState.turnLost
+              PlayerState.turnLost,
+              PlayerState.thrownDice
             ].contains(state.currentPlayer.state)) {
               return const PlayerEndArea();
             } else if (state.currentPlayer.state ==

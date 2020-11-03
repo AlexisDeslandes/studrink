@@ -3,8 +3,16 @@ import 'package:ptit_godet/models/condition_key.dart';
 import 'package:ptit_godet/models/moving.dart';
 import 'package:ptit_godet/models/prison_condition.dart';
 import 'package:ptit_godet/models/resource.dart';
+import 'package:ptit_godet/models/throw_dice_effect.dart';
 
-enum CellType { noEffect, conditionKey, selfMoving, turnLose, prison }
+enum CellType {
+  noEffect,
+  conditionKey,
+  selfMoving,
+  turnLose,
+  prison,
+  selfThrowDice
+}
 
 class Cell extends Resource {
   final String name;
@@ -16,12 +24,14 @@ class Cell extends Resource {
   final CellType cellType;
   final PrisonCondition prisonCondition;
   final Moving moving;
+  final ThrowDiceEffect throwDiceEffect;
 
   Cell(
       {@required this.name,
       @required this.imgPath,
       this.givenConditionKey,
       this.prisonCondition,
+      this.throwDiceEffect,
       this.moving,
       this.requiredConditionKey,
       this.sideEffectList = const [],
@@ -33,6 +43,7 @@ class Cell extends Resource {
   Map<String, dynamic> toJson() {
     return {
       "name": name,
+      "throwDiceEffect": throwDiceEffect?.toJson(),
       "imgPath": imgPath,
       "prisonCondition": prisonCondition?.toJson(),
       "moving": moving?.toJson(),
@@ -48,6 +59,7 @@ class Cell extends Resource {
   List<Object> get props => [
         name,
         imgPath,
+        throwDiceEffect,
         sideEffectList,
         prisonCondition,
         sideEffectListAfterTurnLost,
@@ -60,6 +72,9 @@ class Cell extends Resource {
   Cell.fromJson(Map<String, dynamic> map)
       : this(
             name: map["name"],
+            throwDiceEffect: map["throwDiceEffect"] != null
+                ? ThrowDiceEffect.fromJson(map["throwDiceEffect"])
+                : null,
             prisonCondition: map["prisonCondition"] != null
                 ? PrisonCondition.fromJson(map["prisonCondition"])
                 : null,
@@ -115,11 +130,19 @@ class Cell extends Resource {
     return "";
   }
 
+  String get selfThrowDiceLabel {
+    if (cellType == CellType.selfThrowDice) {
+      return "Lance un dé. " + throwDiceEffect.sideEffect;
+    }
+    return "";
+  }
+
   String get effectsLabel {
     return givenCondition +
         movingLabel +
         sideEffectsLabel +
         prisonLabel +
+        selfThrowDiceLabel +
         turnLost +
         sideEffectsLabelAfterTurnLost;
   }
