@@ -12,7 +12,8 @@ enum CellType {
   turnLose,
   prison,
   selfThrowDice,
-  selfChallenge
+  selfChallenge,
+  selfMovingUndetermined
 }
 
 class Cell extends Resource {
@@ -27,10 +28,12 @@ class Cell extends Resource {
   final Moving moving;
   final ThrowDiceEffect throwDiceEffect;
   final String challenge;
+  final int movingUndeterminedCount;
 
   Cell(
       {@required this.name,
       @required this.imgPath,
+      this.movingUndeterminedCount,
       this.givenConditionKey,
       this.prisonCondition,
       this.throwDiceEffect,
@@ -46,6 +49,7 @@ class Cell extends Resource {
   Map<String, dynamic> toJson() {
     return {
       "name": name,
+      "movingUndeterminedCount": movingUndeterminedCount,
       "challenge": challenge,
       "throwDiceEffect": throwDiceEffect?.toJson(),
       "imgPath": imgPath,
@@ -64,6 +68,7 @@ class Cell extends Resource {
         name,
         imgPath,
         challenge,
+        movingUndeterminedCount,
         throwDiceEffect,
         sideEffectList,
         prisonCondition,
@@ -77,6 +82,7 @@ class Cell extends Resource {
   Cell.fromJson(Map<String, dynamic> map)
       : this(
             name: map["name"],
+            movingUndeterminedCount: map["movingUndeterminedCount"],
             challenge: map["challenge"],
             throwDiceEffect: map["throwDiceEffect"] != null
                 ? ThrowDiceEffect.fromJson(map["throwDiceEffect"])
@@ -150,10 +156,19 @@ class Cell extends Resource {
     return "";
   }
 
+  String get movingUndeterminedCountLabel {
+    if (movingUndeterminedCount != null) {
+      return "Avance ouf recule de $movingUndeterminedCount cases.\n";
+    }
+    return "";
+  }
+
   String get effectsLabel {
-    return challengeLabel + givenCondition +
+    return challengeLabel +
+        givenCondition +
         movingLabel +
         sideEffectsLabel +
+        movingUndeterminedCountLabel +
         prisonLabel +
         selfThrowDiceLabel +
         turnLost +

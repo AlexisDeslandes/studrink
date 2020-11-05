@@ -65,7 +65,12 @@ void main() async {
               cellType: CellType.selfChallenge,
               challenge: "Bois un cul sec.",
               givenConditionKey: ConditionKey(name: "Polypoint")),
-          Cell(name: "Sodomie", imgPath: ""),
+          Cell(
+            name: "Sodomie",
+            imgPath: "",
+            cellType: CellType.selfMovingUndetermined,
+            movingUndeterminedCount: 1
+          ),
           Cell(
               name: "Depardieu",
               imgPath: "",

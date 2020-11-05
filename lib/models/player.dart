@@ -10,7 +10,8 @@ enum PlayerState {
   turnLost,
   throwDice,
   thrownDice,
-  selfChallenge
+  selfChallenge,
+  choseDirection
 }
 
 class Player extends Resource {

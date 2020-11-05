@@ -42,6 +42,10 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
       yield* _failChallenge();
     } else if (event is SucceedChallenge) {
       yield* _succeedChallenge();
+    } else if (event is MovingForward) {
+      yield* _movingForward();
+    } else if (event is MoveBack) {
+      yield* _moveBack();
     }
   }
 
@@ -63,6 +67,8 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
       return PlayerState.thrownDice;
     } else if (nextCellType == CellType.selfChallenge) {
       return PlayerState.selfChallenge;
+    } else if (nextCellType == CellType.selfMovingUndetermined) {
+      return PlayerState.choseDirection;
     }
     return PlayerState.canEnd;
   }
@@ -173,6 +179,16 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
     yield* _throwDice(moving.movingType == MovingType.forward ? count : -count);
   }
 
+  Stream<CurrentGameState> _movingForward() async* {
+    final movingUndeterminedCount = state.currentCell.movingUndeterminedCount;
+    yield* _throwDice(movingUndeterminedCount);
+  }
+
+  Stream<CurrentGameState> _moveBack() async* {
+    final movingUndeterminedCount = state.currentCell.movingUndeterminedCount;
+    yield* _throwDice(-movingUndeterminedCount);
+  }
+
   Stream<CurrentGameState> _failChallenge() async* {
     final playerList = state.playerList.map((player) {
       if (player == state.currentPlayer) {
@@ -227,6 +243,14 @@ class AddPlayer extends CurrentGameEvent {
 
 class FailChallenge extends CurrentGameEvent {
   const FailChallenge();
+}
+
+class MovingForward extends CurrentGameEvent {
+  const MovingForward();
+}
+
+class MoveBack extends CurrentGameEvent {
+  const MoveBack();
 }
 
 class SucceedChallenge extends CurrentGameEvent {

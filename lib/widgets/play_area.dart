@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
 import 'package:ptit_godet/models/player.dart';
 import 'package:ptit_godet/widgets/player_challenge_area.dart';
+import 'package:ptit_godet/widgets/player_chose_direction_area.dart';
 import 'package:ptit_godet/widgets/player_end_area.dart';
 import 'package:ptit_godet/widgets/player_moving_area.dart';
 import 'package:ptit_godet/widgets/player_ready_area.dart';
@@ -39,6 +40,9 @@ class PlayArea extends StatelessWidget {
               return PlayerMovingArea(state.currentCell.moving);
             } else if (state.currentPlayer.state == PlayerState.selfChallenge) {
               return const PlayerChallengeArea();
+            } else if (state.currentPlayer.state ==
+                PlayerState.choseDirection) {
+              return const PlayerChoseDirectionArea();
             }
             return Container();
           },
