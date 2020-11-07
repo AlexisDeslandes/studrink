@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
 import 'package:ptit_godet/models/player.dart';
 import 'package:ptit_godet/widgets/bottom_button.dart';
@@ -35,27 +36,33 @@ class _PlayerChosePlayerMovingAreaState
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Column(
       children: [
-        Align(
-            child: PageView.builder(
-                controller: playerChosePageController,
-                onPageChanged: _onPageChanged,
-                itemBuilder: (context, index) {
-                  final player = widget.playerList[index];
-                  return Center(
-                    child: BottomButton(
-                      text: player.name,
-                      onPressed: () {
-                        context
-                            .bloc<CurrentGameBloc>()
-                            .add(MakePlayerMoving(player));
-                      },
-                    ),
-                  );
-                },
-                itemCount: widget.playerList.length),
-            alignment: Alignment.bottomCenter)
+        Text(
+            "Fait glisser horizontalement les propositions ci-dessous pour choisir.",
+            style: Theme.of(context).textTheme.caption,
+            textAlign: TextAlign.center),
+        Expanded(
+            child: Container(
+          color: Color.fromRGBO(0, 0, 0, 0.1),
+          child: PageView.builder(
+              controller: playerChosePageController,
+              onPageChanged: _onPageChanged,
+              itemBuilder: (context, index) {
+                final player = widget.playerList[index];
+                return Center(
+                  child: BottomButton(
+                    text: player.name,
+                    onPressed: () {
+                      context
+                          .bloc<CurrentGameBloc>()
+                          .add(MakePlayerMoving(player));
+                    },
+                  ),
+                );
+              },
+              itemCount: widget.playerList.length),
+        ))
       ],
     );
   }
