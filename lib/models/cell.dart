@@ -15,7 +15,8 @@ enum CellType {
   selfThrowDice,
   selfChallenge,
   selfMovingUndetermined,
-  battle
+  battle,
+  steal
 }
 
 class Cell extends Resource {
@@ -25,6 +26,7 @@ class Cell extends Resource {
   final List<String> sideEffectListAfterTurnLost;
   final ConditionKey givenConditionKey;
   final ConditionKey requiredConditionKey;
+  final ConditionKey conditionKeyStolen;
   final CellType cellType;
   final PrisonCondition prisonCondition;
   final Moving moving;
@@ -44,13 +46,15 @@ class Cell extends Resource {
       this.sideEffectList = const [],
       this.sideEffectListAfterTurnLost = const [],
       this.cellType = CellType.noEffect,
-      this.challenge})
+      this.challenge,
+      this.conditionKeyStolen})
       : assert(name != null && imgPath != null);
 
   @override
   Map<String, dynamic> toJson() {
     return {
       "name": name,
+      "conditionKeyStolen": conditionKeyStolen?.toJson(),
       "movingUndeterminedCount": movingUndeterminedCount,
       "challenge": challenge,
       "throwDiceEffect": throwDiceEffect?.toJson(),
@@ -70,6 +74,7 @@ class Cell extends Resource {
         name,
         imgPath,
         challenge,
+        conditionKeyStolen,
         movingUndeterminedCount,
         throwDiceEffect,
         sideEffectList,
@@ -84,6 +89,9 @@ class Cell extends Resource {
   Cell.fromJson(Map<String, dynamic> map)
       : this(
             name: map["name"],
+            conditionKeyStolen: map["conditionKeyStolen"] != null
+                ? ConditionKey.fromJson(map["conditionKeyStolen"])
+                : null,
             movingUndeterminedCount: map["movingUndeterminedCount"],
             challenge: map["challenge"],
             throwDiceEffect: map["throwDiceEffect"] != null
@@ -170,6 +178,13 @@ class Cell extends Resource {
   String get battleLabel {
     if (cellType == CellType.battle) {
       return "Choisis un adversaire.\nLe gagnant remporte ${givenConditionKey.name}.\n";
+    }
+    return "";
+  }
+
+  String get stealConditionKey {
+    if (cellType == CellType.steal) {
+      return "Vole : $stealConditionKey.";
     }
     return "";
   }

@@ -14,7 +14,8 @@ enum PlayerState {
   choseDirection,
   choseOpponent,
   waitForWinner,
-  chosePlayerMoving
+  chosePlayerMoving,
+  stealConditionKey
 }
 
 class Player extends Resource {

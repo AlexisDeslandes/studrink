@@ -18,13 +18,13 @@ class PlayerChosePlayerMovingArea extends StatefulWidget {
 
 class _PlayerChosePlayerMovingAreaState
     extends State<PlayerChosePlayerMovingArea> {
-  PageController playerChosePageController;
+  PageController _playerChosePageController;
 
   @override
   void initState() {
     final playerList = widget.playerList,
         idInitialPlayer = playerList.length > 1 ? 1 : 0;
-    playerChosePageController =
+    _playerChosePageController =
         PageController(viewportFraction: 0.3, initialPage: idInitialPlayer);
     super.initState();
   }
@@ -46,7 +46,7 @@ class _PlayerChosePlayerMovingAreaState
             child: Container(
           color: Color.fromRGBO(0, 0, 0, 0.1),
           child: PageView.builder(
-              controller: playerChosePageController,
+              controller: _playerChosePageController,
               onPageChanged: _onPageChanged,
               itemBuilder: (context, index) {
                 final player = widget.playerList[index];

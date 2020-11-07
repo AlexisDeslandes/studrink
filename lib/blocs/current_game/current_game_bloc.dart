@@ -52,6 +52,8 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
       yield* _choseWinner(event.player);
     } else if (event is MakePlayerMoving) {
       yield* _makePlayerMoving(event.player);
+    } else if (event is StealConditionKey) {
+      yield* _stealConditionKey(event.player);
     }
   }
 
@@ -79,6 +81,8 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
       return PlayerState.choseOpponent;
     } else if (nextCellType == CellType.otherMoving) {
       return PlayerState.chosePlayerMoving;
+    } else if (nextCellType == CellType.steal) {
+      return PlayerState.stealConditionKey;
     }
     return PlayerState.canEnd;
   }
@@ -292,6 +296,27 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
         moving.movingType == MovingType.forward ? movingCount : -movingCount,
         force: true);
   }
+
+  Stream<CurrentGameState> _stealConditionKey(Player player) async* {
+    final conditionKey = state.currentCell.conditionKeyStolen;
+    yield CurrentGameState.copy(state,
+        playerList: state.playerList.map((elemPlayer) {
+          if (elemPlayer == state.currentPlayer) {
+            return Player.copy(elemPlayer,
+                state: PlayerState.ready,
+                conditionKeyList: [
+                  conditionKey,
+                  ...elemPlayer.conditionKeyList
+                ]);
+          } else if (elemPlayer == player) {
+            return Player.copy(player,
+                conditionKeyList: player.conditionKeyList
+                  ..remove(conditionKey));
+          }
+          return elemPlayer;
+        }).toList(),
+        indexCurrentPlayer: state.nextIndexPlayer);
+  }
 }
 
 abstract class CurrentGameEvent extends Equatable {
@@ -314,6 +339,12 @@ class AddPlayer extends CurrentGameEvent {
 
 class FailChallenge extends CurrentGameEvent {
   const FailChallenge();
+}
+
+class StealConditionKey extends CurrentGameEvent {
+  final Player player;
+
+  const StealConditionKey(this.player);
 }
 
 class MovingForward extends CurrentGameEvent {
@@ -391,7 +422,10 @@ class CurrentGameState extends Equatable {
       this.currentOpponent,
       this.indexCurrentPlayer = 0});
 
-  CurrentGameState.empty() : this(playerList: [Player(name: "Pseudo")]);
+  CurrentGameState.empty()
+      : this(playerList: [
+          Player(name: "Pseudo", conditionKeyList: [ConditionKey(name: "UE")])
+        ]);
 
   @override
   List<Object> get props =>

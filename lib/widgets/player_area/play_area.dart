@@ -6,6 +6,7 @@ import 'package:ptit_godet/widgets/player_area/player_challenge_area.dart';
 import 'package:ptit_godet/widgets/player_area/player_chose_direction_area.dart';
 import 'package:ptit_godet/widgets/player_area/player_chose_opponent_area.dart';
 import 'package:ptit_godet/widgets/player_area/player_chose_player_moving_area.dart';
+import 'package:ptit_godet/widgets/player_area/player_chose_player_stole_area.dart';
 import 'package:ptit_godet/widgets/player_area/player_chose_player_won_area.dart';
 import 'package:ptit_godet/widgets/player_area/player_end_area.dart';
 import 'package:ptit_godet/widgets/player_area/player_moving_area.dart';
@@ -61,6 +62,17 @@ class PlayArea extends StatelessWidget {
                       .where((element) => element != state.currentPlayer)
                       .toList(),
                   pageController);
+            } else if (currentPlayerState == PlayerState.stealConditionKey) {
+              final conditionKey = state.currentCell.conditionKeyStolen;
+              final playerHavingConditionKey = state.playerList
+                  .where((element) =>
+                      element.conditionKeyList.contains(conditionKey))
+                  .toList();
+              if (playerHavingConditionKey.length == 0) {
+                return const PlayerEndArea();
+              }
+              return PlayerChosePlayerStoleArea(
+                  playerHavingConditionKey, pageController);
             }
             return Container();
           },

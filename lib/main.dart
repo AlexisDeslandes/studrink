@@ -28,30 +28,26 @@ void main() async {
               imgPath: "",
               sideEffectList: ["C'est la rentrée !"]),
           Cell(
-              name: "Parking",
+              cellType: CellType.selfMoving,
+              moving: Moving(count: 2, movingType: MovingType.forward),
+              name: "Polypoint",
               imgPath: "",
-              cellType: CellType.otherMoving,
-              moving: Moving(count: 1, movingType: MovingType.forward)),
+              givenConditionKey: ConditionKey(name: "Polypoint")),
+          Cell(
+              name: "BressomLand",
+              imgPath: "",
+              sideEffectList: ["Ca part en cul sec."]),
+          Cell(name: "Clausse", imgPath: "", sideEffectList: ["Tu bois."]),
+          Cell(
+              name: "WEC1",
+              imgPath: "",
+              sideEffectList: ["Tu bois"],
+              sideEffectListAfterTurnLost: ["Tu bois"],
+              cellType: CellType.turnLose),
           Cell(
               name: "Parking",
               imgPath: "",
-              cellType: CellType.otherMoving,
-              moving: Moving(count: 1, movingType: MovingType.forward)),
-          Cell(
-              name: "Parking",
-              imgPath: "",
-              cellType: CellType.otherMoving,
-              moving: Moving(count: 1, movingType: MovingType.forward)),
-          Cell(
-              name: "Parking",
-              imgPath: "",
-              cellType: CellType.otherMoving,
-              moving: Moving(count: 1, movingType: MovingType.forward)),
-          Cell(
-              name: "Parking",
-              imgPath: "",
-              cellType: CellType.otherMoving,
-              moving: Moving(count: 1, movingType: MovingType.forward)),
+              sideEffectList: ["Invente ta propre règle."]),
           Cell(
               name: "Partiel",
               imgPath: "",
@@ -106,7 +102,11 @@ void main() async {
               name: "WEC2",
               imgPath: "",
               sideEffectList: ["Bois un cul sec.", "Embrasse le plus bourré."]),
-          Cell(name: "Nazgûl", imgPath: ""),
+          Cell(
+              name: "Nazgûl",
+              imgPath: "",
+              cellType: CellType.otherMoving,
+              moving: Moving(movingType: MovingType.backward, count: 1)),
           Cell(
               name: "Juif",
               imgPath: "",
@@ -119,7 +119,12 @@ void main() async {
               name: "FIST",
               imgPath: "",
               cellType: CellType.selfMoving,
-              moving: Moving(movingType: MovingType.backward, count: 2))
+              moving: Moving(movingType: MovingType.backward, count: 2)),
+          Cell(
+              name: "Noir",
+              imgPath: "",
+              cellType: CellType.steal,
+              conditionKeyStolen: ConditionKey(name: "UE"))
         ]).toJson()
       ]));
   runApp(MyApp());
