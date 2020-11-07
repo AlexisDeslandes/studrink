@@ -33,6 +33,7 @@ class Cell extends Resource {
   final ThrowDiceEffect throwDiceEffect;
   final String challenge;
   final int movingUndeterminedCount;
+  final Cell tpCell;
 
   Cell(
       {@required this.name,
@@ -47,13 +48,15 @@ class Cell extends Resource {
       this.sideEffectListAfterTurnLost = const [],
       this.cellType = CellType.noEffect,
       this.challenge,
-      this.conditionKeyStolen})
+      this.conditionKeyStolen,
+      this.tpCell})
       : assert(name != null && imgPath != null);
 
   @override
   Map<String, dynamic> toJson() {
     return {
       "name": name,
+      "tpCell": tpCell?.toJson(),
       "conditionKeyStolen": conditionKeyStolen?.toJson(),
       "movingUndeterminedCount": movingUndeterminedCount,
       "challenge": challenge,
@@ -73,6 +76,7 @@ class Cell extends Resource {
   List<Object> get props => [
         name,
         imgPath,
+        tpCell,
         challenge,
         conditionKeyStolen,
         movingUndeterminedCount,
@@ -89,6 +93,7 @@ class Cell extends Resource {
   Cell.fromJson(Map<String, dynamic> map)
       : this(
             name: map["name"],
+            tpCell: map["tpCell"] != null ? Cell.fromJson(map["tpCell"]) : null,
             conditionKeyStolen: map["conditionKeyStolen"] != null
                 ? ConditionKey.fromJson(map["conditionKeyStolen"])
                 : null,
@@ -196,6 +201,16 @@ class Cell extends Resource {
     return "";
   }
 
+  String get conditionKeyNeeded {
+    if (cellType == CellType.conditionKey) {
+      if (requiredConditionKey != null) {
+        return "Retourne à l'année précédente. Si tu n'as pas : ${requiredConditionKey.name}.\n";
+      }
+      return "Retourne en ${tpCell.name}\n";
+    }
+    return "";
+  }
+
   String get effectsLabel {
     return challengeLabel +
         battleLabel +
@@ -206,6 +221,7 @@ class Cell extends Resource {
         movingUndeterminedCountLabel +
         prisonLabel +
         selfThrowDiceLabel +
+        conditionKeyNeeded +
         turnLost +
         sideEffectsLabelAfterTurnLost;
   }

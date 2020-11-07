@@ -66,6 +66,7 @@ class PlayArea extends StatelessWidget {
               final conditionKey = state.currentCell.conditionKeyStolen;
               final playerHavingConditionKey = state.playerList
                   .where((element) =>
+                      element != state.currentPlayer &&
                       element.conditionKeyList.contains(conditionKey))
                   .toList();
               if (playerHavingConditionKey.length == 0) {

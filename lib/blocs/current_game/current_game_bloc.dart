@@ -60,8 +60,9 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
   PlayerState _playerStateFromCellType(Cell nextCell) {
     final nextCellType = nextCell.cellType, currentPlayer = state.currentPlayer;
     if (nextCellType == CellType.conditionKey) {
-      if (!currentPlayer.conditionKeyList
-          .contains(nextCell.requiredConditionKey)) {
+      final requiredConditionKey = nextCell.requiredConditionKey;
+      if (requiredConditionKey == null ||
+          !currentPlayer.conditionKeyList.contains(requiredConditionKey)) {
         return PlayerState.returnPreviousCheckPoint;
       }
     } else if (nextCellType == CellType.selfMoving) {
@@ -172,10 +173,17 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
   }
 
   Stream<CurrentGameState> _returnPreviousCheckpoint() async* {
+    final tpCell = state.currentCell.tpCell;
+    var idTpCell;
+    if (tpCell != null) {
+      idTpCell = state.boardGame.cells
+          .indexWhere((element) => element.name == tpCell.name);
+    }
     final playerList = state.playerList.map((player) {
       if (player == state.currentPlayer) {
         return Player.copy(player,
-            idCurrentCell: _previousCheckpointId(player),
+            idCurrentCell:
+                idTpCell != null ? idTpCell : _previousCheckpointId(player),
             state: PlayerState.canEnd);
       }
       return player;

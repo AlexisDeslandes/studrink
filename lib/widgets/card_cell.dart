@@ -43,6 +43,7 @@ class CardCell extends StatelessWidget {
                   child: Text(
                 cell.effectsLabel,
                 style: Theme.of(context).textTheme.bodyText1,
+                textAlign: TextAlign.center,
               ))),
         )
       ],

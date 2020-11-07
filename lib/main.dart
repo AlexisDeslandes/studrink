@@ -124,7 +124,46 @@ void main() async {
               name: "Noir",
               imgPath: "",
               cellType: CellType.steal,
-              conditionKeyStolen: ConditionKey(name: "UE"))
+              conditionKeyStolen: ConditionKey(name: "UE")),
+          Cell(
+              name: "5A",
+              imgPath: "",
+              cellType: CellType.conditionKey,
+              sideEffectList: ["Tu bois"],
+              requiredConditionKey: ConditionKey(name: "UE")),
+          Cell(
+              name: "BDSM",
+              givenConditionKey: ConditionKey(name: "BDSM"),
+              imgPath: ""),
+          Cell(name: "WEC3", sideEffectList: ["Donne 2 gorgées."], imgPath: ""),
+          Cell(name: "MNM'S", imgPath: "", sideEffectList: [
+            "Désigne un jour.",
+            "Le joueur boit le nombre de gorgées et désigne un joueur qui les boit également."
+          ]),
+          Cell(
+              imgPath: "",
+              name: "QPUC Stage",
+              cellType: CellType.selfChallenge,
+              givenConditionKey: ConditionKey(name: "Stage"),
+              challenge: "Un autre joueur te pose une question."),
+          Cell(imgPath: "", name: "ABEL", sideEffectList: ["Bois 4 gorgées."]),
+          Cell(
+              imgPath: "", //todo
+              name: "BDSM"),
+          Cell(
+              imgPath: "",
+              name: "BEACH",
+              sideEffectList: ["Prends un shot + sexe"]),
+          Cell(
+              name: "Blackout",
+              imgPath: "",
+              cellType: CellType.conditionKey,
+              tpCell: Cell(
+                  name: "4a",
+                  imgPath: "",
+                  cellType: CellType.conditionKey,
+                  givenConditionKey: ConditionKey(name: "Polypoint"),
+                  requiredConditionKey: ConditionKey(name: "Polypoint")))
         ]).toJson()
       ]));
   runApp(MyApp());
