@@ -7,12 +7,13 @@ import 'package:ptit_godet/widgets/player_area/play_area.dart';
 import 'package:ptit_godet/widgets/player_announcer.dart';
 
 class GamePage extends CupertinoPage {
-  const GamePage()
-      : super(child: const GameScreen(), key: const ValueKey<String>("/game"));
+  GamePage() : super(child: GameScreen(), key: const ValueKey<String>("/game"));
 }
 
 class GameScreen extends StatelessWidget {
-  const GameScreen();
+  final PageController _pageController;
+
+  GameScreen() : _pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +31,12 @@ class GameScreen extends StatelessWidget {
                 left: top,
                 height: height),
             Positioned(
-                child: const GamePageView(),
+                child: GamePageView(_pageController),
                 width: maxWidth,
                 height: pageViewHeight,
                 top: top + height),
             Positioned(
-                child: const PlayArea(),
+                child: PlayArea(_pageController),
                 top: pageViewHeight + top + height,
                 height: maxHeight - (pageViewHeight + top + height)),
             const Positioned(

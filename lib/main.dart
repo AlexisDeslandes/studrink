@@ -28,26 +28,30 @@ void main() async {
               imgPath: "",
               sideEffectList: ["C'est la rentrée !"]),
           Cell(
-              cellType: CellType.selfMoving,
-              moving: Moving(count: 2, movingType: MovingType.forward),
-              name: "Polypoint",
+              name: "Parking",
               imgPath: "",
-              givenConditionKey: ConditionKey(name: "Polypoint")),
-          Cell(
-              name: "BressomLand",
-              imgPath: "",
-              sideEffectList: ["Ca part en cul sec."]),
-          Cell(name: "Clausse", imgPath: "", sideEffectList: ["Tu bois."]),
-          Cell(
-              name: "WEC1",
-              imgPath: "",
-              sideEffectList: ["Tu bois"],
-              sideEffectListAfterTurnLost: ["Tu bois"],
-              cellType: CellType.turnLose),
+              cellType: CellType.otherMoving,
+              moving: Moving(count: 1, movingType: MovingType.forward)),
           Cell(
               name: "Parking",
               imgPath: "",
-              sideEffectList: ["Invente ta propre règle."]),
+              cellType: CellType.otherMoving,
+              moving: Moving(count: 1, movingType: MovingType.forward)),
+          Cell(
+              name: "Parking",
+              imgPath: "",
+              cellType: CellType.otherMoving,
+              moving: Moving(count: 1, movingType: MovingType.forward)),
+          Cell(
+              name: "Parking",
+              imgPath: "",
+              cellType: CellType.otherMoving,
+              moving: Moving(count: 1, movingType: MovingType.forward)),
+          Cell(
+              name: "Parking",
+              imgPath: "",
+              cellType: CellType.otherMoving,
+              moving: Moving(count: 1, movingType: MovingType.forward)),
           Cell(
               name: "Partiel",
               imgPath: "",

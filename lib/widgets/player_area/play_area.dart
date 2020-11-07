@@ -13,7 +13,9 @@ import 'package:ptit_godet/widgets/player_area/player_ready_area.dart';
 import 'package:ptit_godet/widgets/player_area/player_return_previous_checkpoint_area.dart';
 
 class PlayArea extends StatelessWidget {
-  const PlayArea();
+  final PageController pageController;
+
+  const PlayArea(this.pageController);
 
   @override
   Widget build(BuildContext context) {
@@ -37,25 +39,28 @@ class PlayArea extends StatelessWidget {
               PlayerState.thrownDice
             ].contains(currentPlayerState)) {
               return const PlayerEndArea();
-            } else if (currentPlayerState==
+            } else if (currentPlayerState ==
                 PlayerState.returnPreviousCheckPoint) {
               return const PlayerReturnPreviousCheckPointArea();
-            } else if (currentPlayerState== PlayerState.moving) {
+            } else if (currentPlayerState == PlayerState.moving) {
               return PlayerMovingArea(state.currentCell.moving);
-            } else if (currentPlayerState== PlayerState.selfChallenge) {
+            } else if (currentPlayerState == PlayerState.selfChallenge) {
               return const PlayerChallengeArea();
-            } else if (currentPlayerState==
-                PlayerState.choseDirection) {
+            } else if (currentPlayerState == PlayerState.choseDirection) {
               return const PlayerChoseDirectionArea();
-            } else if (currentPlayerState== PlayerState.choseOpponent) {
+            } else if (currentPlayerState == PlayerState.choseOpponent) {
               return PlayerChoseOpponentArea(state.playerList
                   .where((element) => state.currentPlayer != element)
                   .toList());
-            } else if (currentPlayerState== PlayerState.waitForWinner) {
+            } else if (currentPlayerState == PlayerState.waitForWinner) {
               return PlayerChosePlayerWonArea(
                   [state.currentPlayer, state.currentOpponent]);
-            } else if (currentPlayerState== PlayerState.chosePlayerMoving) {
-              return PlayerChosePlayerMovingArea(state.playerList.where((element) => element != state.currentPlayer).toList());
+            } else if (currentPlayerState == PlayerState.chosePlayerMoving) {
+              return PlayerChosePlayerMovingArea(
+                  state.playerList
+                      .where((element) => element != state.currentPlayer)
+                      .toList(),
+                  pageController);
             }
             return Container();
           },

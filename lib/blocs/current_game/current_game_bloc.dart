@@ -118,7 +118,7 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
 
   Stream<CurrentGameState> _validateGame(ValidateGame event) async* {
     if (state.playerList.every((element) => element.filled)) {
-      navBloc.add(PushNav(pageBuilder: (_) => const GamePage()));
+      navBloc.add(PushNav(pageBuilder: (_) => GamePage()));
     } else {
       //emit alert
     }

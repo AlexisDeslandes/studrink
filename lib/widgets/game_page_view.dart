@@ -4,20 +4,15 @@ import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
 import 'package:ptit_godet/widgets/card_cell.dart';
 
 class GamePageView extends StatefulWidget {
-  const GamePageView();
+  final PageController pageController;
+
+  const GamePageView(this.pageController);
 
   @override
   _GamePageViewState createState() => _GamePageViewState();
 }
 
 class _GamePageViewState extends State<GamePageView> {
-  PageController _controller;
-
-  @override
-  void initState() {
-    _controller = PageController();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +28,12 @@ class _GamePageViewState extends State<GamePageView> {
             return CardCell(cell: cell);
           },
           itemCount: cells.length,
-          controller: _controller),
+          controller: widget.pageController),
     );
   }
 
   void _changeCell(BuildContext context, CurrentGameState state) {
-    _controller.animateToPage(state.currentPlayer.idCurrentCell,
+    widget.pageController.animateToPage(state.currentPlayer.idCurrentCell,
         duration: Duration(seconds: 1), curve: Curves.easeInOut);
   }
 
