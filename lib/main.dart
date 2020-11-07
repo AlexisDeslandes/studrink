@@ -93,15 +93,25 @@ void main() async {
               imgPath: "",
               cellType: CellType.battle,
               givenConditionKey: ConditionKey(name: "UE")),
-          Cell(name: "Parking", imgPath: ""),
+          Cell(name: "Parking", imgPath: ""), //todo
           Cell(
               name: "WEC2",
               imgPath: "",
               sideEffectList: ["Bois un cul sec.", "Embrasse le plus bourré."]),
-          Cell(name: "BressomLand", imgPath: ""),
-          Cell(name: "BressomLand", imgPath: ""),
-          Cell(name: "BressomLand", imgPath: ""),
-          Cell(name: "BressomLand", imgPath: "")
+          Cell(name: "Nazgûl", imgPath: ""),
+          Cell(
+              name: "Juif",
+              imgPath: "",
+              cellType: CellType.selfChallenge,
+              challenge: "Tu achètes",
+              givenConditionKey: ConditionKey(name: "UE")),
+          Cell(name: "Ski", imgPath: "", sideEffectList: ["Bois 3 gorgées."]),
+          Cell(name: "KO", imgPath: "", cellType: CellType.turnLose),
+          Cell(
+              name: "FIST",
+              imgPath: "",
+              cellType: CellType.selfMoving,
+              moving: Moving(movingType: MovingType.backward, count: 2))
         ]).toJson()
       ]));
   runApp(MyApp());
