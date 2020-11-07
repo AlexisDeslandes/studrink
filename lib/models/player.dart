@@ -13,7 +13,8 @@ enum PlayerState {
   selfChallenge,
   choseDirection,
   choseOpponent,
-  waitForWinner
+  waitForWinner,
+  chosePlayerMoving
 }
 
 class Player extends Resource {

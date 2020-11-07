@@ -50,6 +50,8 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
       yield* _pickOpponent(event.player);
     } else if (event is ChoseWinner) {
       yield* _choseWinner(event.player);
+    } else if (event is MakePlayerMoving) {
+      yield* _makePlayerMoving(event.player);
     }
   }
 
@@ -75,13 +77,17 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
       return PlayerState.choseDirection;
     } else if (nextCellType == CellType.battle) {
       return PlayerState.choseOpponent;
+    } else if (nextCellType == CellType.otherMoving) {
+      return PlayerState.chosePlayerMoving;
     }
     return PlayerState.canEnd;
   }
 
-  Stream<CurrentGameState> _throwDice(int diceValue) async* {
+  Stream<CurrentGameState> _throwDice(int diceValue,
+      {bool force = false}) async* {
     final currentPlayer = state.currentPlayer,
-        idNextCell = _getNextCell(currentPlayer.idCurrentCell, diceValue),
+        idNextCell =
+            _getNextCell(currentPlayer.idCurrentCell, diceValue, force),
         nextCell = state.boardGame.cells[idNextCell],
         nextPlayerState = _playerStateFromCellType(nextCell),
         conditionKeyList = _getConditionKeyList(nextPlayerState,
@@ -139,7 +145,10 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
         playerList: playerList, indexCurrentPlayer: state.nextIndexPlayer);
   }
 
-  int _getNextCell(int idCurrentCell, int diceValue) {
+  int _getNextCell(int idCurrentCell, int diceValue, bool force) {
+    if (force) {
+      return idCurrentCell + diceValue;
+    }
     final currentCell = state.currentCell,
         inPrison = currentCell.cellType == CellType.prison;
     if ((inPrison &&
@@ -246,23 +255,42 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
   Stream<CurrentGameState> _choseWinner(Player player) async* {
     yield CurrentGameState.copy(state,
         playerList: state.playerList.map((playerElem) {
-      if (playerElem == state.currentPlayer) {
-        return Player.copy(playerElem,
-            state: PlayerState.ready,
-            conditionKeyList: player == playerElem
-                ? [
-                    state.currentCell.givenConditionKey,
-                    ...player.conditionKeyList
-                  ]
-                : player.conditionKeyList);
-      } else if (playerElem == player) {
-        return Player.copy(player, conditionKeyList: [
-          state.currentCell.givenConditionKey,
-          ...player.conditionKeyList
-        ]);
-      }
-      return playerElem;
-    }).toList(), indexCurrentPlayer: state.nextIndexPlayer);
+          if (playerElem == state.currentPlayer) {
+            return Player.copy(playerElem,
+                state: PlayerState.ready,
+                conditionKeyList: player == playerElem
+                    ? [
+                        state.currentCell.givenConditionKey,
+                        ...player.conditionKeyList
+                      ]
+                    : player.conditionKeyList);
+          } else if (playerElem == player) {
+            return Player.copy(player, conditionKeyList: [
+              state.currentCell.givenConditionKey,
+              ...player.conditionKeyList
+            ]);
+          }
+          return playerElem;
+        }).toList(),
+        indexCurrentPlayer: state.nextIndexPlayer);
+  }
+
+  Stream<CurrentGameState> _makePlayerMoving(Player player) async* {
+    final currentCell = state.currentCell,
+        moving = currentCell.moving,
+        movingCount = moving.count;
+    yield CurrentGameState.copy(state,
+        indexCurrentPlayer: state.playerList.indexOf(player),
+        indexNextPlayer: state.nextIndexPlayer,
+        playerList: state.playerList.map((e) {
+          if (e == state.currentPlayer) {
+            return Player.copy(e, state: PlayerState.ready);
+          }
+          return e;
+        }).toList());
+    yield* _throwDice(
+        moving.movingType == MovingType.forward ? movingCount : -movingCount,
+        force: true);
   }
 }
 
@@ -290,6 +318,12 @@ class FailChallenge extends CurrentGameEvent {
 
 class MovingForward extends CurrentGameEvent {
   const MovingForward();
+}
+
+class MakePlayerMoving extends CurrentGameEvent {
+  final Player player;
+
+  const MakePlayerMoving(this.player);
 }
 
 class MoveBack extends CurrentGameEvent {
@@ -347,11 +381,13 @@ class CurrentGameState extends Equatable {
   final BoardGame boardGame;
   final List<Player> playerList;
   final int indexCurrentPlayer;
+  int indexNextPlayer;
   final Player currentOpponent;
 
-  const CurrentGameState(
+  CurrentGameState(
       {this.boardGame,
       this.playerList = const [],
+      this.indexNextPlayer,
       this.currentOpponent,
       this.indexCurrentPlayer = 0});
 
@@ -365,10 +401,14 @@ class CurrentGameState extends Equatable {
       {BoardGame boardGame,
       List<Player> playerList,
       Player currentOpponent,
+      int indexNextPlayer,
       int indexCurrentPlayer})
       : this(
             currentOpponent: currentOpponent ?? old.currentOpponent,
             boardGame: boardGame ?? old.boardGame,
+            indexNextPlayer: old.indexNextPlayer != null
+                ? old.indexNextPlayer
+                : indexNextPlayer ?? old.indexNextPlayer,
             indexCurrentPlayer: indexCurrentPlayer ?? old.indexCurrentPlayer,
             playerList: playerList ?? old.playerList);
 
@@ -380,11 +420,13 @@ class CurrentGameState extends Equatable {
   Cell get currentCell => boardGame.cells[currentPlayer.idCurrentCell];
 
   get nextIndexPlayer {
-    if (indexCurrentPlayer == playerList.length - 1) {
+    if (indexNextPlayer != null) {
+      final idNextPlayer = indexNextPlayer;
+      this.indexNextPlayer = null;
+      return idNextPlayer;
+    } else if (indexCurrentPlayer == playerList.length - 1) {
       return 0;
     }
     return indexCurrentPlayer + 1;
   }
-
-  Player get nextPlayer => playerList[nextIndexPlayer];
 }

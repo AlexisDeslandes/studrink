@@ -9,6 +9,7 @@ enum CellType {
   noEffect,
   conditionKey,
   selfMoving,
+  otherMoving,
   turnLose,
   prison,
   selfThrowDice,
@@ -112,11 +113,20 @@ class Cell extends Resource {
     return "";
   }
 
-  String get movingLabel {
-    if (moving != null) {
+  String get selfMovingLabel {
+    if (moving != null && cellType == CellType.selfMoving) {
       final action =
           moving.movingType == MovingType.forward ? "avances" : "recules";
       return "Tu $action de ${moving.count} cases.\n";
+    }
+    return "";
+  }
+
+  String get otherMovingLabel {
+    if (moving != null && cellType == CellType.otherMoving) {
+      final action =
+          moving.movingType == MovingType.forward ? "avancer" : "reculer";
+      return "Fait $action quelqu'un de ${moving.count} cases.\n";
     }
     return "";
   }
@@ -175,7 +185,8 @@ class Cell extends Resource {
     return challengeLabel +
         battleLabel +
         givenCondition +
-        movingLabel +
+        selfMovingLabel +
+        otherMovingLabel +
         sideEffectsLabel +
         movingUndeterminedCountLabel +
         prisonLabel +

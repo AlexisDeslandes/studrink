@@ -5,6 +5,7 @@ import 'package:ptit_godet/models/player.dart';
 import 'package:ptit_godet/widgets/player_area/player_challenge_area.dart';
 import 'package:ptit_godet/widgets/player_area/player_chose_direction_area.dart';
 import 'package:ptit_godet/widgets/player_area/player_chose_opponent_area.dart';
+import 'package:ptit_godet/widgets/player_area/player_chose_player_moving_area.dart';
 import 'package:ptit_godet/widgets/player_area/player_chose_player_won_area.dart';
 import 'package:ptit_godet/widgets/player_area/player_end_area.dart';
 import 'package:ptit_godet/widgets/player_area/player_moving_area.dart';
@@ -25,33 +26,36 @@ class PlayArea extends StatelessWidget {
                 (previous.currentPlayer.state != current.currentPlayer.state);
           },
           builder: (context, state) {
+            final currentPlayerState = state.currentPlayer.state;
             if ([PlayerState.ready, PlayerState.throwDice]
-                .contains(state.currentPlayer.state)) {
+                .contains(currentPlayerState)) {
               return const PlayerReadyArea();
             } else if ([
               PlayerState.canEnd,
               PlayerState.preTurnLost,
               PlayerState.turnLost,
               PlayerState.thrownDice
-            ].contains(state.currentPlayer.state)) {
+            ].contains(currentPlayerState)) {
               return const PlayerEndArea();
-            } else if (state.currentPlayer.state ==
+            } else if (currentPlayerState==
                 PlayerState.returnPreviousCheckPoint) {
               return const PlayerReturnPreviousCheckPointArea();
-            } else if (state.currentPlayer.state == PlayerState.moving) {
+            } else if (currentPlayerState== PlayerState.moving) {
               return PlayerMovingArea(state.currentCell.moving);
-            } else if (state.currentPlayer.state == PlayerState.selfChallenge) {
+            } else if (currentPlayerState== PlayerState.selfChallenge) {
               return const PlayerChallengeArea();
-            } else if (state.currentPlayer.state ==
+            } else if (currentPlayerState==
                 PlayerState.choseDirection) {
               return const PlayerChoseDirectionArea();
-            } else if (state.currentPlayer.state == PlayerState.choseOpponent) {
+            } else if (currentPlayerState== PlayerState.choseOpponent) {
               return PlayerChoseOpponentArea(state.playerList
                   .where((element) => state.currentPlayer != element)
                   .toList());
-            } else if (state.currentPlayer.state == PlayerState.waitForWinner) {
+            } else if (currentPlayerState== PlayerState.waitForWinner) {
               return PlayerChosePlayerWonArea(
                   [state.currentPlayer, state.currentOpponent]);
+            } else if (currentPlayerState== PlayerState.chosePlayerMoving) {
+              return PlayerChosePlayerMovingArea(state.playerList.where((element) => element != state.currentPlayer).toList());
             }
             return Container();
           },

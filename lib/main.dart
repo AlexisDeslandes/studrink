@@ -93,7 +93,11 @@ void main() async {
               imgPath: "",
               cellType: CellType.battle,
               givenConditionKey: ConditionKey(name: "UE")),
-          Cell(name: "Parking", imgPath: ""), //todo
+          Cell(
+              name: "Parking",
+              imgPath: "",
+              cellType: CellType.otherMoving,
+              moving: Moving(count: 1, movingType: MovingType.forward)),
           Cell(
               name: "WEC2",
               imgPath: "",
