@@ -46,6 +46,10 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
       yield* _movingForward();
     } else if (event is MoveBack) {
       yield* _moveBack();
+    } else if (event is PickOpponent) {
+      yield* _pickOpponent(event.player);
+    } else if (event is ChoseWinner) {
+      yield* _choseWinner(event.player);
     }
   }
 
@@ -69,6 +73,8 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
       return PlayerState.selfChallenge;
     } else if (nextCellType == CellType.selfMovingUndetermined) {
       return PlayerState.choseDirection;
+    } else if (nextCellType == CellType.battle) {
+      return PlayerState.choseOpponent;
     }
     return PlayerState.canEnd;
   }
@@ -216,10 +222,47 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
 
   List<ConditionKey> _getConditionKeyList(PlayerState playerState,
       List<ConditionKey> currentList, ConditionKey givenConditionKey) {
-    if ([PlayerState.canEnd, PlayerState.moving].contains(playerState)) {
+    if ([
+      PlayerState.canEnd,
+      PlayerState.moving,
+      PlayerState.returnPreviousCheckPoint
+    ].contains(playerState)) {
       return [givenConditionKey, ...currentList];
     }
     return currentList;
+  }
+
+  Stream<CurrentGameState> _pickOpponent(Player player) async* {
+    yield CurrentGameState.copy(state,
+        playerList: state.playerList.map((playerElem) {
+          if (playerElem == state.currentPlayer) {
+            return Player.copy(playerElem, state: PlayerState.waitForWinner);
+          }
+          return playerElem;
+        }).toList(),
+        currentOpponent: player);
+  }
+
+  Stream<CurrentGameState> _choseWinner(Player player) async* {
+    yield CurrentGameState.copy(state,
+        playerList: state.playerList.map((playerElem) {
+      if (playerElem == state.currentPlayer) {
+        return Player.copy(playerElem,
+            state: PlayerState.ready,
+            conditionKeyList: player == playerElem
+                ? [
+                    state.currentCell.givenConditionKey,
+                    ...player.conditionKeyList
+                  ]
+                : player.conditionKeyList);
+      } else if (playerElem == player) {
+        return Player.copy(player, conditionKeyList: [
+          state.currentCell.givenConditionKey,
+          ...player.conditionKeyList
+        ]);
+      }
+      return playerElem;
+    }).toList(), indexCurrentPlayer: state.nextIndexPlayer);
   }
 }
 
@@ -253,6 +296,12 @@ class MoveBack extends CurrentGameEvent {
   const MoveBack();
 }
 
+class PickOpponent extends CurrentGameEvent {
+  final Player player;
+
+  const PickOpponent(this.player);
+}
+
 class SucceedChallenge extends CurrentGameEvent {
   const SucceedChallenge();
 }
@@ -267,6 +316,12 @@ class ReturnPreviousCheckpoint extends CurrentGameEvent {
 
 class SwitchToOtherPlayer extends CurrentGameEvent {
   const SwitchToOtherPlayer();
+}
+
+class ChoseWinner extends CurrentGameEvent {
+  final Player player;
+
+  const ChoseWinner(this.player);
 }
 
 class MovePlayer extends CurrentGameEvent {
@@ -292,20 +347,27 @@ class CurrentGameState extends Equatable {
   final BoardGame boardGame;
   final List<Player> playerList;
   final int indexCurrentPlayer;
+  final Player currentOpponent;
 
   const CurrentGameState(
       {this.boardGame,
       this.playerList = const [],
+      this.currentOpponent,
       this.indexCurrentPlayer = 0});
 
   CurrentGameState.empty() : this(playerList: [Player(name: "Pseudo")]);
 
   @override
-  List<Object> get props => [boardGame, playerList, indexCurrentPlayer];
+  List<Object> get props =>
+      [boardGame, playerList, indexCurrentPlayer, currentOpponent];
 
   CurrentGameState.copy(CurrentGameState old,
-      {BoardGame boardGame, List<Player> playerList, int indexCurrentPlayer})
+      {BoardGame boardGame,
+      List<Player> playerList,
+      Player currentOpponent,
+      int indexCurrentPlayer})
       : this(
+            currentOpponent: currentOpponent ?? old.currentOpponent,
             boardGame: boardGame ?? old.boardGame,
             indexCurrentPlayer: indexCurrentPlayer ?? old.indexCurrentPlayer,
             playerList: playerList ?? old.playerList);

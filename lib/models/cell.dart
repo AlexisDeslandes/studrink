@@ -13,7 +13,8 @@ enum CellType {
   prison,
   selfThrowDice,
   selfChallenge,
-  selfMovingUndetermined
+  selfMovingUndetermined,
+  battle
 }
 
 class Cell extends Resource {
@@ -105,7 +106,7 @@ class Cell extends Resource {
             sideEffectList: List<String>.from(map["sideEffectList"]));
 
   String get givenCondition {
-    if (givenConditionKey != null) {
+    if (givenConditionKey != null && cellType != CellType.battle) {
       return "Tu gagnes : ${givenConditionKey.name}.\n";
     }
     return "";
@@ -156,6 +157,13 @@ class Cell extends Resource {
     return "";
   }
 
+  String get battleLabel {
+    if (cellType == CellType.battle) {
+      return "Choisis un adversaire.\nLe gagnant remporte ${givenConditionKey.name}.\n";
+    }
+    return "";
+  }
+
   String get movingUndeterminedCountLabel {
     if (movingUndeterminedCount != null) {
       return "Avance ouf recule de $movingUndeterminedCount cases.\n";
@@ -165,6 +173,7 @@ class Cell extends Resource {
 
   String get effectsLabel {
     return challengeLabel +
+        battleLabel +
         givenCondition +
         movingLabel +
         sideEffectsLabel +

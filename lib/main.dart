@@ -66,11 +66,10 @@ void main() async {
               challenge: "Bois un cul sec.",
               givenConditionKey: ConditionKey(name: "Polypoint")),
           Cell(
-            name: "Sodomie",
-            imgPath: "",
-            cellType: CellType.selfMovingUndetermined,
-            movingUndeterminedCount: 1
-          ),
+              name: "Sodomie",
+              imgPath: "",
+              cellType: CellType.selfMovingUndetermined,
+              movingUndeterminedCount: 1),
           Cell(
               name: "Depardieu",
               imgPath: "",
@@ -89,7 +88,11 @@ void main() async {
               name: "Intégration BDSM",
               imgPath: "",
               givenConditionKey: ConditionKey(name: "BDSM")),
-          Cell(name: "Shi Fu Cuite", imgPath: ""),
+          Cell(
+              name: "Shi Fu Cuite",
+              imgPath: "",
+              cellType: CellType.battle,
+              givenConditionKey: ConditionKey(name: "UE")),
           Cell(name: "Parking", imgPath: ""),
           Cell(
               name: "WEC2",
