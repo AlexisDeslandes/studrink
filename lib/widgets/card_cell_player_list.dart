@@ -2,14 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/focused_cell_bloc/focused_cell_bloc.dart';
+import 'package:ptit_godet/models/cell.dart';
 
 class CardCellPlayerList extends StatelessWidget {
-  const CardCellPlayerList();
+  final Cell cell;
+
+  const CardCellPlayerList(this.cell);
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<FocusedCellBloc, FocusedCellState>(
       builder: (context, state) {
+        if (cell != state.cell) {
+          return Container();
+        }
         const imageSize = 40.0, borderRadius = 3.0;
         final playerList = state.playerList;
         return Wrap(
