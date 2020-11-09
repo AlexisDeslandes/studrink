@@ -52,6 +52,18 @@ class Player extends Resource {
 
   get filled => name.length > 0 && avatar.length > 0;
 
+  List<String> get conditionKeyLabels {
+    return this
+        .conditionKeyList
+        .fold<Map<ConditionKey, int>>(
+            {},
+            (previousValue, element) => previousValue
+              ..update(element, (value) => value + 1, ifAbsent: () => 1))
+        .entries
+        .map((e) => "${e.value} ${e.key.name}(s)")
+        .toList();
+  }
+
   @override
   Map<String, dynamic> toJson() {
     return {

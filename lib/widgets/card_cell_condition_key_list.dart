@@ -19,8 +19,8 @@ class CardCellConditionKeyList extends StatelessWidget {
         final playersOnCell = currentGameState.playerListFromCell(cell);
         final selectedPlayer = state.selectedPlayer;
         if (selectedPlayer != null && playersOnCell.contains(selectedPlayer)) {
-          final conditionKeyList = selectedPlayer.conditionKeyList;
-          if (conditionKeyList.length == 0) {
+          final conditionKeyLabels = selectedPlayer.conditionKeyLabels;
+          if (conditionKeyLabels.length == 0) {
             return Text("Aucun objectifs obtenus.",
                 style: Theme.of(context).textTheme.caption);
           }
@@ -29,8 +29,8 @@ class CardCellConditionKeyList extends StatelessWidget {
             direction: Axis.vertical,
             runSpacing: spacing,
             spacing: spacing,
-            children: conditionKeyList
-                .map((conditionKey) => Text(conditionKey.name,
+            children: conditionKeyLabels
+                .map((conditionKey) => Text(conditionKey,
                     style: Theme.of(context).textTheme.caption))
                 .toList(),
           );
