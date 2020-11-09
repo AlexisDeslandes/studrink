@@ -189,7 +189,7 @@ class Cell extends Resource {
 
   String get stealConditionKey {
     if (cellType == CellType.steal) {
-      return "Vole : $stealConditionKey.";
+      return "Vole : ${conditionKeyStolen.name}.";
     }
     return "";
   }
@@ -213,6 +213,7 @@ class Cell extends Resource {
 
   String get effectsLabel {
     return challengeLabel +
+        stealConditionKey +
         battleLabel +
         givenCondition +
         selfMovingLabel +
