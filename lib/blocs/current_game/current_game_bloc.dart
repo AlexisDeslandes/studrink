@@ -460,13 +460,18 @@ class CurrentGameState extends Equatable {
 
   List<Player> get playerListFromCurrentCell {
     final idCurrentCell = boardGame.cells.indexOf(currentCell);
-    return playerListFromCell(idCurrentCell);
+    return playerListFromIdCell(idCurrentCell);
   }
 
-  List<Player> playerListFromCell(int idCell) {
+  List<Player> playerListFromIdCell(int idCell) {
     return playerList
         .where((element) => element.idCurrentCell == idCell)
         .toList();
+  }
+
+  List<Player> playerListFromCell(Cell cell) {
+    final idCell = boardGame.cells.indexOf(cell);
+    return playerListFromIdCell(idCell);
   }
 
   String get currentCellName =>

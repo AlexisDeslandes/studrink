@@ -12,8 +12,7 @@ class GamePageView extends StatelessWidget {
   Widget build(BuildContext context) {
     final pageController =
         context.bloc<GamePageViewBloc>().state.pageController;
-    final state = context.bloc<CurrentGameBloc>().state;
-    final cells = state.boardGame.cells;
+    final cells = context.bloc<CurrentGameBloc>().state.boardGame.cells;
     return BlocListener<CurrentGameBloc, CurrentGameState>(
         listener: (context, state) => context
             .bloc<GamePageViewBloc>()
@@ -21,12 +20,15 @@ class GamePageView extends StatelessWidget {
         listenWhen: _currentPlayerChangedCell,
         child: PageView.builder(
             onPageChanged: (value) {
-              context.bloc<FocusedCellBloc>().add(ChangeFocusedCell(
-                  cell: context.bloc<CurrentGameBloc>().state.currentCell,
-                  playerList: context
-                      .bloc<CurrentGameBloc>()
-                      .state
-                      .playerListFromCell(value)));
+              final playerListOnCell = context
+                  .bloc<CurrentGameBloc>()
+                  .state
+                  .playerListFromIdCell(value);
+              if (playerListOnCell.isNotEmpty) {
+                context
+                    .bloc<FocusedCellBloc>()
+                    .add(ChangeFocusedPlayer(playerListOnCell[0]));
+              }
             },
             itemBuilder: (context, index) {
               final cell = cells[index];
