@@ -20,11 +20,16 @@ class GamePageView extends StatelessWidget {
         listenWhen: _currentPlayerChangedCell,
         child: PageView.builder(
             onPageChanged: (value) {
-              final playerListOnCell = context
-                  .bloc<CurrentGameBloc>()
-                  .state
-                  .playerListFromIdCell(value);
-              if (playerListOnCell.isNotEmpty) {
+              final currentGameBlocState =
+                      context.bloc<CurrentGameBloc>().state,
+                  playerListOnCell =
+                      currentGameBlocState.playerListFromIdCell(value),
+                  currentPlayer = currentGameBlocState.currentPlayer;
+              if (playerListOnCell.contains(currentPlayer)) {
+                context
+                    .bloc<FocusedCellBloc>()
+                    .add(ChangeFocusedPlayer(currentPlayer));
+              } else if (playerListOnCell.isNotEmpty) {
                 context
                     .bloc<FocusedCellBloc>()
                     .add(ChangeFocusedPlayer(playerListOnCell[0]));

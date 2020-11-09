@@ -29,8 +29,12 @@ class GamePageViewBloc extends Bloc<GamePageViewEvent, GamePageViewState> {
       final page = event.page;
       state.pageController.animateToPage(page,
           curve: Curves.easeInOut, duration: Duration(seconds: 1));
-      final playerListOnCell = currentGameBloc.state.playerListFromIdCell(page);
-      if (playerListOnCell.isNotEmpty) {
+      final currentGameBlocState = currentGameBloc.state,
+          playerListOnCell = currentGameBlocState.playerListFromIdCell(page),
+          currentPlayer = currentGameBlocState.currentPlayer;
+      if (playerListOnCell.contains(currentPlayer)) {
+        focusedCellBloc.add(ChangeFocusedPlayer(currentPlayer));
+      } else if (playerListOnCell.isNotEmpty) {
         focusedCellBloc.add(ChangeFocusedPlayer(playerListOnCell[0]));
       }
     }
