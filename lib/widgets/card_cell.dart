@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ptit_godet/models/cell.dart';
+import 'package:ptit_godet/widgets/card_cell_condition_key_list.dart';
+import 'package:ptit_godet/widgets/card_cell_player_list.dart';
 
 class CardCell extends StatelessWidget {
   final Cell cell;
@@ -11,7 +13,9 @@ class CardCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const horizontalPadding = 30.0, verticalPadding = 15.0;
+    const horizontalPadding = 30.0,
+        verticalPadding = 15.0,
+        positionedPadding = 10.0;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -28,8 +32,21 @@ class CardCell extends StatelessWidget {
               return Container(
                 width: maxWidth,
                 child: Center(
-                  child: Container(
-                      height: maxHeight, width: maxHeight, child: Card()),
+                  child: Stack(
+                    children: [
+                      Container(
+                          height: maxHeight, width: maxHeight, child: Card()),
+                      const Positioned(
+                        child: const CardCellPlayerList(),
+                        top: positionedPadding,
+                        left: positionedPadding,
+                      ),
+                      const Positioned(
+                          child: const CardCellConditionKeyList(),
+                          bottom: positionedPadding,
+                          right: positionedPadding)
+                    ],
+                  ),
                 ),
               );
             },

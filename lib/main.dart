@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ptit_godet/blocs/provider/app_provider.dart';
 import 'package:ptit_godet/models/board_game.dart';
 import 'package:ptit_godet/models/cell.dart';
@@ -163,7 +164,21 @@ void main() async {
                   imgPath: "",
                   cellType: CellType.conditionKey,
                   givenConditionKey: ConditionKey(name: "Polypoint"),
-                  requiredConditionKey: ConditionKey(name: "Polypoint")))
+                  requiredConditionKey: ConditionKey(name: "Polypoint"))),
+          Cell(
+              name: "Stage",
+              imgPath: "",
+              givenConditionKey: ConditionKey(name: "Stage")),
+          Cell(
+              name: "Diplôme",
+              imgPath: "",
+              cellType: CellType.conditionKey,
+              requiredConditionKey: ConditionKey(name: "Stage")),
+          Cell(name: "Embauche", imgPath: "", sideEffectList: [
+            "Fait un 6",//todo
+            "Tu bois la différence.",
+            "Tout le monde finira son verre pour fêter l'embauche."
+          ])
         ]).toJson()
       ]));
   runApp(MyApp());

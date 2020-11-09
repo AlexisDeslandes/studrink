@@ -2,6 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorageKeywords {
   static const String boardGameList = "BOARD_GAME_LIST";
+  static const String img = "img";
 }
 
 class LocalStorage {

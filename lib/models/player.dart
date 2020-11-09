@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:ptit_godet/models/condition_key.dart';
 import 'package:ptit_godet/models/resource.dart';
 
@@ -23,14 +26,14 @@ class Player extends Resource {
 
   final int id;
   final String name;
-  final String avatar;
+  final Uint8List avatar;
   final int idCurrentCell;
   final PlayerState state;
   final List<ConditionKey> conditionKeyList;
 
   Player(
       {this.name = "",
-      this.avatar = "test",
+      this.avatar,
       this.conditionKeyList = const [],
       this.idCurrentCell = 0,
       this.state = PlayerState.ready})
@@ -44,7 +47,7 @@ class Player extends Resource {
                     .map((map) => ConditionKey.fromJson(map))
                     .toList(),
             state: map["state"],
-            avatar: map["avatar"],
+            avatar: base64Decode(map["avatar"]),
             idCurrentCell: map["idCurrentCell"]);
 
   get filled => name.length > 0 && avatar.length > 0;
@@ -53,7 +56,7 @@ class Player extends Resource {
   Map<String, dynamic> toJson() {
     return {
       "name": name,
-      "avatar": avatar,
+      "avatar": base64Encode(avatar),
       "idCurrentCell": idCurrentCell,
       "state": state,
       "conditionKeyList": conditionKeyList.map((e) => e.toJson()).toList()
@@ -65,7 +68,7 @@ class Player extends Resource {
 
   Player.copy(Player player,
       {String name,
-      String avatar,
+      Uint8List avatar,
       int idCurrentCell,
       PlayerState state,
       List<ConditionKey> conditionKeyList})

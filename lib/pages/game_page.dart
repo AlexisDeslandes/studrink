@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ptit_godet/pages/game_page_provider.dart';
 import 'package:ptit_godet/widgets/background.dart';
 import 'package:ptit_godet/widgets/custom_back_button.dart';
 import 'package:ptit_godet/widgets/game_page_view.dart';
@@ -7,13 +8,14 @@ import 'package:ptit_godet/widgets/player_area/play_area.dart';
 import 'package:ptit_godet/widgets/player_announcer.dart';
 
 class GamePage extends CupertinoPage {
-  GamePage() : super(child: GameScreen(), key: const ValueKey<String>("/game"));
+  const GamePage()
+      : super(
+            child: const GamePageProvider(child: const GameScreen()),
+            key: const ValueKey<String>("/game"));
 }
 
 class GameScreen extends StatelessWidget {
-  final PageController _pageController;
-
-  GameScreen() : _pageController = PageController();
+  const GameScreen();
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +33,12 @@ class GameScreen extends StatelessWidget {
                 left: top,
                 height: height),
             Positioned(
-                child: GamePageView(_pageController),
+                child: const GamePageView(),
                 width: maxWidth,
                 height: pageViewHeight,
                 top: top + height),
             Positioned(
-                child: PlayArea(_pageController),
+                child: const PlayArea(),
                 top: pageViewHeight + top + height,
                 height: maxHeight - (pageViewHeight + top + height)),
             const Positioned(

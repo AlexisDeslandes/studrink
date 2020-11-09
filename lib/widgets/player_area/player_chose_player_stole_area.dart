@@ -1,15 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
+import 'package:ptit_godet/blocs/game_page_view_bloc/game_page_view_bloc.dart';
 import 'package:ptit_godet/models/player.dart';
 import 'package:ptit_godet/widgets/bottom_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 class PlayerChosePlayerStoleArea extends StatefulWidget {
   final List<Player> playerHavingConditionKey;
-  final PageController pagePageViewController;
 
-  PlayerChosePlayerStoleArea(
-      this.playerHavingConditionKey, this.pagePageViewController);
+  const PlayerChosePlayerStoleArea(this.playerHavingConditionKey);
 
   @override
   _PlayerChosePlayerStoleAreaState createState() =>
@@ -29,14 +29,10 @@ class _PlayerChosePlayerStoleAreaState
     super.initState();
   }
 
-  void _animateToPageGameView(int page) {
-    widget.pagePageViewController.animateToPage(page,
-        duration: Duration(seconds: 1), curve: Curves.easeInOut);
-  }
-
   void _onPageChanged(int value) {
-    final idCellFocusedPlayer = widget.playerHavingConditionKey[value].idCurrentCell;
-    _animateToPageGameView(idCellFocusedPlayer);
+    final idCellFocusedPlayer =
+        widget.playerHavingConditionKey[value].idCurrentCell;
+    context.bloc<GamePageViewBloc>().add(ChangePageView(idCellFocusedPlayer));
   }
 
   @override
@@ -49,25 +45,25 @@ class _PlayerChosePlayerStoleAreaState
             textAlign: TextAlign.center),
         Expanded(
             child: Container(
-              color: Color.fromRGBO(0, 0, 0, 0.1),
-              child: PageView.builder(
-                  controller: _playerChosePageController,
-                  onPageChanged: _onPageChanged,
-                  itemBuilder: (context, index) {
-                    final player = widget.playerHavingConditionKey[index];
-                    return Center(
-                      child: BottomButton(
-                        text: player.name,
-                        onPressed: () {
-                          context
-                              .bloc<CurrentGameBloc>()
-                              .add(StealConditionKey(player));
-                        },
-                      ),
-                    );
-                  },
-                  itemCount: widget.playerHavingConditionKey.length),
-            ))
+          color: Color.fromRGBO(0, 0, 0, 0.1),
+          child: PageView.builder(
+              controller: _playerChosePageController,
+              onPageChanged: _onPageChanged,
+              itemBuilder: (context, index) {
+                final player = widget.playerHavingConditionKey[index];
+                return Center(
+                  child: BottomButton(
+                    text: player.name,
+                    onPressed: () {
+                      context
+                          .bloc<CurrentGameBloc>()
+                          .add(StealConditionKey(player));
+                    },
+                  ),
+                );
+              },
+              itemCount: widget.playerHavingConditionKey.length),
+        ))
       ],
     );
   }

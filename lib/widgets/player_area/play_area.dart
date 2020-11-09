@@ -14,9 +14,7 @@ import 'package:ptit_godet/widgets/player_area/player_ready_area.dart';
 import 'package:ptit_godet/widgets/player_area/player_return_previous_checkpoint_area.dart';
 
 class PlayArea extends StatelessWidget {
-  final PageController pageController;
-
-  const PlayArea(this.pageController);
+  const PlayArea();
 
   @override
   Widget build(BuildContext context) {
@@ -57,11 +55,9 @@ class PlayArea extends StatelessWidget {
               return PlayerChosePlayerWonArea(
                   [state.currentPlayer, state.currentOpponent]);
             } else if (currentPlayerState == PlayerState.chosePlayerMoving) {
-              return PlayerChosePlayerMovingArea(
-                  state.playerList
-                      .where((element) => element != state.currentPlayer)
-                      .toList(),
-                  pageController);
+              return PlayerChosePlayerMovingArea(state.playerList
+                  .where((element) => element != state.currentPlayer)
+                  .toList());
             } else if (currentPlayerState == PlayerState.stealConditionKey) {
               final conditionKey = state.currentCell.conditionKeyStolen;
               final playerHavingConditionKey = state.playerList
@@ -72,8 +68,7 @@ class PlayArea extends StatelessWidget {
               if (playerHavingConditionKey.length == 0) {
                 return const PlayerEndArea();
               }
-              return PlayerChosePlayerStoleArea(
-                  playerHavingConditionKey, pageController);
+              return PlayerChosePlayerStoleArea(playerHavingConditionKey);
             }
             return Container();
           },

@@ -1,0 +1,53 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ptit_godet/blocs/focused_cell_bloc/focused_cell_bloc.dart';
+
+class CardCellPlayerList extends StatelessWidget {
+  const CardCellPlayerList();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<FocusedCellBloc, FocusedCellState>(
+      builder: (context, state) {
+        const imageSize = 40.0, borderRadius = 3.0;
+        final playerList = state.playerList;
+        return Wrap(
+          runAlignment: WrapAlignment.center,
+          spacing: 10,
+          runSpacing: 10,
+          children: playerList
+              .map((player) => GestureDetector(
+                    onTap: () => context
+                        .bloc<FocusedCellBloc>()
+                        .add(ChangeFocusedPlayer(player)),
+                    child: Container(
+                      width: imageSize + borderRadius * 2,
+                      height: imageSize + borderRadius * 2,
+                      child: Center(
+                        child: Material(
+                          elevation: 5,
+                          borderRadius: BorderRadius.circular(100),
+                          child: Container(
+                            decoration: state.selectedPlayer == player
+                                ? BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                        color: Theme.of(context).primaryColor,
+                                        width: borderRadius))
+                                : null,
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(100),
+                                child: Image.memory(player.avatar,
+                                    width: imageSize)),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ))
+              .toList(),
+        );
+      },
+    );
+  }
+}

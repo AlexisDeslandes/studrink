@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/models/board_game.dart';
@@ -20,11 +21,17 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
 
   @override
   Stream<CurrentGameState> mapEventToState(CurrentGameEvent event) async* {
+    final uIntList =
+        (await rootBundle.load("assets/pp_.png")).buffer.asUint8List();
     if (event is InitModelCurrentGame) {
-      yield CurrentGameState.copy(state, boardGame: event.boardGame);
+      yield CurrentGameState.copy(state,
+          boardGame: event.boardGame,
+          playerList: state.playerList.map((e) {
+            return Player.copy(e, avatar: uIntList);
+          }).toList());
     } else if (event is AddPlayer) {
       yield CurrentGameState.copy(state,
-          playerList: [Player(), ...state.playerList]);
+          playerList: [Player(avatar: uIntList), ...state.playerList]);
     } else if (event is ChangeNamePlayer) {
       yield* _changeNamePlayer(event);
     } else if (event is ValidateGame) {
@@ -123,7 +130,7 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
 
   Stream<CurrentGameState> _validateGame(ValidateGame event) async* {
     if (state.playerList.every((element) => element.filled)) {
-      navBloc.add(PushNav(pageBuilder: (_) => GamePage()));
+      navBloc.add(PushNav(pageBuilder: (_) => const GamePage()));
     } else {
       //emit alert
     }
@@ -430,10 +437,7 @@ class CurrentGameState extends Equatable {
       this.currentOpponent,
       this.indexCurrentPlayer = 0});
 
-  CurrentGameState.empty()
-      : this(playerList: [
-          Player(name: "Pseudo", conditionKeyList: [ConditionKey(name: "UE")])
-        ]);
+  CurrentGameState.empty() : this(playerList: [Player(name: "Pseudo")]);
 
   @override
   List<Object> get props =>
@@ -454,7 +458,18 @@ class CurrentGameState extends Equatable {
             indexCurrentPlayer: indexCurrentPlayer ?? old.indexCurrentPlayer,
             playerList: playerList ?? old.playerList);
 
-  get currentCellName =>
+  List<Player> get playerListFromCurrentCell {
+    final idCurrentCell = boardGame.cells.indexOf(currentCell);
+    return playerListFromCell(idCurrentCell);
+  }
+
+  List<Player> playerListFromCell(int idCell) {
+    return playerList
+        .where((element) => element.idCurrentCell == idCell)
+        .toList();
+  }
+
+  String get currentCellName =>
       boardGame.cells[playerList[indexCurrentPlayer].idCurrentCell].name;
 
   Player get currentPlayer => playerList[indexCurrentPlayer];
