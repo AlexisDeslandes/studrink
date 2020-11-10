@@ -16,7 +16,10 @@ enum CellType {
   selfChallenge,
   selfMovingUndetermined,
   battle,
-  steal
+  steal,
+  ifElse,
+  multiEffect,
+  conditionKeyLost
 }
 
 class Cell extends Resource {
@@ -34,6 +37,11 @@ class Cell extends Resource {
   final String challenge;
   final int movingUndeterminedCount;
   final Cell tpCell;
+  final Cell ifCell;
+  final Cell elseCell;
+  final ConditionKey conditionIf;
+  final List<CellType> cellTypes;
+  final ConditionKey lostConditionKey;
 
   Cell(
       {@required this.name,
@@ -49,7 +57,12 @@ class Cell extends Resource {
       this.cellType = CellType.noEffect,
       this.challenge,
       this.conditionKeyStolen,
-      this.tpCell})
+      this.lostConditionKey,
+      this.tpCell,
+      this.conditionIf,
+      this.ifCell,
+      this.cellTypes,
+      this.elseCell})
       : assert(name != null && imgPath != null);
 
   @override
@@ -68,7 +81,12 @@ class Cell extends Resource {
       "sideEffectListAfterTurnLost": sideEffectListAfterTurnLost,
       "conditionKey": givenConditionKey?.toJson(),
       "requiredConditionKey": requiredConditionKey?.toJson(),
-      "cellType": cellType.index
+      "cellType": cellType.index,
+      "ifCell": ifCell?.toJson(),
+      "conditionIf": conditionIf?.toJson(),
+      "cellTypes": cellTypes?.map((e) => e.index)?.toList(),
+      "elseCell": elseCell?.toJson(),
+      "lostConditionKey": lostConditionKey?.toJson(),
     };
   }
 
@@ -110,6 +128,9 @@ class Cell extends Resource {
             givenConditionKey: map["conditionKey"] != null
                 ? ConditionKey.fromJson(map["conditionKey"])
                 : null,
+            lostConditionKey: map["lostConditionKey"] != null
+                ? ConditionKey.fromJson(map["lostConditionKey"])
+                : null,
             requiredConditionKey: map["requiredConditionKey"] != null
                 ? ConditionKey.fromJson(map["requiredConditionKey"])
                 : null,
@@ -117,7 +138,18 @@ class Cell extends Resource {
             cellType: CellType.values[map["cellType"]],
             sideEffectListAfterTurnLost:
                 List<String>.from(map["sideEffectListAfterTurnLost"]),
-            sideEffectList: List<String>.from(map["sideEffectList"]));
+            sideEffectList: List<String>.from(map["sideEffectList"]),
+            ifCell: map["ifCell"] != null ? Cell.fromJson(map["ifCell"]) : null,
+            elseCell:
+                map["elseCell"] != null ? Cell.fromJson(map["elseCell"]) : null,
+            cellTypes: map["cellTypes"] != null
+                ? List<int>.from(map["cellTypes"])
+                    .map((e) => CellType.values[e])
+                    .toList()
+                : null,
+            conditionIf: map["conditionIf"] != null
+                ? ConditionKey.fromJson(map["conditionIf"])
+                : null);
 
   String get givenCondition {
     if (givenConditionKey != null && cellType != CellType.battle) {
@@ -211,8 +243,34 @@ class Cell extends Resource {
     return "";
   }
 
+  String get multiEffectLabel {
+    if (cellType == CellType.multiEffect) {
+      var toReturn = "";
+      if (cellTypes.contains(CellType.selfMoving)) {
+        final action =
+            moving.movingType == MovingType.forward ? "avances" : "recules";
+        toReturn +=
+            "Tu $action de ${moving.count} cases.\n";
+      }
+      if (cellTypes.contains(CellType.conditionKeyLost)) {
+        toReturn += "Tu perds : ${lostConditionKey.name}.\n";
+      }
+      return toReturn;
+    }
+    return "";
+  }
+
+  String get ifElse {
+    if (cellType == CellType.ifElse) {
+      return "Si tu as ${conditionIf.name}, ${ifCell.effectsLabel}Sinon ${elseCell.effectsLabel}.";
+    }
+    return "";
+  }
+
   String get effectsLabel {
     return challengeLabel +
+        ifElse +
+        multiEffectLabel +
         stealConditionKey +
         battleLabel +
         givenCondition +

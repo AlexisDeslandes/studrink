@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
 import 'package:ptit_godet/models/player.dart';
 import 'package:ptit_godet/widgets/bottom_button.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PlayerChoseOpponentArea extends StatelessWidget {
   final List<Player> playerList;

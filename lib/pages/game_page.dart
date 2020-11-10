@@ -4,8 +4,8 @@ import 'package:ptit_godet/pages/game_page_provider.dart';
 import 'package:ptit_godet/widgets/background.dart';
 import 'package:ptit_godet/widgets/custom_back_button.dart';
 import 'package:ptit_godet/widgets/game_page_view.dart';
-import 'package:ptit_godet/widgets/player_area/play_area.dart';
 import 'package:ptit_godet/widgets/player_announcer.dart';
+import 'package:ptit_godet/widgets/player_area/play_area.dart';
 
 class GamePage extends CupertinoPage {
   const GamePage()

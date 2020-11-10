@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
 import 'package:ptit_godet/widgets/bottom_button.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PlayerChallengeArea extends StatelessWidget {
   const PlayerChallengeArea();

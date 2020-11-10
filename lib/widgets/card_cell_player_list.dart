@@ -22,37 +22,37 @@ class CardCellPlayerList extends StatelessWidget {
             runAlignment: WrapAlignment.center,
             spacing: 10,
             runSpacing: 10,
-            children: playerList
-                .map((player) => GestureDetector(
-                      onTap: () => context
-                          .bloc<FocusedCellBloc>()
-                          .add(ChangeFocusedPlayer(player)),
+            children: playerList.map((player) {
+              final hasFocus = focusedCellState.selectedPlayer == player;
+              return GestureDetector(
+                onTap: () => context
+                    .bloc<FocusedCellBloc>()
+                    .add(ChangeFocusedPlayer(player)),
+                child: Container(
+                  width: imageSize + borderRadius * 2,
+                  height: imageSize + borderRadius * 2,
+                  child: Center(
+                    child: Material(
+                      elevation: 5,
+                      borderRadius: BorderRadius.circular(100),
                       child: Container(
-                        width: imageSize + borderRadius * 2,
-                        height: imageSize + borderRadius * 2,
-                        child: Center(
-                          child: Material(
-                            elevation: 5,
+                        decoration: hasFocus
+                            ? BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                    color: Theme.of(context).primaryColor,
+                                    width: borderRadius))
+                            : null,
+                        child: ClipRRect(
                             borderRadius: BorderRadius.circular(100),
-                            child: Container(
-                              decoration: focusedCellState.selectedPlayer ==
-                                      player
-                                  ? BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                          color: Theme.of(context).primaryColor,
-                                          width: borderRadius))
-                                  : null,
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(100),
-                                  child: Image.memory(player.avatar,
-                                      width: imageSize)),
-                            ),
-                          ),
-                        ),
+                            child: Image.memory(player.avatar,
+                                width: imageSize)),
                       ),
-                    ))
-                .toList(),
+                    ),
+                  ),
+                ),
+              );
+            }).toList(),
           );
         },
       );

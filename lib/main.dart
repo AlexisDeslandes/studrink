@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:ptit_godet/blocs/provider/app_provider.dart';
 import 'package:ptit_godet/models/board_game.dart';
 import 'package:ptit_godet/models/cell.dart';
@@ -149,7 +148,22 @@ void main() async {
               challenge: "Un autre joueur te pose une question."),
           Cell(imgPath: "", name: "ABEL", sideEffectList: ["Bois 4 gorgées."]),
           Cell(
-              imgPath: "", //todo
+              cellType: CellType.ifElse,
+              conditionIf: ConditionKey(name: "BDSM"),
+              elseCell: Cell(
+                  imgPath: "",
+                  name: "",
+                  cellType: CellType.multiEffect,
+                  cellTypes: [CellType.selfMoving, CellType.conditionKeyLost],
+                  moving: Moving(count: 1, movingType: MovingType.backward),
+                  lostConditionKey: ConditionKey(name: "Stage"),
+                  givenConditionKey: ConditionKey(name: "BDSM")),
+              ifCell: Cell(
+                  name: "",
+                  imgPath: "",
+                  cellType: CellType.noEffect,
+                  sideEffectList: ["Donne un cul sec"]),
+              imgPath: "",
               name: "BDSM"),
           Cell(
               imgPath: "",
@@ -175,7 +189,7 @@ void main() async {
               cellType: CellType.conditionKey,
               requiredConditionKey: ConditionKey(name: "Stage")),
           Cell(name: "Embauche", imgPath: "", sideEffectList: [
-            "Fait un 6",//todo
+            "Fait un 6", //todo
             "Tu bois la différence.",
             "Tout le monde finira son verre pour fêter l'embauche."
           ])
