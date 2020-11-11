@@ -27,8 +27,9 @@ class GameScreen extends StatelessWidget {
             pageViewHeight = maxHeight * 0.7;
         return Stack(
           children: [
-            const Positioned(
+            Positioned(
                 child: const PlayerAnnouncer(),
+                width: MediaQuery.of(context).size.width - top,
                 top: top,
                 left: top,
                 height: height),
