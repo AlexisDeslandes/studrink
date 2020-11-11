@@ -17,9 +17,7 @@ enum CellType {
   selfMovingUndetermined,
   battle,
   steal,
-  ifElse,
-  multiEffect,
-  conditionKeyLost
+  ifElse
 }
 
 class Cell extends Resource {
@@ -40,7 +38,6 @@ class Cell extends Resource {
   final Cell ifCell;
   final Cell elseCell;
   final ConditionKey conditionIf;
-  final List<CellType> cellTypes;
   final ConditionKey lostConditionKey;
 
   Cell(
@@ -61,7 +58,6 @@ class Cell extends Resource {
       this.tpCell,
       this.conditionIf,
       this.ifCell,
-      this.cellTypes,
       this.elseCell})
       : assert(name != null && imgPath != null);
 
@@ -84,7 +80,6 @@ class Cell extends Resource {
       "cellType": cellType.index,
       "ifCell": ifCell?.toJson(),
       "conditionIf": conditionIf?.toJson(),
-      "cellTypes": cellTypes?.map((e) => e.index)?.toList(),
       "elseCell": elseCell?.toJson(),
       "lostConditionKey": lostConditionKey?.toJson(),
     };
@@ -142,11 +137,6 @@ class Cell extends Resource {
             ifCell: map["ifCell"] != null ? Cell.fromJson(map["ifCell"]) : null,
             elseCell:
                 map["elseCell"] != null ? Cell.fromJson(map["elseCell"]) : null,
-            cellTypes: map["cellTypes"] != null
-                ? List<int>.from(map["cellTypes"])
-                    .map((e) => CellType.values[e])
-                    .toList()
-                : null,
             conditionIf: map["conditionIf"] != null
                 ? ConditionKey.fromJson(map["conditionIf"])
                 : null);
@@ -243,23 +233,6 @@ class Cell extends Resource {
     return "";
   }
 
-  String get multiEffectLabel {
-    if (cellType == CellType.multiEffect) {
-      var toReturn = "";
-      if (cellTypes.contains(CellType.selfMoving)) {
-        final action =
-            moving.movingType == MovingType.forward ? "avances" : "recules";
-        toReturn +=
-            "Tu $action de ${moving.count} cases.\n";
-      }
-      if (cellTypes.contains(CellType.conditionKeyLost)) {
-        toReturn += "Tu perds : ${lostConditionKey.name}.\n";
-      }
-      return toReturn;
-    }
-    return "";
-  }
-
   String get ifElse {
     if (cellType == CellType.ifElse) {
       return "Si tu as ${conditionIf.name}, ${ifCell.effectsLabel}Sinon ${elseCell.effectsLabel}.";
@@ -267,10 +240,17 @@ class Cell extends Resource {
     return "";
   }
 
+  String get conditionKeyLostLabel {
+    if (lostConditionKey != null) {
+      return "Tu perds : ${lostConditionKey.name}.\n";
+    }
+    return "";
+  }
+
   String get effectsLabel {
     return challengeLabel +
         ifElse +
-        multiEffectLabel +
+        conditionKeyLostLabel +
         stealConditionKey +
         battleLabel +
         givenCondition +

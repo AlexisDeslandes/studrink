@@ -99,15 +99,32 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
       {bool force = false}) async* {
     final currentPlayer = state.currentPlayer,
         idNextCell =
-            _getNextCell(currentPlayer.idCurrentCell, diceValue, force),
-        nextCell = state.boardGame.cells[idNextCell],
-        nextPlayerState = _playerStateFromCellType(nextCell),
-        conditionKeyList = _getConditionKeyList(nextPlayerState,
-            currentPlayer.conditionKeyList, nextCell.givenConditionKey);
+            _getNextCell(currentPlayer.idCurrentCell, diceValue, force);
+    var nextCell = state.boardGame.cells[idNextCell];
+    final ifElseMode = nextCell.cellType == CellType.ifElse
+        ? state.currentPlayer.conditionKeyList.contains(nextCell.conditionIf)
+            ? IfElseMode.ifMode
+            : IfElseMode.elseMode
+        : IfElseMode.none;
+    switch (ifElseMode) {
+      case IfElseMode.ifMode:
+        nextCell = nextCell.ifCell;
+        break;
+      case IfElseMode.elseMode:
+        nextCell = nextCell.elseCell;
+        break;
+      default:
+        nextCell = nextCell;
+        break;
+    }
+    final nextPlayerState = _playerStateFromCellType(nextCell),
+        conditionKeyList = _getConditionKeyList(
+            nextPlayerState, currentPlayer.conditionKeyList, nextCell);
 
     final playerList = state.playerList.map((player) {
       if (player == currentPlayer) {
         return Player.copy(player,
+            ifElseMode: ifElseMode,
             idCurrentCell: idNextCell,
             state: nextPlayerState,
             conditionKeyList: conditionKeyList);
@@ -161,13 +178,13 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
     if (force) {
       return idCurrentCell + diceValue;
     }
-    final currentCell = state.currentCell,
-        inPrison = currentCell.cellType == CellType.prison;
+    final actualCell = state.actualCell,
+        inPrison = actualCell.cellType == CellType.prison;
     if ((inPrison &&
-            !currentCell.prisonCondition.dicePossibilities
+            !actualCell.prisonCondition.dicePossibilities
                 .contains(diceValue)) ||
         (state.currentPlayer.state != PlayerState.ready &&
-            currentCell.cellType == CellType.selfThrowDice &&
+            actualCell.cellType == CellType.selfThrowDice &&
             state.currentPlayer.state != PlayerState.thrownDice)) {
       return idCurrentCell;
     }
@@ -180,7 +197,7 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
   }
 
   Stream<CurrentGameState> _returnPreviousCheckpoint() async* {
-    final tpCell = state.currentCell.tpCell;
+    final tpCell = state.actualCell.tpCell;
     var idTpCell;
     if (tpCell != null) {
       idTpCell = state.boardGame.cells
@@ -209,17 +226,17 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
   }
 
   Stream<CurrentGameState> _movePlayer() async* {
-    final moving = state.currentCell.moving, count = moving.count;
+    final moving = state.actualCell.moving, count = moving.count;
     yield* _throwDice(moving.movingType == MovingType.forward ? count : -count);
   }
 
   Stream<CurrentGameState> _movingForward() async* {
-    final movingUndeterminedCount = state.currentCell.movingUndeterminedCount;
+    final movingUndeterminedCount = state.actualCell.movingUndeterminedCount;
     yield* _throwDice(movingUndeterminedCount);
   }
 
   Stream<CurrentGameState> _moveBack() async* {
-    final movingUndeterminedCount = state.currentCell.movingUndeterminedCount;
+    final movingUndeterminedCount = state.actualCell.movingUndeterminedCount;
     yield* _throwDice(-movingUndeterminedCount);
   }
 
@@ -239,7 +256,7 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
         return Player.copy(player,
             state: PlayerState.canEnd,
             conditionKeyList: [
-              state.currentCell.givenConditionKey,
+              state.actualCell.givenConditionKey,
               ...player.conditionKeyList
             ]);
       }
@@ -248,16 +265,21 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
     yield CurrentGameState.copy(state, playerList: playerList);
   }
 
-  List<ConditionKey> _getConditionKeyList(PlayerState playerState,
-      List<ConditionKey> currentList, ConditionKey givenConditionKey) {
+  List<ConditionKey> _getConditionKeyList(
+      PlayerState playerState, List<ConditionKey> currentList, Cell nextCell) {
+    final givenConditionKey = nextCell.givenConditionKey,
+        lostConditionKey = nextCell.lostConditionKey;
+    List<ConditionKey> result;
     if ([
       PlayerState.canEnd,
       PlayerState.moving,
       PlayerState.returnPreviousCheckPoint
     ].contains(playerState)) {
-      return [givenConditionKey, ...currentList];
+      result = [givenConditionKey, ...currentList];
+    } else {
+      result = [...currentList];
     }
-    return currentList;
+    return result.where((element) => element != lostConditionKey).toList();
   }
 
   Stream<CurrentGameState> _pickOpponent(Player player) async* {
@@ -279,13 +301,13 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
                 state: PlayerState.ready,
                 conditionKeyList: player == playerElem
                     ? [
-                        state.currentCell.givenConditionKey,
+                        state.actualCell.givenConditionKey,
                         ...player.conditionKeyList
                       ]
                     : player.conditionKeyList);
           } else if (playerElem == player) {
             return Player.copy(player, conditionKeyList: [
-              state.currentCell.givenConditionKey,
+              state.actualCell.givenConditionKey,
               ...player.conditionKeyList
             ]);
           }
@@ -295,8 +317,8 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
   }
 
   Stream<CurrentGameState> _makePlayerMoving(Player player) async* {
-    final currentCell = state.currentCell,
-        moving = currentCell.moving,
+    final actualCell = state.actualCell,
+        moving = actualCell.moving,
         movingCount = moving.count;
     yield CurrentGameState.copy(state,
         indexCurrentPlayer: state.playerList.indexOf(player),
@@ -313,7 +335,7 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
   }
 
   Stream<CurrentGameState> _stealConditionKey(Player player) async* {
-    final conditionKey = state.currentCell.conditionKeyStolen;
+    final conditionKey = state.actualCell.conditionKeyStolen;
     yield CurrentGameState.copy(state,
         playerList: state.playerList.map((elemPlayer) {
           if (elemPlayer == state.currentPlayer) {
@@ -480,6 +502,15 @@ class CurrentGameState extends Equatable {
   Player get currentPlayer => playerList[indexCurrentPlayer];
 
   Cell get currentCell => boardGame.cells[currentPlayer.idCurrentCell];
+
+  Cell get actualCell {
+    final ifElseMode = currentPlayer.ifElseMode;
+    return ifElseMode == IfElseMode.ifMode
+        ? currentCell.ifCell
+        : ifElseMode == IfElseMode.elseMode
+            ? currentCell.elseCell
+            : currentCell;
+  }
 
   get nextIndexPlayer {
     if (indexNextPlayer != null) {

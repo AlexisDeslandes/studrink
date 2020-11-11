@@ -153,8 +153,7 @@ void main() async {
               elseCell: Cell(
                   imgPath: "",
                   name: "",
-                  cellType: CellType.multiEffect,
-                  cellTypes: [CellType.selfMoving, CellType.conditionKeyLost],
+                  cellType: CellType.selfMoving,
                   moving: Moving(count: 1, movingType: MovingType.backward),
                   lostConditionKey: ConditionKey(name: "Stage"),
                   givenConditionKey: ConditionKey(name: "BDSM")),

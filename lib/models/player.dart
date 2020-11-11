@@ -21,6 +21,8 @@ enum PlayerState {
   stealConditionKey
 }
 
+enum IfElseMode { none, ifMode, elseMode }
+
 class Player extends Resource {
   static int idGenerator = 0;
 
@@ -30,9 +32,11 @@ class Player extends Resource {
   final int idCurrentCell;
   final PlayerState state;
   final List<ConditionKey> conditionKeyList;
+  final IfElseMode ifElseMode;
 
   Player(
       {this.name = "",
+      this.ifElseMode,
       this.avatar,
       this.conditionKeyList = const [],
       this.idCurrentCell = 0,
@@ -42,6 +46,7 @@ class Player extends Resource {
   Player.fromJson(Map<String, dynamic> map)
       : this(
             name: map["name"],
+            ifElseMode: IfElseMode.values[(map["ifElseMode"] as int)],
             conditionKeyList:
                 List<Map<String, dynamic>>.from(map["conditionKeyList"])
                     .map((map) => ConditionKey.fromJson(map))
@@ -68,6 +73,7 @@ class Player extends Resource {
   Map<String, dynamic> toJson() {
     return {
       "name": name,
+      "ifElseMode": ifElseMode.index,
       "avatar": base64Encode(avatar),
       "idCurrentCell": idCurrentCell,
       "state": state,
@@ -76,15 +82,18 @@ class Player extends Resource {
   }
 
   @override
-  List<Object> get props => [name, avatar, id, idCurrentCell, state];
+  List<Object> get props =>
+      [name, avatar, id, idCurrentCell, state, ifElseMode];
 
   Player.copy(Player player,
       {String name,
       Uint8List avatar,
       int idCurrentCell,
       PlayerState state,
-      List<ConditionKey> conditionKeyList})
+      List<ConditionKey> conditionKeyList,
+      IfElseMode ifElseMode})
       : this(
+            ifElseMode: ifElseMode ?? player.ifElseMode,
             name: name ?? player.name,
             state: state ?? player.state,
             conditionKeyList: conditionKeyList

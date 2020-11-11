@@ -34,7 +34,9 @@ class PlayArea extends StatelessWidget {
   }
 
   Widget _getArea(CurrentGameState state) {
-    final currentPlayerState = state.currentPlayer.state;
+    final currentPlayer = state.currentPlayer,
+        currentPlayerState = currentPlayer.state,
+        actualCell = state.actualCell;
     if ([PlayerState.ready, PlayerState.throwDice]
         .contains(currentPlayerState)) {
       return const PlayerReadyArea();
@@ -48,7 +50,7 @@ class PlayArea extends StatelessWidget {
     } else if (currentPlayerState == PlayerState.returnPreviousCheckPoint) {
       return const PlayerReturnPreviousCheckPointArea();
     } else if (currentPlayerState == PlayerState.moving) {
-      return PlayerMovingArea(state.currentCell.moving);
+      return PlayerMovingArea(actualCell.moving);
     } else if (currentPlayerState == PlayerState.selfChallenge) {
       return const PlayerChallengeArea();
     } else if (currentPlayerState == PlayerState.choseDirection) {
@@ -62,13 +64,13 @@ class PlayArea extends StatelessWidget {
           [state.currentPlayer, state.currentOpponent]);
     } else if (currentPlayerState == PlayerState.chosePlayerMoving) {
       return PlayerChosePlayerMovingArea(state.playerList
-          .where((element) => element != state.currentPlayer)
+          .where((element) => element != currentPlayer)
           .toList());
     } else if (currentPlayerState == PlayerState.stealConditionKey) {
-      final conditionKey = state.currentCell.conditionKeyStolen;
+      final conditionKey = actualCell.conditionKeyStolen;
       final playerHavingConditionKey = state.playerList
           .where((element) =>
-              element != state.currentPlayer &&
+              element != currentPlayer &&
               element.conditionKeyList.contains(conditionKey))
           .toList();
       if (playerHavingConditionKey.length == 0) {
