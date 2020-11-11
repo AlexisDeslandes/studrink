@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
 import 'package:ptit_godet/pages/game_page_provider.dart';
 import 'package:ptit_godet/widgets/background.dart';
 import 'package:ptit_godet/widgets/custom_back_button.dart';
@@ -26,26 +28,48 @@ class GameScreen extends StatelessWidget {
         final maxHeight = constraints.maxHeight,
             maxWidth = constraints.maxWidth,
             pageViewHeight = maxHeight * 0.7;
-        return Stack(children: [
-          Positioned(
-              child: const PlayerAnnouncer(),
-              width: MediaQuery.of(context).size.width - offset,
-              top: offset,
-              left: offset,
-              height: offset),
-          Positioned(
-              child: const GamePageView(),
-              width: maxWidth,
-              height: pageViewHeight,
-              top: 2 * offset),
-          Positioned(
-              child: const PlayArea(),
-              top: pageViewHeight + 2 * offset,
-              height: maxHeight - (pageViewHeight + 2 * offset)),
-          const Positioned(child: const CustomBackButton(), bottom: 0, left: 10),
-          Positioned(child: const PlayerOverlay(), width: maxWidth, height: maxHeight)
-        ]);
+        return BlocListener<CurrentGameBloc, CurrentGameState>(
+          listenWhen: (previous, current) =>
+              previous.currentPlayer.name != current.currentPlayer.name,
+          listener: (context, state) =>
+              _displayOverlay(context, state, maxWidth, maxHeight),
+          child: Stack(children: [
+            Positioned(
+                child: const PlayerAnnouncer(),
+                width: MediaQuery.of(context).size.width - offset,
+                top: offset,
+                left: offset,
+                height: offset),
+            Positioned(
+                child: const GamePageView(),
+                width: maxWidth,
+                height: pageViewHeight,
+                top: 2 * offset),
+            Positioned(
+                child: const PlayArea(),
+                top: pageViewHeight + 2 * offset,
+                height: maxHeight - (pageViewHeight + 2 * offset)),
+            const Positioned(
+                child: const CustomBackButton(), bottom: 0, left: 10),
+            //Positioned(child: const PlayerOverlay(), width: maxWidth, height: maxHeight)
+          ]),
+        );
       },
     ));
+  }
+
+  void _displayOverlay(BuildContext context, CurrentGameState state,
+      double maxWidth, double maxHeight) async {
+    OverlayState overlayState = Overlay.of(context);
+    OverlayEntry overlayEntry = OverlayEntry(
+        builder: (context) => Positioned(
+            child: PlayerOverlay(
+                name: state.currentPlayer.name,
+                picture: state.currentPlayer.avatar),
+            width: maxWidth,
+            height: maxHeight));
+    overlayState.insert(overlayEntry);
+    await Future.delayed(Duration(milliseconds: 1300));
+    overlayEntry.remove();
   }
 }
