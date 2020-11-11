@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ptit_godet/models/cell.dart';
-import 'package:ptit_godet/widgets/card_cell_condition_key_list.dart';
-import 'package:ptit_godet/widgets/card_cell_player_list.dart';
+import 'package:ptit_godet/widgets/game_page_view/card_cell_condition_key_list.dart';
+import 'package:ptit_godet/widgets/game_page_view/card_cell_player_list.dart';
 
 class CardCell extends StatelessWidget {
   final Cell cell;
