@@ -62,6 +62,8 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
       yield* _makePlayerMoving(event.player);
     } else if (event is StealConditionKey) {
       yield* _stealConditionKey(event.player);
+    } else if (event is ResetGame) {
+      yield* _resetGame();
     }
   }
 
@@ -372,6 +374,10 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
         }).toList(),
         indexCurrentPlayer: state.nextIndexPlayer);
   }
+
+  Stream<CurrentGameState> _resetGame() async* {
+    yield CurrentGameState.empty();
+  }
 }
 
 abstract class CurrentGameEvent extends Equatable {
@@ -428,6 +434,10 @@ class SucceedChallenge extends CurrentGameEvent {
 
 class ThrowDice extends CurrentGameEvent {
   const ThrowDice();
+}
+
+class ResetGame extends CurrentGameEvent {
+  const ResetGame();
 }
 
 class ReturnPreviousCheckpoint extends CurrentGameEvent {

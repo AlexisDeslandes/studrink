@@ -22,6 +22,7 @@ class FinishGameScreen extends NoBackElementScreen {
       width: size.width,
       height: size.height,
       child: BlocBuilder<CurrentGameBloc, CurrentGameState>(
+        buildWhen: (previous, current) => false,
         builder: (context, state) {
           return Column(
             children: [
@@ -52,8 +53,10 @@ class FinishGameScreen extends NoBackElementScreen {
                   child: Center(
                       child: RaisedButton(
                 child: Text("Accueil"),
-                onPressed: () =>
-                    context.bloc<NavBloc>().add(const ResetNavToHome()),
+                onPressed: () {
+                  context.bloc<NavBloc>().add(const ResetNavToHome());
+                  context.bloc<CurrentGameBloc>().add(const ResetGame());
+                }
               )))
             ],
           );
