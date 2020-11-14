@@ -15,7 +15,7 @@ class ChosePlayersPage extends CupertinoPage {
             key: const ValueKey<String>("/chose_players"));
 }
 
-class ChosePlayersScreen extends BackElementScreen with SimpleTitleScreen{
+class ChosePlayersScreen extends BackElementScreen with SimpleTitleScreen {
   const ChosePlayersScreen();
 
   @override

@@ -38,7 +38,11 @@ class CardCell extends StatelessWidget {
                     child: Stack(
                       children: [
                         Container(
-                            height: maxHeight, width: maxHeight, child: Card()),
+                            height: maxHeight,
+                            width: maxHeight,
+                            child: Card(
+                              elevation: 5,
+                            )),
                         Positioned(
                           child: CardCellPlayerList(cell),
                           top: positionedPadding,

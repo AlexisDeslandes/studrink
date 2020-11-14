@@ -32,7 +32,7 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
           }).toList());
     } else if (event is AddPlayer) {
       yield CurrentGameState.copy(state,
-          playerList: [Player(avatar: uIntList), ...state.playerList]);
+          playerList: [...state.playerList, Player(avatar: uIntList)]);
     } else if (event is ChangeNamePlayer) {
       yield* _changeNamePlayer(event);
     } else if (event is ValidateGame) {
