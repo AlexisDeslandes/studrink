@@ -28,24 +28,28 @@ class CardCell extends StatelessWidget {
           child: LayoutBuilder(
             builder: (context, constraints) {
               final maxHeight = constraints.maxHeight,
-                  maxWidth = constraints.maxWidth;
-              return Container(
-                width: maxWidth,
-                child: Center(
-                  child: Stack(
-                    children: [
-                      Container(
-                          height: maxHeight, width: maxHeight, child: Card()),
-                      Positioned(
-                        child: CardCellPlayerList(cell),
-                        top: positionedPadding,
-                        left: positionedPadding,
-                      ),
-                      Positioned(
-                          child: CardCellConditionKeyList(cell),
-                          bottom: positionedPadding,
-                          right: positionedPadding)
-                    ],
+                  maxWidth = constraints.maxWidth,
+                  difference = (maxHeight - maxWidth).abs();
+              return Padding(
+                padding: EdgeInsets.all(difference > 20 ? 0 : 20 - difference),
+                child: Container(
+                  width: maxWidth,
+                  child: Center(
+                    child: Stack(
+                      children: [
+                        Container(
+                            height: maxHeight, width: maxHeight, child: Card()),
+                        Positioned(
+                          child: CardCellPlayerList(cell),
+                          top: positionedPadding,
+                          left: positionedPadding,
+                        ),
+                        Positioned(
+                            child: CardCellConditionKeyList(cell),
+                            bottom: positionedPadding,
+                            right: positionedPadding)
+                      ],
+                    ),
                   ),
                 ),
               );
