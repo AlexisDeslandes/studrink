@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ptit_godet/blocs/dice/dice_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/models/board_game.dart';
 import 'package:ptit_godet/models/cell.dart';
@@ -15,9 +16,10 @@ import 'package:ptit_godet/pages/game_page.dart';
 
 class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
   final NavBloc navBloc;
+  final DiceBloc diceBloc;
 
-  CurrentGameBloc({@required this.navBloc})
-      : assert(navBloc != null),
+  CurrentGameBloc({@required this.navBloc, @required this.diceBloc})
+      : assert(navBloc != null && diceBloc != null),
         super(CurrentGameState.empty());
 
   @override
@@ -106,9 +108,13 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
   Stream<CurrentGameState> _throwDice(int diceValue,
       {bool force = false}) async* {
     final currentPlayer = state.currentPlayer,
-        idNextCell =
-            _getNextCell(currentPlayer.idCurrentCell, diceValue, force);
+        idCurrentCell = currentPlayer.idCurrentCell,
+        idNextCell = _getNextCell(idCurrentCell, diceValue, force),
+        trueThrowDice = idNextCell - idCurrentCell;
     var nextCell = state.boardGame.cells[idNextCell];
+    diceBloc.add(nextCell.cellType == CellType.prison
+        ? ShowDice(diceValue)
+        : ShowDice(trueThrowDice));
     final ifElseMode = nextCell.cellType == CellType.ifElse
         ? state.currentPlayer.conditionKeyList.contains(nextCell.conditionIf)
             ? IfElseMode.ifMode

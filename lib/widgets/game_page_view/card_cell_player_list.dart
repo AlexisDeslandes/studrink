@@ -43,8 +43,7 @@ class CardCellPlayerList extends StatelessWidget {
                                     color: Theme.of(context).primaryColor,
                                     width: borderRadius))
                             : null,
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
+                        child: ClipOval(
                             child: Image.memory(player.avatar,
                                 width: imageSize)),
                       ),

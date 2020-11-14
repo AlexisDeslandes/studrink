@@ -5,6 +5,7 @@ import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
 import 'package:ptit_godet/pages/game_page_provider.dart';
 import 'package:ptit_godet/widgets/background.dart';
 import 'package:ptit_godet/widgets/custom_back_button.dart';
+import 'package:ptit_godet/widgets/dice_view.dart';
 import 'package:ptit_godet/widgets/game_page_view/game_page_view.dart';
 import 'package:ptit_godet/widgets/player_announcer.dart';
 import 'package:ptit_godet/widgets/player_area/play_area.dart';
@@ -51,6 +52,7 @@ class GameScreen extends StatelessWidget {
                 height: maxHeight - (pageViewHeight + 2 * offset)),
             const Positioned(
                 child: const CustomBackButton(), bottom: 0, left: 10),
+            Positioned(child: const DiceView(), width: maxWidth, height: maxHeight)
             //Positioned(child: const PlayerOverlay(), width: maxWidth, height: maxHeight)
           ]),
         );
