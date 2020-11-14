@@ -10,6 +10,7 @@ import 'package:ptit_godet/models/cell.dart';
 import 'package:ptit_godet/models/condition_key.dart';
 import 'package:ptit_godet/models/moving.dart';
 import 'package:ptit_godet/models/player.dart';
+import 'package:ptit_godet/pages/finish_game_page.dart';
 import 'package:ptit_godet/pages/game_page.dart';
 
 class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
@@ -64,8 +65,13 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
     }
   }
 
-  PlayerState _playerStateFromCellType(Cell nextCell) {
+  PlayerState _playerStateFromCellType(Cell nextCell, int diceValue) {
     final nextCellType = nextCell.cellType, currentPlayer = state.currentPlayer;
+    if (nextCellType == CellType.finish) {
+      if (nextCell.diceCondition == diceValue) {
+        return PlayerState.winner;
+      }
+    }
     if (nextCellType == CellType.conditionKey) {
       final requiredConditionKey = nextCell.requiredConditionKey;
       if (requiredConditionKey == null ||
@@ -117,7 +123,7 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
         nextCell = nextCell;
         break;
     }
-    final nextPlayerState = _playerStateFromCellType(nextCell),
+    final nextPlayerState = _playerStateFromCellType(nextCell, diceValue),
         conditionKeyList = _getConditionKeyList(
             nextPlayerState, currentPlayer.conditionKeyList, nextCell);
 
@@ -132,7 +138,13 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
       return player;
     }).toList();
 
-    yield CurrentGameState.copy(state, playerList: playerList);
+    if (nextPlayerState == PlayerState.winner) {
+      yield CurrentGameState.copy(state,
+          playerList: playerList, winner: currentPlayer);
+      navBloc.add(PushNav(pageBuilder: (dynamic) => const FinishGamePage()));
+    } else {
+      yield CurrentGameState.copy(state, playerList: playerList);
+    }
   }
 
   Stream<CurrentGameState> _changeNamePlayer(ChangeNamePlayer event) async* {
@@ -178,6 +190,9 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
     if (force) {
       return idCurrentCell + diceValue;
     }
+    if (state.boardGame.cells[idCurrentCell].cellType == CellType.finish) {
+      return idCurrentCell;
+    }
     final actualCell = state.actualCell,
         inPrison = actualCell.cellType == CellType.prison;
     if ((inPrison &&
@@ -189,7 +204,9 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
       return idCurrentCell;
     }
     for (var i = idCurrentCell + 1; i < idCurrentCell + diceValue; i++) {
-      if (state.boardGame.cells[i].cellType == CellType.conditionKey) {
+      final cell = state.boardGame.cells[i];
+      if ((cell.cellType == CellType.conditionKey && cell.tpCell == null) ||
+          cell.cellType == CellType.finish) {
         return i;
       }
     }
@@ -218,7 +235,8 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
   int _previousCheckpointId(Player player) {
     int idCellPlayer = player.idCurrentCell;
     for (var i = idCellPlayer - 1; i >= 0; i--) {
-      if (state.boardGame.cells[i].cellType == CellType.conditionKey) {
+      final cell = state.boardGame.cells[i];
+      if (cell.cellType == CellType.conditionKey && cell.tpCell != null) {
         return i;
       }
     }
@@ -451,27 +469,33 @@ class CurrentGameState extends Equatable {
   final int indexCurrentPlayer;
   int indexNextPlayer;
   final Player currentOpponent;
+  final Player winner;
 
   CurrentGameState(
       {this.boardGame,
       this.playerList = const [],
       this.indexNextPlayer,
       this.currentOpponent,
+      this.winner,
       this.indexCurrentPlayer = 0});
 
   CurrentGameState.empty() : this(playerList: [Player(name: "Pseudo")]);
 
+  bool get isFinish => winner != null;
+
   @override
   List<Object> get props =>
-      [boardGame, playerList, indexCurrentPlayer, currentOpponent];
+      [boardGame, playerList, indexCurrentPlayer, currentOpponent, winner];
 
   CurrentGameState.copy(CurrentGameState old,
       {BoardGame boardGame,
       List<Player> playerList,
       Player currentOpponent,
       int indexNextPlayer,
-      int indexCurrentPlayer})
+      int indexCurrentPlayer,
+      Player winner})
       : this(
+            winner: winner ?? old.winner,
             currentOpponent: currentOpponent ?? old.currentOpponent,
             boardGame: boardGame ?? old.boardGame,
             indexNextPlayer: old.indexNextPlayer != null

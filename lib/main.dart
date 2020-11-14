@@ -137,7 +137,7 @@ void main() async {
               imgPath: ""),
           Cell(name: "WEC3", sideEffectList: ["Donne 2 gorgées."], imgPath: ""),
           Cell(name: "MNM'S", imgPath: "", sideEffectList: [
-            "Désigne un jour.",
+            "Désigne un joueur.",
             "Le joueur boit le nombre de gorgées et désigne un joueur qui les boit également."
           ]),
           Cell(
@@ -188,10 +188,9 @@ void main() async {
               cellType: CellType.conditionKey,
               requiredConditionKey: ConditionKey(name: "Stage")),
           Cell(name: "Embauche", imgPath: "", sideEffectList: [
-            "Fait un 6", //todo
             "Tu bois la différence.",
             "Tout le monde finira son verre pour fêter l'embauche."
-          ])
+          ], cellType: CellType.finish, diceCondition: 6)
         ]).toJson()
       ]));
   runApp(MyApp());

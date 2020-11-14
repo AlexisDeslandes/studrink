@@ -17,7 +17,8 @@ enum CellType {
   selfMovingUndetermined,
   battle,
   steal,
-  ifElse
+  ifElse,
+  finish
 }
 
 class Cell extends Resource {
@@ -39,6 +40,7 @@ class Cell extends Resource {
   final Cell elseCell;
   final ConditionKey conditionIf;
   final ConditionKey lostConditionKey;
+  final int diceCondition;
 
   Cell(
       {@required this.name,
@@ -58,13 +60,15 @@ class Cell extends Resource {
       this.tpCell,
       this.conditionIf,
       this.ifCell,
-      this.elseCell})
+      this.elseCell,
+      this.diceCondition})
       : assert(name != null && imgPath != null);
 
   @override
   Map<String, dynamic> toJson() {
     return {
       "name": name,
+      "diceCondition": diceCondition,
       "tpCell": tpCell?.toJson(),
       "conditionKeyStolen": conditionKeyStolen?.toJson(),
       "movingUndeterminedCount": movingUndeterminedCount,
@@ -106,6 +110,7 @@ class Cell extends Resource {
   Cell.fromJson(Map<String, dynamic> map)
       : this(
             name: map["name"],
+            diceCondition: map["diceCondition"],
             tpCell: map["tpCell"] != null ? Cell.fromJson(map["tpCell"]) : null,
             conditionKeyStolen: map["conditionKeyStolen"] != null
                 ? ConditionKey.fromJson(map["conditionKeyStolen"])
@@ -168,7 +173,7 @@ class Cell extends Resource {
 
   String get sideEffectsLabel =>
       sideEffectList.fold<String>("", (previousValue, element) {
-        return previousValue + element;
+        return previousValue + " " + element;
       }) +
       "\n";
 
@@ -247,8 +252,16 @@ class Cell extends Resource {
     return "";
   }
 
+  String get diceConditionLabel {
+    if (diceCondition != null) {
+      return "Fait un $diceCondition pour terminer.\n";
+    }
+    return "";
+  }
+
   String get effectsLabel {
-    return challengeLabel +
+    return diceConditionLabel +
+        challengeLabel +
         ifElse +
         conditionKeyLostLabel +
         stealConditionKey +

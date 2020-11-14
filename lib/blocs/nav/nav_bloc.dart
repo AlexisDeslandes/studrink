@@ -45,6 +45,10 @@ class PopNav extends NavEvent {
   const PopNav();
 }
 
+class ResetNavToHome extends NavEvent {
+  const ResetNavToHome();
+}
+
 class NavBloc extends Bloc<NavEvent, NavState> {
   NavBloc()
       : super(
@@ -58,8 +62,10 @@ class NavBloc extends Bloc<NavEvent, NavState> {
         ...currentNavList,
         NavStateElement(pageBuilder: event.pageBuilder, args: event.args)
       ]);
-    } else {
+    } else if (event is PopNav) {
       yield NavState(currentNavList.sublist(0, currentNavList.length - 1));
+    } else {
+      yield NavState([NavStateElement(pageBuilder: (_) => const HomePage())]);
     }
   }
 }

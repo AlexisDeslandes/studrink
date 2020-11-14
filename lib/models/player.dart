@@ -18,7 +18,8 @@ enum PlayerState {
   choseOpponent,
   waitForWinner,
   chosePlayerMoving,
-  stealConditionKey
+  stealConditionKey,
+  winner
 }
 
 enum IfElseMode { none, ifMode, elseMode }
