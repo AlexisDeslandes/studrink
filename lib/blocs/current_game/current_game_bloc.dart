@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:equatable/equatable.dart';
@@ -17,10 +18,14 @@ import 'package:ptit_godet/pages/game_page.dart';
 class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
   final NavBloc navBloc;
   final DiceBloc diceBloc;
+  final StreamController<String> _errorController;
 
   CurrentGameBloc({@required this.navBloc, @required this.diceBloc})
       : assert(navBloc != null && diceBloc != null),
+        _errorController = StreamController<String>.broadcast(),
         super(CurrentGameState.empty());
+
+  Stream<String> get errorStream => _errorController.stream;
 
   @override
   Stream<CurrentGameState> mapEventToState(CurrentGameEvent event) async* {
@@ -169,7 +174,7 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
     if (state.playerList.every((element) => element.filled)) {
       navBloc.add(PushNav(pageBuilder: (_) => const GamePage()));
     } else {
-      //emit alert
+      _errorController.add("Tous les pseudos n'ont pas été saisis.");
     }
   }
 
