@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/models/board_game.dart';
+import 'package:ptit_godet/storage/default_board_games.dart';
 import 'package:ptit_godet/storage/local_storage.dart';
 
 class BoardGameBloc extends Bloc<BoardGameEvent, BoardGameState> {
@@ -16,12 +17,17 @@ class BoardGameBloc extends Bloc<BoardGameEvent, BoardGameState> {
   @override
   Stream<BoardGameState> mapEventToState(BoardGameEvent event) async* {
     if (event is InitBoardGame) {
-      Iterable boardGameListAsIterable =
-          jsonDecode(storage.read(LocalStorageKeywords.boardGameList));
-      final list = List<Map<String, dynamic>>.from(boardGameListAsIterable)
-          .map((m) => BoardGame.fromJson(m))
-          .toList();
-      yield BoardGameState(boardGameList: list);
+      var list = [];
+      final boardGameListEncoded =
+          storage.read(LocalStorageKeywords.boardGameList);
+      if (boardGameListEncoded != null) {
+        Iterable boardGameListAsIterable = jsonDecode(boardGameListEncoded);
+        list = List<Map<String, dynamic>>.from(boardGameListAsIterable)
+            .map((m) => BoardGame.fromJson(m))
+            .toList();
+      }
+      yield BoardGameState(
+          boardGameList: [...DefaultBoardGames().boardGameList(), ...list]);
     }
   }
 }
