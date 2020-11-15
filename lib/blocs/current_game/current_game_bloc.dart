@@ -71,6 +71,8 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
       yield* _stealConditionKey(event.player);
     } else if (event is ResetGame) {
       yield* _resetGame();
+    } else if (event is RemovePlayer) {
+      yield* _removePlayer(event.player);
     }
   }
 
@@ -389,6 +391,12 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
   Stream<CurrentGameState> _resetGame() async* {
     yield CurrentGameState.empty();
   }
+
+  Stream<CurrentGameState> _removePlayer(Player player) async* {
+    yield CurrentGameState.copy(state,
+        playerList:
+            state.playerList.where((element) => element != player).toList());
+  }
 }
 
 abstract class CurrentGameEvent extends Equatable {
@@ -457,6 +465,12 @@ class ReturnPreviousCheckpoint extends CurrentGameEvent {
 
 class SwitchToOtherPlayer extends CurrentGameEvent {
   const SwitchToOtherPlayer();
+}
+
+class RemovePlayer extends CurrentGameEvent {
+  final Player player;
+
+  const RemovePlayer(this.player);
 }
 
 class ChoseWinner extends CurrentGameEvent {

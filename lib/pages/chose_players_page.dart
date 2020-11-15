@@ -41,20 +41,20 @@ class ChosePlayersScreen extends BackElementScreen with SimpleTitleScreen {
                       return ListView.builder(
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
-                            const padding = 30.0;
                             final player = playerList[index];
-                            return Padding(
-                              padding: const EdgeInsets.only(
-                                  left: padding, right: padding),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                            return ListTile(
+                              title: PlayerField(player),
+                              trailing: Wrap(
                                 children: [
-                                  Expanded(
-                                    child: PlayerField(player),
-                                  ),
-                                  Padding(
-                                      padding: const EdgeInsets.only(left: 8.0),
-                                      child: FabCamera(player: player))
+                                  FabCamera(player: player),
+                                  FloatingActionButton(
+                                      child: Icon(Icons.remove,
+                                          color:
+                                              Theme.of(context).primaryColor),
+                                      mini: true,
+                                      onPressed: () => context
+                                          .bloc<CurrentGameBloc>()
+                                          .add(RemovePlayer(player)))
                                 ],
                               ),
                             );
