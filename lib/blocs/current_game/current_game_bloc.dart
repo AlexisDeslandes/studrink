@@ -28,6 +28,12 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
   Stream<String> get errorStream => _errorController.stream;
 
   @override
+  Future<void> close() {
+    _errorController.close();
+    return super.close();
+  }
+
+  @override
   Stream<CurrentGameState> mapEventToState(CurrentGameEvent event) async* {
     final uIntList =
         (await rootBundle.load("assets/pp_.png")).buffer.asUint8List();
@@ -173,8 +179,10 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
   }
 
   Stream<CurrentGameState> _validateGame(ValidateGame event) async* {
-    if (state.playerList.every((element) => element.filled)) {
-
+    if (state.playerList.length < 2) {
+      _errorController
+          .add("Il doit y avoir au moins 2 joueurs pour lancer une partie.");
+    } else if (state.playerList.every((element) => element.filled)) {
       navBloc.add(PushNav(pageBuilder: (_) => const GamePage()));
     } else {
       _errorController.add("Tous les pseudos n'ont pas été saisis.");

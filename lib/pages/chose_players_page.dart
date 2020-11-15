@@ -51,61 +51,58 @@ class ChosePlayersScreen extends BackElementScreen with SimpleTitleScreen {
 
   @override
   Widget body(BuildContext context) {
-    return Stack(
-      children: [
-        LayoutBuilder(
-          builder: (context, constraints) {
-            final maxHeight = constraints.maxHeight;
-            return Container(
-              height: maxHeight - 68.0, // size of validate button
-              child: Column(
-                children: [
-                  Flexible(
-                    child: BlocBuilder<CurrentGameBloc, CurrentGameState>(
-                        builder: (context, state) {
-                      final playerList = state.playerList;
-                      return ListView.builder(
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            final player = playerList[index];
-                            return ListTile(
-                              title: PlayerField(player),
-                              trailing: Wrap(
-                                children: [
-                                  FabCamera(player: player),
-                                  FloatingActionButton(
-                                      child: Icon(Icons.remove,
-                                          color:
-                                              Theme.of(context).primaryColor),
-                                      mini: true,
-                                      onPressed: () => context
-                                          .bloc<CurrentGameBloc>()
-                                          .add(RemovePlayer(player)))
-                                ],
-                              ),
-                            );
-                          },
-                          itemCount: playerList.length);
-                    }),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: const Center(child: const AddPlayerButton()),
-                  )
-                ],
-              ),
-            );
-          },
-        ),
-        Align(
-            alignment: Alignment.bottomCenter,
-            child: FlatButton(
-                child: Text("Valider"),
-                onPressed: () {
-                  context.bloc<CurrentGameBloc>().add(const ValidateGame());
-                }))
-      ],
-    );
+    return Stack(children: [
+      LayoutBuilder(
+        builder: (context, constraints) {
+          final maxHeight = constraints.maxHeight;
+          return Container(
+            height: maxHeight - 68.0, // size of validate button
+            child: Column(
+              children: [
+                Flexible(
+                  child: BlocBuilder<CurrentGameBloc, CurrentGameState>(
+                      builder: (context, state) {
+                    final playerList = state.playerList;
+                    return ListView.builder(
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          final player = playerList[index];
+                          return ListTile(
+                            title: PlayerField(player),
+                            trailing: Wrap(
+                              children: [
+                                FabCamera(player: player),
+                                FloatingActionButton(
+                                    child: Icon(Icons.remove,
+                                        color: Theme.of(context).primaryColor),
+                                    mini: true,
+                                    onPressed: () => context
+                                        .bloc<CurrentGameBloc>()
+                                        .add(RemovePlayer(player)))
+                              ],
+                            ),
+                          );
+                        },
+                        itemCount: playerList.length);
+                  }),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: const Center(child: const AddPlayerButton()),
+                )
+              ],
+            ),
+          );
+        },
+      ),
+      Align(
+          alignment: Alignment.bottomCenter,
+          child: FlatButton(
+              child: Text("Valider"),
+              onPressed: () {
+                context.bloc<CurrentGameBloc>().add(const ValidateGame());
+              }))
+    ]);
   }
 
   @override
