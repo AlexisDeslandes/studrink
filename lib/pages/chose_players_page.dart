@@ -24,6 +24,32 @@ class ChosePlayersScreen extends BackElementScreen with SimpleTitleScreen {
   }
 
   @override
+  Future<bool> backButtonCallback(BuildContext context) async {
+    return await showDialog(
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            title: Text("Avertissement"),
+            content: Text(
+                "Etes-vous sûr de vouloir quitter la partie courante ? La progression sera perdue."),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(ctx, false);
+                  },
+                  child: Text("NON")),
+              TextButton(
+                  onPressed: () {
+                    context.bloc<CurrentGameBloc>().add(ResetGame());
+                    Navigator.pop(ctx, true);
+                  },
+                  child: Text("OUI"))
+            ],
+          );
+        });
+  }
+
+  @override
   Widget body(BuildContext context) {
     return Stack(
       children: [

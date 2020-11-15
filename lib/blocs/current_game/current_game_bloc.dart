@@ -174,6 +174,7 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
 
   Stream<CurrentGameState> _validateGame(ValidateGame event) async* {
     if (state.playerList.every((element) => element.filled)) {
+
       navBloc.add(PushNav(pageBuilder: (_) => const GamePage()));
     } else {
       _errorController.add("Tous les pseudos n'ont pas été saisis.");

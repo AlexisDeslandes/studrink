@@ -12,12 +12,14 @@ abstract class BackElementScreen extends BaseScreen with BaseBuilding {
   @override
   bool hasBackElement() => true;
 
+  Future<bool> backButtonCallback(BuildContext context) async => true;
+
   @override
   Widget backElement(BuildContext context) {
     return Positioned(
         child: Row(
           children: [
-            const CustomBackButton(),
+            CustomBackButton(callback: backButtonCallback),
             Text(
               backButtonText(),
               style: Theme.of(context).textTheme.bodyText2,
