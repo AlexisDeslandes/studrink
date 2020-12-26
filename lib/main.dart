@@ -3,6 +3,7 @@ import 'package:ptit_godet/blocs/provider/app_provider.dart';
 import 'package:ptit_godet/storage/local_storage.dart';
 import 'package:ptit_godet/theme/app_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'navigators/main_navigator.dart';
 
 void main() async {

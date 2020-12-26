@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
@@ -79,6 +80,8 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
       yield* _resetGame();
     } else if (event is RemovePlayer) {
       yield* _removePlayer(event.player);
+    } else if (event is ChangePicturePlayer) {
+      yield* _changePicturePlayer(event);
     }
   }
 
@@ -406,6 +409,18 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
         playerList:
             state.playerList.where((element) => element != player).toList());
   }
+
+  Stream<CurrentGameState> _changePicturePlayer(
+      ChangePicturePlayer event) async* {
+    final player = event.player;
+    yield CurrentGameState.copy(state,
+        playerList: state.playerList.map((e) {
+          if (e == player) {
+            return Player.copy(e, avatar: event.pictureData);
+          }
+          return e;
+        }).toList());
+  }
 }
 
 abstract class CurrentGameEvent extends Equatable {
@@ -501,6 +516,13 @@ class ChangeNamePlayer extends CurrentGameEvent {
 
   @override
   List<Object> get props => [player, name];
+}
+
+class ChangePicturePlayer extends CurrentGameEvent {
+  final Player player;
+  final Uint8List pictureData;
+
+  ChangePicturePlayer({@required this.player, @required this.pictureData});
 }
 
 class ValidateGame extends CurrentGameEvent {

@@ -8,8 +8,9 @@ import 'package:ptit_godet/pages/chose_players_page.dart';
 
 class BoardGameTile extends StatelessWidget {
   final BoardGame boardGame;
+  final void Function() onTap;
 
-  const BoardGameTile({@required this.boardGame}) : assert(boardGame != null);
+  const BoardGameTile({@required this.boardGame, this.onTap}) : assert(boardGame != null);
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +19,7 @@ class BoardGameTile extends StatelessWidget {
       child: ListTile(
         title: Text(boardGame.name),
         trailing: Icon(Icons.chevron_right),
-        onTap: () {
-          context.bloc<CurrentGameBloc>()
-            ..add(InitModelCurrentGame(boardGame: boardGame));
-          context
-              .bloc<NavBloc>()
-              .add(PushNav(pageBuilder: (_) => const ChosePlayersPage()));
-        },
+        onTap: onTap,
       ),
     );
   }

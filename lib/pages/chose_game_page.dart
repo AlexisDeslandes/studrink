@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/board_game/board_game_bloc.dart';
+import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
+import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
+import 'package:ptit_godet/pages/chose_players_page.dart';
 import 'package:ptit_godet/widgets/back_element_screen.dart';
 import 'package:ptit_godet/widgets/base_building.dart';
 import 'package:ptit_godet/widgets/pre_game/board_game_tile.dart';
@@ -14,7 +17,8 @@ class ChoseGamePage extends CupertinoPage {
             key: const ValueKey<String>("/chose_game"));
 }
 
-class ChoseGameScreen extends BackElementScreen with BaseBuilding, SimpleTitleScreen {
+class ChoseGameScreen extends BackElementScreen
+    with BaseBuilding, SimpleTitleScreen {
   const ChoseGameScreen();
 
   @override
@@ -31,7 +35,15 @@ class ChoseGameScreen extends BackElementScreen with BaseBuilding, SimpleTitleSc
           child: ListView.builder(
             itemBuilder: (context, index) => Padding(
               padding: const EdgeInsets.only(left: 12.0, right: 12.0),
-              child: BoardGameTile(boardGame: boardGameList[index]),
+              child: BoardGameTile(
+                  boardGame: boardGameList[index],
+                  onTap: () {
+                    context.bloc<CurrentGameBloc>()
+                      ..add(InitModelCurrentGame(
+                          boardGame: boardGameList[index]));
+                    context.bloc<NavBloc>().add(
+                        PushNav(pageBuilder: (_) => const ChosePlayersPage()));
+                  }),
             ),
             itemCount: boardGameList.length,
           ),

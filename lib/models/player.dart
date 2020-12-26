@@ -37,12 +37,13 @@ class Player extends Resource {
 
   Player(
       {this.name = "",
+      int id,
       this.ifElseMode,
       this.avatar,
       this.conditionKeyList = const [],
       this.idCurrentCell = 0,
       this.state = PlayerState.ready})
-      : id = idGenerator++;
+      : this.id = id ?? idGenerator++;
 
   Player.fromJson(Map<String, dynamic> map)
       : this(
@@ -94,6 +95,7 @@ class Player extends Resource {
       List<ConditionKey> conditionKeyList,
       IfElseMode ifElseMode})
       : this(
+            id: player.id,
             ifElseMode: ifElseMode ?? player.ifElseMode,
             name: name ?? player.name,
             state: state ?? player.state,
