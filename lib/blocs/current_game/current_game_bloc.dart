@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/dice/dice_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
@@ -36,24 +34,18 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
 
   @override
   Stream<CurrentGameState> mapEventToState(CurrentGameEvent event) async* {
-    final uIntList =
-        (await rootBundle.load("assets/pp_.png")).buffer.asUint8List();
     if (event is InitModelCurrentGame) {
-      yield CurrentGameState.copy(state,
-          boardGame: event.boardGame,
-          playerList: state.playerList.map((e) {
-            return Player.copy(e, avatar: uIntList);
-          }).toList());
+      yield CurrentGameState.copy(state, boardGame: event.boardGame);
     } else if (event is AddPlayer) {
       yield CurrentGameState.copy(state,
-          playerList: [...state.playerList, Player(avatar: uIntList)]);
+          playerList: [...state.playerList, Player()]);
     } else if (event is ChangeNamePlayer) {
       yield* _changeNamePlayer(event);
     } else if (event is ValidateGame) {
       yield* _validateGame(event);
     } else if (event is ThrowDice) {
       final random = Random(), diceValue = random.nextInt(6) + 1;
-      yield* _throwDice(diceValue);
+      yield* _throwDice(event.value ?? diceValue);
     } else if (event is SwitchToOtherPlayer) {
       yield* _switchToOtherPlayer(event);
     } else if (event is ReturnPreviousCheckpoint) {
@@ -263,7 +255,7 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
     int idCellPlayer = player.idCurrentCell;
     for (var i = idCellPlayer - 1; i >= 0; i--) {
       final cell = state.boardGame.cells[i];
-      if (cell.cellType == CellType.conditionKey && cell.tpCell != null) {
+      if (cell.cellType == CellType.conditionKey && cell.tpCell == null) {
         return i;
       }
     }
@@ -476,7 +468,9 @@ class SucceedChallenge extends CurrentGameEvent {
 }
 
 class ThrowDice extends CurrentGameEvent {
-  const ThrowDice();
+  final int value;
+
+  const ThrowDice([this.value]);
 }
 
 class ResetGame extends CurrentGameEvent {
@@ -611,5 +605,10 @@ class CurrentGameState extends Equatable {
       return 0;
     }
     return indexCurrentPlayer + 1;
+  }
+
+  @override
+  String toString() {
+    return 'CurrentGameState{boardGame: $boardGame, playerList: $playerList, indexCurrentPlayer: $indexCurrentPlayer, indexNextPlayer: $indexNextPlayer, currentOpponent: $currentOpponent, winner: $winner}';
   }
 }

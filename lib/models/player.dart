@@ -38,7 +38,7 @@ class Player extends Resource {
   Player(
       {this.name = "",
       int id,
-      this.ifElseMode,
+      this.ifElseMode = IfElseMode.none,
       this.avatar,
       this.conditionKeyList = const [],
       this.idCurrentCell = 0,
@@ -105,4 +105,9 @@ class Player extends Resource {
                 player.conditionKeyList,
             avatar: avatar ?? player.avatar,
             idCurrentCell: idCurrentCell ?? player.idCurrentCell);
+
+  @override
+  String toString() {
+    return 'Player{id: $id, name: $name, avatar: $avatar, idCurrentCell: $idCurrentCell, state: $state, conditionKeyList: $conditionKeyList, ifElseMode: $ifElseMode}';
+  }
 }

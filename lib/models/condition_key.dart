@@ -16,4 +16,9 @@ class ConditionKey extends Resource {
   }
 
   ConditionKey.fromJson(Map<String, dynamic> map) : this(name: map["name"]);
+
+  @override
+  String toString() {
+    return 'ConditionKey{id: $id, name: $name}';
+  }
 }

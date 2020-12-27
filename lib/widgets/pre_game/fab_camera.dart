@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
 import 'package:ptit_godet/models/player.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FabCamera extends StatelessWidget {
   final Player player;
@@ -22,9 +22,13 @@ class FabCamera extends StatelessWidget {
       mini: true,
       child: BlocBuilder<CurrentGameBloc, CurrentGameState>(
         buildWhen: (previous, current) {
-          final playerPrevious = previous.playerList.firstWhere(sameIdUser),
-              playerCurrent = current.playerList.firstWhere(sameIdUser);
-          return playerPrevious.avatar != playerCurrent.avatar;
+          final playerPrevious =
+                  previous.playerList.firstWhere(sameIdUser, orElse: () => null),
+              playerCurrent =
+                  current.playerList.firstWhere(sameIdUser, orElse: () => null);
+          return playerCurrent != null &&
+              playerPrevious != null &&
+              playerPrevious.avatar != playerCurrent.avatar;
         },
         builder: (context, state) {
           final avatarPlayer = state.playerList.firstWhere(sameIdUser).avatar;
