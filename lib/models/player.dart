@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:flutter/cupertino.dart';
 import 'package:ptit_godet/models/condition_key.dart';
 import 'package:ptit_godet/models/resource.dart';
+import 'package:random_color/random_color.dart';
 
 enum PlayerState {
   ready,
@@ -30,6 +32,7 @@ class Player extends Resource {
   final int id;
   final String name;
   final Uint8List avatar;
+  final Color color;
   final int idCurrentCell;
   final PlayerState state;
   final List<ConditionKey> conditionKeyList;
@@ -39,15 +42,19 @@ class Player extends Resource {
       {this.name = "",
       int id,
       this.ifElseMode = IfElseMode.none,
+      Color color,
       this.avatar,
       this.conditionKeyList = const [],
       this.idCurrentCell = 0,
       this.state = PlayerState.ready})
-      : this.id = id ?? idGenerator++;
+      : this.id = id ?? idGenerator++,
+        this.color = color ?? RandomColor().randomColor();
 
   Player.fromJson(Map<String, dynamic> map)
       : this(
             name: map["name"],
+            color: Color.fromRGBO(map["color"][0], map["color"][1],
+                map["color"][2], map["color"][3]),
             ifElseMode: IfElseMode.values[(map["ifElseMode"] as int)],
             conditionKeyList:
                 List<Map<String, dynamic>>.from(map["conditionKeyList"])
@@ -57,7 +64,7 @@ class Player extends Resource {
             avatar: base64Decode(map["avatar"]),
             idCurrentCell: map["idCurrentCell"]);
 
-  get filled => name.length > 0 && avatar.length > 0;
+  get filled => name.length > 0;
 
   List<String> get conditionKeyLabels {
     return this
@@ -75,6 +82,7 @@ class Player extends Resource {
   Map<String, dynamic> toJson() {
     return {
       "name": name,
+      "color": [color.red, color.green, color.blue, color.opacity],
       "ifElseMode": ifElseMode.index,
       "avatar": base64Encode(avatar),
       "idCurrentCell": idCurrentCell,
@@ -96,6 +104,7 @@ class Player extends Resource {
       IfElseMode ifElseMode})
       : this(
             id: player.id,
+            color: player.color,
             ifElseMode: ifElseMode ?? player.ifElseMode,
             name: name ?? player.name,
             state: state ?? player.state,

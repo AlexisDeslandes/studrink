@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 
 class PlayerOverlay extends StatefulWidget {
   final String name;
+  final Color color;
   final Uint8List picture;
 
-  const PlayerOverlay({@required this.name, @required this.picture})
-      : assert(name != null && picture != null);
+  const PlayerOverlay({@required this.name, this.picture, this.color})
+      : assert(name != null && (picture != null || color != null));
 
   @override
   _PlayerOverlayState createState() => _PlayerOverlayState();
@@ -69,10 +70,18 @@ class _PlayerOverlayState extends State<PlayerOverlay>
                   Expanded(
                       child: Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: Material(
-                        elevation: 5,
-                        borderRadius: BorderRadius.circular(100),
-                        child: ClipOval(child: Image.memory(widget.picture))),
+                    child: Center(
+                      child: Material(
+                          elevation: 5,
+                          borderRadius: BorderRadius.circular(100),
+                          child: ClipOval(
+                              child: widget.picture != null
+                                  ? Image.memory(widget.picture)
+                                  : Container(
+                                      color: widget.color,
+                                      width: size * 0.5,
+                                      height: size * 0.5))),
+                    ),
                   )),
                   Padding(
                       padding: const EdgeInsets.only(bottom: 15.0),

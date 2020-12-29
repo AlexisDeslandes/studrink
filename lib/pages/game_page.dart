@@ -67,6 +67,7 @@ class GameScreen extends StatelessWidget {
         builder: (context) => Positioned(
             child: PlayerOverlay(
                 name: state.currentPlayer.name,
+                color: state.currentPlayer.color,
                 picture: state.currentPlayer.avatar),
             width: maxWidth,
             height: maxHeight));

@@ -44,8 +44,12 @@ class CardCellPlayerList extends StatelessWidget {
                                     width: borderRadius))
                             : null,
                         child: ClipOval(
-                            child: Image.memory(player.avatar,
-                                width: imageSize)),
+                            child: player.avatar != null
+                                ? Image.memory(player.avatar, width: imageSize)
+                                : Container(
+                                    color: player.color,
+                                    width: imageSize,
+                                    height: imageSize)),
                       ),
                     ),
                   ),
