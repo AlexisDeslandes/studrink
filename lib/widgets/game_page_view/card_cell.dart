@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ptit_godet/models/cell.dart';
+import 'package:ptit_godet/models/pastel_colors.dart';
 import 'package:ptit_godet/widgets/game_page_view/card_cell_condition_key_list.dart';
 import 'package:ptit_godet/widgets/game_page_view/card_cell_player_list.dart';
+import 'package:ptit_godet/widgets/game_page_view/card_cell_player_selected_abel.dart';
 
 class CardCell extends StatelessWidget {
   final Cell cell;
@@ -10,6 +12,8 @@ class CardCell extends StatelessWidget {
   const CardCell({Key key, @required this.cell})
       : assert(cell != null),
         super(key: key);
+
+  get _cardColor => PastelColors.colors[cell.cellType.index];
 
   @override
   Widget build(BuildContext context) {
@@ -40,18 +44,26 @@ class CardCell extends StatelessWidget {
                         Container(
                             height: maxHeight,
                             width: maxHeight,
-                            child: Card(
-                              elevation: 5,
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 3.0),
+                              child: Card(
+                                elevation: 3,
+                                color: _cardColor,
+                              ),
                             )),
                         Positioned(
-                          child: CardCellPlayerList(cell),
-                          top: positionedPadding,
-                          left: positionedPadding,
-                        ),
+                            child: CardCellPlayerList(cell),
+                            top: positionedPadding,
+                            left: positionedPadding,
+                            width: maxWidth),
                         Positioned(
                             child: CardCellConditionKeyList(cell),
                             bottom: positionedPadding,
-                            right: positionedPadding)
+                            right: positionedPadding),
+                        Positioned(
+                            child: CardCellPlayerSelectedLabel(cell),
+                            left: positionedPadding,
+                            bottom: positionedPadding)
                       ],
                     ),
                   ),

@@ -37,8 +37,13 @@ class FinishGameScreen extends NoBackElementScreen {
                       child: Material(
                         elevation: 5,
                         borderRadius: BorderRadius.circular(100),
-                        child:
-                            ClipOval(child: Image.memory(state.winner.avatar)),
+                        child: ClipOval(
+                            child: state.winner.avatar != null
+                                ? Image.memory(state.winner.avatar)
+                                : Container(
+                                    color: state.winner.color,
+                                    width: 30,
+                                    height: 30)),
                       ),
                     ),
                     Padding(
@@ -52,12 +57,13 @@ class FinishGameScreen extends NoBackElementScreen {
               Expanded(
                   child: Center(
                       child: RaisedButton(
-                child: Text("Accueil"),
-                onPressed: () {
-                  context.bloc<NavBloc>().add(const ResetNavToHome());
-                  context.bloc<CurrentGameBloc>().add(const ResetGame());
-                }
-              )))
+                          child: Text("Accueil"),
+                          onPressed: () {
+                            context.bloc<NavBloc>().add(const ResetNavToHome());
+                            context
+                                .bloc<CurrentGameBloc>()
+                                .add(const ResetGame());
+                          })))
             ],
           );
         },
