@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:ptit_godet/models/cell.dart';
 import 'package:ptit_godet/models/pastel_colors.dart';
 import 'package:ptit_godet/widgets/game_page_view/card_cell_condition_key_list.dart';
@@ -14,6 +15,38 @@ class CardCell extends StatelessWidget {
         super(key: key);
 
   get _cardColor => PastelColors.colors[cell.cellType.index];
+
+  IconData get _icon {
+    switch (cell.cellType) {
+      case CellType.noEffect:
+        return MdiIcons.glassMugVariant;
+      case CellType.conditionKey:
+        return Icons.assistant_photo;
+      case CellType.selfMoving:
+        return Icons.double_arrow;
+      case CellType.otherMoving:
+        return Icons.subdirectory_arrow_right;
+      case CellType.turnLose:
+        return Icons.stop;
+      case CellType.prison:
+        return Icons.vpn_key;
+      case CellType.selfThrowDice:
+        return Icons.threesixty_rounded;
+      case CellType.selfChallenge:
+        return MdiIcons.trophy;
+      case CellType.selfMovingUndetermined:
+        return Icons.compare_arrows;
+      case CellType.battle:
+        return MdiIcons.fencing;
+      case CellType.steal:
+        return Icons.work_off;
+      case CellType.ifElse:
+        return MdiIcons.accountMultipleCheck;
+      case CellType.finish:
+        return Icons.check;
+    }
+    return MdiIcons.glassMugVariant;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,12 +78,12 @@ class CardCell extends StatelessWidget {
                             height: maxHeight,
                             width: maxHeight,
                             child: Padding(
-                              padding: const EdgeInsets.only(bottom: 3.0),
-                              child: Card(
-                                elevation: 3,
-                                color: _cardColor,
-                              ),
-                            )),
+                                padding: const EdgeInsets.only(bottom: 3.0),
+                                child: Card(
+                                    elevation: 3,
+                                    color: _cardColor,
+                                    child:
+                                        Center(child: Icon(_icon, size: 70))))),
                         Positioned(
                             child: CardCellPlayerList(cell),
                             top: positionedPadding,
