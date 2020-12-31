@@ -121,7 +121,7 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
         idNextCell = _getNextCell(idCurrentCell, diceValue, force),
         trueThrowDice = idNextCell - idCurrentCell;
     var nextCell = state.boardGame.cells[idNextCell];
-    diceBloc.add(nextCell.cellType == CellType.prison
+    diceBloc.add((nextCell.cellType == CellType.prison || trueThrowDice == 0)
         ? ShowDice(diceValue)
         : ShowDice(trueThrowDice));
     final ifElseMode = nextCell.cellType == CellType.ifElse
