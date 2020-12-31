@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ptit_godet/models/condition_key.dart';
 import 'package:ptit_godet/models/moving.dart';
 import 'package:ptit_godet/models/prison_condition.dart';
@@ -224,7 +223,7 @@ class Cell extends Resource {
 
   String get movingUndeterminedCountLabel {
     if (movingUndeterminedCount != null) {
-      return "Avance ouf recule de $movingUndeterminedCount cases.\n";
+      return "Avance ou recule de $movingUndeterminedCount case(s).\n";
     }
     return "";
   }
@@ -261,7 +260,7 @@ class Cell extends Resource {
   }
 
   String get effectsLabel {
-    return diceConditionLabel +
+    final toReturn = diceConditionLabel +
         challengeLabel +
         ifElse +
         conditionKeyLostLabel +
@@ -277,5 +276,9 @@ class Cell extends Resource {
         conditionKeyNeeded +
         turnLost +
         sideEffectsLabelAfterTurnLost;
+    if (toReturn.endsWith("\n\n")) {
+      return toReturn.substring(0, toReturn.length - 1);
+    }
+    return toReturn;
   }
 }

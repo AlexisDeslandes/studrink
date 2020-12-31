@@ -48,7 +48,7 @@ class FinishGameScreen extends NoBackElementScreen {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 30.0),
-                      child: Text("${state.winner.name} est le gagnant.",
+                      child: Text("${state.winner.name} a gagné.",
                           style: Theme.of(context).textTheme.bodyText2),
                     )
                   ],
