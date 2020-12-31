@@ -40,8 +40,7 @@ class CardCellPlayerList extends StatelessWidget {
                             ? BoxDecoration(
                                 shape: BoxShape.circle,
                                 border: Border.all(
-                                    color: Theme.of(context).primaryColor,
-                                    width: borderRadius))
+                                    color: Colors.white, width: borderRadius))
                             : null,
                         child: ClipOval(
                             child: player.avatar != null
