@@ -31,6 +31,7 @@ class GameScreen extends StatelessWidget {
             pageViewHeight = maxHeight * 0.7;
         return BlocListener<CurrentGameBloc, CurrentGameState>(
           listenWhen: (previous, current) =>
+              !current.isEmpty &&
               previous.currentPlayer.name != current.currentPlayer.name,
           listener: (context, state) =>
               _displayOverlay(context, state, maxWidth, maxHeight),
@@ -52,7 +53,8 @@ class GameScreen extends StatelessWidget {
                 height: maxHeight - (pageViewHeight + 2 * offset)),
             const Positioned(
                 child: const CustomBackButton(), bottom: 0, left: 10),
-            Positioned(child: const DiceView(), width: maxWidth, height: maxHeight)
+            Positioned(
+                child: const DiceView(), width: maxWidth, height: maxHeight)
             //Positioned(child: const PlayerOverlay(), width: maxWidth, height: maxHeight)
           ]),
         );

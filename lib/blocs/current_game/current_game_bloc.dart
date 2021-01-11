@@ -591,6 +591,8 @@ class CurrentGameState extends Equatable {
     return playerListFromIdCell(idCurrentCell);
   }
 
+  bool get isEmpty => playerList.every((element) => element.idCurrentCell == 0);
+
   List<Player> playerListFromIdCell(int idCell) {
     return playerList
         .where((element) => element.idCurrentCell == idCell)
