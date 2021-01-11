@@ -13,7 +13,7 @@ class FabCamera extends StatelessWidget {
       : assert(player != null),
         super(key: key);
 
-  bool sameIdUser(Player element) => element.id == player.id;
+  bool sameUser(Player element) => element.id == player.id;
 
   @override
   Widget build(BuildContext context) {
@@ -23,15 +23,15 @@ class FabCamera extends StatelessWidget {
       child: BlocBuilder<CurrentGameBloc, CurrentGameState>(
         buildWhen: (previous, current) {
           final playerPrevious =
-                  previous.playerList.firstWhere(sameIdUser, orElse: () => null),
+                  previous.playerList.firstWhere(sameUser, orElse: () => null),
               playerCurrent =
-                  current.playerList.firstWhere(sameIdUser, orElse: () => null);
+                  current.playerList.firstWhere(sameUser, orElse: () => null);
           return playerCurrent != null &&
               playerPrevious != null &&
               playerPrevious.avatar != playerCurrent.avatar;
         },
         builder: (context, state) {
-          final avatarPlayer = state.playerList.firstWhere(sameIdUser).avatar;
+          final avatarPlayer = state.playerList.firstWhere(sameUser).avatar;
           if (avatarPlayer != null) {
             return ClipRRect(
                 child: Image.memory(avatarPlayer),

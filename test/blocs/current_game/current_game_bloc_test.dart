@@ -1,4 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
@@ -46,7 +47,7 @@ void main() {
         conditionKeyList: [ConditionKey(name: "Polypoint")],
         state: PlayerState.ready,
         name: "Alexis",
-        id: 0,
+        color: Colors.red,
         idCurrentCell: 3)
   ], boardGame: _initBoardGame, indexCurrentPlayer: 0, indexNextPlayer: 0);
 
@@ -68,10 +69,10 @@ void main() {
         expect: [
           CurrentGameState.copy(_initState, playerList: [
             Player(
+                color: Colors.red,
                 conditionKeyList: [ConditionKey(name: "Polypoint")],
                 state: PlayerState.returnPreviousCheckPoint,
                 name: "Alexis",
-                id: 0,
                 idCurrentCell: 4)
           ])
         ]);
@@ -85,7 +86,7 @@ void main() {
                 conditionKeyList: [ConditionKey(name: "Polypoint")],
                 state: PlayerState.returnPreviousCheckPoint,
                 name: "Alexis",
-                id: 0,
+                color: Colors.red,
                 idCurrentCell: 4)
           ]));
           return bloc;
@@ -97,7 +98,7 @@ void main() {
                 conditionKeyList: [ConditionKey(name: "Polypoint")],
                 state: PlayerState.canEnd,
                 name: "Alexis",
-                id: 0,
+                color: Colors.red,
                 idCurrentCell: 2)
           ])
         ]);

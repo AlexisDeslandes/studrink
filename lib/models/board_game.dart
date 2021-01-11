@@ -6,7 +6,7 @@ class BoardGame extends Resource {
   final String name;
   final List<Cell> cells;
 
-  BoardGame({@required this.name, @required this.cells});
+  const BoardGame({this.name = "", this.cells = const []});
 
   BoardGame.fromJson(Map<String, dynamic> map)
       : this(

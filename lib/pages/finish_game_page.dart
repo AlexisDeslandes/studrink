@@ -60,9 +60,6 @@ class FinishGameScreen extends NoBackElementScreen {
                           child: Text("Accueil"),
                           onPressed: () {
                             context.bloc<NavBloc>().add(const ResetNavToHome());
-                            context
-                                .bloc<CurrentGameBloc>()
-                                .add(const ResetGame());
                           })))
             ],
           );

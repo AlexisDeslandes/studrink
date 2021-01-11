@@ -101,7 +101,7 @@ class DefaultBoardGames {
             name: "Juif",
             imgPath: "",
             cellType: CellType.selfChallenge,
-            challenge: "Tu achètes",
+            challenge: "Les autres te lancent un défis.",
             givenConditionKey: ConditionKey(name: "UE")),
         Cell(name: "Ski", imgPath: "", sideEffectList: ["Bois 3 gorgées."]),
         Cell(name: "KO", imgPath: "", cellType: CellType.turnLose),

@@ -38,20 +38,23 @@ class Player extends Resource {
   final List<ConditionKey> conditionKeyList;
   final IfElseMode ifElseMode;
 
-  Player(
-      {this.name = "",
-      int id,
-      this.ifElseMode = IfElseMode.none,
-      Color color,
-      this.avatar,
-      this.conditionKeyList = const [],
-      this.idCurrentCell = 0,
-      this.state = PlayerState.ready})
-      : this.id = id ?? idGenerator++,
-        this.color = color ?? RandomColor().randomColor();
+  const Player({
+    @required this.id,
+    @required this.color,
+    this.conditionKeyList = const [],
+    this.idCurrentCell = 0,
+    this.name = "",
+    this.ifElseMode = IfElseMode.none,
+    this.state = PlayerState.ready,
+    this.avatar,
+  });
+
+  Player.fromGenerator()
+      : this(color: RandomColor().randomColor(), id: idGenerator++);
 
   Player.fromJson(Map<String, dynamic> map)
       : this(
+            id: map["id"],
             name: map["name"],
             color: Color.fromRGBO(map["color"][0], map["color"][1],
                 map["color"][2], map["color"][3]),
@@ -92,8 +95,7 @@ class Player extends Resource {
   }
 
   @override
-  List<Object> get props =>
-      [name, avatar, id, idCurrentCell, state, ifElseMode];
+  List<Object> get props => [name, avatar, idCurrentCell, state, ifElseMode];
 
   Player.copy(Player player,
       {String name,
@@ -117,6 +119,6 @@ class Player extends Resource {
 
   @override
   String toString() {
-    return 'Player{id: $id, name: $name, avatar: $avatar, idCurrentCell: $idCurrentCell, state: $state, conditionKeyList: $conditionKeyList, ifElseMode: $ifElseMode}';
+    return 'Player{name: $name, avatar: $avatar, idCurrentCell: $idCurrentCell, state: $state, conditionKeyList: $conditionKeyList, ifElseMode: $ifElseMode}';
   }
 }

@@ -39,7 +39,7 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
       yield CurrentGameState.copy(state, boardGame: event.boardGame);
     } else if (event is AddPlayer) {
       yield CurrentGameState.copy(state,
-          playerList: [...state.playerList, Player()]);
+          playerList: [...state.playerList, Player.fromGenerator()]);
     } else if (event is ChangeNamePlayer) {
       yield* _changeNamePlayer(event);
     } else if (event is ValidateGame) {
@@ -166,7 +166,7 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
 
   Stream<CurrentGameState> _changeNamePlayer(ChangeNamePlayer event) async* {
     final playerList = state.playerList.map((player) {
-      if (player == event.player) {
+      if (player.id == event.player.id) {
         return Player.copy(player, name: event.name);
       }
       return player;
@@ -175,13 +175,27 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
   }
 
   Stream<CurrentGameState> _validateGame(ValidateGame event) async* {
-    if (state.playerList.length < 2) {
+    final playerList = state.playerList,
+        areAllPlayerNameDifferent = playerList
+            .fold<Map<String, int>>({}, (map, element) {
+              final name = element.name;
+              if (map.containsKey(name)) {
+                map[name] = map[name]++;
+              }
+              map[name] = 1;
+              return map;
+            })
+            .values
+            .every((element) => element == 1);
+    if (playerList.length < 2) {
+      //todo test
       _errorController
           .add("Il doit y avoir au moins 2 joueurs pour lancer une partie.");
-    } else if (state.playerList.every((element) => element.filled)) {
+    } else if (areAllPlayerNameDifferent) {
       navBloc.add(PushNav(pageBuilder: (_) => const GamePage()));
     } else {
-      _errorController.add("Tous les pseudos n'ont pas été saisis.");
+      _errorController
+          .add("Tous les pseudos doivent être saisis et différents.");
     }
   }
 
@@ -203,7 +217,9 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
       return player;
     }).toList();
     yield CurrentGameState.copy(state,
-        playerList: playerList, indexCurrentPlayer: state.nextIndexPlayer);
+        playerList: playerList,
+        indexCurrentPlayer: state.nextIndexPlayer,
+        indexNextPlayer: -1);
   }
 
   int _getNextCell(int idCurrentCell, int diceValue, bool force) {
@@ -351,7 +367,8 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
           }
           return playerElem;
         }).toList(),
-        indexCurrentPlayer: state.nextIndexPlayer);
+        indexCurrentPlayer: state.nextIndexPlayer,
+        indexNextPlayer: -1);
   }
 
   Stream<CurrentGameState> _makePlayerMoving(Player player) async* {
@@ -390,7 +407,8 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
           }
           return elemPlayer;
         }).toList(),
-        indexCurrentPlayer: state.nextIndexPlayer);
+        indexCurrentPlayer: state.nextIndexPlayer,
+        indexNextPlayer: -1);
   }
 
   Stream<CurrentGameState> _resetGame() async* {
@@ -528,19 +546,20 @@ class CurrentGameState extends Equatable {
   final BoardGame boardGame;
   final List<Player> playerList;
   final int indexCurrentPlayer;
-  int indexNextPlayer;
+  final int indexNextPlayer;
   final Player currentOpponent;
   final Player winner;
 
   CurrentGameState(
-      {this.boardGame,
+      {this.boardGame = const BoardGame(),
       this.playerList = const [],
-      this.indexNextPlayer,
+      this.indexNextPlayer = 1,
+      this.indexCurrentPlayer = 0,
       this.currentOpponent,
-      this.winner,
-      this.indexCurrentPlayer = 0});
+      this.winner});
 
-  CurrentGameState.empty() : this(playerList: [Player(name: "Pseudo")]);
+  CurrentGameState.empty()
+      : this(playerList: List.generate(2, (_) => Player.fromGenerator()));
 
   bool get isFinish => winner != null;
 
@@ -559,9 +578,11 @@ class CurrentGameState extends Equatable {
             winner: winner ?? old.winner,
             currentOpponent: currentOpponent ?? old.currentOpponent,
             boardGame: boardGame ?? old.boardGame,
-            indexNextPlayer: old.indexNextPlayer != null
-                ? old.indexNextPlayer
-                : indexNextPlayer ?? old.indexNextPlayer,
+            indexNextPlayer: indexNextPlayer == -1
+                ? null
+                : old.indexNextPlayer != null
+                    ? old.indexNextPlayer
+                    : indexNextPlayer ?? old.indexNextPlayer,
             indexCurrentPlayer: indexCurrentPlayer ?? old.indexCurrentPlayer,
             playerList: playerList ?? old.playerList);
 
@@ -586,7 +607,12 @@ class CurrentGameState extends Equatable {
 
   Player get currentPlayer => playerList[indexCurrentPlayer];
 
-  Cell get currentCell => boardGame.cells[currentPlayer.idCurrentCell];
+  Cell get currentCell {
+    if (currentPlayer != null) {
+      return boardGame.cells[currentPlayer.idCurrentCell];
+    }
+    return null;
+  }
 
   Cell get actualCell {
     final ifElseMode = currentPlayer.ifElseMode;
@@ -599,9 +625,7 @@ class CurrentGameState extends Equatable {
 
   get nextIndexPlayer {
     if (indexNextPlayer != null) {
-      final idNextPlayer = indexNextPlayer;
-      this.indexNextPlayer = null;
-      return idNextPlayer;
+      return indexNextPlayer;
     } else if (indexCurrentPlayer == playerList.length - 1) {
       return 0;
     }
