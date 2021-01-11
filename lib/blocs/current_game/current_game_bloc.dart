@@ -607,11 +607,20 @@ class CurrentGameState extends Equatable {
   String get currentCellName =>
       boardGame.cells[playerList[indexCurrentPlayer].idCurrentCell].name;
 
-  Player get currentPlayer => playerList[indexCurrentPlayer];
+  Player get currentPlayer {
+    if (playerList.length > indexCurrentPlayer) {
+      return playerList[indexCurrentPlayer];
+    }
+    return null;
+  }
 
   Cell get currentCell {
     if (currentPlayer != null) {
-      return boardGame.cells[currentPlayer.idCurrentCell];
+      final cells = boardGame.cells,
+          idCurrentCell = currentPlayer.idCurrentCell;
+      if (cells.length > idCurrentCell) {
+        return cells[idCurrentCell];
+      }
     }
     return null;
   }
@@ -619,9 +628,9 @@ class CurrentGameState extends Equatable {
   Cell get actualCell {
     final ifElseMode = currentPlayer.ifElseMode;
     return ifElseMode == IfElseMode.ifMode
-        ? currentCell.ifCell
+        ? currentCell?.ifCell
         : ifElseMode == IfElseMode.elseMode
-            ? currentCell.elseCell
+            ? currentCell?.elseCell
             : currentCell;
   }
 

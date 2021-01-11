@@ -31,7 +31,8 @@ class FabCamera extends StatelessWidget {
               playerPrevious.avatar != playerCurrent.avatar;
         },
         builder: (context, state) {
-          final avatarPlayer = state.playerList.firstWhere(sameUser).avatar;
+          final avatarPlayer =
+              state.playerList.firstWhere(sameUser, orElse: () => null)?.avatar;
           if (avatarPlayer != null) {
             return ClipRRect(
                 child: Image.memory(avatarPlayer),

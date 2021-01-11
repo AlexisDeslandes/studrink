@@ -24,7 +24,7 @@ class PlayArea extends StatelessWidget {
         child: BlocBuilder<CurrentGameBloc, CurrentGameState>(
             buildWhen: (previous, current) =>
                 (previous.currentPlayer != current.currentPlayer) ||
-                (previous.currentPlayer.state != current.currentPlayer.state),
+                (previous.currentPlayer?.state != current.currentPlayer?.state),
             builder: (context, state) => AnimatedSwitcher(
                   duration: Duration(milliseconds: 500),
                   child: Container(
@@ -37,6 +37,9 @@ class PlayArea extends StatelessWidget {
     final currentPlayer = state.currentPlayer,
         currentPlayerState = currentPlayer.state,
         actualCell = state.actualCell;
+    if (actualCell == null) {
+      return const SizedBox();
+    }
     if ([PlayerState.ready, PlayerState.throwDice]
         .contains(currentPlayerState)) {
       return const PlayerReadyArea();
