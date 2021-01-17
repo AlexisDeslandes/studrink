@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/pages/chose_game_page.dart';
 import 'package:ptit_godet/pages/create_home_page.dart';
+import 'package:ptit_godet/pages/market_page.dart';
 import 'package:ptit_godet/widgets/no_back_element_screen.dart';
 
 class HomePage extends CupertinoPage {
@@ -45,9 +46,10 @@ class HomeScreen extends NoBackElementScreen {
               ),
               Flexible(
                   child: RaisedButton(
-                child: Text("Créer"),
-                onPressed: () => context.bloc<NavBloc>().add(
-                    PushNav(pageBuilder: (dynamic) => const CreateHomePage())),
+                child: Text("Catalogue"),
+                onPressed: () => context
+                    .bloc<NavBloc>()
+                    .add(PushNav(pageBuilder: (dynamic) => const MarketPage())),
               ))
             ],
           ))
