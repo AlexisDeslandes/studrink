@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:ptit_godet/blocs/board_game/board_game_bloc.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
 import 'package:ptit_godet/blocs/dice/dice_bloc.dart';
+import 'package:ptit_godet/blocs/market_place/market_place_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/storage/local_storage.dart';
 
@@ -23,7 +24,9 @@ class AppProvider extends StatelessWidget {
       BlocProvider<CurrentGameBloc>(
           create: (context) => CurrentGameBloc(
               navBloc: context.bloc<NavBloc>(),
-              diceBloc: context.bloc<DiceBloc>()))
+              diceBloc: context.bloc<DiceBloc>())),
+      BlocProvider<MarketPlaceBloc>(
+          create: (context) => MarketPlaceBloc()..add(const InitMarketPlace()))
     ], child: child);
   }
 }
