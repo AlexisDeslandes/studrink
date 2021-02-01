@@ -19,6 +19,8 @@ class MarketPlaceBloc extends Bloc<MarketPlaceEvent, MarketPlaceState> {
       yield MarketPlaceState.copy(state, selectedSort: event.sort);
     } else if (event is SearchMarket) {
       yield MarketPlaceState.copy(state, search: event.search);
+    } else if (event is ChoseBoardGame) {
+      yield MarketPlaceState.copy(state, chosenBoardGame: event.boardGame);
     }
   }
 
@@ -97,7 +99,8 @@ class MarketPlaceState extends Equatable {
   }
 
   @override
-  List<Object> get props => [boardGameList, selectedSort, searchWord, chosenBoardGame];
+  List<Object> get props =>
+      [boardGameList, selectedSort, searchWord, chosenBoardGame];
 
   List<BoardGame> get _listContainingSearchWord {
     if (searchWord.isEmpty) {

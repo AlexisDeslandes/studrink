@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:ptit_godet/blocs/market_place/market_place_bloc.dart';
 import 'package:ptit_godet/widgets/back_element_screen.dart';
 import 'package:ptit_godet/widgets/base_building.dart';
 import 'package:ptit_godet/widgets/simple_title_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DetailMarketPage extends CupertinoPage {
   const DetailMarketPage()
@@ -19,6 +23,7 @@ class DetailMarketScreen extends StatefulWidget {
 
 class DetailMarketScreenState extends BackElementScreenState
     with BaseBuildingState, SimpleTitleScreen {
+  PageController _pageController = PageController(viewportFraction: 0.7);
   @override
   String backButtonText() {
     return "Market place";
@@ -26,7 +31,109 @@ class DetailMarketScreenState extends BackElementScreenState
 
   @override
   Widget body(BuildContext context) {
-    return Container();
+    final boardGame = context.bloc<MarketPlaceBloc>().state.chosenBoardGame;
+    return Padding(
+      padding: const EdgeInsets.only(top: 15.0, left: 30.0, right: 30.0),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Card(
+                elevation: 3,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SvgPicture.asset(
+                    "assets/icons/beer.svg", //todo replace with original image
+                    width: 60.0,
+                    height: 60.0,
+                  ),
+                ),
+              ),
+              Expanded(
+                  child: Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20.0),
+                  child: Text(boardGame.name,
+                      style: Theme.of(context).textTheme.headline2),
+                ),
+              ))
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ButtonTheme(
+                    minWidth: MediaQuery.of(context).size.width * 0.35,
+                    height: 40.0,
+                    child: RaisedButton(
+                        onPressed: () {},
+                        color: Colors.white,
+                        child: Text(
+                          "Evaluer",
+                          style: Theme.of(context).textTheme.bodyText1.copyWith(
+                              fontSize: 18.0,
+                              color: Theme.of(context).primaryColor),
+                        ))),
+                ButtonTheme(
+                    minWidth: MediaQuery.of(context).size.width * 0.35,
+                    height: 40.0,
+                    child: RaisedButton(
+                        onPressed: () {},
+                        color: Theme.of(context).primaryColor,
+                        child: Text(
+                          "Installer",
+                          style: Theme.of(context).textTheme.bodyText1.copyWith(
+                              fontSize: 18.0,
+                              color: Theme.of(context).scaffoldBackgroundColor),
+                        )))
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 30.0),
+            child: Text(
+              "Une description assez incroyable puisque. Le jeu est tout de même conçu par des Étudiants de Planisware et polytech.",
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(fontWeight: FontWeight.w400),
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 40.0),
+              child: PageView(
+                controller: _pageController,
+                scrollDirection: Axis.horizontal,
+                children: [
+                  Center(
+                    child: Card(
+                      elevation: 5,
+                      child: Container(
+                        height: MediaQuery.of(context).size.width * 0.7,
+                        width: MediaQuery.of(context).size.width * 0.5,
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Card(
+                      elevation: 5,
+                      child: Container(
+                        height: MediaQuery.of(context).size.width * 0.7,
+                        width: MediaQuery.of(context).size.width * 0.5,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   @override
