@@ -6,7 +6,9 @@
     "description": "Petit nouveau 3a dans ton école préféré, Polytech Nice, vit ou revit les 3 années de cursus ingénieur les plus folles du réseau. Tu retrouveras tous les plus grands événements de ton cursus !",
     "imgUrl": "assets/icons/goose.svg",
     "cells": [
-    ]
+    ],
+    "date": 1612209433,
+    "event": true
   },
   {
     "name": "Hénéken",
@@ -14,6 +16,8 @@
     "tag": "Non sérieux tu nous fait quoi là ?",
     "description": "Tu veux commencer P'tit godet en étant sûr de t'en sortir en un seul morceau ? Hénéken est sûrement le bon choix. Mais ne te plains pas de ne pas t'être assez amusé après !",
     "imgUrl": "https://pbs.twimg.com/profile_images/2517626038/h8qq4gtkn20v6j9zl2lp_400x400.jpeg",
-    "cells": []
+    "cells": [],
+    "date": 1612209431,
+    "event": false
   }
 ]

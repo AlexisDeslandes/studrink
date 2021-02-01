@@ -9,6 +9,7 @@ class BoardGame extends Resource {
   final String description;
   final List<Cell> cells;
   final DateTime date;
+  final bool event;
 
   const BoardGame(
       {this.name = "",
@@ -17,7 +18,8 @@ class BoardGame extends Resource {
       this.description = "",
       this.cells = const [],
       this.imgUrl,
-      this.date});
+      this.date,
+      this.event = false});
 
   BoardGame.fromJson(Map<String, dynamic> map)
       : this(
@@ -26,7 +28,8 @@ class BoardGame extends Resource {
             tag: map["tag"],
             imgUrl: map["imgUrl"],
             description: map["description"],
-            date: map["date"],
+            event: map["event"] != null && map["event"] ? true : false,
+            date: DateTime.fromMillisecondsSinceEpoch(map["date"]),
             cells: List<Map<String, dynamic>>.from(map["cells"])
                 .map((e) => Cell.fromJson(e))
                 .toList());
@@ -43,7 +46,8 @@ class BoardGame extends Resource {
       "cells": cells.map((e) => e.toJson()).toList(),
       "description": description,
       "imgUrl": imgUrl,
-      "date": date
+      "date": date.millisecondsSinceEpoch,
+      "event": event
     };
   }
 }

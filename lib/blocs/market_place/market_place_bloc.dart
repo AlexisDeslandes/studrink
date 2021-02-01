@@ -74,7 +74,16 @@ class MarketPlaceState extends Equatable {
       case MarketSort.NEW:
         return searchList..sort((a, b) => a.date.compareTo(b.date));
       case MarketSort.EVENT:
-
+        return searchList
+          ..sort((a, b) {
+            if (a.event == b.event) {
+              return 0;
+            } else if (a.event && !b.event) {
+              return -1;
+            } else {
+              return 1;
+            }
+          });
       case MarketSort.TOP:
       default:
         return searchList;
