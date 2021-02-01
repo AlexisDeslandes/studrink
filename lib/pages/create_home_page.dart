@@ -12,10 +12,15 @@ class CreateHomePage extends CupertinoPage {
       : super(child: const CreateHomeScreen(), key: const ValueKey("/create"));
 }
 
-class CreateHomeScreen extends BackElementScreen
-    with BaseBuilding, SimpleTitleScreen {
+class CreateHomeScreen extends StatefulWidget {
   const CreateHomeScreen();
 
+  @override
+  State<StatefulWidget> createState() => CreateHomeScreenState();
+}
+
+class CreateHomeScreenState extends BackElementScreenState
+    with BaseBuildingState, SimpleTitleScreen {
   @override
   String backButtonText() {
     return "Accueil";
@@ -33,9 +38,10 @@ class CreateHomeScreen extends BackElementScreen
               itemBuilder: (context, index) => Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: BoardGameTile(
-                      boardGame: state.boardGameList[index], onTap: () {
+                      boardGame: state.boardGameList[index],
+                      onTap: () {
                         //todo
-                  })),
+                      })),
             ),
           ),
         ),

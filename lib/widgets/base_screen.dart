@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-abstract class BaseScreen extends StatelessWidget {
-  const BaseScreen();
-
+abstract class BaseScreenState<W extends StatefulWidget> extends State<W> {
   Widget title(BuildContext context);
 
   Widget body(BuildContext context);

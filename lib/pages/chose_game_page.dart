@@ -17,10 +17,17 @@ class ChoseGamePage extends CupertinoPage {
             key: const ValueKey<String>("/chose_game"));
 }
 
-class ChoseGameScreen extends BackElementScreen
-    with BaseBuilding, SimpleTitleScreen {
+class ChoseGameScreen extends StatefulWidget {
   const ChoseGameScreen();
 
+  @override
+  State<StatefulWidget> createState() {
+    return ChoseGameScreenState();
+  }
+}
+
+class ChoseGameScreenState extends BackElementScreenState
+    with BaseBuildingState, SimpleTitleScreen {
   @override
   String backButtonText() => "Accueil";
 

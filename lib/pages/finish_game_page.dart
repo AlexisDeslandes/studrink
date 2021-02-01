@@ -12,8 +12,14 @@ class FinishGamePage extends CupertinoPage {
             child: const FinishGameScreen());
 }
 
-class FinishGameScreen extends NoBackElementScreen {
+class FinishGameScreen extends StatefulWidget {
   const FinishGameScreen();
+
+  @override
+  State<StatefulWidget> createState() => FinishGameScreenState();
+}
+
+class FinishGameScreenState extends NoBackElementScreen {
 
   @override
   Widget body(BuildContext context) {

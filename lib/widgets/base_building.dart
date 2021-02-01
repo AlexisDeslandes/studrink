@@ -4,7 +4,7 @@ import 'package:ptit_godet/widgets/background.dart';
 
 import 'base_screen.dart';
 
-mixin BaseBuilding on BaseScreen {
+mixin BaseBuildingState on BaseScreenState {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;

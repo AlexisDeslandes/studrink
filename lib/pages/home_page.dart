@@ -13,9 +13,14 @@ class HomePage extends CupertinoPage {
       : super(child: const HomeScreen(), key: const ValueKey<String>("/home"));
 }
 
-class HomeScreen extends NoBackElementScreen {
+class HomeScreen extends StatefulWidget {
   const HomeScreen();
 
+  @override
+  State<StatefulWidget> createState() => HomeScreenState();
+}
+
+class HomeScreenState extends NoBackElementScreen {
   @override
   Widget body(BuildContext context) {
     return Container(

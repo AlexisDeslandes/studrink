@@ -10,10 +10,15 @@ class DetailMarketPage extends CupertinoPage {
             child: const DetailMarketScreen());
 }
 
-class DetailMarketScreen extends BackElementScreen
-    with BaseBuilding, SimpleTitleScreen {
+class DetailMarketScreen extends StatefulWidget {
   const DetailMarketScreen();
 
+  @override
+  State<StatefulWidget> createState() => DetailMarketScreenState();
+}
+
+class DetailMarketScreenState extends BackElementScreenState
+    with BaseBuildingState, SimpleTitleScreen {
   @override
   String backButtonText() {
     return "Market place";

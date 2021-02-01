@@ -15,9 +15,15 @@ class ChosePlayersPage extends CupertinoPage {
             key: const ValueKey<String>("/chose_players"));
 }
 
-class ChosePlayersScreen extends BackElementScreen with SimpleTitleScreen {
+class ChosePlayersScreen extends StatefulWidget {
   const ChosePlayersScreen();
 
+  @override
+  State<StatefulWidget> createState() => ChosePlayersScreenState();
+}
+
+class ChosePlayersScreenState extends BackElementScreenState
+    with SimpleTitleScreen {
   @override
   String backButtonText() {
     return "Choix de la partie";

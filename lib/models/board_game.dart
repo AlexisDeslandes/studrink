@@ -8,6 +8,7 @@ class BoardGame extends Resource {
   final String imgUrl;
   final String description;
   final List<Cell> cells;
+  final DateTime date;
 
   const BoardGame(
       {this.name = "",
@@ -15,7 +16,8 @@ class BoardGame extends Resource {
       this.tag = "",
       this.description = "",
       this.cells = const [],
-      this.imgUrl});
+      this.imgUrl,
+      this.date});
 
   BoardGame.fromJson(Map<String, dynamic> map)
       : this(
@@ -24,6 +26,7 @@ class BoardGame extends Resource {
             tag: map["tag"],
             imgUrl: map["imgUrl"],
             description: map["description"],
+            date: map["date"],
             cells: List<Map<String, dynamic>>.from(map["cells"])
                 .map((e) => Cell.fromJson(e))
                 .toList());
@@ -39,7 +42,8 @@ class BoardGame extends Resource {
       "tag": tag,
       "cells": cells.map((e) => e.toJson()).toList(),
       "description": description,
-      "imgUrl": imgUrl
+      "imgUrl": imgUrl,
+      "date": date
     };
   }
 }

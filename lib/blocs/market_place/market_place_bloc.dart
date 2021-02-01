@@ -15,6 +15,10 @@ class MarketPlaceBloc extends Bloc<MarketPlaceEvent, MarketPlaceState> {
   Stream<MarketPlaceState> mapEventToState(MarketPlaceEvent event) async* {
     if (event is InitMarketPlace) {
       yield await _initMarketPlace();
+    } else if (event is ChangeMarketSort) {
+      yield MarketPlaceState.copy(state, selectedSort: event.sort);
+    } else if (event is SearchMarket) {
+      yield MarketPlaceState.copy(state, search: event.search);
     }
   }
 
@@ -30,13 +34,65 @@ class MarketPlaceBloc extends Bloc<MarketPlaceEvent, MarketPlaceState> {
   }
 }
 
+extension MarketSortExtension on MarketSort {
+  String get description {
+    switch (this) {
+      case MarketSort.TOP:
+        return "Top des jeux";
+      case MarketSort.EVENT:
+        return "Evénements";
+      case MarketSort.NEW:
+        return "Nouveaux";
+      default:
+        return "Top des jeux";
+    }
+  }
+}
+
+enum MarketSort { TOP, EVENT, NEW }
+
 class MarketPlaceState extends Equatable {
   final List<BoardGame> boardGameList;
+  final MarketSort selectedSort;
+  final String searchWord;
 
-  const MarketPlaceState({this.boardGameList = const []});
+  const MarketPlaceState(
+      {this.boardGameList = const [],
+      this.selectedSort = MarketSort.TOP,
+      this.searchWord = ""});
+
+  MarketPlaceState.copy(MarketPlaceState old,
+      {List<BoardGame> boardGameList, MarketSort selectedSort, String search})
+      : this(
+            boardGameList: boardGameList ?? old.boardGameList,
+            selectedSort: selectedSort ?? old.selectedSort,
+            searchWord: search ?? old.searchWord);
+
+  List<BoardGame> get boardGameListTreated {
+    final searchList = _listContainingSearchWord;
+    switch (selectedSort) {
+      case MarketSort.NEW:
+        return searchList..sort((a, b) => a.date.compareTo(b.date));
+      case MarketSort.EVENT:
+
+      case MarketSort.TOP:
+      default:
+        return searchList;
+    }
+  }
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [boardGameList, selectedSort, searchWord];
+
+  List<BoardGame> get _listContainingSearchWord {
+    if (searchWord.isEmpty) {
+      return this.boardGameList;
+    }
+    return boardGameList
+        .where((element) =>
+            element.name.toLowerCase().contains(searchWord.toLowerCase()))
+        .toList();
+  }
 }
 
 class MarketPlaceEmpty extends MarketPlaceState {
@@ -49,4 +105,16 @@ class MarketPlaceEvent {
 
 class InitMarketPlace extends MarketPlaceEvent {
   const InitMarketPlace();
+}
+
+class ChangeMarketSort extends MarketPlaceEvent {
+  final MarketSort sort;
+
+  const ChangeMarketSort(this.sort);
+}
+
+class SearchMarket extends MarketPlaceEvent {
+  final String search;
+
+  const SearchMarket(this.search);
 }

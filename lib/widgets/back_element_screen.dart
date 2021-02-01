@@ -4,8 +4,7 @@ import 'package:ptit_godet/widgets/base_building.dart';
 import 'package:ptit_godet/widgets/base_screen.dart';
 import 'package:ptit_godet/widgets/custom_back_button.dart';
 
-abstract class BackElementScreen extends BaseScreen with BaseBuilding {
-  const BackElementScreen();
+abstract class BackElementScreenState extends BaseScreenState with BaseBuildingState {
 
   String backButtonText();
 

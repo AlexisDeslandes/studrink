@@ -18,13 +18,33 @@ class MarketPage extends CupertinoPage {
       : super(child: const MarketScreen(), key: const ValueKey("/market"));
 }
 
-class MarketScreen extends BackElementScreen
-    with BaseBuilding, SimpleTitleScreen {
+class MarketScreen extends StatefulWidget {
   const MarketScreen();
+
+  @override
+  State<StatefulWidget> createState() => MarketScreenState();
+}
+
+class MarketScreenState extends BackElementScreenState
+    with BaseBuildingState, SimpleTitleScreen {
+  TextEditingController _searchController;
 
   @override
   String backButtonText() {
     return "Accueil";
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController = TextEditingController(
+        text: context.bloc<MarketPlaceBloc>().state.searchWord);
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   @override
@@ -36,34 +56,50 @@ class MarketScreen extends BackElementScreen
             elevation: 3,
             child: TextField(
               autocorrect: false,
+              controller: _searchController,
+              onChanged: (value) =>
+                  context.bloc<MarketPlaceBloc>().add(SearchMarket(value)),
               decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
                   border: InputBorder.none,
                   hintText: "Rechercher",
-                  //Rechercher ou saisir un code
-                  prefixIcon: Icon(Icons.search)),
+                  prefixIcon: Icon(Icons.search),
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.clear),
+                    onPressed: () {
+                      _searchController.clear();
+                      context.bloc<MarketPlaceBloc>().add(SearchMarket(""));
+                    },
+                  )),
             ),
           ),
           Padding(
               padding: const EdgeInsets.only(top: 30.0, bottom: 10.0),
-              child: Wrap(spacing: 5, runSpacing: 5, children: [
-                ChoiceChip(
-                    label: Text("Top des jeux"),
-                    selected: true,
-                    elevation: 2,
-                    onSelected: (_) {}),
-                ChoiceChip(label: Text("Evénements"), selected: false),
-                ChoiceChip(label: Text("Nouveaux"), selected: false)
-              ])),
-          Expanded(
               child: BlocBuilder<MarketPlaceBloc, MarketPlaceState>(
-                  builder: (context, state) => ListView.separated(
-                      separatorBuilder: (context, index) =>
-                          SizedBox(height: 20.0),
-                      itemBuilder: (context, index) => MarketGameTile(
-                          index: index, boardGame: state.boardGameList[index]),
-                      itemCount: state.boardGameList.length)))
+                  buildWhen: (previous, current) =>
+                      previous.selectedSort != current.selectedSort,
+                  builder: (context, state) => Wrap(
+                      spacing: 5,
+                      runSpacing: 5,
+                      children: MarketSort.values
+                          .map((sort) => ChoiceChip(
+                              label: Text(sort.description),
+                              selected: state.selectedSort == sort,
+                              elevation: 2,
+                              onSelected: (_) => context
+                                  .bloc<MarketPlaceBloc>()
+                                  .add(ChangeMarketSort(sort))))
+                          .toList()))),
+          Expanded(child: BlocBuilder<MarketPlaceBloc, MarketPlaceState>(
+              builder: (context, state) {
+            final boardGameListTreated = state.boardGameListTreated;
+            return ListView.separated(
+                separatorBuilder: (context, index) => SizedBox(height: 20.0),
+                itemBuilder: (context, index) => MarketGameTile(
+                    index: index, boardGame: boardGameListTreated[index]),
+                itemCount: boardGameListTreated.length);
+          }))
         ]));
   }
 
