@@ -55,18 +55,24 @@ class MarketPlaceState extends Equatable {
   final List<BoardGame> boardGameList;
   final MarketSort selectedSort;
   final String searchWord;
+  final BoardGame chosenBoardGame;
 
   const MarketPlaceState(
       {this.boardGameList = const [],
       this.selectedSort = MarketSort.TOP,
-      this.searchWord = ""});
+      this.searchWord = "",
+      this.chosenBoardGame});
 
   MarketPlaceState.copy(MarketPlaceState old,
-      {List<BoardGame> boardGameList, MarketSort selectedSort, String search})
+      {List<BoardGame> boardGameList,
+      MarketSort selectedSort,
+      String search,
+      BoardGame chosenBoardGame})
       : this(
             boardGameList: boardGameList ?? old.boardGameList,
             selectedSort: selectedSort ?? old.selectedSort,
-            searchWord: search ?? old.searchWord);
+            searchWord: search ?? old.searchWord,
+            chosenBoardGame: chosenBoardGame ?? old.chosenBoardGame);
 
   List<BoardGame> get boardGameListTreated {
     final searchList = _listContainingSearchWord;
@@ -91,7 +97,7 @@ class MarketPlaceState extends Equatable {
   }
 
   @override
-  List<Object> get props => [boardGameList, selectedSort, searchWord];
+  List<Object> get props => [boardGameList, selectedSort, searchWord, chosenBoardGame];
 
   List<BoardGame> get _listContainingSearchWord {
     if (searchWord.isEmpty) {
@@ -126,4 +132,10 @@ class SearchMarket extends MarketPlaceEvent {
   final String search;
 
   const SearchMarket(this.search);
+}
+
+class ChoseBoardGame extends MarketPlaceEvent {
+  final BoardGame boardGame;
+
+  const ChoseBoardGame(this.boardGame);
 }

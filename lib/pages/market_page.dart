@@ -122,9 +122,12 @@ class MarketGameTile extends StatelessWidget {
     final isImgFromWeb = boardGame.imgUrl.startsWith("http");
     return Material(
       child: InkWell(
-        onTap: () => context
-            .bloc<NavBloc>()
-            .add(PushNav(pageBuilder: (_) => const DetailMarketPage())),
+        onTap: () {
+          context.bloc<MarketPlaceBloc>().add(ChoseBoardGame(boardGame));
+          context
+              .bloc<NavBloc>()
+              .add(PushNav(pageBuilder: (_) => const DetailMarketPage()));
+        },
         child: SizedBox(
           height: 50,
           child: Row(
