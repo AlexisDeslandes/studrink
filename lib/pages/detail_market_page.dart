@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ptit_godet/blocs/market_place/market_place_bloc.dart';
 import 'package:ptit_godet/widgets/back_element_screen.dart';
 import 'package:ptit_godet/widgets/base_building.dart';
+import 'package:ptit_godet/widgets/detail_market/screenshot_view.dart';
 import 'package:ptit_godet/widgets/simple_title_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,8 +24,6 @@ class DetailMarketScreen extends StatefulWidget {
 
 class DetailMarketScreenState extends BackElementScreenState
     with BaseBuildingState, SimpleTitleScreen {
-  PageController _pageController = PageController(viewportFraction: 0.7);
-
   @override
   String backButtonText() {
     return "Market place";
@@ -113,32 +112,8 @@ class DetailMarketScreenState extends BackElementScreenState
           ),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(top: 40.0),
-              child: PageView(
-                controller: _pageController,
-                scrollDirection: Axis.horizontal,
-                children: [
-                  Center(
-                    child: Card(
-                      elevation: 5,
-                      child: Container(
-                        height: MediaQuery.of(context).size.width * 0.7,
-                        width: MediaQuery.of(context).size.width * 0.5,
-                      ),
-                    ),
-                  ),
-                  Center(
-                    child: Card(
-                      elevation: 5,
-                      child: Container(
-                        height: MediaQuery.of(context).size.width * 0.7,
-                        width: MediaQuery.of(context).size.width * 0.5,
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
+                padding: const EdgeInsets.only(top: 40.0),
+                child: ScreenshotView(screenshots: boardGame.screenshots)),
           )
         ],
       ),

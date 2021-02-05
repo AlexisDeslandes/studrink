@@ -8,7 +8,8 @@
     "cells": [
     ],
     "date": 1612209433,
-    "event": true
+    "event": true,
+    "screenshots": ["screen1.png", "screen2.png"]
   },
   {
     "name": "Hénéken",
@@ -18,6 +19,7 @@
     "imgUrl": "https://pbs.twimg.com/profile_images/2517626038/h8qq4gtkn20v6j9zl2lp_400x400.jpeg",
     "cells": [],
     "date": 1612209431,
-    "event": false
+    "event": false,
+    "screenshots": ["screen1.png", "screen2.png"]
   }
 ]
