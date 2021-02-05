@@ -24,6 +24,7 @@ class DetailMarketScreen extends StatefulWidget {
 class DetailMarketScreenState extends BackElementScreenState
     with BaseBuildingState, SimpleTitleScreen {
   PageController _pageController = PageController(viewportFraction: 0.7);
+
   @override
   String backButtonText() {
     return "Market place";
@@ -31,7 +32,8 @@ class DetailMarketScreenState extends BackElementScreenState
 
   @override
   Widget body(BuildContext context) {
-    final boardGame = context.bloc<MarketPlaceBloc>().state.chosenBoardGame;
+    final boardGame = context.bloc<MarketPlaceBloc>().state.chosenBoardGame,
+        imgUrl = boardGame.imgUrl;
     return Padding(
       padding: const EdgeInsets.only(top: 15.0, left: 30.0, right: 30.0),
       child: Column(
@@ -40,14 +42,21 @@ class DetailMarketScreenState extends BackElementScreenState
             children: [
               Card(
                 elevation: 3,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SvgPicture.asset(
-                    "assets/icons/beer.svg", //todo replace with original image
-                    width: 60.0,
-                    height: 60.0,
-                  ),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(4.0)),
                 ),
+                child: imgUrl.startsWith("http")
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(3.0),
+                        child: Image.network(imgUrl, width: 60.0, height: 60.0))
+                    : Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: SvgPicture.asset(
+                          imgUrl,
+                          width: 50.0,
+                          height: 50.0,
+                        ),
+                      ),
               ),
               Expanded(
                   child: Align(
@@ -95,7 +104,7 @@ class DetailMarketScreenState extends BackElementScreenState
           Padding(
             padding: const EdgeInsets.only(top: 30.0),
             child: Text(
-              "Une description assez incroyable puisque. Le jeu est tout de même conçu par des Étudiants de Planisware et polytech.",
+              boardGame.description,
               style: Theme.of(context)
                   .textTheme
                   .bodyText1
