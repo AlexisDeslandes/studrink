@@ -26,7 +26,7 @@ class CardCellPlayerList extends StatelessWidget {
               final hasFocus = focusedCellState.selectedPlayer == player;
               return GestureDetector(
                 onTap: () => context
-                    .bloc<FocusedCellBloc>()
+                    .read<FocusedCellBloc>()
                     .add(ChangeFocusedPlayer(player)),
                 child: Container(
                   width: imageSize + borderRadius * 2,
@@ -44,7 +44,7 @@ class CardCellPlayerList extends StatelessWidget {
                             : null,
                         child: ClipOval(
                             child: player.avatar != null
-                                ? Image.memory(player.avatar, width: imageSize)
+                                ? Image.memory(player.avatar!, width: imageSize)
                                 : Container(
                                     color: player.color,
                                     width: imageSize,

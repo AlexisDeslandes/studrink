@@ -18,7 +18,7 @@ class PlayerChoseDirectionArea extends StatelessWidget {
                   text: "Avancer",
                   onPressed: () {
                     context
-                        .bloc<CurrentGameBloc>()
+                        .read<CurrentGameBloc>()
                         .add(const MovingForward());
                   },
                 ),
@@ -26,7 +26,7 @@ class PlayerChoseDirectionArea extends StatelessWidget {
                   text: "Reculer",
                   onPressed: () {
                     context
-                        .bloc<CurrentGameBloc>()
+                        .read<CurrentGameBloc>()
                         .add(const MoveBack());
                   },
                 )

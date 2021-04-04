@@ -25,7 +25,7 @@ class PlayerChoseOpponentArea extends StatelessWidget {
                       text: player.name,
                       onPressed: () {
                         context
-                            .bloc<CurrentGameBloc>()
+                            .read<CurrentGameBloc>()
                             .add(PickOpponent(player));
                       },
                     ),

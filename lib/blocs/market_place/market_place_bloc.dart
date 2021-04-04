@@ -7,7 +7,7 @@ import 'package:ptit_godet/models/board_game.dart';
 class MarketPlaceBloc extends Bloc<MarketPlaceEvent, MarketPlaceState> {
   final AssetBundle assetBundle;
 
-  MarketPlaceBloc({AssetBundle assetBundle})
+  MarketPlaceBloc({AssetBundle? assetBundle})
       : this.assetBundle = assetBundle ?? rootBundle,
         super(const MarketPlaceEmpty());
 
@@ -57,7 +57,7 @@ class MarketPlaceState extends Equatable {
   final List<BoardGame> boardGameList;
   final MarketSort selectedSort;
   final String searchWord;
-  final BoardGame chosenBoardGame;
+  final BoardGame? chosenBoardGame;
 
   const MarketPlaceState(
       {this.boardGameList = const [],
@@ -66,10 +66,10 @@ class MarketPlaceState extends Equatable {
       this.chosenBoardGame});
 
   MarketPlaceState.copy(MarketPlaceState old,
-      {List<BoardGame> boardGameList,
-      MarketSort selectedSort,
-      String search,
-      BoardGame chosenBoardGame})
+      {List<BoardGame>? boardGameList,
+      MarketSort? selectedSort,
+      String? search,
+      BoardGame? chosenBoardGame})
       : this(
             boardGameList: boardGameList ?? old.boardGameList,
             selectedSort: selectedSort ?? old.selectedSort,
@@ -99,7 +99,7 @@ class MarketPlaceState extends Equatable {
   }
 
   @override
-  List<Object> get props =>
+  List<Object?> get props =>
       [boardGameList, selectedSort, searchWord, chosenBoardGame];
 
   List<BoardGame> get _listContainingSearchWord {

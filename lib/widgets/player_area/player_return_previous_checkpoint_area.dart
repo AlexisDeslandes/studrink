@@ -15,7 +15,7 @@ class PlayerReturnPreviousCheckPointArea extends StatelessWidget {
             child: BottomButton(
               text: "Retour en arrière.",
               onPressed: () {
-                context.bloc<CurrentGameBloc>().add(const ReturnPreviousCheckpoint());
+                context.read<CurrentGameBloc>().add(const ReturnPreviousCheckpoint());
               },
             ),
             alignment: Alignment.bottomCenter

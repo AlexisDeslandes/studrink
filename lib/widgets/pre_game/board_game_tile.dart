@@ -6,7 +6,7 @@ class BoardGameTile extends StatelessWidget {
   final BoardGame boardGame;
   final void Function() onTap;
 
-  const BoardGameTile({@required this.boardGame, this.onTap}) : assert(boardGame != null);
+  const BoardGameTile({required this.boardGame, required this.onTap});
 
   @override
   Widget build(BuildContext context) {

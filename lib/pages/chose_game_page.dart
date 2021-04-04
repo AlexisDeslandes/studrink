@@ -45,10 +45,10 @@ class ChoseGameScreenState extends BackElementScreenState
               child: BoardGameTile(
                   boardGame: boardGameList[index],
                   onTap: () {
-                    context.bloc<CurrentGameBloc>()
+                    context.read<CurrentGameBloc>()
                       ..add(InitModelCurrentGame(
                           boardGame: boardGameList[index]));
-                    context.bloc<NavBloc>().add(
+                    context.read<NavBloc>().add(
                         PushNav(pageBuilder: (_) => const ChosePlayersPage()));
                   }),
             ),

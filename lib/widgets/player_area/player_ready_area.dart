@@ -15,7 +15,7 @@ class PlayerReadyArea extends StatelessWidget {
           child: BottomButton(
             text: "Lancer dé",
             onPressed: () {
-              context.bloc<CurrentGameBloc>().add(const ThrowDice());
+              context.read<CurrentGameBloc>().add(const ThrowDice());
             },
           ),
           alignment: Alignment.bottomCenter

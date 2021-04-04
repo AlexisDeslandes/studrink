@@ -10,7 +10,7 @@ import 'package:ptit_godet/widgets/game_page_view/card_cell_player_selected_abel
 class CardCell extends StatelessWidget {
   final Cell cell;
 
-  const CardCell({Key key, @required this.cell})
+  const CardCell({Key? key, required this.cell})
       : assert(cell != null),
         super(key: key);
 

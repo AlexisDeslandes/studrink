@@ -16,12 +16,12 @@ class FocusedCellBloc extends Bloc<FocusedCellEvent, FocusedCellState> {
 }
 
 class FocusedCellState extends Equatable {
-  final Player selectedPlayer;
+  final Player? selectedPlayer;
 
   const FocusedCellState([this.selectedPlayer]);
 
   @override
-  List<Object> get props => [selectedPlayer];
+  List<Object?> get props => [selectedPlayer];
 }
 
 abstract class FocusedCellEvent extends Equatable {

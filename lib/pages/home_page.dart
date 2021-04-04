@@ -44,7 +44,7 @@ class HomeScreenState extends NoBackElementScreen {
                 child: Center(
                     child: RaisedButton(
                   child: Text("Jouer"),
-                  onPressed: () => context.bloc<NavBloc>().add(PushNav(
+                  onPressed: () => context.read<NavBloc>().add(PushNav(
                         pageBuilder: (dynamic) => const ChoseGamePage(),
                       )),
                 )),
@@ -53,7 +53,7 @@ class HomeScreenState extends NoBackElementScreen {
                   child: RaisedButton(
                 child: Text("Catalogue"),
                 onPressed: () => context
-                    .bloc<NavBloc>()
+                    .read<NavBloc>()
                     .add(PushNav(pageBuilder: (dynamic) => const MarketPage())),
               ))
             ],

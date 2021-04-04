@@ -18,7 +18,7 @@ class PlayerChosePlayerStoleArea extends StatefulWidget {
 
 class _PlayerChosePlayerStoleAreaState
     extends State<PlayerChosePlayerStoleArea> {
-  PageController _playerChosePageController;
+  late final PageController _playerChosePageController;
 
   @override
   void initState() {
@@ -32,7 +32,7 @@ class _PlayerChosePlayerStoleAreaState
   void _onPageChanged(int value) {
     final idCellFocusedPlayer =
         widget.playerHavingConditionKey[value].idCurrentCell;
-    context.bloc<GamePageViewBloc>().add(ChangePageView(idCellFocusedPlayer));
+    context.read<GamePageViewBloc>().add(ChangePageView(idCellFocusedPlayer));
   }
 
   @override
@@ -56,7 +56,7 @@ class _PlayerChosePlayerStoleAreaState
                     text: player.name,
                     onPressed: () {
                       context
-                          .bloc<CurrentGameBloc>()
+                          .read<CurrentGameBloc>()
                           .add(StealConditionKey(player));
                     },
                   ),

@@ -15,7 +15,7 @@ class PlayerEndArea extends StatelessWidget {
             child: BottomButton(
               text: "Terminer le tour",
               onPressed: () {
-                context.bloc<CurrentGameBloc>().add(const SwitchToOtherPlayer());
+                context.read<CurrentGameBloc>().add(const SwitchToOtherPlayer());
               },
             ),
             alignment: Alignment.bottomCenter

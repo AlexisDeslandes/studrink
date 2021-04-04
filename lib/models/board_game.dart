@@ -13,14 +13,14 @@ class BoardGame extends Resource {
   final List<String> screenshots;
 
   const BoardGame(
-      {this.name = "",
+      {required this.date,
+      required this.imgUrl,
+      this.name = "",
       this.subTitle = "",
       this.tag = "",
       this.description = "",
       this.cells = const [],
       this.screenshots = const [],
-      this.imgUrl,
-      this.date,
       this.event = false});
 
   BoardGame.fromJson(Map<String, dynamic> map)
@@ -31,9 +31,7 @@ class BoardGame extends Resource {
             imgUrl: map["imgUrl"],
             description: map["description"],
             event: map["event"] != null && map["event"] ? true : false,
-            date: map["date"] != null
-                ? DateTime.fromMillisecondsSinceEpoch(map["date"])
-                : null,
+            date: DateTime.fromMillisecondsSinceEpoch(map["date"]),
             cells: map["cells"] != null
                 ? List<Map<String, dynamic>>.from(map["cells"])
                     .map((e) => Cell.fromJson(e))

@@ -7,7 +7,7 @@ import 'package:ptit_godet/blocs/game_page_view_bloc/game_page_view_bloc.dart';
 class GamePageProvider extends StatelessWidget {
   final Widget child;
 
-  const GamePageProvider({Key key, @required this.child}) : super(key: key);
+  const GamePageProvider({Key? key, required this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +16,8 @@ class GamePageProvider extends StatelessWidget {
       BlocProvider(create: (context) {
         return GamePageViewBloc(
             pageController: PageController(),
-            focusedCellBloc: context.bloc<FocusedCellBloc>(),
-            currentGameBloc: context.bloc<CurrentGameBloc>());
+            focusedCellBloc: context.read<FocusedCellBloc>(),
+            currentGameBloc: context.read<CurrentGameBloc>());
       }),
     ], child: child);
   }

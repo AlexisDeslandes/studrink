@@ -11,7 +11,7 @@ import 'package:ptit_godet/storage/local_storage.dart';
 class AppProvider extends StatelessWidget {
   final Widget child;
 
-  const AppProvider({Key key, this.child}) : super(key: key);
+  const AppProvider({Key? key, required this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +23,8 @@ class AppProvider extends StatelessWidget {
             ..add(const InitBoardGame())),
       BlocProvider<CurrentGameBloc>(
           create: (context) => CurrentGameBloc(
-              navBloc: context.bloc<NavBloc>(),
-              diceBloc: context.bloc<DiceBloc>())),
+              navBloc: context.read<NavBloc>(),
+              diceBloc: context.read<DiceBloc>())),
       BlocProvider<MarketPlaceBloc>(
           create: (context) => MarketPlaceBloc()..add(const InitMarketPlace()))
     ], child: child);

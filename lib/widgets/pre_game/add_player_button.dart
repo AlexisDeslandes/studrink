@@ -11,7 +11,7 @@ class AddPlayerButton extends StatelessWidget {
     return FloatingActionButton(
       mini: true,
       child: Icon(Icons.add, color: Theme.of(context).primaryColor),
-      onPressed: () => context.bloc<CurrentGameBloc>().add(AddPlayer()),
+      onPressed: () => context.read<CurrentGameBloc>().add(AddPlayer()),
     );
   }
 }

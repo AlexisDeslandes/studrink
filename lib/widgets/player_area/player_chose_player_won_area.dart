@@ -24,7 +24,7 @@ class PlayerChosePlayerWonArea extends StatelessWidget {
                   .map((e) => BottomButton(
                         text: e.name,
                         onPressed: () {
-                          context.bloc<CurrentGameBloc>().add(ChoseWinner(e));
+                          context.read<CurrentGameBloc>().add(ChoseWinner(e));
                         },
                       ))
                   .toList(),

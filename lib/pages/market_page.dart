@@ -27,18 +27,12 @@ class MarketScreen extends StatefulWidget {
 
 class MarketScreenState extends BackElementScreenState
     with BaseBuildingState, SimpleTitleScreen {
-  TextEditingController _searchController;
+  late final TextEditingController _searchController = TextEditingController(
+      text: context.read<MarketPlaceBloc>().state.searchWord);
 
   @override
   String backButtonText() {
     return "Accueil";
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _searchController = TextEditingController(
-        text: context.bloc<MarketPlaceBloc>().state.searchWord);
   }
 
   @override
@@ -58,7 +52,7 @@ class MarketScreenState extends BackElementScreenState
               autocorrect: false,
               controller: _searchController,
               onChanged: (value) =>
-                  context.bloc<MarketPlaceBloc>().add(SearchMarket(value)),
+                  context.read<MarketPlaceBloc>().add(SearchMarket(value)),
               decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -69,7 +63,7 @@ class MarketScreenState extends BackElementScreenState
                     icon: Icon(Icons.clear),
                     onPressed: () {
                       _searchController.clear();
-                      context.bloc<MarketPlaceBloc>().add(SearchMarket(""));
+                      context.read<MarketPlaceBloc>().add(SearchMarket(""));
                     },
                   )),
             ),
@@ -88,7 +82,7 @@ class MarketScreenState extends BackElementScreenState
                               selected: state.selectedSort == sort,
                               elevation: 2,
                               onSelected: (_) => context
-                                  .bloc<MarketPlaceBloc>()
+                                  .read<MarketPlaceBloc>()
                                   .add(ChangeMarketSort(sort))))
                           .toList()))),
           Expanded(child: BlocBuilder<MarketPlaceBloc, MarketPlaceState>(
@@ -113,8 +107,7 @@ class MarketGameTile extends StatelessWidget {
   final BoardGame boardGame;
   final int index;
 
-  const MarketGameTile(
-      {Key key, @required this.boardGame, @required this.index})
+  const MarketGameTile({Key? key, required this.boardGame, required this.index})
       : super(key: key);
 
   @override
@@ -123,9 +116,9 @@ class MarketGameTile extends StatelessWidget {
     return Material(
       child: InkWell(
         onTap: () {
-          context.bloc<MarketPlaceBloc>().add(ChoseBoardGame(boardGame));
+          context.read<MarketPlaceBloc>().add(ChoseBoardGame(boardGame));
           context
-              .bloc<NavBloc>()
+              .read<NavBloc>()
               .add(PushNav(pageBuilder: (_) => const DetailMarketPage()));
         },
         child: SizedBox(
@@ -164,7 +157,7 @@ class MarketGameTile extends StatelessWidget {
                             style: Theme.of(context)
                                 .textTheme
                                 .headline1
-                                .copyWith(fontSize: 14),
+                                ?.copyWith(fontSize: 14),
                           ),
                           Text(
                             boardGame.subTitle,
@@ -175,7 +168,7 @@ class MarketGameTile extends StatelessWidget {
                             style: Theme.of(context)
                                 .textTheme
                                 .caption
-                                .copyWith(fontSize: 8.0),
+                                ?.copyWith(fontSize: 8.0),
                           )
                         ],
                         crossAxisAlignment: CrossAxisAlignment.start,

@@ -14,13 +14,8 @@ class PlayerField extends StatefulWidget {
 }
 
 class _PlayerFieldState extends State<PlayerField> {
-  TextEditingController _controller;
-
-  @override
-  void initState() {
-    _controller = TextEditingController(text: widget.player.name);
-    super.initState();
-  }
+  late final TextEditingController _controller =
+      TextEditingController(text: widget.player.name);
 
   @override
   void dispose() {
@@ -40,7 +35,7 @@ class _PlayerFieldState extends State<PlayerField> {
       decoration: InputDecoration(labelText: "Pseudo"),
       controller: _controller,
       onChanged: (value) => context
-          .bloc<CurrentGameBloc>()
+          .read<CurrentGameBloc>()
           .add(ChangeNamePlayer(player: widget.player, name: value)),
     );
   }

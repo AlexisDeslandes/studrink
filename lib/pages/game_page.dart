@@ -32,7 +32,7 @@ class GameScreen extends StatelessWidget {
         return BlocListener<CurrentGameBloc, CurrentGameState>(
           listenWhen: (previous, current) =>
               !current.isEmpty &&
-              previous.currentPlayer.name != current.currentPlayer.name,
+              previous.currentPlayer!.name != current.currentPlayer!.name,
           listener: (context, state) =>
               _displayOverlay(context, state, maxWidth, maxHeight),
           child: Stack(children: [
@@ -64,13 +64,13 @@ class GameScreen extends StatelessWidget {
 
   void _displayOverlay(BuildContext context, CurrentGameState state,
       double maxWidth, double maxHeight) async {
-    OverlayState overlayState = Overlay.of(context);
+    OverlayState overlayState = Overlay.of(context)!;
     OverlayEntry overlayEntry = OverlayEntry(
         builder: (context) => Positioned(
             child: PlayerOverlay(
-                name: state.currentPlayer.name,
-                color: state.currentPlayer.color,
-                picture: state.currentPlayer.avatar),
+                name: state.currentPlayer!.name,
+                color: state.currentPlayer!.color,
+                picture: state.currentPlayer!.avatar!),
             width: maxWidth,
             height: maxHeight));
     overlayState.insert(overlayEntry);

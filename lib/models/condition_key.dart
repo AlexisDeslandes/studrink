@@ -5,7 +5,7 @@ class ConditionKey extends Resource {
   final int id;
   final String name;
 
-  ConditionKey({@required this.name}) : id = name.hashCode;
+  ConditionKey({required this.name}) : id = name.hashCode;
 
   @override
   List<Object> get props => [id, name];

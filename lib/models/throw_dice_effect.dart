@@ -3,7 +3,7 @@ import 'package:ptit_godet/models/resource.dart';
 class ThrowDiceEffect extends Resource {
   final String sideEffect;
 
-  ThrowDiceEffect({this.sideEffect});
+  ThrowDiceEffect({required this.sideEffect});
 
   ThrowDiceEffect.fromJson(Map<String, dynamic> map)
       : this(sideEffect: map["sideEffect"]);

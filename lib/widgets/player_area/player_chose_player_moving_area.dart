@@ -18,7 +18,7 @@ class PlayerChosePlayerMovingArea extends StatefulWidget {
 
 class _PlayerChosePlayerMovingAreaState
     extends State<PlayerChosePlayerMovingArea> {
-  PageController _playerChosePageController;
+  late final PageController _playerChosePageController;
 
   @override
   void initState() {
@@ -50,7 +50,7 @@ class _PlayerChosePlayerMovingAreaState
                     text: player.name,
                     onPressed: () {
                       context
-                          .bloc<CurrentGameBloc>()
+                          .read<CurrentGameBloc>()
                           .add(MakePlayerMoving(player));
                     },
                   ),
@@ -64,6 +64,6 @@ class _PlayerChosePlayerMovingAreaState
 
   void _onPageChanged(int value) {
     final idCellFocusedPlayer = widget.playerList[value].idCurrentCell;
-    context.bloc<GamePageViewBloc>().add(ChangePageView(idCellFocusedPlayer));
+    context.read<GamePageViewBloc>().add(ChangePageView(idCellFocusedPlayer));
   }
 }

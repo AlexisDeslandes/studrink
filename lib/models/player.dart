@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'dart:typed_data';
-
 import 'package:flutter/cupertino.dart';
 import 'package:ptit_godet/models/condition_key.dart';
 import 'package:ptit_godet/models/resource.dart';
+
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:random_color/random_color.dart';
 
 enum PlayerState {
@@ -31,7 +32,7 @@ class Player extends Resource {
 
   final int id;
   final String name;
-  final Uint8List avatar;
+  final Uint8List? avatar;
   final Color color;
   final int idCurrentCell;
   final PlayerState state;
@@ -39,8 +40,8 @@ class Player extends Resource {
   final IfElseMode ifElseMode;
 
   const Player({
-    @required this.id,
-    @required this.color,
+    required this.id,
+    required this.color,
     this.conditionKeyList = const [],
     this.idCurrentCell = 0,
     this.name = "",
@@ -87,7 +88,7 @@ class Player extends Resource {
       "name": name,
       "color": [color.red, color.green, color.blue, color.opacity],
       "ifElseMode": ifElseMode.index,
-      "avatar": base64Encode(avatar),
+      "avatar": avatar != null ? base64Encode(avatar!) : null,
       "idCurrentCell": idCurrentCell,
       "state": state,
       "conditionKeyList": conditionKeyList.map((e) => e.toJson()).toList()
@@ -95,25 +96,22 @@ class Player extends Resource {
   }
 
   @override
-  List<Object> get props => [name, avatar, idCurrentCell, state, ifElseMode];
+  List<Object?> get props => [name, avatar, idCurrentCell, state, ifElseMode];
 
   Player.copy(Player player,
-      {String name,
-      Uint8List avatar,
-      int idCurrentCell,
-      PlayerState state,
-      List<ConditionKey> conditionKeyList,
-      IfElseMode ifElseMode})
+      {String? name,
+      Uint8List? avatar,
+      int? idCurrentCell,
+      PlayerState? state,
+      List<ConditionKey>? conditionKeyList,
+      IfElseMode? ifElseMode})
       : this(
             id: player.id,
             color: player.color,
             ifElseMode: ifElseMode ?? player.ifElseMode,
             name: name ?? player.name,
             state: state ?? player.state,
-            conditionKeyList: conditionKeyList
-                    ?.where((element) => element != null)
-                    ?.toList() ??
-                player.conditionKeyList,
+            conditionKeyList: conditionKeyList ?? player.conditionKeyList, //todo check before it was a where != null
             avatar: avatar ?? player.avatar,
             idCurrentCell: idCurrentCell ?? player.idCurrentCell);
 

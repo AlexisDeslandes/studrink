@@ -18,7 +18,7 @@ class PlayerChallengeArea extends StatelessWidget {
                   text: "Raté",
                   onPressed: () {
                     context
-                        .bloc<CurrentGameBloc>()
+                        .read<CurrentGameBloc>()
                         .add(const FailChallenge());
                   },
                 ),
@@ -26,7 +26,7 @@ class PlayerChallengeArea extends StatelessWidget {
                   text: "Réussi",
                   onPressed: () {
                     context
-                        .bloc<CurrentGameBloc>()
+                        .read<CurrentGameBloc>()
                         .add(const SucceedChallenge());
                   },
                 )

@@ -9,7 +9,7 @@ class NavStateElement extends Equatable {
   final dynamic args;
   final PageBuilder pageBuilder;
 
-  const NavStateElement({@required this.pageBuilder, this.args});
+  const NavStateElement({required this.pageBuilder, this.args});
 
   @override
   List<Object> get props => [pageBuilder, args];
@@ -35,7 +35,7 @@ class PushNav extends NavEvent {
   final dynamic args;
   final PageBuilder pageBuilder;
 
-  const PushNav({@required this.pageBuilder, this.args});
+  const PushNav({required this.pageBuilder, this.args});
 
   @override
   List<Object> get props => [pageBuilder, args];

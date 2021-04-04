@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:ptit_godet/models/condition_key.dart';
 import 'package:ptit_godet/models/moving.dart';
 import 'package:ptit_godet/models/prison_condition.dart';
@@ -24,27 +23,27 @@ enum CellType {
 class Cell extends Resource {
   final String name;
   final String imgPath;
+  final CellType cellType;
   final List<String> sideEffectList;
   final List<String> sideEffectListAfterTurnLost;
-  final ConditionKey givenConditionKey;
-  final ConditionKey requiredConditionKey;
-  final ConditionKey conditionKeyStolen;
-  final CellType cellType;
-  final PrisonCondition prisonCondition;
-  final Moving moving;
-  final ThrowDiceEffect throwDiceEffect;
-  final String challenge;
-  final int movingUndeterminedCount;
-  final Cell tpCell;
-  final Cell ifCell;
-  final Cell elseCell;
-  final ConditionKey conditionIf;
-  final ConditionKey lostConditionKey;
-  final int diceCondition;
+  final ConditionKey? givenConditionKey;
+  final ConditionKey? requiredConditionKey;
+  final ConditionKey? conditionKeyStolen;
+  final PrisonCondition? prisonCondition;
+  final Moving? moving;
+  final ThrowDiceEffect? throwDiceEffect;
+  final String? challenge;
+  final int? movingUndeterminedCount;
+  final Cell? tpCell;
+  final Cell? ifCell;
+  final Cell? elseCell;
+  final ConditionKey? conditionIf;
+  final ConditionKey? lostConditionKey;
+  final int? diceCondition;
 
   Cell(
-      {@required this.name,
-      @required this.imgPath,
+      {required this.name,
+      required this.imgPath,
       this.movingUndeterminedCount,
       this.givenConditionKey,
       this.prisonCondition,
@@ -61,8 +60,7 @@ class Cell extends Resource {
       this.conditionIf,
       this.ifCell,
       this.elseCell,
-      this.diceCondition})
-      : assert(name != null && imgPath != null);
+      this.diceCondition});
 
   @override
   Map<String, dynamic> toJson() {
@@ -90,7 +88,7 @@ class Cell extends Resource {
   }
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         name,
         imgPath,
         tpCell,
@@ -148,7 +146,7 @@ class Cell extends Resource {
 
   String get givenCondition {
     if (givenConditionKey != null && cellType != CellType.battle) {
-      return "Tu gagnes : ${givenConditionKey.name}.\n";
+      return "Tu gagnes : ${givenConditionKey!.name}.\n";
     }
     return "";
   }
@@ -156,8 +154,8 @@ class Cell extends Resource {
   String get selfMovingLabel {
     if (moving != null && cellType == CellType.selfMoving) {
       final action =
-          moving.movingType == MovingType.forward ? "avances" : "recules";
-      return "Tu $action de ${moving.count} cases.\n";
+          moving!.movingType == MovingType.forward ? "avances" : "recules";
+      return "Tu $action de ${moving!.count} cases.\n";
     }
     return "";
   }
@@ -165,8 +163,8 @@ class Cell extends Resource {
   String get otherMovingLabel {
     if (moving != null && cellType == CellType.otherMoving) {
       final action =
-          moving.movingType == MovingType.forward ? "avancer" : "reculer";
-      return "Fait $action quelqu'un de ${moving.count} cases.\n";
+          moving!.movingType == MovingType.forward ? "avancer" : "reculer";
+      return "Fait $action quelqu'un de ${moving!.count} cases.\n";
     }
     return "";
   }
@@ -188,14 +186,14 @@ class Cell extends Resource {
 
   String get prisonLabel {
     if (cellType == CellType.prison) {
-      return "Fait ${prisonCondition.dicePossibilitiesLabel} pour sortir.";
+      return "Fait ${prisonCondition!.dicePossibilitiesLabel} pour sortir.";
     }
     return "";
   }
 
   String get selfThrowDiceLabel {
     if (cellType == CellType.selfThrowDice) {
-      return "Lance un dé. " + throwDiceEffect.sideEffect;
+      return "Lance un dé. " + throwDiceEffect!.sideEffect;
     }
     return "";
   }
@@ -209,14 +207,14 @@ class Cell extends Resource {
 
   String get battleLabel {
     if (cellType == CellType.battle) {
-      return "Choisis un adversaire.\nLe gagnant remporte ${givenConditionKey.name}.\n";
+      return "Choisis un adversaire.\nLe gagnant remporte ${givenConditionKey!.name}.\n";
     }
     return "";
   }
 
   String get stealConditionKey {
     if (cellType == CellType.steal) {
-      return "Vole : ${conditionKeyStolen.name}.";
+      return "Vole : ${conditionKeyStolen!.name}.";
     }
     return "";
   }
@@ -231,23 +229,23 @@ class Cell extends Resource {
   String get conditionKeyNeeded {
     if (cellType == CellType.conditionKey) {
       if (requiredConditionKey != null) {
-        return "Retourne à l'année précédente. Si tu n'as pas : ${requiredConditionKey.name}.\n";
+        return "Retourne à l'année précédente. Si tu n'as pas : ${requiredConditionKey!.name}.\n";
       }
-      return "Retourne en ${tpCell.name}\n";
+      return "Retourne en ${tpCell!.name}\n";
     }
     return "";
   }
 
   String get ifElse {
     if (cellType == CellType.ifElse) {
-      return "Si tu as ${conditionIf.name}, ${ifCell.effectsLabel}Sinon ${elseCell.effectsLabel}.";
+      return "Si tu as ${conditionIf!.name}, ${ifCell!.effectsLabel}Sinon ${elseCell!.effectsLabel}.";
     }
     return "";
   }
 
   String get conditionKeyLostLabel {
     if (lostConditionKey != null) {
-      return "Tu perds : ${lostConditionKey.name}.\n";
+      return "Tu perds : ${lostConditionKey!.name}.\n";
     }
     return "";
   }

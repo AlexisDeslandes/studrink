@@ -46,7 +46,7 @@ class ChosePlayersScreenState extends BackElementScreenState
                   child: Text("NON")),
               TextButton(
                   onPressed: () {
-                    context.bloc<CurrentGameBloc>().add(ResetGame());
+                    context.read<CurrentGameBloc>().add(ResetGame());
                     Navigator.pop(ctx, true);
                   },
                   child: Text("OUI"))
@@ -83,7 +83,7 @@ class ChosePlayersScreenState extends BackElementScreenState
                                         color: Theme.of(context).primaryColor),
                                     mini: true,
                                     onPressed: () => context
-                                        .bloc<CurrentGameBloc>()
+                                        .read<CurrentGameBloc>()
                                         .add(RemovePlayer(player)))
                               ],
                             ),
@@ -103,10 +103,10 @@ class ChosePlayersScreenState extends BackElementScreenState
       ),
       Align(
           alignment: Alignment.bottomCenter,
-          child: FlatButton(
+          child: TextButton(
               child: Text("Valider"),
               onPressed: () {
-                context.bloc<CurrentGameBloc>().add(const ValidateGame());
+                context.read<CurrentGameBloc>().add(const ValidateGame());
               }))
     ]);
   }

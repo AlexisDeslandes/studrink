@@ -9,13 +9,10 @@ class GamePageViewBloc extends Bloc<GamePageViewEvent, GamePageViewState> {
   final FocusedCellBloc focusedCellBloc;
 
   GamePageViewBloc(
-      {@required PageController pageController,
-      @required this.currentGameBloc,
-      @required this.focusedCellBloc})
-      : assert(pageController != null &&
-            currentGameBloc != null &&
-            focusedCellBloc != null),
-        super(GamePageViewState(pageController)) {
+      {required PageController pageController,
+      required this.currentGameBloc,
+      required this.focusedCellBloc})
+      : super(GamePageViewState(pageController)) {
     final playerListOnCurrentCell =
         currentGameBloc.state.playerListFromCurrentCell;
     if (playerListOnCurrentCell.isNotEmpty) {
@@ -33,7 +30,7 @@ class GamePageViewBloc extends Bloc<GamePageViewEvent, GamePageViewState> {
           playerListOnCell = currentGameBlocState.playerListFromIdCell(page),
           currentPlayer = currentGameBlocState.currentPlayer;
       if (playerListOnCell.contains(currentPlayer)) {
-        focusedCellBloc.add(ChangeFocusedPlayer(currentPlayer));
+        focusedCellBloc.add(ChangeFocusedPlayer(currentPlayer!));
       } else if (playerListOnCell.isNotEmpty) {
         focusedCellBloc.add(ChangeFocusedPlayer(playerListOnCell[0]));
       }

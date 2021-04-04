@@ -31,7 +31,7 @@ class DetailMarketScreenState extends BackElementScreenState
 
   @override
   Widget body(BuildContext context) {
-    final boardGame = context.bloc<MarketPlaceBloc>().state.chosenBoardGame,
+    final boardGame = context.read<MarketPlaceBloc>().state.chosenBoardGame!,
         imgUrl = boardGame.imgUrl;
     return Padding(
       padding: const EdgeInsets.only(top: 15.0, left: 30.0, right: 30.0),
@@ -76,26 +76,31 @@ class DetailMarketScreenState extends BackElementScreenState
                 ButtonTheme(
                     minWidth: MediaQuery.of(context).size.width * 0.35,
                     height: 40.0,
-                    child: RaisedButton(
+                    child: ElevatedButton(
                         onPressed: () {},
-                        color: Colors.white,
                         child: Text(
                           "Evaluer",
-                          style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              fontSize: 18.0,
-                              color: Theme.of(context).primaryColor),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1
+                              ?.copyWith(
+                                  fontSize: 18.0,
+                                  color: Theme.of(context).primaryColor),
                         ))),
                 ButtonTheme(
                     minWidth: MediaQuery.of(context).size.width * 0.35,
                     height: 40.0,
-                    child: RaisedButton(
+                    child: ElevatedButton(
                         onPressed: () {},
-                        color: Theme.of(context).primaryColor,
                         child: Text(
                           "Installer",
-                          style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              fontSize: 18.0,
-                              color: Theme.of(context).scaffoldBackgroundColor),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1
+                              ?.copyWith(
+                                  fontSize: 18.0,
+                                  color: Theme.of(context)
+                                      .scaffoldBackgroundColor),
                         )))
               ],
             ),
@@ -107,7 +112,7 @@ class DetailMarketScreenState extends BackElementScreenState
               style: Theme.of(context)
                   .textTheme
                   .bodyText1
-                  .copyWith(fontWeight: FontWeight.w400),
+                  ?.copyWith(fontWeight: FontWeight.w400),
             ),
           ),
           Expanded(

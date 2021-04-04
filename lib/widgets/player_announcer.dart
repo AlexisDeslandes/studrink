@@ -9,7 +9,7 @@ class PlayerAnnouncer extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CurrentGameBloc, CurrentGameState>(
         builder: (context, state) {
-          final name = state.currentPlayer.name;
+          final name = state.currentPlayer!.name;
           return Row(children: [
             Text("C'est au tour de "),
             Expanded(
@@ -35,6 +35,6 @@ class PlayerAnnouncer extends StatelessWidget {
           ]);
         },
         buildWhen: (previous, current) =>
-            previous.currentPlayer.name != current.currentPlayer.name);
+            previous.currentPlayer?.name != current.currentPlayer?.name);
   }
 }

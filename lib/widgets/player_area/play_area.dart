@@ -14,7 +14,7 @@ import 'package:ptit_godet/widgets/player_area/player_ready_area.dart';
 import 'package:ptit_godet/widgets/player_area/player_return_previous_checkpoint_area.dart';
 
 class PlayArea extends StatelessWidget {
-  const PlayArea({Key key}) : super(key: key);
+  const PlayArea({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class PlayArea extends StatelessWidget {
 
   Widget _getArea(CurrentGameState state) {
     final currentPlayer = state.currentPlayer,
-        currentPlayerState = currentPlayer.state,
+        currentPlayerState = currentPlayer!.state,
         actualCell = state.actualCell;
     if (actualCell == null) {
       return const SizedBox();
@@ -53,7 +53,7 @@ class PlayArea extends StatelessWidget {
     } else if (currentPlayerState == PlayerState.returnPreviousCheckPoint) {
       return const PlayerReturnPreviousCheckPointArea();
     } else if (currentPlayerState == PlayerState.moving) {
-      return PlayerMovingArea(actualCell.moving);
+      return PlayerMovingArea(actualCell.moving!);
     } else if (currentPlayerState == PlayerState.selfChallenge) {
       return const PlayerChallengeArea();
     } else if (currentPlayerState == PlayerState.choseDirection) {
@@ -64,7 +64,7 @@ class PlayArea extends StatelessWidget {
           .toList());
     } else if (currentPlayerState == PlayerState.waitForWinner) {
       return PlayerChosePlayerWonArea(
-          [state.currentPlayer, state.currentOpponent]);
+          [state.currentPlayer!, state.currentOpponent!]);
     } else if (currentPlayerState == PlayerState.chosePlayerMoving) {
       return PlayerChosePlayerMovingArea(state.playerList
           .where((element) => element != currentPlayer)

@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/models/board_game.dart';
 import 'package:ptit_godet/storage/default_board_games.dart';
@@ -10,7 +8,7 @@ import 'package:ptit_godet/storage/local_storage.dart';
 class BoardGameBloc extends Bloc<BoardGameEvent, BoardGameState> {
   final LocalStorage storage;
 
-  BoardGameBloc({@required LocalStorage storage})
+  BoardGameBloc({required LocalStorage storage})
       : storage = storage,
         super(BoardGameState.empty());
 
@@ -35,7 +33,7 @@ class BoardGameBloc extends Bloc<BoardGameEvent, BoardGameState> {
 class BoardGameState extends Equatable {
   final List<BoardGame> boardGameList;
 
-  const BoardGameState({@required this.boardGameList});
+  const BoardGameState({required this.boardGameList});
 
   const BoardGameState.empty() : boardGameList = const [];
 

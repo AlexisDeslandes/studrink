@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 
 class PlayerOverlay extends StatefulWidget {
   final String name;
-  final Color color;
-  final Uint8List picture;
+  final Color? color;
+  final Uint8List? picture;
 
-  const PlayerOverlay({@required this.name, this.picture, this.color})
-      : assert(name != null && (picture != null || color != null));
+  const PlayerOverlay({required this.name, this.picture, this.color})
+      : assert((picture != null || color != null));
 
   @override
   _PlayerOverlayState createState() => _PlayerOverlayState();
@@ -17,9 +17,9 @@ class PlayerOverlay extends StatefulWidget {
 
 class _PlayerOverlayState extends State<PlayerOverlay>
     with SingleTickerProviderStateMixin {
-  AnimationController _animationController;
-  Animation<Offset> _slideAnimation;
-  Animation<double> _fadeAnimation;
+  late final AnimationController _animationController;
+  late final Animation<Offset> _slideAnimation;
+  late final Animation<double> _fadeAnimation;
 
   @override
   void initState() {
@@ -76,7 +76,7 @@ class _PlayerOverlayState extends State<PlayerOverlay>
                           borderRadius: BorderRadius.circular(100),
                           child: ClipOval(
                               child: widget.picture != null
-                                  ? Image.memory(widget.picture)
+                                  ? Image.memory(widget.picture!)
                                   : Container(
                                       color: widget.color,
                                       width: size * 0.5,

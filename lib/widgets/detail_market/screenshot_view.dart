@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 class ScreenshotView extends StatefulWidget {
   final List<String> screenshots;
 
-  const ScreenshotView({Key key, @required this.screenshots})
+  const ScreenshotView({Key? key, required this.screenshots})
       : assert(screenshots != null),
         super(key: key);
 

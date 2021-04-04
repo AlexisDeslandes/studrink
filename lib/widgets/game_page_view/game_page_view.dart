@@ -11,29 +11,29 @@ class GamePageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pageController =
-        context.bloc<GamePageViewBloc>().state.pageController;
-    final cells = context.bloc<CurrentGameBloc>().state.boardGame.cells;
+        context.read<GamePageViewBloc>().state.pageController;
+    final cells = context.read<CurrentGameBloc>().state.boardGame!.cells;
     return BlocListener<CurrentGameBloc, CurrentGameState>(
         listener: (context, state) {
           context
-              .bloc<GamePageViewBloc>()
-              .add(ChangePageView(state.currentPlayer.idCurrentCell));
+              .read<GamePageViewBloc>()
+              .add(ChangePageView(state.currentPlayer!.idCurrentCell));
         },
         listenWhen: _currentPlayerChangedCell,
         child: PageView.builder(
             onPageChanged: (value) {
               final currentGameBlocState =
-                      context.bloc<CurrentGameBloc>().state,
+                      context.read<CurrentGameBloc>().state,
                   playerListOnCell =
                       currentGameBlocState.playerListFromIdCell(value),
                   currentPlayer = currentGameBlocState.currentPlayer;
               if (playerListOnCell.contains(currentPlayer)) {
                 context
-                    .bloc<FocusedCellBloc>()
-                    .add(ChangeFocusedPlayer(currentPlayer));
+                    .read<FocusedCellBloc>()
+                    .add(ChangeFocusedPlayer(currentPlayer!));
               } else if (playerListOnCell.isNotEmpty) {
                 context
-                    .bloc<FocusedCellBloc>()
+                    .read<FocusedCellBloc>()
                     .add(ChangeFocusedPlayer(playerListOnCell[0]));
               }
             },
@@ -48,7 +48,7 @@ class GamePageView extends StatelessWidget {
   bool _currentPlayerChangedCell(
       CurrentGameState previous, CurrentGameState current) {
     return (previous.currentPlayer != current.currentPlayer) ||
-        (previous.currentPlayer.idCurrentCell !=
-            current.currentPlayer.idCurrentCell);
+        (previous.currentPlayer!.idCurrentCell !=
+            current.currentPlayer!.idCurrentCell);
   }
 }

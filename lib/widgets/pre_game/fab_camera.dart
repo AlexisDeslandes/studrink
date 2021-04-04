@@ -5,13 +5,12 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
 import 'package:ptit_godet/models/player.dart';
+import 'package:collection/collection.dart';
 
 class FabCamera extends StatelessWidget {
   final Player player;
 
-  const FabCamera({Key key, @required this.player})
-      : assert(player != null),
-        super(key: key);
+  const FabCamera({Key? key, required this.player}) : super(key: key);
 
   bool sameUser(Player element) => element.id == player.id;
 
@@ -22,17 +21,15 @@ class FabCamera extends StatelessWidget {
       mini: true,
       child: BlocBuilder<CurrentGameBloc, CurrentGameState>(
         buildWhen: (previous, current) {
-          final playerPrevious =
-                  previous.playerList.firstWhere(sameUser, orElse: () => null),
-              playerCurrent =
-                  current.playerList.firstWhere(sameUser, orElse: () => null);
+          final playerPrevious = previous.playerList.firstWhereOrNull(sameUser),
+              playerCurrent = current.playerList.firstWhereOrNull(sameUser);
           return playerCurrent != null &&
               playerPrevious != null &&
               playerPrevious.avatar != playerCurrent.avatar;
         },
         builder: (context, state) {
           final avatarPlayer =
-              state.playerList.firstWhere(sameUser, orElse: () => null)?.avatar;
+              state.playerList.firstWhereOrNull(sameUser)?.avatar;
           if (avatarPlayer != null) {
             return ClipRRect(
                 child: Image.memory(avatarPlayer),
@@ -54,9 +51,9 @@ class FabCamera extends StatelessWidget {
               sourcePath: pickedFile.path,
               aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
               cropStyle: CropStyle.circle),
-          pictureArray = await croppedFile.readAsBytes();
+          pictureArray = await croppedFile!.readAsBytes();
       context
-          .bloc<CurrentGameBloc>()
+          .read<CurrentGameBloc>()
           .add(ChangePicturePlayer(player: player, pictureData: pictureArray));
     }
   }

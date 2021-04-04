@@ -30,6 +30,7 @@ class FinishGameScreenState extends NoBackElementScreen {
       child: BlocBuilder<CurrentGameBloc, CurrentGameState>(
         buildWhen: (previous, current) => false,
         builder: (context, state) {
+          final winner = state.winner!;
           return Column(
             children: [
               Expanded(
@@ -44,17 +45,17 @@ class FinishGameScreenState extends NoBackElementScreen {
                         elevation: 5,
                         borderRadius: BorderRadius.circular(100),
                         child: ClipOval(
-                            child: state.winner.avatar != null
-                                ? Image.memory(state.winner.avatar)
+                            child: winner.avatar != null
+                                ? Image.memory(winner.avatar!)
                                 : Container(
-                                    color: state.winner.color,
+                                    color: winner.color,
                                     width: 30,
                                     height: 30)),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 30.0),
-                      child: Text("${state.winner.name} a gagné.",
+                      child: Text("${winner.name} a gagné.",
                           style: Theme.of(context).textTheme.bodyText2),
                     )
                   ],
@@ -62,11 +63,11 @@ class FinishGameScreenState extends NoBackElementScreen {
               )),
               Expanded(
                   child: Center(
-                      child: RaisedButton(
+                      child: ElevatedButton(
                           child: Text("Accueil"),
                           onPressed: () {
-                            context.bloc<CurrentGameBloc>().add(ResetGame());
-                            context.bloc<NavBloc>().add(const ResetNavToHome());
+                            context.read<CurrentGameBloc>().add(ResetGame());
+                            context.read<NavBloc>().add(const ResetNavToHome());
                           })))
             ],
           );

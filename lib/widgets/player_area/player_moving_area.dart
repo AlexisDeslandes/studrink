@@ -20,7 +20,7 @@ class PlayerMovingArea extends StatelessWidget {
             child: BottomButton(
                 text: "$prefix ${moving.count} cases.",
                 onPressed: () =>
-                    context.bloc<CurrentGameBloc>().add(const MovePlayer())),
+                    context.read<CurrentGameBloc>().add(const MovePlayer())),
             alignment: Alignment.bottomCenter)
       ],
     );

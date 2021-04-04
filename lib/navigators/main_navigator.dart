@@ -14,13 +14,13 @@ class MainNavigator extends StatefulWidget {
 }
 
 class _MainNavigatorState extends State<MainNavigator> {
-  StreamSubscription<String> _errorSubscription;
+  late final StreamSubscription<String> _errorSubscription;
 
   @override
   void initState() {
     super.initState();
     _errorSubscription =
-        context.bloc<CurrentGameBloc>().errorStream.listen((event) {
+        context.read<CurrentGameBloc>().errorStream.listen((event) {
       showDialog(
           context: context,
           builder: (ctx) {
