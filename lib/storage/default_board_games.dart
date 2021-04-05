@@ -15,7 +15,7 @@ class DefaultBoardGames {
   List<BoardGame> boardGameList() {
     return [
       BoardGame(
-        imgUrl: "assets/icons/goose.svg",
+          imgUrl: "assets/icons/goose.svg",
           name: "Jeu de l'oie",
           cells: [
             Cell(
@@ -64,7 +64,7 @@ class DefaultBoardGames {
             Cell(
                 name: "Sodomie",
                 imgPath: "",
-                cellType: CellType.selfMovingUndetermined,
+                cellType: CellType.selfMovingPlayerChose,
                 movingUndeterminedCount: 1),
             Cell(
                 name: "Depardieu",

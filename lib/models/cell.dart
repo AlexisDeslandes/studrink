@@ -13,7 +13,7 @@ enum CellType {
   prison,
   selfThrowDice,
   selfChallenge,
-  selfMovingUndetermined,
+  selfMovingPlayerChose,
   battle,
   steal,
   ifElse,

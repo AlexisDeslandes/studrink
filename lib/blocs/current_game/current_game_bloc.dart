@@ -99,7 +99,7 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
       return PlayerState.thrownDice;
     } else if (nextCellType == CellType.selfChallenge) {
       return PlayerState.selfChallenge;
-    } else if (nextCellType == CellType.selfMovingUndetermined) {
+    } else if (nextCellType == CellType.selfMovingPlayerChose) {
       return PlayerState.choseDirection;
     } else if (nextCellType == CellType.battle) {
       return PlayerState.choseOpponent;

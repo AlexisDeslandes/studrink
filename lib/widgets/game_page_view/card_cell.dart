@@ -34,7 +34,7 @@ class CardCell extends StatelessWidget {
         return Icons.threesixty_rounded;
       case CellType.selfChallenge:
         return MdiIcons.trophy;
-      case CellType.selfMovingUndetermined:
+      case CellType.selfMovingPlayerChose:
         return Icons.compare_arrows;
       case CellType.battle:
         return MdiIcons.fencing;
