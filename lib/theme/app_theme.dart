@@ -15,10 +15,12 @@ class AppTheme {
         fontWeight: FontWeight.bold,
         fontSize: 30);
     return lightTheme.copyWith(
+        scaffoldBackgroundColor: Color(0xffE2D5D4),
         floatingActionButtonTheme: FloatingActionButtonThemeData(
           backgroundColor: lightTheme.scaffoldBackgroundColor,
         ),
-        primaryColor: Color(0xffEFCF88),
+        primaryColor: const Color(0xffDE8C8C),
+        accentColor: const Color(0xffEFCF88),
         textButtonTheme: TextButtonThemeData(
             style: TextButton.styleFrom(
                 textStyle: headline2.copyWith(fontSize: 15))),

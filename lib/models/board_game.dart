@@ -31,7 +31,9 @@ class BoardGame extends Resource {
             imgUrl: map["imgUrl"],
             description: map["description"],
             event: map["event"] != null && map["event"] ? true : false,
-            date: DateTime.fromMillisecondsSinceEpoch(map["date"]),
+            date: map["date"] != null
+                ? DateTime.fromMillisecondsSinceEpoch(map["date"])
+                : DateTime.now(),
             cells: map["cells"] != null
                 ? List<Map<String, dynamic>>.from(map["cells"])
                     .map((e) => Cell.fromJson(e))
