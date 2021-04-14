@@ -11,7 +11,6 @@ class AppTheme {
     final lightTheme = ThemeData.light();
     final headline2 = TextStyle(
         color: Colors.black,
-        fontFamily: "Helvetica",
         fontWeight: FontWeight.bold,
         fontSize: 30);
     return lightTheme.copyWith(
@@ -19,7 +18,7 @@ class AppTheme {
         floatingActionButtonTheme: FloatingActionButtonThemeData(
           backgroundColor: lightTheme.scaffoldBackgroundColor,
         ),
-        primaryColor: const Color(0xffDE8C8C),
+        primaryColor: const Color(0xffde8c8c),
         accentColor: const Color(0xffEFCF88),
         textButtonTheme: TextButtonThemeData(
             style: TextButton.styleFrom(

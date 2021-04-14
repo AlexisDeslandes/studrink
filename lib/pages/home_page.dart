@@ -1,12 +1,10 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
-import 'package:ptit_godet/pages/chose_game_page.dart';
-import 'package:ptit_godet/pages/create_home_page.dart';
-import 'package:ptit_godet/pages/market_page.dart';
-import 'package:ptit_godet/widgets/no_back_element_screen.dart';
+import 'package:ptit_godet/widgets/buttons/color_button.dart';
+import 'package:ptit_godet/widgets/buttons/white_button.dart';
+import 'package:ptit_godet/widgets/paints/app_background_paint.dart';
 
 class HomePage extends CupertinoPage {
   const HomePage()
@@ -20,51 +18,44 @@ class HomeScreen extends StatefulWidget {
   State<StatefulWidget> createState() => HomeScreenState();
 }
 
-class HomeScreenState extends NoBackElementScreen {
+class HomeScreenState extends State<HomeScreen> {
   @override
-  Widget body(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Flexible(
-              child: Center(
-            child: SvgPicture.asset(
-              "assets/icons/beer.svg",
-              width: MediaQuery.of(context).size.width / 3,
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size.width * 0.663,
+        buttonSize = 0.56 * MediaQuery.of(context).size.width;
+    return AppBackgroundPaint(
+        child: Center(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(25.0),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaY: 12.0, sigmaX: 12.0),
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 20.0),
+            width: size,
+            decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.15),
+                border: Border.all(color: Colors.white, width: 1),
+                borderRadius: BorderRadius.circular(25.0)),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20.0),
+                  child: Text("Petit Godet",
+                      style: Theme.of(context).textTheme.headline2),
+                ),
+                ColorButton(text: "Jouer"),
+                Padding(
+                  padding: EdgeInsets.only(top: 20.0),
+                  child: WhiteButton(
+                    text: "Market",
+                  ),
+                )
+              ],
             ),
-          )),
-          Flexible(
-              child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Flexible(
-                child: Center(
-                    child: RaisedButton(
-                  child: Text("Jouer"),
-                  onPressed: () => context.read<NavBloc>().add(PushNav(
-                        pageBuilder: (dynamic) => const ChoseGamePage(),
-                      )),
-                )),
-              ),
-              Flexible(
-                  child: RaisedButton(
-                child: Text("Catalogue"),
-                onPressed: () => context
-                    .read<NavBloc>()
-                    .add(PushNav(pageBuilder: (dynamic) => const MarketPage())),
-              ))
-            ],
-          ))
-        ],
+          ),
+        ),
       ),
-    );
-  }
-
-  @override
-  String titleContent() {
-    return "P'tit Godet";
+    ));
   }
 }
