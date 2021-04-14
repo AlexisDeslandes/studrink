@@ -18,8 +18,8 @@ class AppTheme {
         floatingActionButtonTheme: FloatingActionButtonThemeData(
           backgroundColor: lightTheme.scaffoldBackgroundColor,
         ),
-        primaryColor: const Color(0xffde8c8c),
-        accentColor: const Color(0xffEFCF88),
+        primaryColor: const Color(0xffca7375),
+        accentColor: const Color(0xFFE6BD66),
         textButtonTheme: TextButtonThemeData(
             style: TextButton.styleFrom(
                 textStyle: headline2.copyWith(fontSize: 15))),
