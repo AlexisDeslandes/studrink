@@ -29,7 +29,9 @@ class AppBackgroundPainter extends CustomPainter {
     final backgroundPaint = Paint()
       ..color = backgroundColor
       ..style = PaintingStyle.fill;
-    canvas.drawRect(Rect.largest, backgroundPaint);
+    canvas.drawRect(
+        Rect.fromPoints(Offset.zero, Offset(size.width, size.height)),
+        backgroundPaint);
 
     final blurPrimaryPaint = Paint()
       ..color = primaryColor
