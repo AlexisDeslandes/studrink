@@ -28,7 +28,7 @@ class BoardGame extends Resource {
             name: map["name"],
             subTitle: map["subTitle"],
             tag: map["tag"],
-            imgUrl: map["imgUrl"],
+            imgUrl: map["imgUrl"] ?? "assets/icons/beer.svg",
             description: map["description"],
             event: map["event"] != null && map["event"] ? true : false,
             date: map["date"] != null

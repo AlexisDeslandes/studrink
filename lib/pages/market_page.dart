@@ -6,9 +6,7 @@ import 'package:ptit_godet/blocs/market_place/market_place_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/models/board_game.dart';
 import 'package:ptit_godet/pages/detail_market_page.dart';
-import 'package:ptit_godet/widgets/back_element_screen.dart';
-import 'package:ptit_godet/widgets/base_building.dart';
-import 'package:ptit_godet/widgets/simple_title_screen.dart';
+import 'package:ptit_godet/widgets/base_screen.dart';
 
 ///
 /// Page that contains market place of P'tit godet.
@@ -25,21 +23,21 @@ class MarketScreen extends StatefulWidget {
   State<StatefulWidget> createState() => MarketScreenState();
 }
 
-class MarketScreenState extends BackElementScreenState
-    with BaseBuildingState, SimpleTitleScreen {
+class MarketScreenState extends BaseScreenState {
   late final TextEditingController _searchController = TextEditingController(
       text: context.read<MarketPlaceBloc>().state.searchWord);
-
-  @override
-  String backButtonText() {
-    return "Accueil";
-  }
 
   @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
   }
+
+  @override
+  String get subTitle => "";
+
+  @override
+  String get title => "Market place";
 
   @override
   Widget body(BuildContext context) {
@@ -95,11 +93,6 @@ class MarketScreenState extends BackElementScreenState
                 itemCount: boardGameListTreated.length);
           }))
         ]));
-  }
-
-  @override
-  String titleContent() {
-    return "Market place";
   }
 }
 

@@ -1,33 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:ptit_godet/constants/button_constants.dart';
 
 class ColorButton extends StatelessWidget {
-  const ColorButton({Key? key, required this.text}) : super(key: key);
+  const ColorButton({Key? key, required this.text, required this.callback})
+      : super(key: key);
   final String text;
+  final VoidCallback callback;
 
   @override
   Widget build(BuildContext context) {
-    final buttonSize = 0.56 * MediaQuery.of(context).size.width;
+    final buttonSize =
+        ButtonConstants.buttonSize * MediaQuery.of(context).size.width;
     return Container(
       width: buttonSize,
       child: Material(
           color: Colors.transparent,
           child: InkWell(
-            borderRadius: BorderRadius.circular(34.0),
+            borderRadius: BorderRadius.circular(ButtonConstants.buttonRadius),
             child: Center(
                 child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15.0),
+              padding: const EdgeInsets.symmetric(
+                  vertical: ButtonConstants.verticalPadding),
               child: Text(
                 text,
                 style: Theme.of(context).textTheme.headline2!.copyWith(
                     color: Colors.white,
-                    fontSize: 26.0,
-                    fontWeight: FontWeight.w600),
+                    fontSize: ButtonConstants.fontSize,
+                    fontWeight: ButtonConstants.weight),
               ),
             )),
-            onTap: () {},
+            onTap: callback,
           )),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(34.0),
+          borderRadius: BorderRadius.circular(ButtonConstants.buttonRadius),
+          boxShadow: kElevationToShadow[4],
           gradient: LinearGradient(colors: [
             Theme.of(context).accentColor,
             Theme.of(context).primaryColor

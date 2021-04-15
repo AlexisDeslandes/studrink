@@ -17,6 +17,10 @@ class DefaultBoardGames {
       BoardGame(
           imgUrl: "assets/icons/goose.svg",
           name: "Jeu de l'oie",
+          screenshots: ["screen1.png", "screen2.png", "screen1.png"],
+          description:
+              "Une description assez incroyable puisque. Le jeu est tout de même conçu par des étudiants de Planisware et polytech.",
+          subTitle: "Pour les foies les moins sensibles.",
           cells: [
             Cell(
                 name: "Rentrée",

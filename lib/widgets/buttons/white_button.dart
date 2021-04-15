@@ -1,33 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:ptit_godet/constants/button_constants.dart';
 
 class WhiteButton extends StatelessWidget {
-  const WhiteButton({Key? key, required this.text}) : super(key: key);
+  const WhiteButton({Key? key, required this.text, required this.callback})
+      : super(key: key);
   final String text;
+  final VoidCallback callback;
 
   @override
   Widget build(BuildContext context) {
-    final buttonSize = 0.56 * MediaQuery.of(context).size.width;
+    final buttonSize =
+        ButtonConstants.buttonSize * MediaQuery.of(context).size.width;
     return Container(
       width: buttonSize,
       child: Material(
           color: Colors.transparent,
           child: InkWell(
-            borderRadius: BorderRadius.circular(34.0),
-            child: Center(
-                child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15.0),
-              child: Text(
-                text,
-                style: Theme.of(context).textTheme.headline2!.copyWith(
-                    color: Colors.black,
-                    fontSize: 26.0,
-                    fontWeight: FontWeight.w600),
-              ),
-            )),
-            onTap: () {},
-          )),
+              borderRadius: BorderRadius.circular(ButtonConstants.buttonRadius),
+              child: Center(
+                  child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    vertical: ButtonConstants.verticalPadding),
+                child: Text(
+                  text,
+                  style: Theme.of(context).textTheme.headline2!.copyWith(
+                      color: Colors.black,
+                      fontSize: ButtonConstants.fontSize,
+                      fontWeight: ButtonConstants.weight),
+                ),
+              )),
+              onTap: callback)),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(34.0), color: Colors.white),
+          boxShadow: kElevationToShadow[4],
+          borderRadius: BorderRadius.circular(ButtonConstants.buttonRadius),
+          color: Colors.white),
     );
   }
 }

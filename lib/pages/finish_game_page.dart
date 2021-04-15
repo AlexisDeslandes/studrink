@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
-import 'package:ptit_godet/widgets/no_back_element_screen.dart';
+import 'package:ptit_godet/widgets/base_screen.dart';
 
 class FinishGamePage extends CupertinoPage {
   const FinishGamePage()
@@ -19,7 +19,13 @@ class FinishGameScreen extends StatefulWidget {
   State<StatefulWidget> createState() => FinishGameScreenState();
 }
 
-class FinishGameScreenState extends NoBackElementScreen {
+class FinishGameScreenState extends BaseScreenState {
+
+  @override
+  String get subTitle => "";
+
+  @override
+  String get title => "Jeux terminé";
 
   @override
   Widget body(BuildContext context) {
@@ -74,10 +80,5 @@ class FinishGameScreenState extends NoBackElementScreen {
         },
       ),
     );
-  }
-
-  @override
-  String titleContent() {
-    return "Jeux terminé";
   }
 }

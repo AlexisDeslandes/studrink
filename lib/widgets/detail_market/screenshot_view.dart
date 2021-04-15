@@ -4,9 +4,7 @@ import 'package:flutter/widgets.dart';
 class ScreenshotView extends StatefulWidget {
   final List<String> screenshots;
 
-  const ScreenshotView({Key? key, required this.screenshots})
-      : assert(screenshots != null),
-        super(key: key);
+  const ScreenshotView({Key? key, required this.screenshots}) : super(key: key);
 
   @override
   _ScreenshotViewState createState() => _ScreenshotViewState();
@@ -20,6 +18,7 @@ class _ScreenshotViewState extends State<ScreenshotView> {
   Widget build(BuildContext context) {
     return PageView.builder(
         controller: _pageController,
+        physics: AlwaysScrollableScrollPhysics(),
         scrollDirection: Axis.horizontal,
         itemCount: widget.screenshots.length,
         onPageChanged: (value) {
@@ -32,21 +31,28 @@ class _ScreenshotViewState extends State<ScreenshotView> {
 
   Widget _buildScreenshotCard(BuildContext context, int index) {
     final screenshot = widget.screenshots[index];
+    final isFocused = _idFocus == index;
+    final double blur = isFocused ? 20 : 0;
+    final double offset = isFocused ? 2 : 0;
+    final double top = isFocused ? 20 : 100;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: AnimatedContainer(
-          padding: EdgeInsets.symmetric(vertical: _idFocus == index ? 0 : 20),
-          duration: Duration(milliseconds: 400),
-          height: MediaQuery.of(context).size.width,
-          width: MediaQuery.of(context).size.width * (9 / 16),
-          child: Card(
-            elevation: 5,
-            child: Image.asset(
-              "assets/screenshots/$screenshot",
-            ),
-          ),
-        ),
+            margin: EdgeInsets.only(top: top, bottom: 20.0, right: 15, left: 15),
+            curve: Curves.easeOutQuint,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: AssetImage("assets/screenshots/$screenshot")),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black87,
+                      blurRadius: blur,
+                      offset: Offset(offset, offset))
+                ]),
+            duration: Duration(milliseconds: 500)),
       ),
     );
   }

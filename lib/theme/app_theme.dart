@@ -10,9 +10,7 @@ class AppTheme {
   ThemeData get lightTheme {
     final lightTheme = ThemeData.light();
     final headline2 = TextStyle(
-        color: Colors.black,
-        fontWeight: FontWeight.bold,
-        fontSize: 30);
+        color: Colors.black, fontWeight: FontWeight.bold, fontSize: 30);
     return lightTheme.copyWith(
         scaffoldBackgroundColor: Color(0xffE2D5D4),
         floatingActionButtonTheme: FloatingActionButtonThemeData(
@@ -29,8 +27,12 @@ class AppTheme {
           buttonColor: Colors.white,
         ),
         textTheme: lightTheme.textTheme.copyWith(
+            subtitle1: TextStyle(
+                color: Color(0xff663A3C),
+                fontWeight: FontWeight.w500,
+                fontSize: 16),
+            headline1: headline2.copyWith(fontSize: 40),
             headline2: headline2,
-            headline1: headline2.copyWith(fontSize: 50),
             bodyText1:
                 headline2.copyWith(fontSize: 15, fontWeight: FontWeight.w500),
             bodyText2:

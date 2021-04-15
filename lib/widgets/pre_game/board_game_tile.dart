@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ptit_godet/models/board_game.dart';
+import 'package:ptit_godet/widgets/glass/glass_widget.dart';
 
 class BoardGameTile extends StatelessWidget {
   final BoardGame boardGame;
@@ -10,13 +12,29 @@ class BoardGameTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: ListTile(
-        title: Text(boardGame.name),
-        trailing: Icon(Icons.chevron_right),
-        onTap: onTap,
-      ),
-    );
+    final imgUrl = boardGame.imgUrl;
+    return GlassWidget(
+        radius: 13.0,
+        child: ListTile(
+          leading: imgUrl.contains("http")
+              ? Image.network(imgUrl)
+              : imgUrl.contains(".svg")
+                  ? SvgPicture.asset(
+                      imgUrl,
+                      height: 35.0,
+                      width: 35.0,
+                    )
+                  : Image.asset(imgUrl),
+          title: Text(
+            boardGame.name,
+            style: TextStyle(
+                fontFamily: "Roboto",
+                fontWeight: FontWeight.w300,
+                fontSize: 22,
+                color: Colors.black),
+          ),
+          trailing: Icon(Icons.chevron_right),
+          onTap: onTap,
+        ));
   }
 }

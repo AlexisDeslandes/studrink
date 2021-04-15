@@ -2,11 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
-import 'package:ptit_godet/widgets/back_element_screen.dart';
+import 'package:ptit_godet/widgets/base_screen.dart';
 import 'package:ptit_godet/widgets/pre_game/add_player_button.dart';
 import 'package:ptit_godet/widgets/pre_game/fab_camera.dart';
 import 'package:ptit_godet/widgets/pre_game/player_field.dart';
-import 'package:ptit_godet/widgets/simple_title_screen.dart';
 
 class ChosePlayersPage extends CupertinoPage {
   const ChosePlayersPage()
@@ -22,12 +21,14 @@ class ChosePlayersScreen extends StatefulWidget {
   State<StatefulWidget> createState() => ChosePlayersScreenState();
 }
 
-class ChosePlayersScreenState extends BackElementScreenState
-    with SimpleTitleScreen {
+class ChosePlayersScreenState extends BaseScreenState {
+
   @override
-  String backButtonText() {
-    return "Choix de la partie";
-  }
+  String get subTitle => "Ajouter des joueurs";
+
+  @override
+  // TODO: implement title
+  String get title => "Joueurs";
 
   @override
   Future<bool> backButtonCallback(BuildContext context) async {
@@ -109,10 +110,5 @@ class ChosePlayersScreenState extends BackElementScreenState
                 context.read<CurrentGameBloc>().add(const ValidateGame());
               }))
     ]);
-  }
-
-  @override
-  String titleContent() {
-    return "Joueurs";
   }
 }

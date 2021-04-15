@@ -5,10 +5,9 @@ import 'package:ptit_godet/blocs/board_game/board_game_bloc.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/pages/chose_players_page.dart';
-import 'package:ptit_godet/widgets/back_element_screen.dart';
-import 'package:ptit_godet/widgets/base_building.dart';
+import 'package:ptit_godet/pages/game_detail_page.dart';
+import 'package:ptit_godet/widgets/base_screen.dart';
 import 'package:ptit_godet/widgets/pre_game/board_game_tile.dart';
-import 'package:ptit_godet/widgets/simple_title_screen.dart';
 
 class ChoseGamePage extends CupertinoPage {
   const ChoseGamePage()
@@ -26,10 +25,12 @@ class ChoseGameScreen extends StatefulWidget {
   }
 }
 
-class ChoseGameScreenState extends BackElementScreenState
-    with BaseBuildingState, SimpleTitleScreen {
+class ChoseGameScreenState extends BaseScreenState {
   @override
-  String backButtonText() => "Accueil";
+  String get subTitle => "Choisir une partie";
+
+  @override
+  String get title => "Jouer";
 
   @override
   Widget body(BuildContext context) {
@@ -41,7 +42,8 @@ class ChoseGameScreenState extends BackElementScreenState
           padding: const EdgeInsets.only(top: 30.0),
           child: ListView.builder(
             itemBuilder: (context, index) => Padding(
-              padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+              padding: const EdgeInsets.only(
+                  left: 30.0, right: 30.0, top: 4, bottom: 4),
               child: BoardGameTile(
                   boardGame: boardGameList[index],
                   onTap: () {
@@ -49,7 +51,7 @@ class ChoseGameScreenState extends BackElementScreenState
                       ..add(InitModelCurrentGame(
                           boardGame: boardGameList[index]));
                     context.read<NavBloc>().add(
-                        PushNav(pageBuilder: (_) => const ChosePlayersPage()));
+                        PushNav(pageBuilder: (_) => const GameDetailPage()));
                   }),
             ),
             itemCount: boardGameList.length,
@@ -63,7 +65,4 @@ class ChoseGameScreenState extends BackElementScreenState
       }
     });
   }
-
-  @override
-  String titleContent() => "Jouer";
 }
