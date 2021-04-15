@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
+import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/widgets/base_screen.dart';
+import 'package:ptit_godet/widgets/buttons/color_button.dart';
+import 'package:ptit_godet/widgets/glass/glass_widget.dart';
 import 'package:ptit_godet/widgets/pre_game/add_player_button.dart';
 import 'package:ptit_godet/widgets/pre_game/fab_camera.dart';
 import 'package:ptit_godet/widgets/pre_game/player_field.dart';
@@ -22,7 +25,6 @@ class ChosePlayersScreen extends StatefulWidget {
 }
 
 class ChosePlayersScreenState extends BaseScreenState {
-
   @override
   String get subTitle => "Ajouter des joueurs";
 
@@ -58,57 +60,58 @@ class ChosePlayersScreenState extends BaseScreenState {
 
   @override
   Widget body(BuildContext context) {
-    return Stack(children: [
-      LayoutBuilder(
-        builder: (context, constraints) {
-          final maxHeight = constraints.maxHeight;
-          return Container(
-            height: maxHeight - 68.0, // size of validate button
-            child: Column(
-              children: [
-                Flexible(
-                  child: BlocBuilder<CurrentGameBloc, CurrentGameState>(
-                      builder: (context, state) {
-                    final playerList = state.playerList;
-                    return ListView.builder(
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          final player = playerList[index];
-                          return ListTile(
-                            title: PlayerField(player),
-                            trailing: Wrap(
-                              children: [
-                                FabCamera(player: player),
-                                FloatingActionButton(
-                                    child: Icon(Icons.remove,
-                                        color: Theme.of(context).primaryColor),
-                                    mini: true,
-                                    onPressed: () => context
-                                        .read<CurrentGameBloc>()
-                                        .add(RemovePlayer(player)))
-                              ],
-                            ),
-                          );
-                        },
-                        itemCount: playerList.length);
-                  }),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: const Center(child: const AddPlayerButton()),
-                )
-              ],
-            ),
-          );
-        },
-      ),
-      Align(
-          alignment: Alignment.bottomCenter,
-          child: TextButton(
-              child: Text("Valider"),
-              onPressed: () {
-                context.read<CurrentGameBloc>().add(const ValidateGame());
-              }))
-    ]);
+    return Column(
+      children: [
+        Expanded(
+          child: Column(
+            children: [
+              Flexible(
+                child: BlocBuilder<CurrentGameBloc, CurrentGameState>(
+                    builder: (context, state) {
+                  final playerList = state.playerList;
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                        top: 20.0, left: 20.0, right: 20.0),
+                    child: GlassWidget(
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            final player = playerList[index];
+                            return ListTile(
+                              title: PlayerField(player),
+                              trailing: Wrap(
+                                children: [
+                                  FabCamera(player: player),
+                                  FloatingActionButton(
+                                      child: Icon(Icons.delete,
+                                          color: Colors.black),
+                                      mini: true,
+                                      onPressed: () => context
+                                          .read<CurrentGameBloc>()
+                                          .add(RemovePlayer(player)))
+                                ],
+                              ),
+                            );
+                          },
+                          itemCount: playerList.length),
+                    ),
+                  );
+                }),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: const Center(child: const AddPlayerButton()),
+              )
+            ],
+          ),
+        ),
+        Padding(
+            padding: const EdgeInsets.only(bottom: 15.0),
+            child: ColorButton(
+                text: "Valider",
+                callback: () =>
+                    context.read<CurrentGameBloc>().add(const ValidateGame())))
+      ],
+    );
   }
 }

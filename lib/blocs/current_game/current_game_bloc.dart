@@ -415,8 +415,9 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
 
   Stream<CurrentGameState> _removePlayer(Player player) async* {
     yield CurrentGameState.copy(state,
-        playerList:
-            state.playerList.where((element) => element != player).toList());
+        playerList: state.playerList
+            .where((element) => element.id != player.id)
+            .toList());
   }
 
   Stream<CurrentGameState> _changePicturePlayer(

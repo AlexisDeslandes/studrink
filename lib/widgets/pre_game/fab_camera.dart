@@ -16,27 +16,42 @@ class FabCamera extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: () => _takePicture(context),
-      mini: true,
-      child: BlocBuilder<CurrentGameBloc, CurrentGameState>(
-        buildWhen: (previous, current) {
-          final playerPrevious = previous.playerList.firstWhereOrNull(sameUser),
-              playerCurrent = current.playerList.firstWhereOrNull(sameUser);
-          return playerCurrent != null &&
-              playerPrevious != null &&
-              playerPrevious.avatar != playerCurrent.avatar;
-        },
-        builder: (context, state) {
-          final avatarPlayer =
-              state.playerList.firstWhereOrNull(sameUser)?.avatar;
-          if (avatarPlayer != null) {
-            return ClipRRect(
-                child: Image.memory(avatarPlayer),
-                borderRadius: BorderRadius.circular(100.0));
-          }
-          return Icon(Icons.camera_alt, color: Theme.of(context).primaryColor);
-        },
+    return Container(
+      child: FloatingActionButton(
+        onPressed: () => _takePicture(context),
+        mini: true,
+        child: BlocBuilder<CurrentGameBloc, CurrentGameState>(
+          buildWhen: (previous, current) {
+            final playerPrevious =
+                    previous.playerList.firstWhereOrNull(sameUser),
+                playerCurrent = current.playerList.firstWhereOrNull(sameUser);
+            return playerCurrent != null &&
+                playerPrevious != null &&
+                playerPrevious.avatar != playerCurrent.avatar;
+          },
+          builder: (context, state) {
+            final avatarPlayer =
+                state.playerList.firstWhereOrNull(sameUser)?.avatar;
+            if (avatarPlayer != null) {
+              return ClipRRect(
+                  child: Image.memory(avatarPlayer),
+                  borderRadius: BorderRadius.circular(100.0));
+            }
+            return Container(
+                width: 48.0,
+                height: 48.0,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100.0),
+                    gradient: LinearGradient(
+                        colors: [
+                          Theme.of(context).accentColor,
+                          Theme.of(context).primaryColor
+                        ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter)),
+                child: Icon(Icons.camera_alt, color: Colors.black));
+          },
+        ),
       ),
     );
   }

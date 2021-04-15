@@ -31,12 +31,15 @@ class _PlayerFieldState extends State<PlayerField> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      decoration: InputDecoration(labelText: "Pseudo"),
-      controller: _controller,
-      onChanged: (value) => context
-          .read<CurrentGameBloc>()
-          .add(ChangeNamePlayer(player: widget.player, name: value)),
+    return Theme(
+      data: ThemeData(primaryColor: Colors.black),
+      child: TextField(
+        decoration: InputDecoration(labelText: "Pseudo"),
+        controller: _controller,
+        onChanged: (value) => context
+            .read<CurrentGameBloc>()
+            .add(ChangeNamePlayer(player: widget.player, name: value)),
+      ),
     );
   }
 }
