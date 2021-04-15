@@ -51,7 +51,8 @@ class _GameScreenState extends State<GameScreen> {
             padding: const EdgeInsets.only(left: 35.0),
             child: const PlayerAnnouncer(),
           ),
-          Expanded(child: const PlayArea())
+          Expanded(child: Container()),
+          const PlayArea()
         ],
       ),
     ));

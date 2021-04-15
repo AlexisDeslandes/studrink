@@ -18,19 +18,16 @@ class PlayArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: BlocBuilder<CurrentGameBloc, CurrentGameState>(
-            buildWhen: (previous, current) =>
-                (previous.currentPlayer != current.currentPlayer) ||
-                (previous.currentPlayer?.state != current.currentPlayer?.state),
-            builder: (context, state) => AnimatedSwitcher(
-                  duration: Duration(milliseconds: 500),
-                  child: Container(
-                      key: ValueKey(state.currentPlayer),
-                      child: _getArea(state)),
-                )));
+    return BlocBuilder<CurrentGameBloc, CurrentGameState>(
+        buildWhen: (previous, current) =>
+            (previous.currentPlayer != current.currentPlayer) ||
+            (previous.currentPlayer?.state != current.currentPlayer?.state),
+        builder: (context, state) => AnimatedSwitcher(
+              duration: Duration(milliseconds: 500),
+              child: Container(
+                  key: ValueKey(state.currentPlayer),
+                  child: _getArea(state)),
+            ));
   }
 
   Widget _getArea(CurrentGameState state) {
