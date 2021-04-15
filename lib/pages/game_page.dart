@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
+import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/pages/game_page_provider.dart';
-import 'package:ptit_godet/widgets/background.dart';
+import 'package:ptit_godet/widgets/base_screen.dart';
 import 'package:ptit_godet/widgets/custom_back_button.dart';
 import 'package:ptit_godet/widgets/dice_view.dart';
 import 'package:ptit_godet/widgets/game_page_view/game_page_view.dart';
@@ -18,24 +19,56 @@ class GamePage extends CupertinoPage {
             key: const ValueKey<String>("/game"));
 }
 
-class GameScreen extends StatelessWidget {
+class GameScreen extends StatefulWidget {
   const GameScreen();
 
   @override
+  _GameScreenState createState() => _GameScreenState();
+}
+
+class _GameScreenState extends State<GameScreen> {
+  @override
   Widget build(BuildContext context) {
-    const offset = 30.0;
-    return Background(child: LayoutBuilder(
-      builder: (context, constraints) {
-        final maxHeight = constraints.maxHeight,
-            maxWidth = constraints.maxWidth,
-            pageViewHeight = maxHeight * 0.7;
-        return BlocListener<CurrentGameBloc, CurrentGameState>(
-          listenWhen: (previous, current) =>
-              !current.isEmpty &&
-              previous.currentPlayer!.name != current.currentPlayer!.name,
-          listener: (context, state) =>
-              _displayOverlay(context, state, maxWidth, maxHeight),
-          child: Stack(children: [
+    return SafeArea(
+        child: Scaffold(
+      backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: BackButton(
+            onPressed: () => context.read<NavBloc>().add(const PopNav()),
+            color: Colors.black),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 35.0),
+            child: BlocBuilder<CurrentGameBloc, CurrentGameState>(
+              buildWhen: (previous, current) =>
+                  previous.currentCellName != current.currentCellName,
+              builder: (context, state) => Text(state.currentCellName,
+                  style: Theme.of(context).textTheme.headline1),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 35.0),
+            child: BlocBuilder<CurrentGameBloc, CurrentGameState>(
+              buildWhen: (previous, current) =>
+                  previous.currentPlayer!.name != current.currentPlayer!.name,
+              builder: (context, state) => Text(
+                  "C'est au tour de ${state.currentPlayer!.name}",
+                  style: Theme.of(context).textTheme.subtitle1),
+            ),
+          ),
+          Expanded(child: const SizedBox())
+        ],
+      ),
+    ));
+  }
+
+  /*
+  Stack(children: [
             Positioned(
                 child: const PlayerAnnouncer(),
                 width: MediaQuery.of(context).size.width - offset,
@@ -56,11 +89,8 @@ class GameScreen extends StatelessWidget {
             Positioned(
                 child: const DiceView(), width: maxWidth, height: maxHeight)
             //Positioned(child: const PlayerOverlay(), width: maxWidth, height: maxHeight)
-          ]),
-        );
-      },
-    ));
-  }
+          ])
+   */
 
   void _displayOverlay(BuildContext context, CurrentGameState state,
       double maxWidth, double maxHeight) async {
