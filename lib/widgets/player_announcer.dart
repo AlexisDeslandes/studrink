@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
 
@@ -11,7 +12,8 @@ class PlayerAnnouncer extends StatelessWidget {
         builder: (context, state) {
           final name = state.currentPlayer!.name;
           return Row(children: [
-            Text("C'est au tour de "),
+            Text("C'est au tour de ",
+                style: Theme.of(context).textTheme.subtitle1),
             Expanded(
                 child: AnimatedSwitcher(
                     duration: Duration(milliseconds: 500),
@@ -19,19 +21,19 @@ class PlayerAnnouncer extends StatelessWidget {
                     switchOutCurve: Interval(0.0, 0.5),
                     transitionBuilder: (child, animation) {
                       return ClipRRect(
-                        child: FadeTransition(
-                            opacity: animation,
-                            child: SlideTransition(
-                                position: animation.drive(Tween(
-                                    begin: Offset(0.0, 1.0),
-                                    end: Offset(0.0, 0.0))),
-                                child: child))
-                      );
+                          child: FadeTransition(
+                              opacity: animation,
+                              child: SlideTransition(
+                                  position: animation.drive(Tween(
+                                      begin: Offset(0.0, 1.0),
+                                      end: Offset(0.0, 0.0))),
+                                  child: child)));
                     },
                     child: Align(
                         key: ValueKey(name),
                         alignment: Alignment.centerLeft,
-                        child: Text(name))))
+                        child: Text(name,
+                            style: Theme.of(context).textTheme.subtitle1))))
           ]);
         },
         buildWhen: (previous, current) =>

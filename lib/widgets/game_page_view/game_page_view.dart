@@ -26,8 +26,7 @@ class GamePageView extends StatelessWidget {
                       context.read<CurrentGameBloc>().state,
                   playerListOnCell =
                       currentGameBlocState.playerListFromIdCell(value),
-                  currentPlayer = currentGameBlocState.
-              ;
+                  currentPlayer = currentGameBlocState.currentPlayer;
               if (playerListOnCell.contains(currentPlayer)) {
                 context
                     .read<FocusedCellBloc>()

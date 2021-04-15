@@ -5,6 +5,7 @@ import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/pages/game_page_provider.dart';
 import 'package:ptit_godet/widgets/base_screen.dart';
+import 'package:ptit_godet/widgets/cell_announcer.dart';
 import 'package:ptit_godet/widgets/custom_back_button.dart';
 import 'package:ptit_godet/widgets/dice_view.dart';
 import 'package:ptit_godet/widgets/game_page_view/game_page_view.dart';
@@ -44,24 +45,13 @@ class _GameScreenState extends State<GameScreen> {
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 35.0),
-            child: BlocBuilder<CurrentGameBloc, CurrentGameState>(
-              buildWhen: (previous, current) =>
-                  previous.currentCellName != current.currentCellName,
-              builder: (context, state) => Text(state.currentCellName,
-                  style: Theme.of(context).textTheme.headline1),
-            ),
+            child: const CellAnnouncer(),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 35.0),
-            child: BlocBuilder<CurrentGameBloc, CurrentGameState>(
-              buildWhen: (previous, current) =>
-                  previous.currentPlayer!.name != current.currentPlayer!.name,
-              builder: (context, state) => Text(
-                  "C'est au tour de ${state.currentPlayer!.name}",
-                  style: Theme.of(context).textTheme.subtitle1),
-            ),
+            child: const PlayerAnnouncer(),
           ),
-          Expanded(child: const SizedBox())
+          Expanded(child: const PlayArea())
         ],
       ),
     ));
