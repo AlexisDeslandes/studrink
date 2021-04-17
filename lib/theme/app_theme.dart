@@ -34,7 +34,7 @@ class AppTheme {
             headline1: headline2.copyWith(fontSize: 40),
             headline2: headline2,
             bodyText1:
-                headline2.copyWith(fontSize: 15, fontWeight: FontWeight.w500),
+                headline2.copyWith(fontSize: 16, fontWeight: FontWeight.w300),
             bodyText2:
                 headline2.copyWith(fontSize: 22, fontWeight: FontWeight.w500),
             button: headline2));

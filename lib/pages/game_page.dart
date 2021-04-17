@@ -2,15 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
+import 'package:ptit_godet/blocs/focused_cell_bloc/focused_cell_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/pages/game_page_provider.dart';
-import 'package:ptit_godet/widgets/base_screen.dart';
 import 'package:ptit_godet/widgets/cell_announcer.dart';
-import 'package:ptit_godet/widgets/custom_back_button.dart';
-import 'package:ptit_godet/widgets/dice_view.dart';
 import 'package:ptit_godet/widgets/game_page_view/game_page_view.dart';
+import 'package:ptit_godet/widgets/glass/glass_widget.dart';
 import 'package:ptit_godet/widgets/player_announcer.dart';
 import 'package:ptit_godet/widgets/player_area/play_area.dart';
+import 'package:ptit_godet/widgets/player_avatar.dart';
 import 'package:ptit_godet/widgets/player_overlay.dart';
 
 class GamePage extends CupertinoPage {
@@ -51,7 +51,43 @@ class _GameScreenState extends State<GameScreen> {
             padding: const EdgeInsets.only(left: 35.0),
             child: const PlayerAnnouncer(),
           ),
-          Expanded(child: Container()),
+          Expanded(
+            child: Padding(
+                padding: const EdgeInsets.only(top: 50.0),
+                child: Center(child: const GamePageView())),
+          ),
+          Padding(
+              padding:
+                  EdgeInsets.only(bottom: 50, top: 20, right: 50, left: 50),
+              child: GlassWidget(
+                child: BlocBuilder<FocusedCellBloc, FocusedCellState>(
+                    buildWhen: (previous, current) =>
+                        previous.selectedPlayer != current.selectedPlayer,
+                    builder: (context, state) {
+                      final selectedPlayer = state.selectedPlayer;
+                      if (selectedPlayer == null) {
+                        return const SizedBox();
+                      }
+                      final conditionCount =
+                          selectedPlayer.conditionKeyList.length;
+                      return ListTile(
+                        leading: PlayerAvatar(player: selectedPlayer),
+                        title: Text(
+                          selectedPlayer.name,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1!
+                              .copyWith(
+                                  fontSize: 24, fontWeight: FontWeight.w400),
+                        ),
+                        subtitle: Text(
+                          "$conditionCount objectif(s).",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w400),
+                        ),
+                      );
+                    }),
+              )),
           const PlayArea()
         ],
       ),

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
 import 'package:ptit_godet/blocs/focused_cell_bloc/focused_cell_bloc.dart';
 import 'package:ptit_godet/models/cell.dart';
+import 'package:ptit_godet/widgets/player_avatar.dart';
 
 class CardCellPlayerList extends StatelessWidget {
   final Cell cell;
@@ -32,25 +33,14 @@ class CardCellPlayerList extends StatelessWidget {
                   width: imageSize + borderRadius * 2,
                   height: imageSize + borderRadius * 2,
                   child: Center(
-                    child: Material(
-                      elevation: 5,
-                      borderRadius: BorderRadius.circular(100),
-                      child: Container(
+                    child: PlayerAvatar(
+                        player: player,
                         decoration: hasFocus
                             ? BoxDecoration(
                                 shape: BoxShape.circle,
                                 border: Border.all(
                                     color: Colors.white, width: borderRadius))
-                            : null,
-                        child: ClipOval(
-                            child: player.avatar != null
-                                ? Image.memory(player.avatar!, width: imageSize)
-                                : Container(
-                                    color: player.color,
-                                    width: imageSize,
-                                    height: imageSize)),
-                      ),
-                    ),
+                            : null),
                   ),
                 ),
               );

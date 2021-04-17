@@ -1,20 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:ptit_godet/constants/game_card_constants.dart';
 import 'package:ptit_godet/models/cell.dart';
 import 'package:ptit_godet/models/pastel_colors.dart';
 import 'package:ptit_godet/widgets/game_page_view/card_cell_condition_key_list.dart';
 import 'package:ptit_godet/widgets/game_page_view/card_cell_player_list.dart';
 import 'package:ptit_godet/widgets/game_page_view/card_cell_player_selected_abel.dart';
+import 'package:ptit_godet/widgets/glass/glass_widget.dart';
 
 class CardCell extends StatelessWidget {
   final Cell cell;
 
-  const CardCell({Key? key, required this.cell})
-      : assert(cell != null),
-        super(key: key);
-
-  get _cardColor => PastelColors.colors[cell.cellType.index];
+  const CardCell({Key? key, required this.cell}) : super(key: key);
 
   IconData get _icon {
     switch (cell.cellType) {
@@ -45,78 +43,33 @@ class CardCell extends StatelessWidget {
       case CellType.finish:
         return Icons.check;
     }
-    return MdiIcons.glassMugVariant;
   }
 
   @override
   Widget build(BuildContext context) {
-    const horizontalPadding = 30.0,
-        verticalPadding = 15.0,
-        positionedPadding = 10.0;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(
-              left: horizontalPadding, bottom: verticalPadding),
-          child: Text(cell.name, style: Theme.of(context).textTheme.headline1),
-        ),
-        Expanded(
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              final maxHeight = constraints.maxHeight,
-                  maxWidth = constraints.maxWidth,
-                  difference = (maxHeight - maxWidth).abs();
-              return Padding(
-                padding: EdgeInsets.all(difference > 20 ? 0 : 20 - difference),
-                child: Container(
-                  width: maxWidth,
-                  child: Center(
-                    child: Stack(
-                      children: [
-                        Container(
-                            height: maxHeight,
-                            width: maxHeight,
-                            child: Padding(
-                                padding: const EdgeInsets.only(bottom: 3.0),
-                                child: Card(
-                                    elevation: 3,
-                                    color: _cardColor,
-                                    child:
-                                        Center(child: Icon(_icon, size: 70))))),
-                        Positioned(
-                            child: CardCellPlayerList(cell),
-                            top: positionedPadding,
-                            left: positionedPadding,
-                            width: maxWidth),
-                        Positioned(
-                            child: CardCellConditionKeyList(cell),
-                            bottom: positionedPadding,
-                            right: positionedPadding),
-                        Positioned(
-                            child: CardCellPlayerSelectedLabel(cell),
-                            left: positionedPadding,
-                            bottom: positionedPadding)
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            },
+    return GlassWidget(
+        child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SizedBox(child: CardCellPlayerList(cell), height: 50),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: verticalPadding),
-          child: SizedBox(
-              height: 80,
+          Align(
+              child: Icon(_icon, size: MediaQuery.of(context).size.width * 0.4),
+              alignment: Alignment.center),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Center(
                   child: Text(
                 cell.effectsLabel,
                 style: Theme.of(context).textTheme.bodyText1,
                 textAlign: TextAlign.center,
-              ))),
-        )
-      ],
-    );
+              )),
+            ),
+          )
+        ]));
   }
 }
