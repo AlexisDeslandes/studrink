@@ -18,19 +18,17 @@ class PlayerChosePlayerMovingArea extends StatefulWidget {
 
 class _PlayerChosePlayerMovingAreaState
     extends State<PlayerChosePlayerMovingArea> {
-  late final PageController _playerChosePageController;
-
   @override
   void initState() {
     final playerList = widget.playerList,
         idInitialPlayer = playerList.length > 1 ? 1 : 0;
-    _playerChosePageController =
-        PageController(viewportFraction: 0.3, initialPage: idInitialPlayer);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    return const SizedBox();
+    /*
     return Column(
       children: [
         Text(
@@ -60,6 +58,8 @@ class _PlayerChosePlayerMovingAreaState
         ))
       ],
     );
+
+     */
   }
 
   void _onPageChanged(int value) {

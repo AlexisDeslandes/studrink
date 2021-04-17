@@ -2,30 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:ptit_godet/constants/button_constants.dart';
 
 class WhiteButton extends StatelessWidget {
-  const WhiteButton({Key? key, required this.text, required this.callback})
+  const WhiteButton(
+      {Key? key, required this.text, required this.callback, this.mini = false})
       : super(key: key);
   final String text;
   final VoidCallback callback;
+  final bool mini;
 
   @override
   Widget build(BuildContext context) {
     final buttonSize =
-        ButtonConstants.buttonSize * MediaQuery.of(context).size.width;
+        (mini ? ButtonConstants.miniButtonSize : ButtonConstants.buttonSize) *
+            MediaQuery.of(context).size.width;
     return Container(
       width: buttonSize,
+      height: mini ? 40.0 : null,
       child: Material(
           color: Colors.transparent,
           child: InkWell(
               borderRadius: BorderRadius.circular(ButtonConstants.buttonRadius),
               child: Center(
                   child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: ButtonConstants.verticalPadding),
+                padding: EdgeInsets.symmetric(
+                    vertical: (mini
+                        ? ButtonConstants.miniVerticalPadding
+                        : ButtonConstants.verticalPadding)),
                 child: Text(
                   text,
                   style: Theme.of(context).textTheme.headline2!.copyWith(
                       color: Colors.black,
-                      fontSize: ButtonConstants.fontSize,
+                      fontSize: (mini
+                          ? ButtonConstants.miniFontSize
+                          : ButtonConstants.fontSize),
                       fontWeight: ButtonConstants.weight),
                 ),
               )),

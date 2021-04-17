@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
 import 'package:ptit_godet/models/player.dart';
 import 'package:ptit_godet/widgets/player_area/player_challenge_area.dart';
 import 'package:ptit_godet/widgets/player_area/player_chose_direction_area.dart';
-import 'package:ptit_godet/widgets/player_area/player_chose_opponent_area.dart';
 import 'package:ptit_godet/widgets/player_area/player_chose_player_moving_area.dart';
 import 'package:ptit_godet/widgets/player_area/player_chose_player_stole_area.dart';
 import 'package:ptit_godet/widgets/player_area/player_chose_player_won_area.dart';
@@ -18,16 +18,18 @@ class PlayArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CurrentGameBloc, CurrentGameState>(
-        buildWhen: (previous, current) =>
-            (previous.currentPlayer != current.currentPlayer) ||
-            (previous.currentPlayer?.state != current.currentPlayer?.state),
-        builder: (context, state) => AnimatedSwitcher(
-              duration: Duration(milliseconds: 500),
-              child: Container(
-                  key: ValueKey(state.currentPlayer),
-                  child: _getArea(state)),
-            ));
+    return Container(
+      height: 61.0,
+      child: BlocBuilder<CurrentGameBloc, CurrentGameState>(
+          buildWhen: (previous, current) =>
+              (previous.currentPlayer != current.currentPlayer) ||
+              (previous.currentPlayer?.state != current.currentPlayer?.state),
+          builder: (context, state) => AnimatedSwitcher(
+                duration: Duration(milliseconds: 500),
+                child: Container(
+                    key: ValueKey(state.currentPlayer), child: _getArea(state)),
+              )),
+    );
   }
 
   Widget _getArea(CurrentGameState state) {
@@ -55,10 +57,6 @@ class PlayArea extends StatelessWidget {
       return const PlayerChallengeArea();
     } else if (currentPlayerState == PlayerState.choseDirection) {
       return const PlayerChoseDirectionArea();
-    } else if (currentPlayerState == PlayerState.choseOpponent) {
-      return PlayerChoseOpponentArea(state.playerList
-          .where((element) => state.currentPlayer != element)
-          .toList());
     } else if (currentPlayerState == PlayerState.waitForWinner) {
       return PlayerChosePlayerWonArea(
           [state.currentPlayer!, state.currentOpponent!]);

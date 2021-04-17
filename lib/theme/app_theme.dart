@@ -26,6 +26,7 @@ class AppTheme {
           minWidth: 166,
           buttonColor: Colors.white,
         ),
+        canvasColor: Colors.transparent,
         textTheme: lightTheme.textTheme.copyWith(
             subtitle1: TextStyle(
                 color: Color(0xff663A3C),
