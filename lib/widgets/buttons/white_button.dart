@@ -16,7 +16,7 @@ class WhiteButton extends StatelessWidget {
             MediaQuery.of(context).size.width;
     return Container(
       width: buttonSize,
-      height: mini ? 40.0 : null,
+      height: mini ? 40.0 : 61.0,
       child: Material(
           color: Colors.transparent,
           child: InkWell(

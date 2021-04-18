@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
+import 'package:ptit_godet/models/moving.dart';
 import 'package:ptit_godet/models/player.dart';
 import 'package:ptit_godet/widgets/bottom_sheet/app_bottom_sheet.dart';
 import 'package:ptit_godet/widgets/bottom_sheet/chose_opponent_list_view.dart';
@@ -16,36 +17,6 @@ class GameBottomSheet extends StatelessWidget {
       builder: (context, state) {
         final currentPlayerState = state.currentPlayer!.state;
         switch (currentPlayerState) {
-          case PlayerState.ready:
-            // TODO: Handle this case.
-            break;
-          case PlayerState.canEnd:
-            // TODO: Handle this case.
-            break;
-          case PlayerState.returnPreviousCheckPoint:
-            // TODO: Handle this case.
-            break;
-          case PlayerState.moving:
-            // TODO: Handle this case.
-            break;
-          case PlayerState.preTurnLost:
-            // TODO: Handle this case.
-            break;
-          case PlayerState.turnLost:
-            // TODO: Handle this case.
-            break;
-          case PlayerState.throwDice:
-            // TODO: Handle this case.
-            break;
-          case PlayerState.thrownDice:
-            // TODO: Handle this case.
-            break;
-          case PlayerState.selfChallenge:
-            // TODO: Handle this case.
-            break;
-          case PlayerState.choseDirection:
-            // TODO: Handle this case.
-            break;
           case PlayerState.choseOpponent:
             return AppBottomSheet(
                 getChild: (controller) => ChoseOpponentListView(
@@ -56,15 +27,25 @@ class GameBottomSheet extends StatelessWidget {
                     playerList: state.playerList
                         .where((element) => state.currentPlayer != element)
                         .toList()));
-          case PlayerState.waitForWinner:
-            // TODO: Handle this case.
-            break;
           case PlayerState.chosePlayerMoving:
+            final cells = state.boardGame!.cells,
+                cellCount = cells.length,
+                moving = state.currentCell!.moving!,
+                movingCount = moving.movingType == MovingType.forward
+                    ? moving.count
+                    : -moving.count;
+
             return AppBottomSheet(
               getChild: (controller) => ChoseOpponentListView(
+                  contentCallback: (player) => Text(
+                      "Effets : ${cells[player.idCurrentCell + movingCount].effectsLabel}",
+                      style: Theme.of(context).textTheme.bodyText1),
                   controller: controller,
                   playerList: state.playerList
-                      .where((element) => state.currentPlayer != element)
+                      .where((element) =>
+                          state.currentPlayer != element &&
+                          (element.idCurrentCell + movingCount) > 0 &&
+                          (element.idCurrentCell + movingCount) < cellCount)
                       .toList(),
                   callback: (player) => context
                       .read<CurrentGameBloc>()

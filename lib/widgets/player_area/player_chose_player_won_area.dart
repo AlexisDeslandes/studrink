@@ -1,35 +1,47 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
 import 'package:ptit_godet/models/player.dart';
 import 'package:ptit_godet/widgets/bottom_button.dart';
+import 'package:ptit_godet/widgets/buttons/color_button.dart';
+import 'package:ptit_godet/widgets/buttons/white_button.dart';
 
 class PlayerChosePlayerWonArea extends StatelessWidget {
-  final List<Player> playerList;
-
-  const PlayerChosePlayerWonArea(this.playerList);
+  const PlayerChosePlayerWonArea(
+      {Key? key, required this.currPlayer, required this.opponent})
+      : super(key: key);
+  final Player currPlayer;
+  final Player opponent;
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    void choseWinner(Player player) =>
+        context.read<CurrentGameBloc>().add(ChoseWinner(player));
+    return Column(
       children: [
-        Align(
-          alignment: Alignment.topCenter,
-          child: Text("Choisis le vainqueur."),
+        Text(
+          "Choisis le vainqueur",
+          style: Theme.of(context).textTheme.bodyText1,
         ),
-        Align(
+        Expanded(
+          child: Align(
+            alignment: Alignment.bottomCenter,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: playerList
-                  .map((e) => BottomButton(
-                        text: e.name,
-                        onPressed: () {
-                          context.read<CurrentGameBloc>().add(ChoseWinner(e));
-                        },
-                      ))
-                  .toList(),
-            ),
-            alignment: Alignment.bottomCenter)
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  WhiteButton(
+                      text: opponent.name,
+                      mini: true,
+                      callback: () => choseWinner(opponent)),
+                  ColorButton(
+                      text: currPlayer.name,
+                      callback: () => choseWinner(currPlayer),
+                      mini: true)
+                ]),
+          ),
+        )
       ],
     );
   }

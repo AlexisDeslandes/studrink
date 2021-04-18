@@ -19,7 +19,7 @@ class PlayArea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 61.0,
+      height: 70.0,
       child: BlocBuilder<CurrentGameBloc, CurrentGameState>(
           buildWhen: (previous, current) =>
               (previous.currentPlayer != current.currentPlayer) ||
@@ -59,8 +59,8 @@ class PlayArea extends StatelessWidget {
       return const PlayerChoseDirectionArea();
     } else if (currentPlayerState == PlayerState.waitForWinner) {
       return PlayerChosePlayerWonArea(
-          [state.currentPlayer!, state.currentOpponent!]);
-    } else if (currentPlayerState == PlayerState.chosePlayerMoving) {
+          currPlayer: state.currentPlayer!, opponent: state.currentOpponent!);
+    } else if (currentPlayerState == PlayerState.chosePlayerMoving) {//done
       return PlayerChosePlayerMovingArea(state.playerList
           .where((element) => element != currentPlayer)
           .toList());

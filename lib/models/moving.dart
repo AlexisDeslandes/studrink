@@ -7,8 +7,7 @@ class Moving extends Resource {
   final MovingType movingType;
   final int count;
 
-  Moving({required this.movingType, required this.count})
-      : assert(movingType != null && count != null);
+  Moving({required this.movingType, required this.count});
 
   Moving.fromJson(Map<String, dynamic> map)
       : this(
