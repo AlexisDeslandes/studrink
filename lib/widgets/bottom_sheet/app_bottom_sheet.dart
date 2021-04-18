@@ -9,19 +9,24 @@ class AppBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const radius = 30.0;
-    return Container(
-      decoration: BoxDecoration(
-          color: Theme.of(context).scaffoldBackgroundColor,
-          borderRadius: BorderRadius.circular(radius),
-          border: Border.all(
-            color: Colors.white,
-          )),
-      child: DraggableScrollableSheet(
-          initialChildSize: 0.2,
-          minChildSize: 0.2,
-          maxChildSize: 0.5,
-          expand: false,
-          builder: (BuildContext context, controller) => getChild(controller)),
+    return BottomSheet(
+      onClosing: () {},
+      enableDrag: false,
+      builder: (context) => Container(
+        decoration: BoxDecoration(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            borderRadius: BorderRadius.circular(radius),
+            border: Border.all(
+              color: Colors.white,
+            )),
+        child: DraggableScrollableSheet(
+            initialChildSize: 0.2,
+            minChildSize: 0.2,
+            maxChildSize: 0.5,
+            expand: false,
+            builder: (BuildContext context, controller) =>
+                getChild(controller)),
+      ),
     );
   }
 }
