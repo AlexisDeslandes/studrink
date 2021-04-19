@@ -44,28 +44,33 @@ class CardCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GlassWidget(
-        child: Column(
+        child: Stack(
+      children: [
+        Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox(child: CardCellPlayerList(cell), height: 50),
-          ),
-          Align(
-              child: Icon(_icon, size: MediaQuery.of(context).size.width * 0.4),
-              alignment: Alignment.center),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Center(
-                  child: Text(
-                cell.effectsLabel,
-                style: Theme.of(context).textTheme.bodyText1,
-                textAlign: TextAlign.center,
-              )),
-            ),
-          )
-        ]));
+              Expanded(
+                child: Align(
+                    child: Icon(_icon,
+                        size: MediaQuery.of(context).size.width * 0.4),
+                    alignment: Alignment.center),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Center(
+                    child: Text(
+                  cell.effectsLabel,
+                  style: Theme.of(context).textTheme.bodyText1,
+                  textAlign: TextAlign.center,
+                )),
+              )
+            ]),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SizedBox(child: CardCellPlayerList(cell), height: 50),
+        ),
+      ],
+    ));
   }
 }

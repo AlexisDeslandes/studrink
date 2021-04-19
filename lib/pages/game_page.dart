@@ -68,7 +68,10 @@ class _GameScreenState extends State<GameScreen> {
                   ),
                   Padding(
                       padding: EdgeInsets.only(
-                          bottom: 50, top: 20, right: 50, left: 50),
+                          bottom: size.height < 700 ? 25 : 50,
+                          top: 20,
+                          right: 50,
+                          left: 50),
                       child: const SelectedPlayerCard()),
                   const PlayArea()
                 ],

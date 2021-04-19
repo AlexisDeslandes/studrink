@@ -169,17 +169,22 @@ class Cell extends Resource {
     return "";
   }
 
-  String get sideEffectsLabel =>
-      sideEffectList.fold<String>("", (previousValue, element) {
-        return previousValue + " " + element;
-      }) +
-      "\n";
+  String get sideEffectsLabel {
+    final effects = sideEffectList.fold<String>("", (previousValue, element) {
+      return previousValue + " " + element;
+    });
+    if (effects.isNotEmpty) return effects + "\n";
+    return "";
+  }
 
-  String get sideEffectsLabelAfterTurnLost =>
-      sideEffectListAfterTurnLost.fold<String>("", (previousValue, element) {
-        return previousValue + element;
-      }) +
-      "\n";
+  String get sideEffectsLabelAfterTurnLost {
+    final effects =
+        sideEffectListAfterTurnLost.fold<String>("", (previousValue, element) {
+      return previousValue + element;
+    });
+    if (effects.isNotEmpty) return effects + "\n";
+    return "";
+  }
 
   String get turnLost =>
       cellType == CellType.turnLose ? "Passe ton prochain tour.\n" : "";
@@ -276,6 +281,8 @@ class Cell extends Resource {
         sideEffectsLabelAfterTurnLost;
     if (toReturn.endsWith("\n\n")) {
       return toReturn.substring(0, toReturn.length - 1);
+    } else if (toReturn.endsWith("\n.")) {
+      return toReturn.substring(0, toReturn.length - 2);
     }
     return toReturn;
   }
