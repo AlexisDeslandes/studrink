@@ -191,14 +191,14 @@ class Cell extends Resource {
 
   String get prisonLabel {
     if (cellType == CellType.prison) {
-      return "Fait ${prisonCondition!.dicePossibilitiesLabel} pour sortir.";
+      return "Fait ${prisonCondition!.dicePossibilitiesLabel} pour sortir.\n";
     }
     return "";
   }
 
   String get selfThrowDiceLabel {
     if (cellType == CellType.selfThrowDice) {
-      return "Lance un dé. " + throwDiceEffect!.sideEffect;
+      return "Lance un dé. " + throwDiceEffect!.sideEffect + "\n";
     }
     return "";
   }
@@ -219,7 +219,7 @@ class Cell extends Resource {
 
   String get stealConditionKey {
     if (cellType == CellType.steal) {
-      return "Vole : ${conditionKeyStolen!.name}.";
+      return "Vole : ${conditionKeyStolen!.name}.\n";
     }
     return "";
   }
@@ -236,7 +236,7 @@ class Cell extends Resource {
       if (requiredConditionKey != null) {
         return "Retourne à l'année précédente. Si tu n'as pas : ${requiredConditionKey!.name}.\n";
       }
-      return "Retourne en ${tpCell!.name}\n";
+      return "Retourne en ${tpCell!.name}.\n";
     }
     return "";
   }
