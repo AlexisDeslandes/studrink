@@ -32,6 +32,7 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> {
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.transparent,
       bottomSheet: const GameBottomSheet(),
@@ -45,28 +46,35 @@ class _GameScreenState extends State<GameScreen> {
       body: SafeArea(
         child: Stack(
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 35.0),
-                  child: const CellAnnouncer(),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 35.0),
-                  child: const PlayerAnnouncer(),
-                ),
-                Expanded(
-                  child: Padding(
-                      padding: const EdgeInsets.only(top: 50.0),
-                      child: Center(child: const GamePageView())),
-                ),
-                Padding(
-                    padding: EdgeInsets.only(
-                        bottom: 50, top: 20, right: 50, left: 50),
-                    child: const SelectedPlayerCard()),
-                const PlayArea()
-              ],
+            BlocListener<CurrentGameBloc, CurrentGameState>(
+              listenWhen: (previous, current) =>
+                  previous.currentPlayer?.name != current.currentPlayer?.name &&
+                  current.currentPlayer != null,
+              listener: (context, state) =>
+                  _displayOverlay(context, state, size.width, size.height),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 35.0),
+                    child: const CellAnnouncer(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 35.0),
+                    child: const PlayerAnnouncer(),
+                  ),
+                  Expanded(
+                    child: Padding(
+                        padding: const EdgeInsets.only(top: 50.0),
+                        child: Center(child: const GamePageView())),
+                  ),
+                  Padding(
+                      padding: EdgeInsets.only(
+                          bottom: 50, top: 20, right: 50, left: 50),
+                      child: const SelectedPlayerCard()),
+                  const PlayArea()
+                ],
+              ),
             ),
             const DiceView()
           ],
@@ -83,7 +91,7 @@ class _GameScreenState extends State<GameScreen> {
             child: PlayerOverlay(
                 name: state.currentPlayer!.name,
                 color: state.currentPlayer!.color,
-                picture: state.currentPlayer!.avatar!),
+                picture: state.currentPlayer!.avatar),
             width: maxWidth,
             height: maxHeight));
     overlayState.insert(overlayEntry);
