@@ -33,7 +33,6 @@ class SelectedPlayerCard extends StatelessWidget {
               subTitle = "Fonce vers la victoire !";
             }
             return ListTile(
-              onTap: () {},
               leading: PlayerAvatar(player: selectedPlayer),
               title: Text(
                 selectedPlayer.name,
