@@ -5,8 +5,6 @@ import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
 import 'package:ptit_godet/models/player.dart';
 import 'package:ptit_godet/widgets/player_area/player_challenge_area.dart';
 import 'package:ptit_godet/widgets/player_area/player_chose_direction_area.dart';
-import 'package:ptit_godet/widgets/player_area/player_chose_player_moving_area.dart';
-import 'package:ptit_godet/widgets/player_area/player_chose_player_stole_area.dart';
 import 'package:ptit_godet/widgets/player_area/player_chose_player_won_area.dart';
 import 'package:ptit_godet/widgets/player_area/player_end_area.dart';
 import 'package:ptit_godet/widgets/player_area/player_moving_area.dart';
@@ -60,22 +58,12 @@ class PlayArea extends StatelessWidget {
     } else if (currentPlayerState == PlayerState.waitForWinner) {
       return PlayerChosePlayerWonArea(
           currPlayer: state.currentPlayer!, opponent: state.currentOpponent!);
-    } else if (currentPlayerState == PlayerState.chosePlayerMoving) {//done
-      return PlayerChosePlayerMovingArea(state.playerList
-          .where((element) => element != currentPlayer)
-          .toList());
+    } else if (currentPlayerState == PlayerState.chosePlayerMoving) {
+      if (state.playerListAbleToMove().isEmpty) return const PlayerEndArea();
     } else if (currentPlayerState == PlayerState.stealConditionKey) {
-      final conditionKey = actualCell.conditionKeyStolen;
-      final playerHavingConditionKey = state.playerList
-          .where((element) =>
-              element != currentPlayer &&
-              element.conditionKeyList.contains(conditionKey))
-          .toList();
-      if (playerHavingConditionKey.length == 0) {
+      if (state.playerListAbleToBeStolen().isEmpty)
         return const PlayerEndArea();
-      }
-      return PlayerChosePlayerStoleArea(playerHavingConditionKey);
     }
-    return Container();
+    return const SizedBox();
   }
 }

@@ -156,7 +156,7 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
     if (nextPlayerState == PlayerState.winner) {
       yield CurrentGameState.copy(state,
           playerList: playerList, winner: currentPlayer);
-      navBloc.add(PushNav(pageBuilder: (dynamic) => const FinishGamePage()));
+      navBloc.add(ResetNav(pageBuilder: (dynamic) => const FinishGamePage()));
     } else {
       yield CurrentGameState.copy(state, playerList: playerList);
     }
@@ -639,6 +639,28 @@ class CurrentGameState extends Equatable {
       return 0;
     }
     return indexCurrentPlayer + 1;
+  }
+
+  List<Player> playerListAbleToMove() {
+    final moving = currentCell!.moving!,
+        movingCount = moving.movingType == MovingType.forward
+            ? moving.count
+            : -moving.count;
+    return playerList
+        .where((element) =>
+            currentPlayer != element &&
+            (element.idCurrentCell + movingCount) > 0 &&
+            (element.idCurrentCell + movingCount) < boardGame!.cells.length)
+        .toList();
+  }
+
+  List<Player> playerListAbleToBeStolen() {
+    final conditionKey = actualCell!.conditionKeyStolen;
+    return playerList
+        .where((element) =>
+            element != currentPlayer &&
+            element.conditionKeyList.contains(conditionKey))
+        .toList();
   }
 
   @override

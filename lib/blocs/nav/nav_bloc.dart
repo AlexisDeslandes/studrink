@@ -41,6 +41,16 @@ class PushNav extends NavEvent {
   List<Object> get props => [pageBuilder, args];
 }
 
+class ResetNav extends NavEvent {
+  final dynamic args;
+  final PageBuilder pageBuilder;
+
+  const ResetNav({required this.pageBuilder, this.args});
+
+  @override
+  List<Object> get props => [args, pageBuilder];
+}
+
 class PopNav extends NavEvent {
   const PopNav();
 }
@@ -64,6 +74,9 @@ class NavBloc extends Bloc<NavEvent, NavState> {
       ]);
     } else if (event is PopNav) {
       yield NavState(currentNavList.sublist(0, currentNavList.length - 1));
+    } else if (event is ResetNav) {
+      yield NavState(
+          [NavStateElement(pageBuilder: event.pageBuilder, args: event.args)]);
     } else {
       yield NavState([NavStateElement(pageBuilder: (_) => const HomePage())]);
     }

@@ -28,36 +28,47 @@ class GameBottomSheet extends StatelessWidget {
                         .where((element) => state.currentPlayer != element)
                         .toList()));
           case PlayerState.chosePlayerMoving:
-            final cells = state.boardGame!.cells,
-                cellCount = cells.length,
-                moving = state.currentCell!.moving!,
-                movingCount = moving.movingType == MovingType.forward
-                    ? moving.count
-                    : -moving.count;
+            {
+              final cells = state.boardGame!.cells,
+                  moving = state.currentCell!.moving!,
+                  movingCount = moving.movingType == MovingType.forward
+                      ? moving.count
+                      : -moving.count,
+                  playerList = state.playerListAbleToMove();
 
-            return AppBottomSheet(
-              getChild: (controller) => ChoseOpponentListView(
-                  contentCallback: (player) => Text(
-                      "Effets : ${cells[player.idCurrentCell + movingCount].effectsLabel}",
-                      style: Theme.of(context).textTheme.bodyText1),
-                  controller: controller,
-                  playerList: state.playerList
-                      .where((element) =>
-                          state.currentPlayer != element &&
-                          (element.idCurrentCell + movingCount) > 0 &&
-                          (element.idCurrentCell + movingCount) < cellCount)
-                      .toList(),
-                  callback: (player) => context
-                      .read<CurrentGameBloc>()
-                      .add(MakePlayerMoving(player))),
-            );
+              if (playerList.isEmpty)
+                return const SizedBox();
+              else
+                return AppBottomSheet(
+                  getChild: (controller) => ChoseOpponentListView(
+                      contentCallback: (player) => Text(
+                          "Effets : ${cells[player.idCurrentCell + movingCount].effectsLabel}",
+                          style: Theme.of(context).textTheme.bodyText1),
+                      controller: controller,
+                      playerList: playerList,
+                      callback: (player) => context
+                          .read<CurrentGameBloc>()
+                          .add(MakePlayerMoving(player))),
+                );
+            }
           case PlayerState.stealConditionKey:
-            // TODO: Handle this case.
-            break;
+            {
+              final playerHavingConditionKey = state.playerListAbleToBeStolen();
+              if (playerHavingConditionKey.isEmpty)
+                return const SizedBox();
+              else
+                return AppBottomSheet(
+                  getChild: (controller) => ChoseOpponentListView(
+                      controller: controller,
+                      playerList: playerHavingConditionKey,
+                      callback: (player) => context
+                          .read<CurrentGameBloc>()
+                          .add(StealConditionKey(player))),
+                );
+            }
           default:
             return const SizedBox();
         }
-        return const SizedBox();
       },
     );
   }
