@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:ptit_godet/models/condition_key.dart';
 import 'package:ptit_godet/models/resource.dart';
+
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:random_color/random_color.dart';
 
@@ -27,7 +28,7 @@ enum PlayerState {
 
 enum IfElseMode { none, ifMode, elseMode }
 
-class Player extends Resource {
+class Player extends Resource implements Comparable<Player> {
   static int idGenerator = 0;
 
   final int id;
@@ -111,12 +112,18 @@ class Player extends Resource {
             ifElseMode: ifElseMode ?? player.ifElseMode,
             name: name ?? player.name,
             state: state ?? player.state,
-            conditionKeyList: conditionKeyList ?? player.conditionKeyList, //todo check before it was a where != null
+            conditionKeyList: conditionKeyList ?? player.conditionKeyList,
+            //todo check before it was a where != null
             avatar: avatar ?? player.avatar,
             idCurrentCell: idCurrentCell ?? player.idCurrentCell);
 
   @override
   String toString() {
     return 'Player{name: $name, avatar: $avatar, idCurrentCell: $idCurrentCell, state: $state, conditionKeyList: $conditionKeyList, ifElseMode: $ifElseMode}';
+  }
+
+  @override
+  int compareTo(Player other) {
+    return other.idCurrentCell.compareTo(this.idCurrentCell);
   }
 }

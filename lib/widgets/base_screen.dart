@@ -8,6 +8,10 @@ abstract class BaseScreenState<W extends StatefulWidget> extends State<W> {
 
   String get subTitle;
 
+  Widget backButton(BuildContext context) => BackButton(
+      onPressed: () => context.read<NavBloc>().add(const PopNav()),
+      color: Colors.black);
+
   Widget body(BuildContext context);
 
   @override
@@ -17,9 +21,7 @@ abstract class BaseScreenState<W extends StatefulWidget> extends State<W> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          leading: BackButton(
-              onPressed: () => context.read<NavBloc>().add(const PopNav()),
-              color: Colors.black),
+          leading: backButton(context),
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
