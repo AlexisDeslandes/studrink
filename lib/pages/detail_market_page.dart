@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ptit_godet/blocs/market_place/market_place_bloc.dart';
 import 'package:ptit_godet/widgets/base_screen.dart';
 import 'package:ptit_godet/widgets/detail_market/screenshot_view.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DetailMarketPage extends CupertinoPage {
   const DetailMarketPage()

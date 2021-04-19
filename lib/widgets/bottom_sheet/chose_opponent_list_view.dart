@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:ptit_godet/models/cell.dart';
 import 'package:ptit_godet/models/player.dart';
 import 'package:ptit_godet/widgets/player_avatar.dart';
 

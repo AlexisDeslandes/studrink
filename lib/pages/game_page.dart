@@ -2,14 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
-import 'package:ptit_godet/blocs/focused_cell_bloc/focused_cell_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/pages/game_page_provider.dart';
 import 'package:ptit_godet/widgets/cell_announcer.dart';
 import 'package:ptit_godet/widgets/dice_view.dart';
 import 'package:ptit_godet/widgets/game_bottom_sheet.dart';
 import 'package:ptit_godet/widgets/game_page_view/game_page_view.dart';
-import 'package:ptit_godet/widgets/glass/glass_widget.dart';
 import 'package:ptit_godet/widgets/player_announcer.dart';
 import 'package:ptit_godet/widgets/player_area/play_area.dart';
 import 'package:ptit_godet/widgets/player_overlay.dart';
@@ -88,14 +86,11 @@ class _GameScreenState extends State<GameScreen> {
     OverlayState overlayState = Overlay.of(context)!;
     OverlayEntry overlayEntry = OverlayEntry(
         builder: (context) => Positioned(
-            child: PlayerOverlay(
-                name: state.currentPlayer!.name,
-                color: state.currentPlayer!.color,
-                picture: state.currentPlayer!.avatar),
+            child: PlayerOverlayAnimated(player: state.currentPlayer!),
             width: maxWidth,
             height: maxHeight));
     overlayState.insert(overlayEntry);
-    await Future.delayed(Duration(milliseconds: 1300));
+    await Future.delayed(Duration(milliseconds: 2000));
     overlayEntry.remove();
   }
 }

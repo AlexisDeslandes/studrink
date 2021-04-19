@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/pages/chose_game_page.dart';
 import 'package:ptit_godet/pages/market_page.dart';
 import 'package:ptit_godet/widgets/buttons/color_button.dart';
 import 'package:ptit_godet/widgets/buttons/white_button.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/widgets/glass/glass_widget.dart';
 
 class HomePage extends CupertinoPage {

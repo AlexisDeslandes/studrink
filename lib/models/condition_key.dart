@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:ptit_godet/models/resource.dart';
 
 class ConditionKey extends Resource {

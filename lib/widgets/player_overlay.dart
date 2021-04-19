@@ -1,21 +1,18 @@
-import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ptit_godet/models/player.dart';
 
-class PlayerOverlay extends StatefulWidget {
-  final String name;
-  final Color? color;
-  final Uint8List? picture;
+class PlayerOverlayAnimated extends StatefulWidget {
+  const PlayerOverlayAnimated({required this.player});
 
-  const PlayerOverlay({required this.name, this.picture, this.color})
-      : assert((picture != null || color != null));
+  final Player player;
 
   @override
-  _PlayerOverlayState createState() => _PlayerOverlayState();
+  _PlayerOverlayAnimatedState createState() => _PlayerOverlayAnimatedState();
 }
 
-class _PlayerOverlayState extends State<PlayerOverlay>
+class _PlayerOverlayAnimatedState extends State<PlayerOverlayAnimated>
     with SingleTickerProviderStateMixin {
   late final AnimationController _animationController;
   late final Animation<Offset> _slideAnimation;
@@ -48,46 +45,63 @@ class _PlayerOverlayState extends State<PlayerOverlay>
         child: SlideTransition(
       position: _slideAnimation,
       child: FadeTransition(
-        opacity: _fadeAnimation,
-        child: Card(
-            key: ValueKey(widget.name),
-            elevation: 5,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0)),
-            child: Container(
-                width: size,
-                height: size,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.0),
-                    gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Colors.white,
-                          Theme.of(context).primaryColor
-                        ])),
-                child: Column(children: [
-                  Expanded(
-                      child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Center(
-                      child: Material(
-                          elevation: 5,
-                          borderRadius: BorderRadius.circular(100),
-                          child: ClipOval(
-                              child: widget.picture != null
-                                  ? Image.memory(widget.picture!)
-                                  : Container(
-                                      color: widget.color,
-                                      width: size * 0.5,
-                                      height: size * 0.5))),
-                    ),
-                  )),
-                  Padding(
-                      padding: const EdgeInsets.only(bottom: 15.0),
-                      child: Text("${widget.name}"))
-                ]))),
-      ),
+          opacity: _fadeAnimation,
+          child: PlayerOverlay(size: size, player: widget.player)),
     ));
+  }
+}
+
+class PlayerOverlay extends StatelessWidget {
+  const PlayerOverlay({Key? key, required this.size, required this.player})
+      : super(key: key);
+
+  final Player player;
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+        key: ValueKey(player.name),
+        elevation: 3,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(100.0)),
+        child: Padding(
+          padding: const EdgeInsets.only(
+              left: 3.0, top: 3.0, right: 25.0, bottom: 3.0),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: player.color,
+                  borderRadius: BorderRadius.circular(100.0),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      player.name,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline2!
+                          .copyWith(fontSize: 18),
+                    ),
+                    Text("C'est ton tour",
+                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                            fontWeight: FontWeight.w300,
+                            fontSize: 12.0,
+                            color: Colors.black.withOpacity(0.6))),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ));
   }
 }

@@ -1,12 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:ptit_godet/constants/game_card_constants.dart';
 import 'package:ptit_godet/models/cell.dart';
-import 'package:ptit_godet/models/pastel_colors.dart';
-import 'package:ptit_godet/widgets/game_page_view/card_cell_condition_key_list.dart';
 import 'package:ptit_godet/widgets/game_page_view/card_cell_player_list.dart';
-import 'package:ptit_godet/widgets/game_page_view/card_cell_player_selected_abel.dart';
 import 'package:ptit_godet/widgets/glass/glass_widget.dart';
 
 class CardCell extends StatelessWidget {
