@@ -21,6 +21,8 @@ enum CellType {
 }
 
 class Cell extends Resource {
+  Cell.nullable() : this(name: "", imgPath: "");
+
   final String name;
   final String imgPath;
   final CellType cellType;

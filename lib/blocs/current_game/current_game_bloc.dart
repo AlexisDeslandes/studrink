@@ -669,4 +669,11 @@ class CurrentGameState extends Equatable {
   String toString() {
     return 'CurrentGameState{boardGame: $boardGame, playerList: $playerList, indexCurrentPlayer: $indexCurrentPlayer, indexNextPlayer: $indexNextPlayer, currentOpponent: $currentOpponent, winner: $winner}';
   }
+
+  ConditionKey? nextConditionKey(int idCurrentCell) {
+    final cell = boardGame!.cells.sublist(idCurrentCell).firstWhere(
+        (element) => element.requiredConditionKey != null,
+        orElse: () => Cell.nullable());
+    if (cell != Cell.nullable()) return cell.requiredConditionKey!;
+  }
 }

@@ -1,10 +1,12 @@
 import 'package:ptit_godet/models/resource.dart';
 
 class ConditionKey extends Resource {
+  ConditionKey({required this.name}) : id = name.hashCode;
+
+  ConditionKey.nullable() : this(name: "");
+
   final int id;
   final String name;
-
-  ConditionKey({required this.name}) : id = name.hashCode;
 
   @override
   List<Object> get props => [id, name];
