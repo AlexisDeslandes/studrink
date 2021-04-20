@@ -81,7 +81,7 @@ class ChosePlayersScreenState extends BaseScreenState {
               ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
           child: Icon(Icons.play_arrow, color: Colors.white)),
       onPressed: () =>
-          context.read<CurrentGameBloc>().add(const ValidateGame()));
+          context.read<CurrentGameBloc>().add(const ValidateGame())); //todo name not empty
 
   @override
   Widget body(BuildContext context) {

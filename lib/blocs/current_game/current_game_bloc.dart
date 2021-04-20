@@ -182,8 +182,9 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
               if (map.containsKey(name)) {
                 final value = map[name]!;
                 map[name] = value + 1;
+              } else {
+                map[name] = 1;
               }
-              map[name] = 1;
               return map;
             })
             .values
