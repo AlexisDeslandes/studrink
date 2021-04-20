@@ -39,22 +39,30 @@ class ChosePlayersScreenState extends BaseScreenState {
         context: context,
         builder: (ctx) {
           return AlertDialog(
-            title: Text("Avertissement"),
+            title: Text(
+              "Avertissement",
+              style: Theme.of(context)
+                  .textTheme
+                  .headline1!
+                  .copyWith(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
             content: Text(
-                "Etes-vous sûr de vouloir quitter la partie courante ? La progression sera perdue."),
+                "Etes-vous sûr de vouloir quitter la partie courante ? La progression sera perdue.",
+                style: Theme.of(context).textTheme.bodyText1),
             actions: [
               TextButton(
                   onPressed: () {
                     Navigator.pop(ctx, false);
                   },
-                  child: Text("NON")),
+                  child: Text("NON",
+                      style: TextStyle(color: Theme.of(context).primaryColor))),
               TextButton(
                   onPressed: () {
                     context.read<CurrentGameBloc>().add(ResetPlayerGame());
                     context.read<NavBloc>().add(const PopNav());
                     Navigator.pop(ctx, true);
                   },
-                  child: Text("OUI"))
+                  child: Text("OUI", style: TextStyle(color: Colors.black)))
             ],
           );
         });

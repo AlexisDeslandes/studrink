@@ -25,14 +25,21 @@ class _MainNavigatorState extends State<MainNavigator> {
           context: context,
           builder: (ctx) {
             return AlertDialog(
-              title: Text("Erreur rencontrée"),
-              content: Text(event),
+              title: Text("Erreur rencontrée",
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline1!
+                      .copyWith(fontSize: 20, fontWeight: FontWeight.bold)),
+              content:
+                  Text(event, style: Theme.of(context).textTheme.bodyText1),
               actions: [
                 TextButton(
                     onPressed: () {
                       Navigator.pop(ctx);
                     },
-                    child: Text("OK"))
+                    child: Text("OK",
+                        style:
+                            TextStyle(color: Theme.of(context).primaryColor)))
               ],
             );
           });
