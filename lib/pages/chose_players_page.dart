@@ -69,58 +69,62 @@ class ChosePlayersScreenState extends BaseScreenState {
   }
 
   @override
+  Widget? floatingActionButton(BuildContext context) => FloatingActionButton(
+      child: Container(
+          width: 56,
+          height: 56,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(100.0),
+              gradient: LinearGradient(colors: [
+                Theme.of(context).accentColor,
+                Theme.of(context).primaryColor
+              ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+          child: Icon(Icons.play_arrow, color: Colors.white)),
+      onPressed: () =>
+          context.read<CurrentGameBloc>().add(const ValidateGame()));
+
+  @override
   Widget body(BuildContext context) {
     return Column(
       children: [
-        Expanded(
-          child: Column(
-            children: [
-              Flexible(
-                child: BlocBuilder<CurrentGameBloc, CurrentGameState>(
-                    builder: (context, state) {
-                  final playerList = state.playerList;
-                  return Padding(
-                    padding: const EdgeInsets.only(
-                        top: 20.0, left: 20.0, right: 20.0),
-                    child: GlassWidget(
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            final player = playerList[index];
-                            return ListTile(
-                              title: PlayerField(player),
-                              trailing: Wrap(
-                                children: [
-                                  FabCamera(player: player),
-                                  FloatingActionButton(
-                                      child: Icon(Icons.delete,
-                                          color: Colors.black),
-                                      mini: true,
-                                      onPressed: () => context
-                                          .read<CurrentGameBloc>()
-                                          .add(RemovePlayer(player)))
-                                ],
-                              ),
-                            );
-                          },
-                          itemCount: playerList.length),
+        Flexible(
+          child: BlocBuilder<CurrentGameBloc, CurrentGameState>(
+              builder: (context, state) {
+            final playerList = state.playerList;
+            return Padding(
+              padding:
+                  const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    GlassWidget(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ...playerList.map((player) => ListTile(
+                                title: PlayerField(player),
+                                leading: FabCamera(player: player),
+                                trailing: FloatingActionButton(
+                                    child:
+                                        Icon(Icons.delete, color: Colors.black),
+                                    mini: true,
+                                    onPressed: () => context
+                                        .read<CurrentGameBloc>()
+                                        .add(RemovePlayer(player))),
+                              )),
+                        ],
+                      ),
                     ),
-                  );
-                }),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: const Center(child: const AddPlayerButton()),
+                    )
+                  ],
+                ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: const Center(child: const AddPlayerButton()),
-              )
-            ],
-          ),
+            );
+          }),
         ),
-        Padding(
-            padding: const EdgeInsets.only(bottom: 15.0),
-            child: ColorButton(
-                text: "Valider",
-                callback: () =>
-                    context.read<CurrentGameBloc>().add(const ValidateGame())))
       ],
     );
   }

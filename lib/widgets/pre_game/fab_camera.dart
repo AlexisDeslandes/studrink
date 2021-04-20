@@ -42,13 +42,7 @@ class FabCamera extends StatelessWidget {
                 height: 48.0,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100.0),
-                    gradient: LinearGradient(
-                        colors: [
-                          Theme.of(context).accentColor,
-                          Theme.of(context).primaryColor
-                        ],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter)),
+                    color: player.color),
                 child: Icon(Icons.camera_alt, color: Colors.black));
           },
         ),

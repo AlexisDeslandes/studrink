@@ -17,6 +17,7 @@ abstract class BaseScreenState<W extends StatefulWidget> extends State<W> {
   @override
   Widget build(BuildContext context) => SafeArea(
           child: Scaffold(
+        floatingActionButton: floatingActionButton(context),
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -39,4 +40,6 @@ abstract class BaseScreenState<W extends StatefulWidget> extends State<W> {
           ],
         ),
       ));
+
+  Widget? floatingActionButton(BuildContext context) => null;
 }
