@@ -429,7 +429,7 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
     final player = event.player;
     yield CurrentGameState.copy(state,
         playerList: state.playerList.map((e) {
-          if (e == player) {
+          if (e.id == player.id) {
             return Player.copy(e, avatar: event.pictureData);
           }
           return e;
