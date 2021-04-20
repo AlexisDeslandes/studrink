@@ -1,7 +1,7 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ptit_godet/models/player.dart';
+import 'package:ptit_godet/widgets/player_avatar.dart';
 
 class PlayerOverlayAnimated extends StatefulWidget {
   const PlayerOverlayAnimated({required this.player});
@@ -71,14 +71,7 @@ class PlayerOverlay extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: player.color,
-                  borderRadius: BorderRadius.circular(100.0),
-                ),
-              ),
+              PlayerAvatar(player: player, size: 50.0),
               Padding(
                 padding: const EdgeInsets.only(left: 10.0),
                 child: Column(
