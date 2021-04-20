@@ -42,6 +42,8 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSPhotoLibraryUsageDescription</key>
-    <string>App need your agree, can visit your album</string>
+    <string>Players can add a picture to identify themselves with other players.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Players can add a picture to identify themselves with other players.</string>
 </dict>
 </plist>

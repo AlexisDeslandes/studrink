@@ -32,18 +32,3 @@ class AppBottomSheet extends StatelessWidget {
     );
   }
 }
-
-/*
-DraggableScrollableSheet(
-          initialChildSize: 0.2,
-          minChildSize: 0.2,
-          maxChildSize: 0.5,
-          expand: false,
-          builder: (BuildContext context, controller) => ListView.builder(
-                controller: controller,
-                itemBuilder: (context, index) => ListTile(
-                  title: Text("lol $index"),
-                ),
-                itemCount: 20,
-              ))
- */
