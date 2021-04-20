@@ -9,6 +9,7 @@ class GlassWidget extends StatelessWidget {
   final double radius;
   final Widget child;
   final double blur;
+  final bool border;
 
   const GlassWidget(
       {Key? key,
@@ -17,7 +18,8 @@ class GlassWidget extends StatelessWidget {
       this.padding,
       this.opacity = 0.15,
       this.radius = 25.0,
-      this.blur = 12.0})
+      this.blur = 12.0,
+      this.border = true})
       : super(key: key);
 
   @override
@@ -31,7 +33,8 @@ class GlassWidget extends StatelessWidget {
             width: width,
             decoration: BoxDecoration(
                 color: Colors.white.withOpacity(opacity),
-                border: Border.all(color: Colors.white, width: 1),
+                border:
+                    border ? Border.all(color: Colors.white, width: 1) : null,
                 borderRadius: BorderRadius.circular(radius)),
             child: child),
       ),
