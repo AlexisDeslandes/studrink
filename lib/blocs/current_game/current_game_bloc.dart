@@ -73,6 +73,8 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
       yield* _removePlayer(event.player);
     } else if (event is ChangePicturePlayer) {
       yield* _changePicturePlayer(event);
+    } else if (event is ResetPlayerGame) {
+      yield* _resetPlayerGame(event);
     }
   }
 
@@ -432,6 +434,11 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
           return e;
         }).toList());
   }
+
+  Stream<CurrentGameState> _resetPlayerGame(ResetPlayerGame event) async* {
+    final boardGame = state.boardGame;
+    yield CurrentGameState.copy(CurrentGameState.empty(), boardGame: boardGame);
+  }
 }
 
 abstract class CurrentGameEvent extends Equatable {
@@ -538,6 +545,10 @@ class ChangePicturePlayer extends CurrentGameEvent {
 
 class ValidateGame extends CurrentGameEvent {
   const ValidateGame();
+}
+
+class ResetPlayerGame extends CurrentGameEvent {
+  const ResetPlayerGame();
 }
 
 class CurrentGameState extends Equatable {

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
+import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/widgets/base_screen.dart';
 import 'package:ptit_godet/widgets/buttons/color_button.dart';
 import 'package:ptit_godet/widgets/glass/glass_widget.dart';
@@ -28,10 +29,11 @@ class ChosePlayersScreenState extends BaseScreenState {
   String get subTitle => "Ajouter des joueurs";
 
   @override
-  // TODO: implement title
   String get title => "Joueurs";
 
-  @override
+  Widget backButton(BuildContext context) => BackButton(
+      onPressed: () => backButtonCallback(context), color: Colors.black);
+
   Future<bool> backButtonCallback(BuildContext context) async {
     return await showDialog(
         context: context,
@@ -48,7 +50,8 @@ class ChosePlayersScreenState extends BaseScreenState {
                   child: Text("NON")),
               TextButton(
                   onPressed: () {
-                    context.read<CurrentGameBloc>().add(ResetGame());
+                    context.read<CurrentGameBloc>().add(ResetPlayerGame());
+                    context.read<NavBloc>().add(const PopNav());
                     Navigator.pop(ctx, true);
                   },
                   child: Text("OUI"))
