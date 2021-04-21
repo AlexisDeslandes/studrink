@@ -8,6 +8,7 @@ import 'package:ptit_godet/models/board_game.dart';
 import 'package:ptit_godet/pages/detail_market_page.dart';
 import 'package:ptit_godet/widgets/base_screen.dart';
 import 'package:ptit_godet/widgets/glass/glass_widget.dart';
+import 'package:ptit_godet/widgets/my_choice_chip.dart';
 
 ///
 /// Page that contains market place of P'tit godet.
@@ -46,7 +47,7 @@ class MarketScreenState extends State<MarketScreen> {
               onPressed: () => context.read<NavBloc>().add(const PopNav()),
               color: Colors.black)),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 20),
+        padding: const EdgeInsets.only(left: 30.0, right: 30.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -83,9 +84,26 @@ class MarketScreenState extends State<MarketScreen> {
                 ),
               ),
             ),
+            Padding(
+                padding: const EdgeInsets.only(top: 20.0),
+                child: BlocBuilder<MarketPlaceBloc, MarketPlaceState>(
+                    buildWhen: (previous, current) =>
+                        previous.selectedSort != current.selectedSort,
+                    builder: (context, state) => Row(
+                        children: MarketSort.values
+                            .map((sort) => Expanded(
+                                  child: MyChoiceChip(
+                                      position: sort.position,
+                                      label: sort.description,
+                                      selected: state.selectedSort == sort,
+                                      onSelected: (_) => context
+                                          .read<MarketPlaceBloc>()
+                                          .add(ChangeMarketSort(sort))),
+                                ))
+                            .toList()))),
             Expanded(
                 child: Padding(
-              padding: const EdgeInsets.only(top: 30.0),
+              padding: const EdgeInsets.only(top: 20.0),
               child: BlocBuilder<MarketPlaceBloc, MarketPlaceState>(
                   builder: (context, state) {
                 final boardGameListTreated = state.boardGameListTreated;
@@ -100,62 +118,6 @@ class MarketScreenState extends State<MarketScreen> {
         ),
       ),
     ));
-  }
-
-  @override
-  Widget body(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 20),
-        child: Column(mainAxisSize: MainAxisSize.min, children: [
-          Material(
-            elevation: 3,
-            child: TextField(
-              autocorrect: false,
-              controller: _searchController,
-              onChanged: (value) =>
-                  context.read<MarketPlaceBloc>().add(SearchMarket(value)),
-              decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: InputBorder.none,
-                  hintText: "Rechercher",
-                  prefixIcon: Icon(Icons.search),
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.clear),
-                    onPressed: () {
-                      _searchController.clear();
-                      context.read<MarketPlaceBloc>().add(SearchMarket(""));
-                    },
-                  )),
-            ),
-          ),
-          Padding(
-              padding: const EdgeInsets.only(top: 30.0, bottom: 10.0),
-              child: BlocBuilder<MarketPlaceBloc, MarketPlaceState>(
-                  buildWhen: (previous, current) =>
-                      previous.selectedSort != current.selectedSort,
-                  builder: (context, state) => Wrap(
-                      spacing: 5,
-                      runSpacing: 5,
-                      children: MarketSort.values
-                          .map((sort) => ChoiceChip(
-                              label: Text(sort.description),
-                              selected: state.selectedSort == sort,
-                              elevation: 2,
-                              onSelected: (_) => context
-                                  .read<MarketPlaceBloc>()
-                                  .add(ChangeMarketSort(sort))))
-                          .toList()))),
-          Expanded(child: BlocBuilder<MarketPlaceBloc, MarketPlaceState>(
-              builder: (context, state) {
-            final boardGameListTreated = state.boardGameListTreated;
-            return ListView.separated(
-                separatorBuilder: (context, index) => SizedBox(height: 20.0),
-                itemBuilder: (context, index) => MarketGameTile(
-                    index: index, boardGame: boardGameListTreated[index]),
-                itemCount: boardGameListTreated.length);
-          }))
-        ]));
   }
 }
 

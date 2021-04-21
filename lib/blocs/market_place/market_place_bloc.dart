@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/models/board_game.dart';
+import 'package:ptit_godet/widgets/my_choice_chip.dart';
 
 class MarketPlaceBloc extends Bloc<MarketPlaceEvent, MarketPlaceState> {
   final AssetBundle assetBundle;
@@ -41,13 +42,24 @@ extension MarketSortExtension on MarketSort {
   String get description {
     switch (this) {
       case MarketSort.TOP:
-        return "Top des jeux";
+        return "Top";
       case MarketSort.EVENT:
-        return "Evénements";
+        return "Events";
       case MarketSort.NEW:
         return "Nouveaux";
       default:
-        return "Top des jeux";
+        return "Top";
+    }
+  }
+
+  MyChoiceChipPosition get position {
+    switch (this) {
+      case MarketSort.TOP:
+        return MyChoiceChipPosition.LEFT;
+      case MarketSort.EVENT:
+        return MyChoiceChipPosition.MID;
+      case MarketSort.NEW:
+        return MyChoiceChipPosition.RIGHT;
     }
   }
 }
