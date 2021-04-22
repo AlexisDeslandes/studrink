@@ -3,31 +3,33 @@ import 'package:ptit_godet/models/resource.dart';
 
 class BoardGame extends Resource {
   final String name;
-  final String subTitle;
-  final String tag;
+  final String teaser;
   final String imgUrl;
   final String description;
   final List<Cell> cells;
   final DateTime date;
   final bool event;
   final List<String> screenshots;
+  final List<String> chips;
 
   const BoardGame(
       {required this.date,
       required this.imgUrl,
       this.name = "",
-      this.subTitle = "",
-      this.tag = "",
+      this.teaser = "",
       this.description = "",
       this.cells = const [],
       this.screenshots = const [],
-      this.event = false});
+      this.event = false,
+      this.chips = const []});
 
   BoardGame.fromJson(Map<String, dynamic> map)
       : this(
             name: map["name"],
-            subTitle: map["subTitle"],
-            tag: map["tag"],
+            chips: map["chips"] != null
+                ? (map["chips"] as List<dynamic>).cast<String>()
+                : [],
+            teaser: map["teaser"],
             imgUrl: map["imgUrl"] ?? "assets/icons/beer.svg",
             description: map["description"],
             event: map["event"] != null && map["event"] ? true : false,
@@ -50,14 +52,14 @@ class BoardGame extends Resource {
   Map<String, dynamic> toJson() {
     return {
       "name": name,
-      "subTitle": subTitle,
-      "tag": tag,
+      "tag": teaser,
       "cells": cells.map((e) => e.toJson()).toList(),
       "description": description,
       "imgUrl": imgUrl,
       "date": date.millisecondsSinceEpoch,
       "event": event,
-      "screenshots": screenshots
+      "screenshots": screenshots,
+      "chips": chips
     };
   }
 }

@@ -29,7 +29,7 @@ class _GameDetailScreenState extends BaseScreenState {
       context.read<CurrentGameBloc>().state.boardGame!;
 
   @override
-  String get subTitle => _boardGame.subTitle;
+  String get subTitle => _boardGame.teaser;
 
   @override
   String get title => _boardGame.name;

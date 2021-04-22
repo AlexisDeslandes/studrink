@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ptit_godet/blocs/market_place/market_place_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/models/board_game.dart';
 import 'package:ptit_godet/pages/detail_market_page.dart';
-import 'package:ptit_godet/widgets/base_screen.dart';
 import 'package:ptit_godet/widgets/glass/glass_widget.dart';
 import 'package:ptit_godet/widgets/my_choice_chip.dart';
 
@@ -47,7 +47,7 @@ class MarketScreenState extends State<MarketScreen> {
               onPressed: () => context.read<NavBloc>().add(const PopNav()),
               color: Colors.black)),
       body: Padding(
-        padding: const EdgeInsets.only(left: 30.0, right: 30.0),
+        padding: const EdgeInsets.only(left: 20.0, right: 20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -107,11 +107,14 @@ class MarketScreenState extends State<MarketScreen> {
               child: BlocBuilder<MarketPlaceBloc, MarketPlaceState>(
                   builder: (context, state) {
                 final boardGameListTreated = state.boardGameListTreated;
-                return ListView.separated(
-                    separatorBuilder: (context, index) => SizedBox(height: 8.0),
-                    itemBuilder: (context, index) => MarketGameTile(
-                        index: index, boardGame: boardGameListTreated[index]),
-                    itemCount: boardGameListTreated.length);
+                return StaggeredGridView.countBuilder(
+                    itemCount: boardGameListTreated.length,
+                    crossAxisCount: 2,
+                    staggeredTileBuilder: (index) => StaggeredTile.fit(1),
+                    itemBuilder: (context, index) =>
+                        MarketGameTile(boardGame: boardGameListTreated[index]),
+                    mainAxisSpacing: 10.0,
+                    crossAxisSpacing: 10.0);
               }),
             ))
           ],
@@ -123,17 +126,17 @@ class MarketScreenState extends State<MarketScreen> {
 
 class MarketGameTile extends StatelessWidget {
   final BoardGame boardGame;
-  final int index;
 
-  const MarketGameTile({Key? key, required this.boardGame, required this.index})
-      : super(key: key);
+  const MarketGameTile({Key? key, required this.boardGame}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final isImgFromWeb = boardGame.imgUrl.startsWith("http");
+    final isImgFromWeb = boardGame.imgUrl.startsWith("http"),
+        chips = boardGame.chips;
     return GlassWidget(
       radius: 12.0,
-      padding: EdgeInsets.only(top: 8.0, bottom: 8.0, left: 15),
+      opacity: 0.41,
+      padding: EdgeInsets.all(8.0),
       child: InkWell(
         onTap: () {
           context.read<MarketPlaceBloc>().add(ChoseBoardGame(boardGame));
@@ -141,72 +144,52 @@ class MarketGameTile extends StatelessWidget {
               .read<NavBloc>()
               .add(PushNav(pageBuilder: (_) => const DetailMarketPage()));
         },
-        child: SizedBox(
-          height: 50,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 20.0),
-                child: Text("${index + 1}",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline1!
-                        .copyWith(fontWeight: FontWeight.bold, fontSize: 20)),
-              ),
-              Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: SizedBox(
-                      height: 40.0,
-                      width: 40.0,
-                      child: isImgFromWeb
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(6),
-                              child: Image.network(boardGame.imgUrl))
-                          : Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: SvgPicture.asset(boardGame.imgUrl),
-                            ))),
-              Expanded(
-                child: Align(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 2.0),
-                    child: Column(
-                        children: [
-                          Text(
-                            boardGame.name,
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline1
-                                ?.copyWith(fontSize: 16),
-                          ),
-                          Text(boardGame.subTitle,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .caption!
-                                  .copyWith(fontSize: 12)),
-                          Text(boardGame.tag,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .caption
-                                  ?.copyWith(
-                                      fontSize: 10.0,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black))
-                        ],
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly),
-                  ),
-                  alignment: Alignment.topLeft,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 15.0),
-                child: Icon(Icons.chevron_right),
-              )
-            ],
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          SizedBox(
+              height: 56.0,
+              width: 56.0,
+              child: isImgFromWeb
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(12.0),
+                      child: Image.network(boardGame.imgUrl))
+                  : Padding(
+                      padding: const EdgeInsets.only(top: 5.0, left: 5.0),
+                      child: SvgPicture.asset(boardGame.imgUrl),
+                    )),
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Text(boardGame.name,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline1!
+                    .copyWith(fontSize: 18)),
           ),
-        ),
+          Padding(
+            padding: const EdgeInsets.only(top: 3.0),
+            child: Text(
+              boardGame.teaser,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1!
+                  .copyWith(fontSize: 12.0, fontWeight: FontWeight.w300),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Chip(
+                      label: Text(chips[0]),
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      backgroundColor: Theme.of(context).primaryColor),
+                  Chip(
+                      label: Text(chips[1]),
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      backgroundColor: Theme.of(context).accentColor)
+                ]),
+          )
+        ]),
       ),
     );
   }
