@@ -7,13 +7,9 @@ typedef ChoseOpponentContentCallback = Widget Function(Player player);
 
 class ChoseOpponentListView extends StatelessWidget {
   const ChoseOpponentListView(
-      {required this.controller,
-      required this.playerList,
-      required this.callback,
-      this.contentCallback});
+      {required this.playerList, required this.callback, this.contentCallback});
 
   final List<Player> playerList;
-  final ScrollController controller;
   final ValueChanged<Player> callback;
   final ChoseOpponentContentCallback? contentCallback;
 
@@ -39,7 +35,10 @@ class ChoseOpponentListView extends StatelessWidget {
                     "Case ${player.idCurrentCell + 1}",
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w300),
                   ),
-                  onTap: () => callback(player)),
+                  onTap: () {
+                    Navigator.pop(context);
+                    callback(player);
+                  }),
               if (contentCallback != null)
                 Padding(
                     padding: const EdgeInsets.only(left: 16.0),
@@ -48,7 +47,6 @@ class ChoseOpponentListView extends StatelessWidget {
           );
         },
         shrinkWrap: true,
-        controller: controller,
         itemCount: playerList.length);
   }
 }

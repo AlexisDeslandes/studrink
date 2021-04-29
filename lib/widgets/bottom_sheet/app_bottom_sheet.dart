@@ -2,17 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class AppBottomSheet extends StatelessWidget {
-  const AppBottomSheet({Key? key, required this.getChild}) : super(key: key);
+  const AppBottomSheet({Key? key, required this.child}) : super(key: key);
 
-  final Widget Function(ScrollController controller) getChild;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
     const radius = 30.0;
-    return BottomSheet(
-      onClosing: () {},
-      enableDrag: false,
-      builder: (context) => Container(
+    return Container(
+      height: 222, //144 avec padding(selecterplayercard) + 78 + safearea
         decoration: BoxDecoration(
             color: Theme.of(context).scaffoldBackgroundColor,
             borderRadius: BorderRadius.only(
@@ -21,14 +19,6 @@ class AppBottomSheet extends StatelessWidget {
             border: Border.all(
               color: Colors.white,
             )),
-        child: DraggableScrollableSheet(
-            initialChildSize: 0.2,
-            minChildSize: 0.2,
-            maxChildSize: 0.5,
-            expand: false,
-            builder: (BuildContext context, controller) =>
-                getChild(controller)),
-      ),
-    );
+        child: child);
   }
 }
