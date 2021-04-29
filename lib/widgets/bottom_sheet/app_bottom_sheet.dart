@@ -9,16 +9,21 @@ class AppBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const radius = 30.0;
-    return Container(
-      height: 222, //144 avec padding(selecterplayercard) + 78 + safearea
-        decoration: BoxDecoration(
-            color: Theme.of(context).scaffoldBackgroundColor,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(radius),
-                topRight: Radius.circular(radius)),
-            border: Border.all(
-              color: Colors.white,
-            )),
-        child: child);
+    final heightSafeAreaBottom = MediaQuery.of(context).padding.bottom,
+        maxHeight = heightSafeAreaBottom +
+            212; //222 (size of screen from bottom that we can hide) - 10 (padding)
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxHeight: maxHeight),
+      child: Container(
+          decoration: BoxDecoration(
+              color: Theme.of(context).scaffoldBackgroundColor,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(radius),
+                  topRight: Radius.circular(radius)),
+              border: Border.all(
+                color: Colors.white,
+              )),
+          child: child),
+    );
   }
 }
