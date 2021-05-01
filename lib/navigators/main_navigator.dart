@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
+import 'package:ptit_godet/widgets/wrappers/snackbar_state_handler.dart';
 
 class MainNavigator extends StatefulWidget {
   const MainNavigator();
@@ -13,7 +14,8 @@ class MainNavigator extends StatefulWidget {
   _MainNavigatorState createState() => _MainNavigatorState();
 }
 
-class _MainNavigatorState extends State<MainNavigator> {
+class _MainNavigatorState extends State<MainNavigator>
+    with SnackBarStateHandler {
   late final StreamSubscription<String> _errorSubscription;
 
   @override

@@ -20,6 +20,9 @@ class MyApp extends StatelessWidget {
         title: "P'tit Godet",
         theme: AppTheme().lightTheme,
         home: AppProvider(
-            child: AppBackgroundPaint(child: const MainNavigator())));
+            child: AppBackgroundPaint(
+                child: Scaffold(
+                    body: const MainNavigator(),
+                    backgroundColor: Colors.transparent))));
   }
 }

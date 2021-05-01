@@ -37,8 +37,7 @@ class MarketScreenState extends State<MarketScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
+    return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -46,81 +45,86 @@ class MarketScreenState extends State<MarketScreen> {
           leading: BackButton(
               onPressed: () => context.read<NavBloc>().add(const PopNav()),
               color: Colors.black)),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.6,
-              child: GlassWidget(
-                border: false,
-                radius: 12,
-                opacity: 0.5,
-                child: TextField(
-                  textAlignVertical: TextAlignVertical.center,
-                  autocorrect: false,
-                  controller: _searchController,
-                  onChanged: (value) =>
-                      context.read<MarketPlaceBloc>().add(SearchMarket(value)),
-                  decoration: InputDecoration(
-                      contentPadding: EdgeInsets.zero,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(
-                          width: 0,
-                          style: BorderStyle.none,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.6,
+                child: GlassWidget(
+                  border: false,
+                  radius: 12,
+                  opacity: 0.5,
+                  child: TextField(
+                    textAlignVertical: TextAlignVertical.center,
+                    autocorrect: false,
+                    controller: _searchController,
+                    onChanged: (value) => context
+                        .read<MarketPlaceBloc>()
+                        .add(SearchMarket(value)),
+                    decoration: InputDecoration(
+                        contentPadding: EdgeInsets.zero,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            width: 0,
+                            style: BorderStyle.none,
+                          ),
                         ),
-                      ),
-                      hintText: "Rechercher",
-                      prefixIcon: Icon(Icons.search),
-                      suffixIcon: IconButton(
-                        icon: Icon(Icons.clear),
-                        onPressed: () {
-                          _searchController.clear();
-                          context.read<MarketPlaceBloc>().add(SearchMarket(""));
-                        },
-                      )),
+                        hintText: "Rechercher",
+                        prefixIcon: Icon(Icons.search),
+                        suffixIcon: IconButton(
+                          icon: Icon(Icons.clear),
+                          onPressed: () {
+                            _searchController.clear();
+                            context
+                                .read<MarketPlaceBloc>()
+                                .add(SearchMarket(""));
+                          },
+                        )),
+                  ),
                 ),
               ),
-            ),
-            Padding(
+              Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                  child: BlocBuilder<MarketPlaceBloc, MarketPlaceState>(
+                      buildWhen: (previous, current) =>
+                          previous.selectedSort != current.selectedSort,
+                      builder: (context, state) => Row(
+                          children: MarketSort.values
+                              .map((sort) => Expanded(
+                                    child: MyChoiceChip(
+                                        position: sort.position,
+                                        label: sort.description,
+                                        selected: state.selectedSort == sort,
+                                        onSelected: (_) => context
+                                            .read<MarketPlaceBloc>()
+                                            .add(ChangeMarketSort(sort))),
+                                  ))
+                              .toList()))),
+              Expanded(
+                  child: Padding(
                 padding: const EdgeInsets.only(top: 20.0),
                 child: BlocBuilder<MarketPlaceBloc, MarketPlaceState>(
-                    buildWhen: (previous, current) =>
-                        previous.selectedSort != current.selectedSort,
-                    builder: (context, state) => Row(
-                        children: MarketSort.values
-                            .map((sort) => Expanded(
-                                  child: MyChoiceChip(
-                                      position: sort.position,
-                                      label: sort.description,
-                                      selected: state.selectedSort == sort,
-                                      onSelected: (_) => context
-                                          .read<MarketPlaceBloc>()
-                                          .add(ChangeMarketSort(sort))),
-                                ))
-                            .toList()))),
-            Expanded(
-                child: Padding(
-              padding: const EdgeInsets.only(top: 20.0),
-              child: BlocBuilder<MarketPlaceBloc, MarketPlaceState>(
-                  builder: (context, state) {
-                final boardGameListTreated = state.boardGameListTreated;
-                return StaggeredGridView.countBuilder(
-                    itemCount: boardGameListTreated.length,
-                    crossAxisCount: 2,
-                    staggeredTileBuilder: (index) => StaggeredTile.fit(1),
-                    itemBuilder: (context, index) =>
-                        MarketGameTile(boardGame: boardGameListTreated[index]),
-                    mainAxisSpacing: 10.0,
-                    crossAxisSpacing: 10.0);
-              }),
-            ))
-          ],
+                    builder: (context, state) {
+                  final boardGameListTreated = state.boardGameListTreated;
+                  return StaggeredGridView.countBuilder(
+                      itemCount: boardGameListTreated.length,
+                      crossAxisCount: 2,
+                      staggeredTileBuilder: (index) => StaggeredTile.fit(1),
+                      itemBuilder: (context, index) => MarketGameTile(
+                          boardGame: boardGameListTreated[index]),
+                      mainAxisSpacing: 10.0,
+                      crossAxisSpacing: 10.0);
+                }),
+              ))
+            ],
+          ),
         ),
       ),
-    ));
+    );
   }
 }
 

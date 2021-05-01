@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ptit_godet/blocs/bloc_emitter.dart';
 import 'package:ptit_godet/models/board_game.dart';
 import 'package:ptit_godet/storage/default_board_games.dart';
 import 'package:ptit_godet/storage/local_storage.dart';
 
-class BoardGameBloc extends Bloc<BoardGameEvent, BoardGameState> {
+class BoardGameBloc extends BlocEmitter<BoardGameEvent, BoardGameState>
+    with SnackBarBloc {
   final LocalStorage storage;
 
   BoardGameBloc({required LocalStorage storage})
@@ -27,6 +29,13 @@ class BoardGameBloc extends Bloc<BoardGameEvent, BoardGameState> {
       }
       yield BoardGameState(
           boardGameList: [...DefaultBoardGames().boardGameList(), ...list]);
+    } else if (event is AddBoardGame) {
+      final boardGame = event.boardGame,
+          boardGameList = [...state.boardGameList, boardGame];
+      await storage.write(
+          LocalStorageKeywords.boardGameList, jsonEncode(boardGameList));
+      yield BoardGameState(boardGameList: boardGameList);
+      emitSnackBar("Le jeu a bien été ajouté.");
     }
   }
 }
@@ -51,4 +60,10 @@ abstract class BoardGameEvent extends Equatable {
 
 class InitBoardGame extends BoardGameEvent {
   const InitBoardGame();
+}
+
+class AddBoardGame extends BoardGameEvent {
+  const AddBoardGame(this.boardGame);
+
+  final BoardGame boardGame;
 }

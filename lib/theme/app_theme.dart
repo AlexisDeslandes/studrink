@@ -13,6 +13,7 @@ class AppTheme {
         color: Colors.black, fontWeight: FontWeight.bold, fontSize: 30);
     return lightTheme.copyWith(
         scaffoldBackgroundColor: Color(0xffE2D5D4),
+        snackBarTheme: SnackBarThemeData(),
         floatingActionButtonTheme: FloatingActionButtonThemeData(
           backgroundColor: lightTheme.scaffoldBackgroundColor,
         ),
@@ -37,7 +38,6 @@ class AppTheme {
             bodyText1:
                 headline2.copyWith(fontSize: 16, fontWeight: FontWeight.w300),
             bodyText2:
-                headline2.copyWith(fontSize: 22, fontWeight: FontWeight.w500),
-            button: headline2));
+                headline2.copyWith(fontSize: 22, fontWeight: FontWeight.w500)));
   }
 }
