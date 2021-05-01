@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ptit_godet/blocs/provider/app_provider.dart';
 import 'package:ptit_godet/storage/local_storage.dart';
 import 'package:ptit_godet/theme/app_theme.dart';
@@ -9,6 +10,8 @@ import 'navigators/main_navigator.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   LocalStorage(sharedPreferences: await SharedPreferences.getInstance());
   runApp(MyApp());
 }
