@@ -17,12 +17,18 @@ class BoardGameTile extends StatelessWidget {
         radius: 13.0,
         child: ListTile(
           leading: imgUrl.contains("http")
-              ? Image.network(imgUrl)
+              ? ClipRRect(
+                  borderRadius: BorderRadius.circular(12.0),
+                  child: Image.network(
+                    boardGame.imgUrl,
+                    width: 46.0,
+                    height: 46.0,
+                  ))
               : imgUrl.contains(".svg")
                   ? SvgPicture.asset(
                       imgUrl,
-                      height: 35.0,
-                      width: 35.0,
+                      height: 46.0,
+                      width: 46.0,
                     )
                   : Image.asset(imgUrl),
           title: Text(

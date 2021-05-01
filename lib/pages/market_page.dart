@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:ptit_godet/blocs/board_game/board_game_bloc.dart';
 import 'package:ptit_godet/blocs/market_place/market_place_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/models/board_game.dart';
@@ -110,14 +111,23 @@ class MarketScreenState extends State<MarketScreen> {
                 child: BlocBuilder<MarketPlaceBloc, MarketPlaceState>(
                     builder: (context, state) {
                   final boardGameListTreated = state.boardGameListTreated;
-                  return StaggeredGridView.countBuilder(
-                      itemCount: boardGameListTreated.length,
-                      crossAxisCount: 2,
-                      staggeredTileBuilder: (index) => StaggeredTile.fit(1),
-                      itemBuilder: (context, index) => MarketGameTile(
-                          boardGame: boardGameListTreated[index]),
-                      mainAxisSpacing: 10.0,
-                      crossAxisSpacing: 10.0);
+                  return BlocBuilder<BoardGameBloc, BoardGameState>(
+                    builder: (context, boardGameState) =>
+                        StaggeredGridView.countBuilder(
+                            itemCount: boardGameListTreated.length,
+                            crossAxisCount: 2,
+                            staggeredTileBuilder: (index) =>
+                                StaggeredTile.fit(1),
+                            itemBuilder: (context, index) {
+                              final boardGame = boardGameListTreated[index];
+                              return MarketGameTile(
+                                  installed: boardGameState.boardGameList
+                                      .contains(boardGame),
+                                  boardGame: boardGame);
+                            },
+                            mainAxisSpacing: 10.0,
+                            crossAxisSpacing: 10.0),
+                  );
                 }),
               ))
             ],
@@ -129,9 +139,11 @@ class MarketScreenState extends State<MarketScreen> {
 }
 
 class MarketGameTile extends StatelessWidget {
+  const MarketGameTile(
+      {Key? key, required this.boardGame, required this.installed})
+      : super(key: key);
   final BoardGame boardGame;
-
-  const MarketGameTile({Key? key, required this.boardGame}) : super(key: key);
+  final bool installed;
 
   @override
   Widget build(BuildContext context) {
@@ -149,17 +161,28 @@ class MarketGameTile extends StatelessWidget {
               .add(PushNav(pageBuilder: (_) => const DetailMarketPage()));
         },
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          SizedBox(
-              height: 56.0,
-              width: 56.0,
-              child: isImgFromWeb
-                  ? ClipRRect(
-                      borderRadius: BorderRadius.circular(12.0),
-                      child: Image.network(boardGame.imgUrl))
-                  : Padding(
-                      padding: const EdgeInsets.only(top: 5.0, left: 5.0),
-                      child: SvgPicture.asset(boardGame.imgUrl),
-                    )),
+          IntrinsicHeight(
+            child: Row(
+              children: [
+                SizedBox(
+                    height: 56.0,
+                    width: 56.0,
+                    child: isImgFromWeb
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(12.0),
+                            child: Image.network(boardGame.imgUrl))
+                        : Padding(
+                            padding: const EdgeInsets.only(top: 5.0, left: 5.0),
+                            child: SvgPicture.asset(boardGame.imgUrl),
+                          )),
+                if (installed)
+                  Expanded(
+                      child: Align(
+                          child: Icon(Icons.check),
+                          alignment: Alignment.topRight))
+              ],
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Text(boardGame.name,
