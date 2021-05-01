@@ -72,14 +72,29 @@ class DetailMarketScreenState extends State<DetailMarketScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    ColorButton(
-                      text: "Installer",
-                      callback: () {
-                        context
-                            .read<BoardGameBloc>()
-                            .add(AddBoardGame(boardGame));
+                    BlocBuilder<BoardGameBloc, BoardGameState>(
+                      builder: (context, state) {
+                        final boardGameList = state.boardGameList;
+                        if (boardGameList.contains(boardGame))
+                          return ColorButton(
+                            text: "Désinstaller",
+                            callback: () {
+                              context
+                                  .read<BoardGameBloc>()
+                                  .add(DeleteBoardGame(boardGame));
+                            },
+                            mini: true,
+                          );
+                        return ColorButton(
+                          text: "Installer",
+                          callback: () {
+                            context
+                                .read<BoardGameBloc>()
+                                .add(AddBoardGame(boardGame));
+                          },
+                          mini: true,
+                        );
                       },
-                      mini: true,
                     ),
                     WhiteButton(
                       text: "S'abonner",

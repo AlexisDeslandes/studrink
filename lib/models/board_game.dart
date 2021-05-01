@@ -46,7 +46,7 @@ class BoardGame extends Resource {
                 : []);
 
   @override
-  List<Object> get props => [name, cells];
+  List<Object> get props => [name];
 
   @override
   Map<String, dynamic> toJson() {

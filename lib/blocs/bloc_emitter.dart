@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +18,7 @@ class CallbackSnackBarElement extends Equatable {
       {this.extra = ""});
 
   CallbackSnackBarElement.closable(String content)
-      : this(content, "CLOSE", () {});
+      : this(content, "Fermer", () {});
 
   @override
   String toString() {

@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/bloc_emitter.dart';
 import 'package:ptit_godet/models/board_game.dart';
 import 'package:ptit_godet/storage/default_board_games.dart';
@@ -36,6 +35,14 @@ class BoardGameBloc extends BlocEmitter<BoardGameEvent, BoardGameState>
           LocalStorageKeywords.boardGameList, jsonEncode(boardGameList));
       yield BoardGameState(boardGameList: boardGameList);
       emitSnackBar("Le jeu a bien été ajouté.");
+    } else if (event is DeleteBoardGame) {
+      final boardGameList = state.boardGameList
+          .where((element) => element != event.boardGame)
+          .toList();
+      await storage.write(
+          LocalStorageKeywords.boardGameList, jsonEncode(boardGameList));
+      yield BoardGameState(boardGameList: boardGameList);
+      emitSnackBar("Le jeu a bien été supprimé.");
     }
   }
 }
@@ -64,6 +71,12 @@ class InitBoardGame extends BoardGameEvent {
 
 class AddBoardGame extends BoardGameEvent {
   const AddBoardGame(this.boardGame);
+
+  final BoardGame boardGame;
+}
+
+class DeleteBoardGame extends BoardGameEvent {
+  const DeleteBoardGame(this.boardGame);
 
   final BoardGame boardGame;
 }

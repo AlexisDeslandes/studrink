@@ -5,7 +5,10 @@ import 'package:ptit_godet/blocs/board_game/board_game_bloc.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/pages/game_detail_page.dart';
+import 'package:ptit_godet/pages/market_page.dart';
 import 'package:ptit_godet/widgets/base_screen.dart';
+import 'package:ptit_godet/widgets/buttons/color_button.dart';
+import 'package:ptit_godet/widgets/glass/glass_widget.dart';
 import 'package:ptit_godet/widgets/pre_game/board_game_tile.dart';
 
 class ChoseGamePage extends CupertinoPage {
@@ -57,9 +60,34 @@ class ChoseGameScreenState extends BaseScreenState {
           ),
         );
       } else {
-        return Center(
-          child: Text("Aucun plateau de jeu n'a été créé.",
-              style: Theme.of(context).textTheme.bodyText2),
+        return Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Expanded(
+              child: Center(
+                child: GlassWidget(
+                  padding: EdgeInsets.all(12.0),
+                  child: Text("Aucun plateau de jeu n'a été installé.",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1!
+                          .copyWith(fontSize: 18)),
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 15.0),
+                child: ColorButton(
+                    text: "Market",
+                    callback: () => context
+                        .read<NavBloc>()
+                        .add(PushNav(pageBuilder: (_) => MarketPage()))),
+              ),
+            )
+          ],
         );
       }
     });
