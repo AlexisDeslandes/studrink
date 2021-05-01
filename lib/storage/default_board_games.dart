@@ -15,6 +15,7 @@ class DefaultBoardGames {
   List<BoardGame> boardGameList() {
     return [
       BoardGame(
+          chips: ["Danger", "Shots"],
           imgUrl: "assets/icons/goose.svg",
           name: "Jeu de l'oie",
           screenshots: ["screen1.png", "screen2.png", "screen1.png"],

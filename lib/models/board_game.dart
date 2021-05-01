@@ -52,7 +52,7 @@ class BoardGame extends Resource {
   Map<String, dynamic> toJson() {
     return {
       "name": name,
-      "tag": teaser,
+      "teaser": teaser,
       "cells": cells.map((e) => e.toJson()).toList(),
       "description": description,
       "imgUrl": imgUrl,

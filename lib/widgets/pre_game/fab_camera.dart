@@ -18,6 +18,7 @@ class FabCamera extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: FloatingActionButton(
+        heroTag: "fab_camera_${player.id}",
         onPressed: () => _takePicture(context),
         mini: true,
         child: BlocBuilder<CurrentGameBloc, CurrentGameState>(

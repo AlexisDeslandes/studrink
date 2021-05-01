@@ -69,6 +69,7 @@ class ChosePlayersScreenState extends BaseScreenState {
 
   @override
   Widget? floatingActionButton(BuildContext context) => FloatingActionButton(
+      heroTag: "chose_player",
       child: Container(
           width: 56,
           height: 56,
@@ -79,8 +80,9 @@ class ChosePlayersScreenState extends BaseScreenState {
                 Theme.of(context).primaryColor
               ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
           child: Icon(Icons.play_arrow, color: Colors.white)),
-      onPressed: () =>
-          context.read<CurrentGameBloc>().add(const ValidateGame())); //todo name not empty
+      onPressed: () => context
+          .read<CurrentGameBloc>()
+          .add(const ValidateGame())); //todo name not empty
 
   @override
   Widget body(BuildContext context) {
@@ -104,6 +106,7 @@ class ChosePlayersScreenState extends BaseScreenState {
                                 title: PlayerField(player),
                                 leading: FabCamera(player: player),
                                 trailing: FloatingActionButton(
+                                    heroTag: "fab_player_${player.id}",
                                     child:
                                         Icon(Icons.delete, color: Colors.black),
                                     mini: true,

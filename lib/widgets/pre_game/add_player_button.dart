@@ -9,6 +9,7 @@ class AddPlayerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
+      heroTag: "add_player",
       mini: true,
       child: Icon(Icons.add, color: Theme.of(context).primaryColor),
       onPressed: () => context.read<CurrentGameBloc>().add(AddPlayer()),

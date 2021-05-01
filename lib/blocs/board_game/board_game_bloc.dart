@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:ptit_godet/blocs/bloc_emitter.dart';
 import 'package:ptit_godet/models/board_game.dart';
-import 'package:ptit_godet/storage/default_board_games.dart';
 import 'package:ptit_godet/storage/local_storage.dart';
 
 class BoardGameBloc extends BlocEmitter<BoardGameEvent, BoardGameState>
@@ -17,7 +16,7 @@ class BoardGameBloc extends BlocEmitter<BoardGameEvent, BoardGameState>
   @override
   Stream<BoardGameState> mapEventToState(BoardGameEvent event) async* {
     if (event is InitBoardGame) {
-      var list = [];
+      var list = <BoardGame>[];
       final boardGameListEncoded =
           storage.read(LocalStorageKeywords.boardGameList);
       if (boardGameListEncoded != null) {
@@ -26,8 +25,7 @@ class BoardGameBloc extends BlocEmitter<BoardGameEvent, BoardGameState>
             .map((m) => BoardGame.fromJson(m))
             .toList();
       }
-      yield BoardGameState(
-          boardGameList: [...DefaultBoardGames().boardGameList(), ...list]);
+      yield BoardGameState(boardGameList: list);
     } else if (event is AddBoardGame) {
       final boardGame = event.boardGame,
           boardGameList = [...state.boardGameList, boardGame];

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
+import 'package:ptit_godet/extension/string_extension.dart';
 import 'package:ptit_godet/pages/image_detail_page.dart';
 
 class ScreenshotView extends StatefulWidget {
@@ -34,7 +35,8 @@ class _ScreenshotViewState extends State<ScreenshotView> {
 
   Widget _buildScreenshotCard(BuildContext context, int index) {
     final screenshot = widget.screenshots[index],
-        pathToScreenshot = "assets/screenshots/$screenshot";
+        pathToScreenshot = "assets/screenshots/$screenshot",
+        heroTag = StringExtension.generateRandomString();
     final isFocused = _idFocus == index;
     final double blur = isFocused ? 20 : 0;
     final double offset = isFocused ? 2 : 0;
@@ -43,12 +45,13 @@ class _ScreenshotViewState extends State<ScreenshotView> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Hero(
-          tag: pathToScreenshot,
+          tag: heroTag,
           child: AnimatedContainer(
               child: Material(
                 child: InkWell(
                     onTap: () => context.read<NavBloc>().add(PushNav(
-                        pageBuilder: (path) => ImageDetailPage(path),
+                        pageBuilder: (path) =>
+                            ImageDetailPage(path: path, heroTag: heroTag),
                         args: pathToScreenshot)),
                     borderRadius: BorderRadius.circular(20)),
               ),
