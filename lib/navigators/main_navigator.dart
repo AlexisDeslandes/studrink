@@ -58,6 +58,7 @@ class _MainNavigatorState extends State<MainNavigator>
   Widget build(BuildContext context) {
     return BlocBuilder<NavBloc, NavState>(
       builder: (context, state) => Navigator(
+        observers: [HeroController()],
         pages: state.navStateElementList
             .map((e) => e.pageBuilder(e.args))
             .toList(),
