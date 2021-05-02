@@ -112,7 +112,6 @@ class Player extends Resource implements Comparable<Player> {
             name: name ?? player.name,
             state: state ?? player.state,
             conditionKeyList: conditionKeyList ?? player.conditionKeyList,
-            //todo check before it was a where != null
             avatar: avatar ?? player.avatar,
             idCurrentCell: idCurrentCell ?? player.idCurrentCell);
 
