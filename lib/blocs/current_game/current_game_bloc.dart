@@ -192,7 +192,8 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
     if (playerList.length < 2) {
       _errorController
           .add("Il doit y avoir au moins 2 joueurs pour lancer une partie.");
-    } else if (areAllPlayerNameDifferent) {
+    } else if (playerList.every((element) => element.name.isNotEmpty) &&
+        areAllPlayerNameDifferent) {
       navBloc.add(PushNav(pageBuilder: (_) => const GamePage()));
     } else {
       _errorController
