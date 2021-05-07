@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/pages/home_page.dart';
 
-typedef CupertinoPage PageBuilder(dynamic);
+typedef Page PageBuilder(dynamic args);
 
 class NavStateElement extends Equatable {
   final dynamic args;

@@ -6,16 +6,17 @@ import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/pages/game_detail_page.dart';
 import 'package:ptit_godet/pages/market_page.dart';
+import 'package:ptit_godet/pages/my_custom_page.dart';
 import 'package:ptit_godet/widgets/base_screen.dart';
 import 'package:ptit_godet/widgets/buttons/color_button.dart';
 import 'package:ptit_godet/widgets/glass/glass_widget.dart';
 import 'package:ptit_godet/widgets/pre_game/board_game_tile.dart';
 
-class ChoseGamePage extends CupertinoPage {
+class ChoseGamePage extends MyCustomPage {
   const ChoseGamePage()
       : super(
-            child: const ChoseGameScreen(),
-            key: const ValueKey<String>("/chose_game"));
+            key: const ValueKey<String>("/chose_game"),
+            child: const ChoseGameScreen());
 }
 
 class ChoseGameScreen extends StatefulWidget {
