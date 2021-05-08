@@ -36,6 +36,9 @@ class _GameDetailScreenState extends BaseScreenState {
   String get title => _boardGame.name;
 
   @override
+  Duration get duration => Duration(milliseconds: 800);
+
+  @override
   Widget body(BuildContext context) {
     final boardGame = context.read<CurrentGameBloc>().state.boardGame!;
     return Padding(
@@ -44,7 +47,7 @@ class _GameDetailScreenState extends BaseScreenState {
           SlideTransition(
             position: controller
                 .drive(CurveTween(
-                    curve: Interval(0.5, 1.0, curve: Curves.easeInOut)))
+                    curve: Interval(0.5, 0.8, curve: Curves.easeInOut)))
                 .drive(Tween(begin: Offset(0.0, -0.1), end: Offset.zero)),
             child: FadeTransition(
                 child: GlassText(text: boardGame.description),
@@ -67,16 +70,14 @@ class _GameDetailScreenState extends BaseScreenState {
           Padding(
               padding: const EdgeInsets.only(bottom: 15.0),
               child: ScaleTransition(
-                scale: controller.drive(CurveTween(
-                    curve: Interval(0.0, 1.0, curve: Curves.elasticOut))),
-                child: ColorButton(
-                    text: "Lancer",
-                    callback: () => controller.reverse().then((value) => context
-                        .read<NavBloc>()
-                        .add(PushNav(
-                            pageBuilder: (_) => const ChosePlayersPage(),
-                            onPop: () => controller.forward())))),
-              ))
+                  scale:
+                      controller.drive(CurveTween(curve: Interval(0.8, 1.0))),
+                  child: ColorButton(
+                      text: "Lancer",
+                      callback: () => controller.reverse().then((value) =>
+                          context.read<NavBloc>().add(PushNav(
+                              pageBuilder: (_) => const ChosePlayersPage(),
+                              onPop: () => controller.forward()))))))
         ]));
   }
 }

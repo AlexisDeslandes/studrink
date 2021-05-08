@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/dice/dice_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
@@ -194,7 +195,8 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
           .add("Il doit y avoir au moins 2 joueurs pour lancer une partie.");
     } else if (playerList.every((element) => element.name.isNotEmpty) &&
         areAllPlayerNameDifferent) {
-      navBloc.add(PushNav(pageBuilder: (_) => const GamePage()));
+      navBloc.add(
+          PushNav(pageBuilder: (_) => const GamePage(), onPop: event.onPop));
     } else {
       _errorController
           .add("Tous les pseudos doivent être saisis et différents.");
@@ -546,7 +548,9 @@ class ChangePicturePlayer extends CurrentGameEvent {
 }
 
 class ValidateGame extends CurrentGameEvent {
-  const ValidateGame();
+  const ValidateGame({required this.onPop});
+
+  final VoidCallback onPop;
 }
 
 class ResetPlayerGame extends CurrentGameEvent {

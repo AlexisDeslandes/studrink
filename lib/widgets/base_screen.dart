@@ -6,8 +6,9 @@ import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 abstract class BaseScreenState<W extends StatefulWidget> extends State<W>
     with TickerProviderStateMixin {
   late final AnimationController controller =
-      AnimationController(vsync: this, duration: Duration(milliseconds: 600))
-        ..forward();
+      AnimationController(vsync: this, duration: duration)..forward();
+
+  Duration get duration => Duration(milliseconds: 600);
 
   String get title;
 
