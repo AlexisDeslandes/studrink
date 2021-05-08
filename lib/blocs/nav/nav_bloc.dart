@@ -8,8 +8,9 @@ typedef Page PageBuilder(dynamic args);
 class NavStateElement extends Equatable {
   final dynamic args;
   final PageBuilder pageBuilder;
+  final VoidCallback? onPop;
 
-  const NavStateElement({required this.pageBuilder, this.args});
+  const NavStateElement({required this.pageBuilder, this.args, this.onPop});
 
   @override
   List<Object> get props => [pageBuilder, args];
@@ -34,8 +35,9 @@ abstract class NavEvent extends Equatable {
 class PushNav extends NavEvent {
   final dynamic args;
   final PageBuilder pageBuilder;
+  final VoidCallback? onPop;
 
-  const PushNav({required this.pageBuilder, this.args});
+  const PushNav({required this.pageBuilder, this.args, this.onPop});
 
   @override
   List<Object> get props => [pageBuilder, args];
@@ -70,10 +72,15 @@ class NavBloc extends Bloc<NavEvent, NavState> {
     if (event is PushNav) {
       yield NavState([
         ...currentNavList,
-        NavStateElement(pageBuilder: event.pageBuilder, args: event.args)
+        NavStateElement(
+            pageBuilder: event.pageBuilder,
+            args: event.args,
+            onPop: event.onPop)
       ]);
     } else if (event is PopNav) {
+      final lastNavElement = currentNavList.last;
       yield NavState(currentNavList.sublist(0, currentNavList.length - 1));
+      lastNavElement.onPop?.call();
     } else if (event is ResetNav) {
       yield NavState(
           [NavStateElement(pageBuilder: event.pageBuilder, args: event.args)]);
