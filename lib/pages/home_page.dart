@@ -59,8 +59,10 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         padding: EdgeInsets.only(top: 20.0),
                         child: WhiteButton(
                           text: "Market",
-                          callback: () => context.read<NavBloc>().add(
-                              PushNav(pageBuilder: (_) => const MarketPage())),
+                          callback: () => _controller.reverse().then((value) =>
+                              context.read<NavBloc>().add(PushNav(
+                                  pageBuilder: (_) => const MarketPage(),
+                                  onPop: () => _controller.forward()))),
                         ),
                       )
                     ],

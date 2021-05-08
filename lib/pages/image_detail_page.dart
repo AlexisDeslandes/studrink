@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
+import 'package:ptit_godet/pages/my_custom_page.dart';
 
-class ImageDetailPage extends CupertinoPage {
+class ImageDetailPage extends MyCustomPage {
   ImageDetailPage({required String path, required String heroTag})
       : super(
             key: const ValueKey("/image_detail"),
@@ -21,24 +22,40 @@ class ImageDetailScreen extends StatefulWidget {
   _ImageDetailScreenState createState() => _ImageDetailScreenState();
 }
 
-class _ImageDetailScreenState extends State<ImageDetailScreen> {
+class _ImageDetailScreenState extends State<ImageDetailScreen>
+    with TickerProviderStateMixin {
+  late final AnimationController controller =
+      AnimationController(vsync: this, duration: Duration(milliseconds: 600))
+        ..forward();
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    return FadeTransition(
+      opacity: controller,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: BackButton(
+              onPressed: () => controller
+                  .reverse()
+                  .then((value) => context.read<NavBloc>().add(const PopNav())),
+              color: Colors.black),
+        ),
         backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: BackButton(
-            onPressed: () => context.read<NavBloc>().add(const PopNav()),
-            color: Colors.black),
+        body: InteractiveViewer(
+            child: Center(
+                child: Hero(
+                    tag: widget.heroTag,
+                    child: Image.asset(widget.imgPath,
+                        width: MediaQuery.of(context).size.width * 0.7)))),
       ),
-      backgroundColor: Colors.transparent,
-      body: InteractiveViewer(
-          child: Center(
-              child: Hero(
-                  tag: widget.heroTag,
-                  child: Image.asset(widget.imgPath,
-                      width: MediaQuery.of(context).size.width * 0.7)))),
     );
   }
 }

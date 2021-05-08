@@ -5,12 +5,13 @@ import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/models/board_game.dart';
 import 'package:ptit_godet/pages/chose_players_page.dart';
+import 'package:ptit_godet/pages/my_custom_page.dart';
 import 'package:ptit_godet/widgets/base_screen.dart';
 import 'package:ptit_godet/widgets/buttons/color_button.dart';
 import 'package:ptit_godet/widgets/detail_market/screenshot_view.dart';
 import 'package:ptit_godet/widgets/glass/glass_text.dart';
 
-class GameDetailPage extends CupertinoPage {
+class GameDetailPage extends MyCustomPage {
   const GameDetailPage()
       : super(
             key: const ValueKey("/game_detail"),
@@ -40,16 +41,42 @@ class _GameDetailScreenState extends BaseScreenState {
     return Padding(
         padding: const EdgeInsets.only(top: 15.0, left: 30.0, right: 30.0),
         child: Column(children: [
-          GlassText(text: boardGame.description),
+          SlideTransition(
+            position: controller
+                .drive(CurveTween(
+                    curve: Interval(0.5, 1.0, curve: Curves.easeInOut)))
+                .drive(Tween(begin: Offset(0.0, -0.1), end: Offset.zero)),
+            child: FadeTransition(
+                child: GlassText(text: boardGame.description),
+                opacity:
+                    controller.drive(CurveTween(curve: Interval(0.5, 1.0)))),
+          ),
           Expanded(
-            child: ScreenshotView(screenshots: boardGame.screenshots),
+            child: FadeTransition(
+                child: ScreenshotView(
+                  screenshots: boardGame.screenshots,
+                  pickImage: (builder, args) => controller.reverse().then(
+                      (value) => context.read<NavBloc>().add(PushNav(
+                          pageBuilder: builder,
+                          args: args,
+                          onPop: () => controller.forward()))),
+                ),
+                opacity:
+                    controller.drive(CurveTween(curve: Interval(0.5, 1.0)))),
           ),
           Padding(
               padding: const EdgeInsets.only(bottom: 15.0),
-              child: ColorButton(
-                  text: "Lancer",
-                  callback: () => context.read<NavBloc>().add(
-                      PushNav(pageBuilder: (_) => const ChosePlayersPage()))))
+              child: ScaleTransition(
+                scale: controller.drive(CurveTween(
+                    curve: Interval(0.0, 1.0, curve: Curves.elasticOut))),
+                child: ColorButton(
+                    text: "Lancer",
+                    callback: () => controller.reverse().then((value) => context
+                        .read<NavBloc>()
+                        .add(PushNav(
+                            pageBuilder: (_) => const ChosePlayersPage(),
+                            onPop: () => controller.forward())))),
+              ))
         ]));
   }
 }

@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/extension/string_extension.dart';
 import 'package:ptit_godet/pages/image_detail_page.dart';
 
+typedef ImagePickScreenshotView = void Function(
+    PageBuilder builder, dynamic args);
+
 class ScreenshotView extends StatefulWidget {
   final List<String> screenshots;
+  final ImagePickScreenshotView pickImage;
 
-  const ScreenshotView({Key? key, required this.screenshots}) : super(key: key);
+  const ScreenshotView(
+      {Key? key, required this.screenshots, required this.pickImage})
+      : super(key: key);
 
   @override
   _ScreenshotViewState createState() => _ScreenshotViewState();
@@ -49,10 +54,9 @@ class _ScreenshotViewState extends State<ScreenshotView> {
           child: AnimatedContainer(
               child: Material(
                 child: InkWell(
-                    onTap: () => context.read<NavBloc>().add(PushNav(
-                        pageBuilder: (path) =>
-                            ImageDetailPage(path: path, heroTag: heroTag),
-                        args: pathToScreenshot)),
+                    onTap: () => widget.pickImage(
+                        (path) => ImageDetailPage(path: path, heroTag: heroTag),
+                        pathToScreenshot),
                     borderRadius: BorderRadius.circular(20)),
               ),
               margin:

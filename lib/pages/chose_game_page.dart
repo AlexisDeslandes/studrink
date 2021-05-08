@@ -55,8 +55,11 @@ class ChoseGameScreenState extends BaseScreenState {
                       context.read<CurrentGameBloc>()
                         ..add(InitModelCurrentGame(
                             boardGame: boardGameList[index]));
-                      context.read<NavBloc>().add(
-                          PushNav(pageBuilder: (_) => const GameDetailPage()));
+                      controller.reverse().then((value) => context
+                          .read<NavBloc>()
+                          .add(PushNav(
+                              pageBuilder: (_) => const GameDetailPage(),
+                              onPop: () => controller.forward())));
                     }),
               ),
               itemCount: boardGameList.length,
@@ -85,9 +88,10 @@ class ChoseGameScreenState extends BaseScreenState {
                   padding: const EdgeInsets.only(bottom: 15.0),
                   child: ColorButton(
                       text: "Market",
-                      callback: () => context
-                          .read<NavBloc>()
-                          .add(PushNav(pageBuilder: (_) => MarketPage()))),
+                      callback: () => controller.reverse().then((value) =>
+                          context.read<NavBloc>().add(PushNav(
+                              pageBuilder: (_) => MarketPage(),
+                              onPop: () => controller.forward())))),
                 ),
               )
             ],

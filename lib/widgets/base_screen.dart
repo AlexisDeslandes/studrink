@@ -25,6 +25,12 @@ abstract class BaseScreenState<W extends StatefulWidget> extends State<W>
   Widget body(BuildContext context);
 
   @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) => Scaffold(
         floatingActionButton: floatingActionButton(context),
         backgroundColor: Colors.transparent,

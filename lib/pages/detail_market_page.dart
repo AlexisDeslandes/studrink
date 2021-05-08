@@ -109,7 +109,10 @@ class DetailMarketScreenState extends State<DetailMarketScreen> {
                 child: GlassText(text: boardGame.description),
               ),
               Expanded(
-                child: ScreenshotView(screenshots: boardGame.screenshots),
+                child: ScreenshotView(
+                  screenshots: boardGame.screenshots,
+                  pickImage: (builder, args) {},
+                ),
               )
             ],
           ),
