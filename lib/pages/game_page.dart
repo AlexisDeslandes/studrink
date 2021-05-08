@@ -31,7 +31,11 @@ class GameScreen extends StatefulWidget {
   _GameScreenState createState() => _GameScreenState();
 }
 
-class _GameScreenState extends State<GameScreen> {
+class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
+  late final _controller =
+      AnimationController(vsync: this, duration: Duration(milliseconds: 900))
+        ..forward();
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -40,9 +44,14 @@ class _GameScreenState extends State<GameScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: BackButton(
-            onPressed: () => context.read<NavBloc>().add(const PopNav()),
-            color: Colors.black),
+        leading: FadeTransition(
+          opacity: _controller,
+          child: BackButton(
+              onPressed: () => _controller
+                  .reverse()
+                  .then((value) => context.read<NavBloc>().add(const PopNav())),
+              color: Colors.black),
+        ),
       ),
       body: SafeArea(
         child: Stack(
@@ -61,18 +70,39 @@ class _GameScreenState extends State<GameScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 35.0),
-                      child: const CellAnnouncer(),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 35.0),
-                      child: const PlayerAnnouncer(),
+                    FadeTransition(
+                      opacity: _controller
+                          .drive(CurveTween(curve: Interval(0.0, 1 / 3))),
+                      child: SlideTransition(
+                        position: _controller
+                            .drive(CurveTween(curve: Interval(0.0, 1 / 3)))
+                            .drive(Tween(
+                                begin: Offset(0.0, -0.5), end: Offset.zero)),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 35.0),
+                              child: const CellAnnouncer(),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 35.0),
+                              child: const PlayerAnnouncer(),
+                            )
+                          ],
+                        ),
+                      ),
                     ),
                     Expanded(
                       child: Padding(
                           padding: const EdgeInsets.only(top: 50.0),
-                          child: Center(child: const GamePageView())),
+                          child: Center(
+                              child: FadeTransition(
+                            child: const GamePageView(),
+                            opacity: _controller.drive(
+                                CurveTween(curve: Interval(1 / 3, 2 / 3))),
+                          ))),
                     ),
                     Padding(
                         padding: EdgeInsets.only(
@@ -80,8 +110,27 @@ class _GameScreenState extends State<GameScreen> {
                             top: 20,
                             right: 50,
                             left: 50),
-                        child: const SelectedPlayerCard()),
-                    const PlayArea()
+                        child: FadeTransition(
+                          child: const SelectedPlayerCard(),
+                          opacity: _controller
+                              .drive(CurveTween(curve: Interval(1 / 3, 2 / 3))),
+                        )),
+                    ScaleTransition(
+                      child: const PlayArea(),
+                      scale: _controller
+                          .drive(CurveTween(
+                              curve: Interval(
+                            2 / 3,
+                            1.0,
+                          )))
+                          .drive(TweenSequence([
+                            TweenSequenceItem(
+                                tween: Tween(begin: 0.0, end: 1.3),
+                                weight: 0.7),
+                            TweenSequenceItem(
+                                tween: Tween(begin: 1.3, end: 1.0), weight: 0.3)
+                          ])),
+                    )
                   ],
                 ),
               ),

@@ -70,8 +70,18 @@ class _GameDetailScreenState extends BaseScreenState {
           Padding(
               padding: const EdgeInsets.only(bottom: 15.0),
               child: ScaleTransition(
-                  scale:
-                      controller.drive(CurveTween(curve: Interval(0.8, 1.0))),
+                  scale: controller
+                      .drive(CurveTween(
+                          curve: Interval(
+                        0.8,
+                        1.0,
+                      )))
+                      .drive(TweenSequence([
+                        TweenSequenceItem(
+                            tween: Tween(begin: 0.0, end: 1.3), weight: 0.7),
+                        TweenSequenceItem(
+                            tween: Tween(begin: 1.3, end: 1.0), weight: 0.3)
+                      ])),
                   child: ColorButton(
                       text: "Lancer",
                       callback: () => controller.reverse().then((value) =>
