@@ -8,13 +8,14 @@ import 'package:ptit_godet/blocs/market_place/market_place_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/models/board_game.dart';
 import 'package:ptit_godet/pages/detail_market_page.dart';
+import 'package:ptit_godet/pages/my_custom_page.dart';
 import 'package:ptit_godet/widgets/glass/glass_widget.dart';
 import 'package:ptit_godet/widgets/my_choice_chip.dart';
 
 ///
 /// Page that contains market place of P'tit godet.
 ///
-class MarketPage extends CupertinoPage {
+class MarketPage extends MyCustomPage {
   const MarketPage()
       : super(child: const MarketScreen(), key: const ValueKey("/market"));
 }
