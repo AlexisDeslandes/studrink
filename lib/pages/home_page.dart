@@ -21,40 +21,53 @@ class HomeScreen extends StatefulWidget {
   State<StatefulWidget> createState() => HomeScreenState();
 }
 
-class HomeScreenState extends State<HomeScreen> {
+class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  late final _controller =
+      AnimationController(vsync: this, duration: Duration(milliseconds: 500))
+        ..forward();
+  late final _slideAnimation =
+      Tween(begin: Offset(0.0, -0.25), end: Offset.zero).animate(_controller);
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size.width * 0.663;
     return Center(
-      child: ClipRRect(
-          borderRadius: BorderRadius.circular(25.0),
-          child: GlassWidget(
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
-              width: size,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 20.0),
-                    child: Text("Petit Godet",
-                        style: Theme.of(context).textTheme.headline2),
-                  ),
-                  ColorButton(
-                      text: "Jouer",
-                      callback: () => context.read<NavBloc>().add(PushNav(
-                            pageBuilder: (_) => const ChoseGamePage(),
-                          ))),
-                  Padding(
-                    padding: EdgeInsets.only(top: 20.0),
-                    child: WhiteButton(
-                      text: "Market",
-                      callback: () => context
-                          .read<NavBloc>()
-                          .add(PushNav(pageBuilder: (_) => const MarketPage())),
-                    ),
-                  )
-                ],
-              ))),
+      child: SlideTransition(
+        position: _slideAnimation,
+        child: FadeTransition(
+          opacity: _controller,
+          child: ClipRRect(
+              borderRadius: BorderRadius.circular(25.0),
+              child: GlassWidget(
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  width: size,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 20.0),
+                        child: Text("Petit Godet",
+                            style: Theme.of(context).textTheme.headline2),
+                      ),
+                      ColorButton(
+                          text: "Jouer",
+                          callback: () => _controller
+                              .reverse()
+                              .then((_) => context.read<NavBloc>().add(PushNav(
+                                    pageBuilder: (_) => const ChoseGamePage(),
+                                  )))),
+                      Padding(
+                        padding: EdgeInsets.only(top: 20.0),
+                        child: WhiteButton(
+                          text: "Market",
+                          callback: () => context.read<NavBloc>().add(
+                              PushNav(pageBuilder: (_) => const MarketPage())),
+                        ),
+                      )
+                    ],
+                  ))),
+        ),
+      ),
     );
   }
 }
