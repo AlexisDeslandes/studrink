@@ -90,9 +90,9 @@ class ChosePlayersScreenState extends BaseScreenState {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter)),
                 child: Icon(Icons.play_arrow, color: Colors.white)),
-            onPressed: () => controller.reverse().then((value) => context
-                .read<CurrentGameBloc>()
-                .add(ValidateGame(onPop: () => controller.forward())))),
+            onPressed: () => context.read<CurrentGameBloc>().add(ValidateGame(
+                onPop: () => controller.forward(),
+                animationCallback: controller.reverse))),
       );
 
   @override

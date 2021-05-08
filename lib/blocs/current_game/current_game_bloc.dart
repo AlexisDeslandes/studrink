@@ -195,8 +195,8 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
           .add("Il doit y avoir au moins 2 joueurs pour lancer une partie.");
     } else if (playerList.every((element) => element.name.isNotEmpty) &&
         areAllPlayerNameDifferent) {
-      navBloc.add(
-          PushNav(pageBuilder: (_) => const GamePage(), onPop: event.onPop));
+      event.animationCallback().then((value) => navBloc.add(
+          PushNav(pageBuilder: (_) => const GamePage(), onPop: event.onPop)));
     } else {
       _errorController
           .add("Tous les pseudos doivent être saisis et différents.");
@@ -548,9 +548,10 @@ class ChangePicturePlayer extends CurrentGameEvent {
 }
 
 class ValidateGame extends CurrentGameEvent {
-  const ValidateGame({required this.onPop});
+  const ValidateGame({required this.onPop, required this.animationCallback});
 
   final VoidCallback onPop;
+  final TickerFuture Function() animationCallback;
 }
 
 class ResetPlayerGame extends CurrentGameEvent {
