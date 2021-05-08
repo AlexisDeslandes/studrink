@@ -22,18 +22,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  late final _controller = AnimationController(
-          vsync: this, duration: Duration(milliseconds: 500))
-        ..forward(),
-      _slideAnimation = Tween(begin: Offset(0.0, -0.35), end: Offset.zero)
-          .animate(_controller);
+  late final _controller =
+      AnimationController(vsync: this, duration: Duration(milliseconds: 500))
+        ..forward();
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size.width * 0.663;
     return Center(
       child: SlideTransition(
-        position: _slideAnimation,
+        position: _controller
+            .drive(CurveTween(curve: Curves.easeInOut))
+            .drive(Tween(begin: Offset(0.0, -0.35), end: Offset.zero)),
         child: FadeTransition(
           opacity: _controller,
           child: ClipRRect(

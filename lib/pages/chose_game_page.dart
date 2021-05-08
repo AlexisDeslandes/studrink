@@ -37,60 +37,63 @@ class ChoseGameScreenState extends BaseScreenState {
 
   @override
   Widget body(BuildContext context) {
-    return BlocBuilder<BoardGameBloc, BoardGameState>(
-        builder: (context, state) {
-      final boardGameList = state.boardGameList;
-      if (boardGameList.isNotEmpty) {
-        return Padding(
-          padding: const EdgeInsets.only(top: 30.0),
-          child: ListView.builder(
-            itemBuilder: (context, index) => Padding(
-              padding: const EdgeInsets.only(
-                  left: 30.0, right: 30.0, top: 4, bottom: 4),
-              child: BoardGameTile(
-                  boardGame: boardGameList[index],
-                  onTap: () {
-                    context.read<CurrentGameBloc>()
-                      ..add(InitModelCurrentGame(
-                          boardGame: boardGameList[index]));
-                    context.read<NavBloc>().add(
-                        PushNav(pageBuilder: (_) => const GameDetailPage()));
-                  }),
+    return FadeTransition(
+      opacity: controller.drive(CurveTween(curve: Interval(0.5, 1.0))),
+      child:
+          BlocBuilder<BoardGameBloc, BoardGameState>(builder: (context, state) {
+        final boardGameList = state.boardGameList;
+        if (boardGameList.isNotEmpty) {
+          return Padding(
+            padding: const EdgeInsets.only(top: 30.0),
+            child: ListView.builder(
+              itemBuilder: (context, index) => Padding(
+                padding: const EdgeInsets.only(
+                    left: 30.0, right: 30.0, top: 4, bottom: 4),
+                child: BoardGameTile(
+                    boardGame: boardGameList[index],
+                    onTap: () {
+                      context.read<CurrentGameBloc>()
+                        ..add(InitModelCurrentGame(
+                            boardGame: boardGameList[index]));
+                      context.read<NavBloc>().add(
+                          PushNav(pageBuilder: (_) => const GameDetailPage()));
+                    }),
+              ),
+              itemCount: boardGameList.length,
             ),
-            itemCount: boardGameList.length,
-          ),
-        );
-      } else {
-        return Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Expanded(
-              child: Center(
-                child: GlassWidget(
-                  padding: EdgeInsets.all(12.0),
-                  child: Text("Aucun plateau de jeu n'a été installé.",
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1!
-                          .copyWith(fontSize: 18)),
+          );
+        } else {
+          return Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Expanded(
+                child: Center(
+                  child: GlassWidget(
+                    padding: EdgeInsets.all(12.0),
+                    child: Text("Aucun plateau de jeu n'a été installé.",
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1!
+                            .copyWith(fontSize: 18)),
+                  ),
                 ),
               ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 15.0),
-                child: ColorButton(
-                    text: "Market",
-                    callback: () => context
-                        .read<NavBloc>()
-                        .add(PushNav(pageBuilder: (_) => MarketPage()))),
-              ),
-            )
-          ],
-        );
-      }
-    });
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 15.0),
+                  child: ColorButton(
+                      text: "Market",
+                      callback: () => context
+                          .read<NavBloc>()
+                          .add(PushNav(pageBuilder: (_) => MarketPage()))),
+                ),
+              )
+            ],
+          );
+        }
+      }),
+    );
   }
 }
