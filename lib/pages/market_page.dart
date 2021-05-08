@@ -27,13 +27,18 @@ class MarketScreen extends StatefulWidget {
   State<StatefulWidget> createState() => MarketScreenState();
 }
 
-class MarketScreenState extends State<MarketScreen> {
+class MarketScreenState extends State<MarketScreen>
+    with TickerProviderStateMixin {
   late final TextEditingController _searchController = TextEditingController(
       text: context.read<MarketPlaceBloc>().state.searchWord);
+  late final _controller =
+      AnimationController(vsync: this, duration: Duration(milliseconds: 600))
+        ..forward();
 
   @override
   void dispose() {
     _searchController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -44,9 +49,13 @@ class MarketScreenState extends State<MarketScreen> {
       appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          leading: BackButton(
-              onPressed: () => context.read<NavBloc>().add(const PopNav()),
-              color: Colors.black)),
+          leading: FadeTransition(
+            opacity: _controller,
+            child: BackButton(
+                onPressed: () => _controller.reverse().then(
+                    (value) => context.read<NavBloc>().add(const PopNav())),
+                color: Colors.black),
+          )),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 20.0, right: 20.0),
@@ -55,81 +64,116 @@ class MarketScreenState extends State<MarketScreen> {
             children: [
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.6,
-                child: GlassWidget(
-                  border: false,
-                  radius: 12,
-                  opacity: 0.5,
-                  child: TextField(
-                    textAlignVertical: TextAlignVertical.center,
-                    autocorrect: false,
-                    controller: _searchController,
-                    onChanged: (value) => context
-                        .read<MarketPlaceBloc>()
-                        .add(SearchMarket(value)),
-                    decoration: InputDecoration(
-                        contentPadding: EdgeInsets.zero,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(
-                            width: 0,
-                            style: BorderStyle.none,
-                          ),
-                        ),
-                        hintText: "Rechercher",
-                        prefixIcon: Icon(Icons.search),
-                        suffixIcon: IconButton(
-                          icon: Icon(Icons.clear),
-                          onPressed: () {
-                            _searchController.clear();
-                            context
-                                .read<MarketPlaceBloc>()
-                                .add(SearchMarket(""));
-                          },
-                        )),
+                child: SlideTransition(
+                  position: _controller
+                      .drive(CurveTween(curve: Interval(0.0, 0.5)))
+                      .drive(Tween(begin: Offset(0.0, -0.4), end: Offset.zero)),
+                  child: FadeTransition(
+                    opacity: _controller
+                        .drive(CurveTween(curve: Interval(0.0, 0.5))),
+                    child: GlassWidget(
+                      border: false,
+                      radius: 12,
+                      opacity: 0.5,
+                      child: TextField(
+                        textAlignVertical: TextAlignVertical.center,
+                        autocorrect: false,
+                        controller: _searchController,
+                        onChanged: (value) => context
+                            .read<MarketPlaceBloc>()
+                            .add(SearchMarket(value)),
+                        decoration: InputDecoration(
+                            contentPadding: EdgeInsets.zero,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(
+                                width: 0,
+                                style: BorderStyle.none,
+                              ),
+                            ),
+                            hintText: "Rechercher",
+                            prefixIcon: Icon(Icons.search),
+                            suffixIcon: IconButton(
+                              icon: Icon(Icons.clear),
+                              onPressed: () {
+                                _searchController.clear();
+                                context
+                                    .read<MarketPlaceBloc>()
+                                    .add(SearchMarket(""));
+                              },
+                            )),
+                      ),
+                    ),
                   ),
                 ),
               ),
               Padding(
                   padding: const EdgeInsets.only(top: 20.0),
-                  child: BlocBuilder<MarketPlaceBloc, MarketPlaceState>(
-                      buildWhen: (previous, current) =>
-                          previous.selectedSort != current.selectedSort,
-                      builder: (context, state) => Row(
-                          children: MarketSort.values
-                              .map((sort) => Expanded(
-                                    child: MyChoiceChip(
-                                        position: sort.position,
-                                        label: sort.description,
-                                        selected: state.selectedSort == sort,
-                                        onSelected: (_) => context
-                                            .read<MarketPlaceBloc>()
-                                            .add(ChangeMarketSort(sort))),
-                                  ))
-                              .toList()))),
+                  child: SlideTransition(
+                    position: _controller
+                        .drive(CurveTween(curve: Interval(0.0, 0.5)))
+                        .drive(
+                            Tween(begin: Offset(0.0, -0.4), end: Offset.zero)),
+                    child: FadeTransition(
+                      opacity: _controller
+                          .drive(CurveTween(curve: Interval(0.0, 0.5))),
+                      child: BlocBuilder<MarketPlaceBloc, MarketPlaceState>(
+                          buildWhen: (previous, current) =>
+                              previous.selectedSort != current.selectedSort,
+                          builder: (context, state) => Row(
+                              children: MarketSort.values
+                                  .map((sort) => Expanded(
+                                        child: MyChoiceChip(
+                                            position: sort.position,
+                                            label: sort.description,
+                                            selected:
+                                                state.selectedSort == sort,
+                                            onSelected: (_) => context
+                                                .read<MarketPlaceBloc>()
+                                                .add(ChangeMarketSort(sort))),
+                                      ))
+                                  .toList())),
+                    ),
+                  )),
               Expanded(
                   child: Padding(
                 padding: const EdgeInsets.only(top: 20.0),
-                child: BlocBuilder<MarketPlaceBloc, MarketPlaceState>(
-                    builder: (context, state) {
-                  final boardGameListTreated = state.boardGameListTreated;
-                  return BlocBuilder<BoardGameBloc, BoardGameState>(
-                    builder: (context, boardGameState) =>
-                        StaggeredGridView.countBuilder(
-                            itemCount: boardGameListTreated.length,
-                            crossAxisCount: 2,
-                            staggeredTileBuilder: (index) =>
-                                StaggeredTile.fit(1),
-                            itemBuilder: (context, index) {
-                              final boardGame = boardGameListTreated[index];
-                              return MarketGameTile(
-                                  installed: boardGameState.boardGameList
-                                      .contains(boardGame),
-                                  boardGame: boardGame);
-                            },
-                            mainAxisSpacing: 10.0,
-                            crossAxisSpacing: 10.0),
-                  );
-                }),
+                child: FadeTransition(
+                  opacity:
+                      _controller.drive(CurveTween(curve: Interval(0.5, 1.0))),
+                  child: BlocBuilder<MarketPlaceBloc, MarketPlaceState>(
+                      builder: (context, state) {
+                    final boardGameListTreated = state.boardGameListTreated;
+                    return BlocBuilder<BoardGameBloc, BoardGameState>(
+                      builder: (context, boardGameState) =>
+                          StaggeredGridView.countBuilder(
+                              itemCount: boardGameListTreated.length,
+                              crossAxisCount: 2,
+                              staggeredTileBuilder: (index) =>
+                                  StaggeredTile.fit(1),
+                              itemBuilder: (context, index) {
+                                final boardGame = boardGameListTreated[index];
+                                return MarketGameTile(
+                                    onTap: (value) {
+                                      context
+                                          .read<MarketPlaceBloc>()
+                                          .add(ChoseBoardGame(boardGame));
+                                      _controller.reverse().then((value) =>
+                                          context.read<NavBloc>().add(PushNav(
+                                              pageBuilder: (_) =>
+                                                  const DetailMarketPage(),
+                                              onPop: () =>
+                                                  _controller.forward())));
+                                    },
+                                    installed: boardGameState.boardGameList
+                                        .contains(boardGame),
+                                    boardGame: boardGame);
+                              },
+                              mainAxisSpacing: 10.0,
+                              crossAxisSpacing: 10.0),
+                    );
+                  }),
+                ),
               ))
             ],
           ),
@@ -141,10 +185,14 @@ class MarketScreenState extends State<MarketScreen> {
 
 class MarketGameTile extends StatelessWidget {
   const MarketGameTile(
-      {Key? key, required this.boardGame, required this.installed})
+      {Key? key,
+      required this.boardGame,
+      required this.installed,
+      required this.onTap})
       : super(key: key);
   final BoardGame boardGame;
   final bool installed;
+  final ValueChanged<BoardGame> onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -155,12 +203,7 @@ class MarketGameTile extends StatelessWidget {
       opacity: 0.41,
       padding: EdgeInsets.all(8.0),
       child: InkWell(
-        onTap: () {
-          context.read<MarketPlaceBloc>().add(ChoseBoardGame(boardGame));
-          context
-              .read<NavBloc>()
-              .add(PushNav(pageBuilder: (_) => const DetailMarketPage()));
-        },
+        onTap: () => onTap(boardGame),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           IntrinsicHeight(
             child: Row(

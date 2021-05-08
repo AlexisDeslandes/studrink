@@ -5,12 +5,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ptit_godet/blocs/board_game/board_game_bloc.dart';
 import 'package:ptit_godet/blocs/market_place/market_place_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
+import 'package:ptit_godet/pages/my_custom_page.dart';
 import 'package:ptit_godet/widgets/buttons/color_button.dart';
 import 'package:ptit_godet/widgets/buttons/white_button.dart';
 import 'package:ptit_godet/widgets/detail_market/screenshot_view.dart';
 import 'package:ptit_godet/widgets/glass/glass_text.dart';
 
-class DetailMarketPage extends CupertinoPage {
+class DetailMarketPage extends MyCustomPage {
   const DetailMarketPage()
       : super(
             key: const ValueKey("/detail_market_page"),
