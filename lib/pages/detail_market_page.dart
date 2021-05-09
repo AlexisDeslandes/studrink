@@ -25,7 +25,12 @@ class DetailMarketScreen extends StatefulWidget {
   State<StatefulWidget> createState() => DetailMarketScreenState();
 }
 
-class DetailMarketScreenState extends State<DetailMarketScreen> {
+class DetailMarketScreenState extends State<DetailMarketScreen>
+    with TickerProviderStateMixin {
+  late final _controller =
+      AnimationController(vsync: this, duration: Duration(milliseconds: 900))
+        ..forward();
+
   @override
   Widget build(BuildContext context) {
     final boardGame = context.read<MarketPlaceBloc>().state.chosenBoardGame!;
@@ -35,84 +40,126 @@ class DetailMarketScreenState extends State<DetailMarketScreen> {
       appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          leading: BackButton(
-              onPressed: () => context.read<NavBloc>().add(const PopNav()),
-              color: Colors.black)),
+          leading: FadeTransition(
+            opacity: _controller,
+            child: BackButton(
+                onPressed: () => _controller.reverse().then(
+                    (value) => context.read<NavBloc>().add(const PopNav())),
+                color: Colors.black),
+          )),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 20.0, right: 20.0),
           child: Column(
             children: [
-              Row(
-                children: [
-                  SizedBox(
-                      height: 70.0,
-                      width: 70.0,
-                      child: isImgFromWeb
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(12.0),
-                              child: Image.network(boardGame.imgUrl))
-                          : Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 5.0, left: 5.0),
-                              child: SvgPicture.asset(boardGame.imgUrl),
-                            )),
-                  Expanded(
-                      child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
-                      child: Text(boardGame.name,
-                          style: Theme.of(context).textTheme.headline2),
-                    ),
-                  ))
-                ],
+              SlideTransition(
+                position: _controller
+                    .drive(CurveTween(curve: Interval(0.0, 1 / 3)))
+                    .drive(Tween(begin: Offset(0.0, -0.3), end: Offset.zero)),
+                child: FadeTransition(
+                  opacity: _controller
+                      .drive(CurveTween(curve: Interval(0.0, 1 / 3))),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                          height: 70.0,
+                          width: 70.0,
+                          child: isImgFromWeb
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(12.0),
+                                  child: Image.network(boardGame.imgUrl))
+                              : Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 5.0, left: 5.0),
+                                  child: SvgPicture.asset(boardGame.imgUrl),
+                                )),
+                      Expanded(
+                          child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 20.0),
+                          child: Text(boardGame.name,
+                              style: Theme.of(context).textTheme.headline2),
+                        ),
+                      ))
+                    ],
+                  ),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 20.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    BlocBuilder<BoardGameBloc, BoardGameState>(
-                      builder: (context, state) {
-                        final boardGameList = state.boardGameList;
-                        if (boardGameList.contains(boardGame))
+                    ScaleTransition(
+                      scale: _controller
+                          .drive(CurveTween(curve: Interval(2 / 3, 1.0)))
+                          .drive(TweenSequence([
+                            TweenSequenceItem(
+                                tween: Tween(begin: 0.0, end: 1.3),
+                                weight: 0.7),
+                            TweenSequenceItem(
+                                tween: Tween(begin: 1.3, end: 1.0), weight: 0.3)
+                          ])),
+                      child: BlocBuilder<BoardGameBloc, BoardGameState>(
+                        builder: (context, state) {
+                          final boardGameList = state.boardGameList;
+                          if (boardGameList.contains(boardGame))
+                            return ColorButton(
+                              text: "Désinstaller",
+                              callback: () {
+                                context
+                                    .read<BoardGameBloc>()
+                                    .add(DeleteBoardGame(boardGame));
+                              },
+                              mini: true,
+                            );
                           return ColorButton(
-                            text: "Désinstaller",
+                            text: "Installer",
                             callback: () {
                               context
                                   .read<BoardGameBloc>()
-                                  .add(DeleteBoardGame(boardGame));
+                                  .add(AddBoardGame(boardGame));
                             },
                             mini: true,
                           );
-                        return ColorButton(
-                          text: "Installer",
-                          callback: () {
-                            context
-                                .read<BoardGameBloc>()
-                                .add(AddBoardGame(boardGame));
-                          },
-                          mini: true,
-                        );
-                      },
+                        },
+                      ),
                     ),
-                    WhiteButton(
-                      text: "S'abonner",
-                      callback: () {},
-                      mini: true,
+                    ScaleTransition(
+                      scale: _controller
+                          .drive(CurveTween(curve: Interval(2 / 3, 1.0)))
+                          .drive(TweenSequence([
+                            TweenSequenceItem(
+                                tween: Tween(begin: 0.0, end: 1.3),
+                                weight: 0.7),
+                            TweenSequenceItem(
+                                tween: Tween(begin: 1.3, end: 1.0), weight: 0.3)
+                          ])),
+                      child: WhiteButton(
+                        text: "S'abonner",
+                        callback: () {},
+                        mini: true,
+                      ),
                     )
                   ],
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 30.0),
-                child: GlassText(text: boardGame.description),
+                child: FadeTransition(
+                    opacity: _controller
+                        .drive(CurveTween(curve: Interval(1 / 3, 2 / 3))),
+                    child: GlassText(text: boardGame.description)),
               ),
               Expanded(
-                child: ScreenshotView(
-                  screenshots: boardGame.screenshots,
-                  pickImage: (builder, args) {},
+                child: FadeTransition(
+                  opacity: _controller
+                      .drive(CurveTween(curve: Interval(1 / 3, 2 / 3))),
+                  child: ScreenshotView(
+                    screenshots: boardGame.screenshots,
+                    pickImage: (builder, args) {},
+                  ),
                 ),
               )
             ],
