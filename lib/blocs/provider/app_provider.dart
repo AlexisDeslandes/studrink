@@ -19,6 +19,7 @@ class AppProvider extends StatelessWidget {
       BlocProvider<NavBloc>(create: (context) => NavBloc()),
       BlocProvider<DiceBloc>(create: (context) => DiceBloc()),
       BlocProvider<BoardGameBloc>(
+          lazy: false,
           create: (context) => BoardGameBloc(storage: LocalStorage())
             ..add(const InitBoardGame())),
       BlocProvider<CurrentGameBloc>(
@@ -26,6 +27,7 @@ class AppProvider extends StatelessWidget {
               navBloc: context.read<NavBloc>(),
               diceBloc: context.read<DiceBloc>())),
       BlocProvider<MarketPlaceBloc>(
+          lazy: false,
           create: (context) => MarketPlaceBloc()..add(const InitMarketPlace()))
     ], child: child);
   }

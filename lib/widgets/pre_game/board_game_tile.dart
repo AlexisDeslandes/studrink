@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -19,8 +20,9 @@ class BoardGameTile extends StatelessWidget {
           leading: imgUrl.contains("http")
               ? ClipRRect(
                   borderRadius: BorderRadius.circular(12.0),
-                  child: Image.network(
-                    boardGame.imgUrl,
+                  child: CachedNetworkImage(
+                    fadeInDuration: Duration.zero,
+                    imageUrl: boardGame.imgUrl,
                     width: 46.0,
                     height: 46.0,
                   ))

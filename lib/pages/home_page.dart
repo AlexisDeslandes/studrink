@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:ptit_godet/blocs/board_game/board_game_bloc.dart';
+import 'package:ptit_godet/blocs/market_place/market_place_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/pages/chose_game_page.dart';
 import 'package:ptit_godet/pages/market_page.dart';
@@ -8,6 +11,7 @@ import 'package:ptit_godet/pages/my_custom_page.dart';
 import 'package:ptit_godet/widgets/buttons/color_button.dart';
 import 'package:ptit_godet/widgets/buttons/white_button.dart';
 import 'package:ptit_godet/widgets/glass/glass_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class HomePage extends MyCustomPage {
   const HomePage()
@@ -51,18 +55,42 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       ),
                       ColorButton(
                           text: "Jouer",
-                          callback: () => _controller.reverse().then((_) =>
-                              context.read<NavBloc>().add(PushNav(
-                                  pageBuilder: (_) => const ChoseGamePage(),
-                                  onPop: () => _controller.forward())))),
+                          callback: () {
+                            final boardGameList = context
+                                .read<BoardGameBloc>()
+                                .state
+                                .boardGameList;
+                            boardGameList
+                                .where((element) =>
+                                    element.imgUrl.startsWith("http"))
+                                .forEach((element) => DefaultCacheManager()
+                                    .downloadFile(element.imgUrl));
+                            _controller.reverse().then((_) => context
+                                .read<NavBloc>()
+                                .add(PushNav(
+                                    pageBuilder: (_) => const ChoseGamePage(),
+                                    onPop: () => _controller.forward())));
+                          }),
                       Padding(
                         padding: EdgeInsets.only(top: 20.0),
                         child: WhiteButton(
                           text: "Market",
-                          callback: () => _controller.reverse().then((value) =>
-                              context.read<NavBloc>().add(PushNav(
-                                  pageBuilder: (_) => const MarketPage(),
-                                  onPop: () => _controller.forward()))),
+                          callback: () {
+                            final boardGameList = context
+                                .read<MarketPlaceBloc>()
+                                .state
+                                .boardGameList;
+                            boardGameList
+                                .where((element) =>
+                                    element.imgUrl.startsWith("http"))
+                                .forEach((element) => DefaultCacheManager()
+                                    .downloadFile(element.imgUrl));
+                            _controller.reverse().then((value) => context
+                                .read<NavBloc>()
+                                .add(PushNav(
+                                    pageBuilder: (_) => const MarketPage(),
+                                    onPop: () => _controller.forward())));
+                          },
                         ),
                       )
                     ],

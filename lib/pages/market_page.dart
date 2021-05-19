@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -214,7 +215,10 @@ class MarketGameTile extends StatelessWidget {
                     child: isImgFromWeb
                         ? ClipRRect(
                             borderRadius: BorderRadius.circular(12.0),
-                            child: Image.network(boardGame.imgUrl))
+                            child: CachedNetworkImage(
+                              imageUrl: boardGame.imgUrl,
+                              fadeInDuration: Duration.zero,
+                            ))
                         : Padding(
                             padding: const EdgeInsets.only(top: 5.0, left: 5.0),
                             child: SvgPicture.asset(boardGame.imgUrl),
