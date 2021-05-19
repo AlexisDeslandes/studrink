@@ -52,9 +52,11 @@ class ChoseGameScreenState extends BaseScreenState {
                 child: BoardGameTile(
                     boardGame: boardGameList[index],
                     onTap: () {
+                      final boardGame = boardGameList[index];
+                      boardGame.screenshots.forEach((element) => precacheImage(
+                          AssetImage("assets/screenshots/$element"), context));
                       context.read<CurrentGameBloc>()
-                        ..add(InitModelCurrentGame(
-                            boardGame: boardGameList[index]));
+                        ..add(InitModelCurrentGame(boardGame: boardGame));
                       controller.reverse().then((value) => context
                           .read<NavBloc>()
                           .add(PushNav(

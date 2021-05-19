@@ -11,7 +11,6 @@ import 'package:ptit_godet/pages/my_custom_page.dart';
 import 'package:ptit_godet/widgets/buttons/color_button.dart';
 import 'package:ptit_godet/widgets/buttons/white_button.dart';
 import 'package:ptit_godet/widgets/glass/glass_widget.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class HomePage extends MyCustomPage {
   const HomePage()

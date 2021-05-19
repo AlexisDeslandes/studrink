@@ -156,6 +156,11 @@ class MarketScreenState extends State<MarketScreen>
                                 final boardGame = boardGameListTreated[index];
                                 return MarketGameTile(
                                     onTap: (value) {
+                                      boardGame.screenshots.forEach((element) =>
+                                          precacheImage(
+                                              AssetImage(
+                                                  "assets/screenshots/$element"),
+                                              context));
                                       context
                                           .read<MarketPlaceBloc>()
                                           .add(ChoseBoardGame(boardGame));
