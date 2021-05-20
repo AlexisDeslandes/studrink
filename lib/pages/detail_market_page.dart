@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ptit_godet/blocs/board_game/board_game_bloc.dart';
+import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
 import 'package:ptit_godet/blocs/market_place/market_place_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
+import 'package:ptit_godet/pages/game_detail_page.dart';
 import 'package:ptit_godet/pages/my_custom_page.dart';
 import 'package:ptit_godet/widgets/buttons/color_button.dart';
 import 'package:ptit_godet/widgets/buttons/white_button.dart';
@@ -136,10 +138,29 @@ class DetailMarketScreenState extends State<DetailMarketScreen>
                             TweenSequenceItem(
                                 tween: Tween(begin: 1.3, end: 1.0), weight: 0.3)
                           ])),
-                      child: WhiteButton(
-                        text: "S'abonner",
-                        callback: () {},
-                        mini: true,
+                      child: BlocBuilder<BoardGameBloc, BoardGameState>(
+                        builder: (context, state) => WhiteButton(
+                          text: "Lancer",
+                          callback: state.boardGameList.contains(boardGame)
+                              ? () {
+                                  boardGame.screenshots.forEach((element) =>
+                                      precacheImage(
+                                          AssetImage(
+                                              "assets/screenshots/$element"),
+                                          context));
+                                  context.read<CurrentGameBloc>()
+                                    ..add(InitModelCurrentGame(
+                                        boardGame: boardGame));
+                                  _controller.reverse().then((value) => context
+                                      .read<NavBloc>()
+                                      .add(PushNav(
+                                          pageBuilder: (_) =>
+                                              const GameDetailPage(),
+                                          onPop: () => _controller.forward())));
+                                }
+                              : null,
+                          mini: true,
+                        ),
                       ),
                     )
                   ],

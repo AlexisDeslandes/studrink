@@ -6,7 +6,7 @@ class WhiteButton extends StatelessWidget {
       {Key? key, required this.text, required this.callback, this.mini = false})
       : super(key: key);
   final String text;
-  final VoidCallback callback;
+  final VoidCallback? callback;
   final bool mini;
 
   @override
@@ -41,7 +41,7 @@ class WhiteButton extends StatelessWidget {
       decoration: BoxDecoration(
           boxShadow: kElevationToShadow[4],
           borderRadius: BorderRadius.circular(ButtonConstants.buttonRadius),
-          color: Colors.white),
+          color: callback != null ? Colors.white : Colors.white70),
     );
   }
 }
