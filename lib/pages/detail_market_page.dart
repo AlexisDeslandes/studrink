@@ -158,7 +158,11 @@ class DetailMarketScreenState extends State<DetailMarketScreen>
                       .drive(CurveTween(curve: Interval(1 / 3, 2 / 3))),
                   child: ScreenshotView(
                     screenshots: boardGame.screenshots,
-                    pickImage: (builder, args) {},
+                    pickImage: (builder, args) => _controller.reverse().then(
+                        (value) => context.read<NavBloc>().add(PushNav(
+                            pageBuilder: builder,
+                            args: args,
+                            onPop: () => _controller.forward()))),
                   ),
                 ),
               )
