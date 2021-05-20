@@ -12,7 +12,7 @@ class AppTheme {
     final headline2 = TextStyle(
         color: Colors.black, fontWeight: FontWeight.bold, fontSize: 30);
     return lightTheme.copyWith(
-        scaffoldBackgroundColor: Color(0xffE2D5D4),
+        scaffoldBackgroundColor: Color(0xffe3c0c0),
         snackBarTheme: SnackBarThemeData(),
         floatingActionButtonTheme: FloatingActionButtonThemeData(
           backgroundColor: lightTheme.scaffoldBackgroundColor,

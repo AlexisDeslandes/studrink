@@ -11,7 +11,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>ptit_godet</string>
+	<string>Petit Godet</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -42,8 +42,8 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSPhotoLibraryUsageDescription</key>
-    <string>Players can add a picture to identify themselves with other players.</string>
-    <key>NSCameraUsageDescription</key>
-    <string>Players can add a picture to identify themselves with other players.</string>
+	<string>Players can add a picture to identify themselves with other players.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Players can add a picture to identify themselves with other players.</string>
 </dict>
 </plist>
