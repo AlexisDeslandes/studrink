@@ -77,6 +77,7 @@ class MarketScreenState extends State<MarketScreen>
                       radius: 12,
                       opacity: 0.5,
                       child: TextField(
+                        cursorColor: Color(0xffFF71585A),
                         textAlignVertical: TextAlignVertical.center,
                         autocorrect: false,
                         controller: _searchController,
@@ -93,9 +94,11 @@ class MarketScreenState extends State<MarketScreen>
                               ),
                             ),
                             hintText: "Rechercher",
-                            prefixIcon: Icon(Icons.search),
+                            prefixIcon:
+                                Icon(Icons.search, color: Color(0xffFF71585A)),
                             suffixIcon: IconButton(
-                              icon: Icon(Icons.clear),
+                              icon:
+                                  Icon(Icons.clear, color: Color(0xffFF71585A)),
                               onPressed: () {
                                 _searchController.clear();
                                 context
