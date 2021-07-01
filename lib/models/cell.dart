@@ -20,6 +20,13 @@ enum CellType {
   finish
 }
 
+extension CellTypeExtension on CellType {
+  String get value {
+    final content = this.toString().split('.').last;
+    return content[0] + content.substring(1, content.length);
+  }
+}
+
 class Cell extends Resource {
   Cell.nullable() : this(name: "", imgPath: "");
 

@@ -34,7 +34,12 @@ class _PlayerFieldState extends State<PlayerField> {
     return Theme(
       data: ThemeData(primaryColor: Colors.black),
       child: TextField(
-        decoration: InputDecoration(labelText: "Pseudo"),
+        cursorColor: Colors.black,
+        decoration: InputDecoration(
+            labelText: "Pseudo",
+            labelStyle: TextStyle(color: Colors.black),
+            focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Theme.of(context).primaryColor))),
         controller: _controller,
         onChanged: (value) => context
             .read<CurrentGameBloc>()
