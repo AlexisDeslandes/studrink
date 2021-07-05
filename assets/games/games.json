@@ -5,37 +5,15 @@
     "cells": [
       {
         "name": "Rentrée",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
-        "challenge": null,
-        "throwDiceEffect": null,
-        "imgPath": "",
-        "prisonCondition": null,
-        "moving": null,
         "sideEffectList": [
           "C'est la rentrée !"
         ],
         "sideEffectListAfterTurnLost": [],
-        "conditionKey": null,
-        "requiredConditionKey": null,
-        "cellType": 0,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 0
       },
       {
         "name": "Polypoint",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
-        "challenge": null,
-        "throwDiceEffect": null,
         "imgPath": "",
-        "prisonCondition": null,
         "moving": {
           "movingType": 0,
           "count": 2
@@ -46,115 +24,48 @@
           "id": 421700460,
           "name": "Polypoint"
         },
-        "requiredConditionKey": null,
-        "cellType": 2,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 2
       },
       {
         "name": "BressomLand",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
-        "challenge": null,
-        "throwDiceEffect": null,
         "imgPath": "",
-        "prisonCondition": null,
-        "moving": null,
         "sideEffectList": [
           "Ca part en cul sec."
         ],
         "sideEffectListAfterTurnLost": [],
-        "conditionKey": null,
-        "requiredConditionKey": null,
-        "cellType": 0,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 0
       },
       {
         "name": "Clausse",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
-        "challenge": null,
-        "throwDiceEffect": null,
         "imgPath": "",
-        "prisonCondition": null,
-        "moving": null,
         "sideEffectList": [
           "Tu bois."
         ],
         "sideEffectListAfterTurnLost": [],
-        "conditionKey": null,
-        "requiredConditionKey": null,
-        "cellType": 0,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 0
       },
       {
         "name": "WEC1",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
-        "challenge": null,
-        "throwDiceEffect": null,
         "imgPath": "",
-        "prisonCondition": null,
-        "moving": null,
         "sideEffectList": [
           "Tu bois"
         ],
         "sideEffectListAfterTurnLost": [
           "Tu bois"
         ],
-        "conditionKey": null,
-        "requiredConditionKey": null,
-        "cellType": 4,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 4
       },
       {
         "name": "Parking",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
-        "challenge": null,
-        "throwDiceEffect": null,
         "imgPath": "",
-        "prisonCondition": null,
-        "moving": null,
         "sideEffectList": [
           "Invente ta propre règle."
         ],
         "sideEffectListAfterTurnLost": [],
-        "conditionKey": null,
-        "requiredConditionKey": null,
-        "cellType": 0,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 0
       },
       {
         "name": "Partiel",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
-        "challenge": null,
-        "throwDiceEffect": null,
         "imgPath": "",
         "prisonCondition": {
           "dicePossibilities": [
@@ -162,121 +73,54 @@
             4
           ]
         },
-        "moving": null,
         "sideEffectList": [
           "Plus le droit de boire."
         ],
         "sideEffectListAfterTurnLost": [],
-        "conditionKey": null,
-        "requiredConditionKey": null,
-        "cellType": 5,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 5
       },
       {
         "name": "Balais-couille",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
-        "challenge": null,
         "throwDiceEffect": {
           "sideEffect": "Bois sa valeur."
         },
         "imgPath": "",
-        "prisonCondition": null,
-        "moving": null,
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
-        "conditionKey": null,
-        "requiredConditionKey": null,
-        "cellType": 6,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 6
       },
       {
         "name": "Polypoint",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
         "challenge": "Bois un cul sec.",
-        "throwDiceEffect": null,
         "imgPath": "",
-        "prisonCondition": null,
-        "moving": null,
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
         "conditionKey": {
           "id": 421700460,
           "name": "Polypoint"
         },
-        "requiredConditionKey": null,
-        "cellType": 7,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 7
       },
       {
-        "name": "Sodomie",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
+        "name": "Sodo***",
         "movingUndeterminedCount": 1,
-        "challenge": null,
-        "throwDiceEffect": null,
         "imgPath": "",
-        "prisonCondition": null,
-        "moving": null,
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
-        "conditionKey": null,
-        "requiredConditionKey": null,
-        "cellType": 8,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 8
       },
       {
         "name": "Depardieu",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
-        "challenge": null,
-        "throwDiceEffect": null,
         "imgPath": "",
-        "prisonCondition": null,
-        "moving": null,
         "sideEffectList": [
           "Tout le monde boit."
         ],
         "sideEffectListAfterTurnLost": [],
-        "conditionKey": null,
-        "requiredConditionKey": null,
-        "cellType": 0,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 0
       },
       {
         "name": "4a",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
-        "challenge": null,
-        "throwDiceEffect": null,
         "imgPath": "",
-        "prisonCondition": null,
-        "moving": null,
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
         "conditionKey": {
@@ -287,453 +131,199 @@
           "id": 421700460,
           "name": "Polypoint"
         },
-        "cellType": 1,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 1
       },
       {
         "name": "Otrak",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
-        "challenge": null,
-        "throwDiceEffect": null,
         "imgPath": "",
-        "prisonCondition": null,
-        "moving": null,
         "sideEffectList": [
           "Bois un cimetière."
         ],
         "sideEffectListAfterTurnLost": [],
-        "conditionKey": null,
-        "requiredConditionKey": null,
-        "cellType": 0,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 0
       },
       {
         "name": "Intégration BDSM",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
-        "challenge": null,
-        "throwDiceEffect": null,
         "imgPath": "",
-        "prisonCondition": null,
-        "moving": null,
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
         "conditionKey": {
           "id": 191154793,
           "name": "BDSM"
         },
-        "requiredConditionKey": null,
-        "cellType": 0,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 0
       },
       {
         "name": "Shi Fu Cuite",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
-        "challenge": null,
-        "throwDiceEffect": null,
         "imgPath": "",
-        "prisonCondition": null,
-        "moving": null,
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
         "conditionKey": {
           "id": 104737958,
           "name": "UE"
         },
-        "requiredConditionKey": null,
-        "cellType": 9,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 9
       },
       {
         "name": "Parking",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
-        "challenge": null,
-        "throwDiceEffect": null,
         "imgPath": "",
-        "prisonCondition": null,
         "moving": {
           "movingType": 0,
           "count": 1
         },
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
-        "conditionKey": null,
-        "requiredConditionKey": null,
-        "cellType": 3,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 3
       },
       {
         "name": "WEC2",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
-        "challenge": null,
-        "throwDiceEffect": null,
         "imgPath": "",
-        "prisonCondition": null,
-        "moving": null,
         "sideEffectList": [
           "Bois un cul sec.",
           "Embrasse le plus bourré."
         ],
         "sideEffectListAfterTurnLost": [],
-        "conditionKey": null,
-        "requiredConditionKey": null,
-        "cellType": 0,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 0
       },
       {
         "name": "Nazgûl",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
-        "challenge": null,
-        "throwDiceEffect": null,
         "imgPath": "",
-        "prisonCondition": null,
         "moving": {
           "movingType": 1,
           "count": 1
         },
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
-        "conditionKey": null,
-        "requiredConditionKey": null,
-        "cellType": 3,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 3
       },
       {
-        "name": "Juif",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
+        "name": "Picsou",
         "challenge": "Les autres te lancent un défis.",
-        "throwDiceEffect": null,
         "imgPath": "",
-        "prisonCondition": null,
-        "moving": null,
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
         "conditionKey": {
           "id": 104737958,
           "name": "UE"
         },
-        "requiredConditionKey": null,
-        "cellType": 7,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 7
       },
       {
         "name": "Ski",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
-        "challenge": null,
-        "throwDiceEffect": null,
         "imgPath": "",
-        "prisonCondition": null,
-        "moving": null,
         "sideEffectList": [
           "Bois 3 gorgées."
         ],
         "sideEffectListAfterTurnLost": [],
-        "conditionKey": null,
-        "requiredConditionKey": null,
-        "cellType": 0,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 0
       },
       {
         "name": "KO",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
-        "challenge": null,
-        "throwDiceEffect": null,
         "imgPath": "",
-        "prisonCondition": null,
-        "moving": null,
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
-        "conditionKey": null,
-        "requiredConditionKey": null,
-        "cellType": 4,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 4
       },
       {
-        "name": "FIST",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
-        "challenge": null,
-        "throwDiceEffect": null,
+        "name": "Fist",
         "imgPath": "",
-        "prisonCondition": null,
         "moving": {
           "movingType": 1,
           "count": 2
         },
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
-        "conditionKey": null,
-        "requiredConditionKey": null,
-        "cellType": 2,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 2
       },
       {
-        "name": "Noir",
-        "diceCondition": null,
-        "tpCell": null,
+        "name": "Triche",
         "conditionKeyStolen": {
           "id": 104737958,
           "name": "UE"
         },
-        "movingUndeterminedCount": null,
-        "challenge": null,
-        "throwDiceEffect": null,
         "imgPath": "",
-        "prisonCondition": null,
-        "moving": null,
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
-        "conditionKey": null,
-        "requiredConditionKey": null,
-        "cellType": 10,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 10
       },
       {
         "name": "5A",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
-        "challenge": null,
-        "throwDiceEffect": null,
         "imgPath": "",
-        "prisonCondition": null,
-        "moving": null,
         "sideEffectList": [
           "Tu bois"
         ],
         "sideEffectListAfterTurnLost": [],
-        "conditionKey": null,
         "requiredConditionKey": {
           "id": 104737958,
           "name": "UE"
         },
-        "cellType": 1,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 1
       },
       {
         "name": "BDSM",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
-        "challenge": null,
-        "throwDiceEffect": null,
         "imgPath": "",
-        "prisonCondition": null,
-        "moving": null,
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
         "conditionKey": {
           "id": 191154793,
           "name": "BDSM"
         },
-        "requiredConditionKey": null,
-        "cellType": 0,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 0
       },
       {
         "name": "WEC3",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
-        "challenge": null,
-        "throwDiceEffect": null,
         "imgPath": "",
-        "prisonCondition": null,
-        "moving": null,
         "sideEffectList": [
           "Donne 2 gorgées."
         ],
         "sideEffectListAfterTurnLost": [],
-        "conditionKey": null,
-        "requiredConditionKey": null,
-        "cellType": 0,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 0
       },
       {
         "name": "MNM'S",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
-        "challenge": null,
-        "throwDiceEffect": null,
         "imgPath": "",
-        "prisonCondition": null,
-        "moving": null,
         "sideEffectList": [
           "Désigne un joueur.",
           "Le joueur boit le nombre de gorgées et désigne un joueur qui les boit également."
         ],
         "sideEffectListAfterTurnLost": [],
-        "conditionKey": null,
-        "requiredConditionKey": null,
-        "cellType": 0,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 0
       },
       {
         "name": "QPUC Stage",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
         "challenge": "Un autre joueur te pose une question.",
-        "throwDiceEffect": null,
         "imgPath": "",
-        "prisonCondition": null,
-        "moving": null,
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
         "conditionKey": {
           "id": 572209877,
           "name": "Stage"
         },
-        "requiredConditionKey": null,
-        "cellType": 7,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 7
       },
       {
         "name": "ABEL",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
-        "challenge": null,
-        "throwDiceEffect": null,
         "imgPath": "",
-        "prisonCondition": null,
-        "moving": null,
         "sideEffectList": [
           "Bois 4 gorgées."
         ],
         "sideEffectListAfterTurnLost": [],
-        "conditionKey": null,
-        "requiredConditionKey": null,
-        "cellType": 0,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 0
       },
       {
         "name": "BDSM",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
-        "challenge": null,
-        "throwDiceEffect": null,
         "imgPath": "",
-        "prisonCondition": null,
-        "moving": null,
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
-        "conditionKey": null,
-        "requiredConditionKey": null,
         "cellType": 11,
         "ifCell": {
           "name": "",
-          "diceCondition": null,
-          "tpCell": null,
-          "conditionKeyStolen": null,
-          "movingUndeterminedCount": null,
-          "challenge": null,
-          "throwDiceEffect": null,
           "imgPath": "",
-          "prisonCondition": null,
-          "moving": null,
           "sideEffectList": [
             "Donne un cul sec"
           ],
           "sideEffectListAfterTurnLost": [],
-          "conditionKey": null,
-          "requiredConditionKey": null,
-          "cellType": 0,
-          "ifCell": null,
-          "conditionIf": null,
-          "elseCell": null,
-          "lostConditionKey": null
+          "cellType": 0
         },
         "conditionIf": {
           "id": 191154793,
@@ -741,14 +331,7 @@
         },
         "elseCell": {
           "name": "",
-          "diceCondition": null,
-          "tpCell": null,
-          "conditionKeyStolen": null,
-          "movingUndeterminedCount": null,
-          "challenge": null,
-          "throwDiceEffect": null,
           "imgPath": "",
-          "prisonCondition": null,
           "moving": {
             "movingType": 1,
             "count": 1
@@ -759,55 +342,27 @@
             "id": 191154793,
             "name": "BDSM"
           },
-          "requiredConditionKey": null,
           "cellType": 2,
-          "ifCell": null,
-          "conditionIf": null,
-          "elseCell": null,
           "lostConditionKey": {
             "id": 572209877,
             "name": "Stage"
           }
-        },
-        "lostConditionKey": null
+        }
       },
       {
         "name": "BEACH",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
-        "challenge": null,
-        "throwDiceEffect": null,
         "imgPath": "",
-        "prisonCondition": null,
-        "moving": null,
         "sideEffectList": [
-          "Prends un shot + sexe"
+          "Prends un shot"
         ],
         "sideEffectListAfterTurnLost": [],
-        "conditionKey": null,
-        "requiredConditionKey": null,
-        "cellType": 0,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 0
       },
       {
         "name": "Blackout",
-        "diceCondition": null,
         "tpCell": {
           "name": "4a",
-          "diceCondition": null,
-          "tpCell": null,
-          "conditionKeyStolen": null,
-          "movingUndeterminedCount": null,
-          "challenge": null,
-          "throwDiceEffect": null,
           "imgPath": "",
-          "prisonCondition": null,
-          "moving": null,
           "sideEffectList": [],
           "sideEffectListAfterTurnLost": [],
           "conditionKey": {
@@ -818,100 +373,45 @@
             "id": 421700460,
             "name": "Polypoint"
           },
-          "cellType": 1,
-          "ifCell": null,
-          "conditionIf": null,
-          "elseCell": null,
-          "lostConditionKey": null
+          "cellType": 1
         },
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
-        "challenge": null,
-        "throwDiceEffect": null,
         "imgPath": "",
-        "prisonCondition": null,
-        "moving": null,
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
-        "conditionKey": null,
-        "requiredConditionKey": null,
-        "cellType": 1,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 1
       },
       {
         "name": "Stage",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
-        "challenge": null,
-        "throwDiceEffect": null,
         "imgPath": "",
-        "prisonCondition": null,
-        "moving": null,
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
         "conditionKey": {
           "id": 572209877,
           "name": "Stage"
         },
-        "requiredConditionKey": null,
-        "cellType": 0,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 0
       },
       {
         "name": "Diplôme",
-        "diceCondition": null,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
-        "challenge": null,
-        "throwDiceEffect": null,
         "imgPath": "",
-        "prisonCondition": null,
-        "moving": null,
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
-        "conditionKey": null,
         "requiredConditionKey": {
           "id": 572209877,
           "name": "Stage"
         },
-        "cellType": 1,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 1
       },
       {
         "name": "Embauche",
         "diceCondition": 6,
-        "tpCell": null,
-        "conditionKeyStolen": null,
-        "movingUndeterminedCount": null,
-        "challenge": null,
-        "throwDiceEffect": null,
         "imgPath": "",
-        "prisonCondition": null,
-        "moving": null,
         "sideEffectList": [
           "Tu bois la différence.",
           "Tout le monde finira son verre pour fêter l'embauche."
         ],
         "sideEffectListAfterTurnLost": [],
-        "conditionKey": null,
-        "requiredConditionKey": null,
-        "cellType": 12,
-        "ifCell": null,
-        "conditionIf": null,
-        "elseCell": null,
-        "lostConditionKey": null
+        "cellType": 12
       }
     ],
     "description": "Une description assez incroyable puisque. Le jeu est tout de même conçu par des étudiants de Planisware et polytech.",
@@ -925,91 +425,6 @@
     "chips": [
       "Danger",
       "Shots"
-    ]
-  },
-  {
-    "name": "Hénéken",
-    "teaser": "Pour passer une petite soirée, entre amis tranquille. Ca sera le feu !",
-    "description": "Tu veux commencer P'tit godet en étant sûr de t'en sortir en un seul morceau ? Hénéken est sûrement le bon choix. Mais ne te plains pas de ne pas t'être assez amusé après !",
-    "imgUrl": "https://pbs.twimg.com/profile_images/2517626038/h8qq4gtkn20v6j9zl2lp_400x400.jpeg",
-    "cells": [],
-    "date": 1612209431,
-    "event": false,
-    "chips": [
-      "Bière",
-      "Facile"
-    ],
-    "screenshots": [
-      "screen1.png",
-      "screen2.png"
-    ]
-  },
-  {
-    "name": "Example",
-    "teaser": "Pour passer une petite soirée, entre amis tranquille. Ca sera le feu !",
-    "description": "Tu veux commencer P'tit godet en étant sûr de t'en sortir en un seul morceau ? Hénéken est sûrement le bon choix. Mais ne te plains pas de ne pas t'être assez amusé après !",
-    "imgUrl": "assets/icons/beer.svg",
-    "cells": [],
-    "date": 1612209431,
-    "event": false,
-    "chips": [
-      "Bière",
-      "Facile"
-    ],
-    "screenshots": [
-      "screen1.png",
-      "screen2.png"
-    ]
-  },
-  {
-    "name": "Test 2345",
-    "teaser": "Pour passer une petite soirée, entre amis tranquille. Ca sera le feu !",
-    "description": "Tu veux commencer P'tit godet en étant sûr de t'en sortir en un seul morceau ? Hénéken est sûrement le bon choix. Mais ne te plains pas de ne pas t'être assez amusé après !",
-    "imgUrl": "assets/icons/goose.svg",
-    "cells": [],
-    "date": 1612209431,
-    "event": false,
-    "chips": [
-      "Bière",
-      "Facile"
-    ],
-    "screenshots": [
-      "screen1.png",
-      "screen2.png"
-    ]
-  },
-  {
-    "name": "Prout",
-    "teaser": "Pour passer une petite soirée, entre amis tranquille. Ca sera le feu !",
-    "description": "Tu veux commencer P'tit godet en étant sûr de t'en sortir en un seul morceau ? Hénéken est sûrement le bon choix. Mais ne te plains pas de ne pas t'être assez amusé après !",
-    "imgUrl": "https://pbs.twimg.com/profile_images/2517626038/h8qq4gtkn20v6j9zl2lp_400x400.jpeg",
-    "cells": [],
-    "date": 1612209431,
-    "event": false,
-    "chips": [
-      "Bière",
-      "Facile"
-    ],
-    "screenshots": [
-      "screen1.png",
-      "screen2.png"
-    ]
-  },
-  {
-    "name": "Enfin fréro",
-    "teaser": "Pour passer une petite soirée, entre amis tranquille. Ca sera le feu !",
-    "description": "Tu veux commencer P'tit godet en étant sûr de t'en sortir en un seul morceau ? Hénéken est sûrement le bon choix. Mais ne te plains pas de ne pas t'être assez amusé après !",
-    "imgUrl": "assets/icons/beer.svg",
-    "cells": [],
-    "date": 1612209431,
-    "event": false,
-    "chips": [
-      "Bière",
-      "Facile"
-    ],
-    "screenshots": [
-      "screen1.png",
-      "screen2.png"
     ]
   }
 ]
