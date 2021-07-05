@@ -36,7 +36,7 @@ class _GameDetailScreenState extends BaseScreenState {
   String get title => _boardGame.name;
 
   @override
-  Duration get duration => Duration(milliseconds: 800);
+  Duration get duration => Duration(milliseconds: 1000);
 
   @override
   Widget body(BuildContext context) {
