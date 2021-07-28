@@ -65,7 +65,7 @@ class _ScreenshotViewState extends State<ScreenshotView> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   image: DecorationImage(
-                      fit: BoxFit.cover, image: AssetImage(pathToScreenshot)),
+                      fit: BoxFit.fill, image: AssetImage(pathToScreenshot)),
                   boxShadow: [
                     BoxShadow(
                         color: Colors.black87,

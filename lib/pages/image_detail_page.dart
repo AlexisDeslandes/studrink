@@ -40,23 +40,24 @@ class _ImageDetailScreenState extends State<ImageDetailScreen>
     return FadeTransition(
       opacity: controller,
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: BackButton(
-              onPressed: () => controller
-                  .reverse()
-                  .then((value) => context.read<NavBloc>().add(const PopNav())),
-              color: Colors.black),
-        ),
-        backgroundColor: Colors.transparent,
-        body: InteractiveViewer(
-            child: Center(
-                child: Hero(
-                    tag: widget.heroTag,
-                    child: Image.asset(widget.imgPath,
-                        width: MediaQuery.of(context).size.width * 0.7)))),
-      ),
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            leading: BackButton(
+                onPressed: () => controller.reverse().then(
+                    (value) => context.read<NavBloc>().add(const PopNav())),
+                color: Colors.black),
+          ),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          body: InteractiveViewer(
+              child: Center(
+                  child: Hero(
+                      tag: widget.heroTag,
+                      child: Material(
+                        elevation: 1,
+                        child: Image.asset(widget.imgPath,
+                            width: MediaQuery.of(context).size.width * 0.7),
+                      ))))),
     );
   }
 }

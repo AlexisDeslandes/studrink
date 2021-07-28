@@ -414,13 +414,15 @@
         "cellType": 12
       }
     ],
-    "description": "Une description assez incroyable puisque. Le jeu est tout de même conçu par des étudiants de Planisware et polytech.",
+    "description": "Le jeu de l'oie est le premier jeu arrivé sur Petit Godet. Rentre dans la peau d'un étudiant de Nice et participe aux événements des 3 meilleurs années de ta vie.",
     "imgUrl": "assets/icons/goose.svg",
     "date": 1619884520475,
     "event": false,
     "screenshots": [
       "screen1.png",
-      "screen2.png"
+      "screen2.png",
+      "screen3.png",
+      "screen4.png"
     ],
     "chips": [
       "Original",
