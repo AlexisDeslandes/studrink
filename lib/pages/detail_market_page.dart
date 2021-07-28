@@ -6,6 +6,7 @@ import 'package:ptit_godet/blocs/board_game/board_game_bloc.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
 import 'package:ptit_godet/blocs/market_place/market_place_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
+import 'package:ptit_godet/navigators/widgets/back_btn_wrapper.dart';
 import 'package:ptit_godet/pages/game_detail_page.dart';
 import 'package:ptit_godet/pages/my_custom_page.dart';
 import 'package:ptit_godet/widgets/buttons/color_button.dart';
@@ -28,7 +29,7 @@ class DetailMarketScreen extends StatefulWidget {
 }
 
 class DetailMarketScreenState extends State<DetailMarketScreen>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, BackBtnWrapper {
   late final _controller =
       AnimationController(vsync: this, duration: Duration(milliseconds: 900))
         ..forward();

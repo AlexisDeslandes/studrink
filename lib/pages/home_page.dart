@@ -5,6 +5,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:ptit_godet/blocs/board_game/board_game_bloc.dart';
 import 'package:ptit_godet/blocs/market_place/market_place_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
+import 'package:ptit_godet/navigators/widgets/back_btn_wrapper.dart';
 import 'package:ptit_godet/pages/chose_game_page.dart';
 import 'package:ptit_godet/pages/market_page.dart';
 import 'package:ptit_godet/pages/my_custom_page.dart';
@@ -24,7 +25,7 @@ class HomeScreen extends StatefulWidget {
   State<StatefulWidget> createState() => HomeScreenState();
 }
 
-class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, BackBtnWrapper {
   late final _controller =
       AnimationController(vsync: this, duration: Duration(milliseconds: 500))
         ..forward();

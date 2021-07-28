@@ -102,7 +102,7 @@
         "cellType": 7
       },
       {
-        "name": "Sodo***",
+        "name": "Seau d'eau mie",
         "movingUndeterminedCount": 1,
         "imgPath": "",
         "sideEffectList": [],
@@ -423,7 +423,7 @@
       "screen2.png"
     ],
     "chips": [
-      "Danger",
+      "Original",
       "Shots"
     ]
   }

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
+import 'package:ptit_godet/navigators/widgets/back_btn_wrapper.dart';
 import 'package:ptit_godet/pages/my_custom_page.dart';
 
 class ImageDetailPage extends MyCustomPage {
@@ -23,7 +24,7 @@ class ImageDetailScreen extends StatefulWidget {
 }
 
 class _ImageDetailScreenState extends State<ImageDetailScreen>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, BackBtnWrapper {
   late final AnimationController controller =
       AnimationController(vsync: this, duration: Duration(milliseconds: 600))
         ..forward();

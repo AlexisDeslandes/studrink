@@ -8,6 +8,7 @@ import 'package:ptit_godet/blocs/board_game/board_game_bloc.dart';
 import 'package:ptit_godet/blocs/market_place/market_place_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/models/board_game.dart';
+import 'package:ptit_godet/navigators/widgets/back_btn_wrapper.dart';
 import 'package:ptit_godet/pages/detail_market_page.dart';
 import 'package:ptit_godet/pages/my_custom_page.dart';
 import 'package:ptit_godet/widgets/glass/glass_widget.dart';
@@ -29,7 +30,7 @@ class MarketScreen extends StatefulWidget {
 }
 
 class MarketScreenState extends State<MarketScreen>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, BackBtnWrapper {
   late final TextEditingController _searchController = TextEditingController(
       text: context.read<MarketPlaceBloc>().state.searchWord);
   late final _controller =
