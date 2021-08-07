@@ -121,10 +121,12 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
         idCurrentCell = currentPlayer!.idCurrentCell,
         idNextCell = _getNextCell(idCurrentCell, diceValue, force),
         trueThrowDice = idNextCell - idCurrentCell;
-    var nextCell = state.boardGame!.cells[idNextCell];
-    diceBloc.add((nextCell.cellType == CellType.prison || trueThrowDice == 0)
-        ? ShowDice(diceValue)
-        : ShowDice(trueThrowDice));
+    var nextCell = state.boardGame!.cells[idNextCell],
+        shownDiceValue =
+            nextCell.cellType == CellType.prison || trueThrowDice == 0
+                ? diceValue
+                : trueThrowDice;
+    diceBloc.add(ShowDice(shownDiceValue));
     final ifElseMode = nextCell.cellType == CellType.ifElse
         ? state.currentPlayer!.conditionKeyList.contains(nextCell.conditionIf)
             ? IfElseMode.ifMode
@@ -151,7 +153,8 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
             ifElseMode: ifElseMode,
             idCurrentCell: idNextCell,
             state: nextPlayerState,
-            conditionKeyList: conditionKeyList);
+            conditionKeyList: conditionKeyList,
+            lastDiceValue: shownDiceValue);
       }
       return player;
     }).toList();

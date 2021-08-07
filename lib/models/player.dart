@@ -38,17 +38,18 @@ class Player extends Resource implements Comparable<Player> {
   final PlayerState state;
   final List<ConditionKey> conditionKeyList;
   final IfElseMode ifElseMode;
+  final int lastDiceValue;
 
-  const Player({
-    required this.id,
-    required this.color,
-    this.conditionKeyList = const [],
-    this.idCurrentCell = 0,
-    this.name = "",
-    this.ifElseMode = IfElseMode.none,
-    this.state = PlayerState.ready,
-    this.avatar,
-  });
+  const Player(
+      {required this.id,
+      required this.color,
+      this.conditionKeyList = const [],
+      this.idCurrentCell = 0,
+      this.lastDiceValue = 0,
+      this.name = "",
+      this.ifElseMode = IfElseMode.none,
+      this.state = PlayerState.ready,
+      this.avatar});
 
   Player.fromGenerator()
       : this(color: RandomColor().randomColor(), id: idGenerator++);
@@ -96,7 +97,8 @@ class Player extends Resource implements Comparable<Player> {
   }
 
   @override
-  List<Object?> get props => [name, avatar, idCurrentCell, state, ifElseMode];
+  List<Object?> get props =>
+      [name, avatar, idCurrentCell, state, ifElseMode, lastDiceValue];
 
   Player.copy(Player player,
       {String? name,
@@ -104,7 +106,8 @@ class Player extends Resource implements Comparable<Player> {
       int? idCurrentCell,
       PlayerState? state,
       List<ConditionKey>? conditionKeyList,
-      IfElseMode? ifElseMode})
+      IfElseMode? ifElseMode,
+      int? lastDiceValue})
       : this(
             id: player.id,
             color: player.color,
@@ -113,7 +116,8 @@ class Player extends Resource implements Comparable<Player> {
             state: state ?? player.state,
             conditionKeyList: conditionKeyList ?? player.conditionKeyList,
             avatar: avatar ?? player.avatar,
-            idCurrentCell: idCurrentCell ?? player.idCurrentCell);
+            idCurrentCell: idCurrentCell ?? player.idCurrentCell,
+            lastDiceValue: lastDiceValue ?? player.lastDiceValue);
 
   @override
   String toString() {

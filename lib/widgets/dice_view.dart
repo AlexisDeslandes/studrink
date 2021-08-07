@@ -10,12 +10,15 @@ class DiceView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: BlocBuilder<DiceBloc, DiceState>(builder: (context, state) {
-        final diceValue = state.diceValue;
-        if (diceValue > 0)
-          return SvgPicture.asset("assets/icons/dice_$diceValue.svg");
-        return const SizedBox();
-      }),
+      child: BlocBuilder<DiceBloc, DiceState>(
+          builder: (context, state) {
+            final diceValue = state.diceValue;
+            if (diceValue > 0)
+              return SvgPicture.asset("assets/icons/dice_$diceValue.svg");
+            return const SizedBox();
+          },
+          buildWhen: (previous, current) =>
+              previous.diceValue != current.diceValue),
     );
   }
 }
