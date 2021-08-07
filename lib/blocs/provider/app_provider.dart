@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:ptit_godet/blocs/board_game/board_game_bloc.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
 import 'package:ptit_godet/blocs/dice/dice_bloc.dart';
+import 'package:ptit_godet/blocs/focused_cell_bloc/focused_cell_bloc.dart';
+import 'package:ptit_godet/blocs/game_page_view_bloc/game_page_view_bloc.dart';
 import 'package:ptit_godet/blocs/market_place/market_place_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/storage/local_storage.dart';
@@ -28,7 +30,14 @@ class AppProvider extends StatelessWidget {
               diceBloc: context.read<DiceBloc>())),
       BlocProvider<MarketPlaceBloc>(
           lazy: false,
-          create: (context) => MarketPlaceBloc()..add(const InitMarketPlace()))
+          create: (context) => MarketPlaceBloc()..add(const InitMarketPlace())),
+      BlocProvider(create: (context) => FocusedCellBloc()),
+      BlocProvider(create: (context) {
+        return GamePageViewBloc(
+            pageController: PageController(),
+            focusedCellBloc: context.read<FocusedCellBloc>(),
+            currentGameBloc: context.read<CurrentGameBloc>());
+      }),
     ], child: child);
   }
 }

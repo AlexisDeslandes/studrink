@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
+import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/models/player.dart';
+import 'package:ptit_godet/pages/recap_game_page.dart';
 import 'package:ptit_godet/widgets/player_area/player_challenge_area.dart';
 import 'package:ptit_godet/widgets/player_area/player_chose_direction_area.dart';
 import 'package:ptit_godet/widgets/player_area/player_chose_player_won_area.dart';
@@ -12,26 +14,62 @@ import 'package:ptit_godet/widgets/player_area/player_ready_area.dart';
 import 'package:ptit_godet/widgets/player_area/player_return_previous_checkpoint_area.dart';
 
 class PlayArea extends StatelessWidget {
-  const PlayArea({Key? key}) : super(key: key);
+  const PlayArea({Key? key, required this.animationController})
+      : super(key: key);
+
+  final AnimationController animationController;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: Container(
-        height: 70.0,
-        child: BlocBuilder<CurrentGameBloc, CurrentGameState>(
-            buildWhen: (previous, current) =>
-                (previous.currentPlayer != current.currentPlayer) ||
-                (previous.currentPlayer?.state != current.currentPlayer?.state),
-            builder: (context, state) => AnimatedSwitcher(
-                  duration: Duration(milliseconds: 500),
-                  child: Container(
-                      key: ValueKey(state.currentPlayer), child: _getArea(state)),
-                )),
-      ),
-    );
+        padding: const EdgeInsets.only(bottom: 8.0),
+        child: Container(
+            height: 70.0,
+            child: Stack(children: [
+              BlocBuilder<CurrentGameBloc, CurrentGameState>(
+                  buildWhen: (previous, current) =>
+                      (previous.currentPlayer != current.currentPlayer) ||
+                      (previous.currentPlayer?.state !=
+                          current.currentPlayer?.state),
+                  builder: (context, state) => AnimatedSwitcher(
+                        duration: Duration(milliseconds: 500),
+                        child: Container(
+                            key: ValueKey(state.currentPlayer),
+                            child: _getArea(state)),
+                      )),
+              Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: FloatingActionButton(
+                          mini: true,
+                          heroTag: "recap",
+                          child: Container(
+                              width: 56,
+                              height: 56,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100.0),
+                                  gradient: LinearGradient(
+                                      colors: [
+                                        Theme.of(context).accentColor,
+                                        Theme.of(context).primaryColor
+                                      ],
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter)),
+                              child:
+                                  Icon(Icons.not_listed_location_rounded, color: Colors.white)),
+                          onPressed: () {
+                            animationController
+                                .reverse()
+                                .then((value) => _navToRecap(context));
+                          })))
+            ])));
   }
+
+  void _navToRecap(BuildContext context) => context.read<NavBloc>().add(PushNav(
+        pageBuilder: (_) => const RecapGamePage(),
+        onPop: () => animationController.forward(),
+      ));
 
   Widget _getArea(CurrentGameState state) {
     final currentPlayer = state.currentPlayer,

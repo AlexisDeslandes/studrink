@@ -34,6 +34,7 @@ class _PlayerFieldState extends State<PlayerField> {
     return Theme(
       data: ThemeData(primaryColor: Colors.black),
       child: TextField(
+        textCapitalization: TextCapitalization.words,
         cursorColor: Colors.black,
         decoration: InputDecoration(
             labelText: "Pseudo",

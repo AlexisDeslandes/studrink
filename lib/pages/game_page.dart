@@ -6,7 +6,6 @@ import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/models/moving.dart';
 import 'package:ptit_godet/models/player.dart';
 import 'package:ptit_godet/navigators/widgets/back_btn_wrapper.dart';
-import 'package:ptit_godet/pages/game_page_provider.dart';
 import 'package:ptit_godet/pages/my_custom_page.dart';
 import 'package:ptit_godet/widgets/bottom_sheet/app_bottom_sheet.dart';
 import 'package:ptit_godet/widgets/bottom_sheet/chose_opponent_list_view.dart';
@@ -21,7 +20,7 @@ import 'package:ptit_godet/widgets/selected_player_card.dart';
 class GamePage extends MyCustomPage {
   const GamePage()
       : super(
-            child: const GamePageProvider(child: const GameScreen()),
+            child: const GameScreen(),
             key: const ValueKey<String>("/game"));
 }
 
@@ -32,7 +31,8 @@ class GameScreen extends StatefulWidget {
   _GameScreenState createState() => _GameScreenState();
 }
 
-class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin, BackBtnWrapper {
+class _GameScreenState extends State<GameScreen>
+    with TickerProviderStateMixin, BackBtnWrapper {
   late final _controller =
       AnimationController(vsync: this, duration: Duration(milliseconds: 900))
         ..forward();
@@ -117,7 +117,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin, 
                               .drive(CurveTween(curve: Interval(1 / 3, 2 / 3))),
                         )),
                     ScaleTransition(
-                      child: const PlayArea(),
+                      child: PlayArea(animationController: _controller),
                       scale: _controller
                           .drive(CurveTween(
                               curve: Interval(

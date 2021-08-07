@@ -6,7 +6,7 @@ import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/widgets/base_screen.dart';
 import 'package:ptit_godet/widgets/buttons/color_button.dart';
 import 'package:ptit_godet/widgets/glass/glass_widget.dart';
-import 'package:ptit_godet/widgets/player_avatar.dart';
+import 'package:ptit_godet/widgets/recap_player_list_tile.dart';
 
 class FinishGamePage extends CupertinoPage {
   const FinishGamePage()
@@ -55,35 +55,12 @@ class FinishGameScreenState extends BaseScreenState {
                       itemBuilder: (context, index) {
                         final player = playerListInWinOrder[index];
                         return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 30.0, vertical: 5.0),
-                          child: GlassWidget(
-                            radius: 18,
-                            child: ListTile(
-                              leading: PlayerAvatar(player: player),
-                              title: Text(
-                                player.name,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1!
-                                    .copyWith(
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.w400),
-                              ),
-                              subtitle: Text(
-                                "Cellule n°${player.idCurrentCell + 1}",
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w400),
-                              ),
-                              trailing: Text(
-                                  "${index + 1}${index == 0 ? "er" : "è"}",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline2!
-                                      .copyWith(fontSize: 24)),
-                            ),
-                          ),
-                        );
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 30.0, vertical: 5.0),
+                            child: GlassWidget(
+                                radius: 18,
+                                child: RecapPlayerListTile(
+                                    player: player, index: index)));
                       },
                       itemCount: state.playerList.length),
                 ),
