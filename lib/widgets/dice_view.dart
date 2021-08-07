@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ptit_godet/blocs/dice/dice_bloc.dart';
 
 class DiceView extends StatelessWidget {
@@ -11,11 +12,9 @@ class DiceView extends StatelessWidget {
     return Center(
       child: BlocBuilder<DiceBloc, DiceState>(builder: (context, state) {
         final diceValue = state.diceValue;
-        if (diceValue > 0) {
-          return Text(state.diceValue.toString(),
-              style: Theme.of(context).textTheme.headline1);
-        }
-        return Container();
+        if (diceValue > 0)
+          return SvgPicture.asset("assets/icons/dice_$diceValue.svg");
+        return const SizedBox();
       }),
     );
   }

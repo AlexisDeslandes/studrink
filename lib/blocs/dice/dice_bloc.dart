@@ -16,6 +16,7 @@ class DiceBloc extends Bloc<ShowDice, DiceState> {
 
 class DiceState extends Equatable {
   final int diceValue;
+  //todo lastDiceValue
 
   DiceState(this.diceValue);
 
