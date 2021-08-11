@@ -51,8 +51,8 @@ class DefaultBoardGames {
             Cell(
                 name: "Partiel",
                 imgPath: "",
-                cellType: CellType.prison,
-                prisonCondition: PrisonCondition([3, 4]),
+                cellType: CellType.jail,
+                jailCondition: PrisonCondition([3, 4]),
                 sideEffectList: ["Plus le droit de boire."]),
             Cell(
                 name: "Balais-couille",

@@ -40,6 +40,7 @@ class Player extends Resource implements Comparable<Player> {
   final List<ConditionKey> conditionKeyList;
   final IfElseMode ifElseMode;
   final int lastDiceValue;
+  final int jailTurnCount;
 
   const Player(
       {required this.id,
@@ -47,6 +48,7 @@ class Player extends Resource implements Comparable<Player> {
       this.conditionKeyList = const [],
       this.idCurrentCell = 0,
       this.lastDiceValue = 0,
+      this.jailTurnCount = 0,
       this.name = "",
       this.ifElseMode = IfElseMode.none,
       this.state = PlayerState.ready,
@@ -108,7 +110,8 @@ class Player extends Resource implements Comparable<Player> {
       PlayerState? state,
       List<ConditionKey>? conditionKeyList,
       IfElseMode? ifElseMode,
-      int? lastDiceValue})
+      int? lastDiceValue,
+      int? jailTurnCount})
       : this(
             id: player.id,
             color: player.color,
@@ -118,7 +121,8 @@ class Player extends Resource implements Comparable<Player> {
             conditionKeyList: conditionKeyList ?? player.conditionKeyList,
             avatar: avatar ?? player.avatar,
             idCurrentCell: idCurrentCell ?? player.idCurrentCell,
-            lastDiceValue: lastDiceValue ?? player.lastDiceValue);
+            lastDiceValue: lastDiceValue ?? player.lastDiceValue,
+            jailTurnCount: jailTurnCount ?? player.jailTurnCount);
 
   @override
   String toString() {
@@ -129,6 +133,7 @@ class Player extends Resource implements Comparable<Player> {
   int compareTo(Player other) {
     final idCellComparison = other.idCurrentCell.compareTo(this.idCurrentCell);
     if (idCellComparison != 0) return idCellComparison;
-    return other.conditionKeyList.length.compareTo(this.conditionKeyList.length);
+    return other.conditionKeyList.length
+        .compareTo(this.conditionKeyList.length);
   }
 }

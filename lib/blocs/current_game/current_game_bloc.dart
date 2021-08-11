@@ -128,7 +128,7 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
         trueThrowDice = idNextCell - idCurrentCell;
     var nextCell = state.boardGame!.cells[idNextCell],
         shownDiceValue =
-            nextCell.cellType == CellType.prison || trueThrowDice == 0
+            nextCell.cellType == CellType.jail || trueThrowDice == 0
                 ? diceValue
                 : trueThrowDice;
     diceBloc.add(ShowDice(shownDiceValue));
@@ -154,7 +154,11 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
 
     final playerList = state.playerList.map((player) {
       if (player == currentPlayer) {
+        final actualCell = state.actualCell,
+            inPrison = actualCell!.cellType == CellType.jail;
         return Player.copy(player,
+            jailTurnCount:
+                inPrison && trueThrowDice == 0 ? player.jailTurnCount + 1 : 0,
             ifElseMode: ifElseMode,
             idCurrentCell: idNextCell,
             state: nextPlayerState,
@@ -247,13 +251,14 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
       return idCurrentCell;
     }
     final actualCell = state.actualCell,
-        inPrison = actualCell!.cellType == CellType.prison;
+        inPrison = actualCell!.cellType == CellType.jail,
+        currentPlayer = state.currentPlayer!;
     if ((inPrison &&
-            !actualCell.prisonCondition!.dicePossibilities
-                .contains(diceValue)) ||
-        (state.currentPlayer!.state != PlayerState.ready &&
+            !actualCell.jailCondition!.dicePossibilities.contains(diceValue) &&
+            currentPlayer.jailTurnCount < 3) ||
+        (currentPlayer.state != PlayerState.ready &&
             actualCell.cellType == CellType.selfThrowDice &&
-            state.currentPlayer!.state != PlayerState.thrownDice)) {
+            currentPlayer.state != PlayerState.thrownDice)) {
       return idCurrentCell;
     }
     for (var i = idCurrentCell + 1; i < idCurrentCell + diceValue; i++) {

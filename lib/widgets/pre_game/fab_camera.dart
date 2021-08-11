@@ -53,7 +53,7 @@ class FabCamera extends StatelessWidget {
 
   void _takePicture(BuildContext context) async {
     final picker = ImagePicker(),
-        pickedFile = await picker.getImage(
+        pickedFile = await picker.pickImage(
             source: ImageSource.camera,
             preferredCameraDevice: CameraDevice.front);
     if (pickedFile != null) {

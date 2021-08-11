@@ -57,6 +57,8 @@ class _GameScreenState extends State<GameScreen>
       body: SafeArea(
         child: Stack(
           children: [
+            //todo Add a blocListener to display snackBar on new conditionKey
+            //todo currentUser should be equals on previous and current but condition Key differ
             BlocListener<CurrentGameBloc, CurrentGameState>(
               listenWhen: (previous, current) =>
                   previous.currentPlayer?.state != current.currentPlayer?.state,

@@ -11,7 +11,7 @@ enum CellType {
   selfMoving,
   otherMoving,
   turnLose,
-  prison,
+  jail,
   selfThrowDice,
   selfChallenge,
   selfMovingPlayerChose,
@@ -39,7 +39,7 @@ class Cell extends Resource {
   final ConditionKey? givenConditionKey;
   final ConditionKey? requiredConditionKey;
   final ConditionKey? conditionKeyStolen;
-  final PrisonCondition? prisonCondition;
+  final PrisonCondition? jailCondition;
   final Moving? moving;
   final ThrowDiceEffect? throwDiceEffect;
   final String? challenge;
@@ -56,7 +56,7 @@ class Cell extends Resource {
       required this.imgPath,
       this.movingUndeterminedCount,
       this.givenConditionKey,
-      this.prisonCondition,
+      this.jailCondition,
       this.throwDiceEffect,
       this.moving,
       this.requiredConditionKey,
@@ -83,7 +83,7 @@ class Cell extends Resource {
       "challenge": challenge,
       "throwDiceEffect": throwDiceEffect?.toJson(),
       "imgPath": imgPath,
-      "prisonCondition": prisonCondition?.toJson(),
+      "prisonCondition": jailCondition?.toJson(),
       "moving": moving?.toJson(),
       "sideEffectList": sideEffectList,
       "sideEffectListAfterTurnLost": sideEffectListAfterTurnLost,
@@ -107,7 +107,7 @@ class Cell extends Resource {
         movingUndeterminedCount,
         throwDiceEffect,
         sideEffectList,
-        prisonCondition,
+        jailCondition,
         sideEffectListAfterTurnLost,
         moving,
         givenConditionKey,
@@ -128,7 +128,7 @@ class Cell extends Resource {
             throwDiceEffect: map["throwDiceEffect"] != null
                 ? ThrowDiceEffect.fromJson(map["throwDiceEffect"])
                 : null,
-            prisonCondition: map["prisonCondition"] != null
+            jailCondition: map["prisonCondition"] != null
                 ? PrisonCondition.fromJson(map["prisonCondition"])
                 : null,
             moving:
@@ -200,8 +200,8 @@ class Cell extends Resource {
       cellType == CellType.turnLose ? "Passe ton prochain tour.\n" : "";
 
   String get prisonLabel {
-    if (cellType == CellType.prison) {
-      return "Fait ${prisonCondition!.dicePossibilitiesLabel} pour sortir.\n";
+    if (cellType == CellType.jail) {
+      return "Fait ${jailCondition!.dicePossibilitiesLabel} pour sortir.\nMax 3 tour de détention.\n";
     }
     return "";
   }
