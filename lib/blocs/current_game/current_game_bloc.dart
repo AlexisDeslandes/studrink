@@ -701,8 +701,15 @@ class CurrentGameState extends Equatable {
     return 'CurrentGameState{boardGame: $boardGame, playerList: $playerList, indexCurrentPlayer: $indexCurrentPlayer, indexNextPlayer: $indexNextPlayer, currentOpponent: $currentOpponent, winner: $winner}';
   }
 
+  ///
+  /// Give the next conditionKey or the ifConditionKey if [idCurrentCell]
+  /// is exactly at a ifElse cell.
+  ///
   ConditionKey? nextConditionKey(int idCurrentCell) {
-    final cell = boardGame!.cells.sublist(idCurrentCell).firstWhere(
+    final cells = boardGame!.cells;
+    var cell = cells[idCurrentCell];
+    if (cell.cellType == CellType.ifElse) return cell.conditionIf;
+    cell = cells.sublist(idCurrentCell).firstWhere(
         (element) => element.requiredConditionKey != null,
         orElse: () => Cell.nullable());
     if (cell != Cell.nullable()) return cell.requiredConditionKey!;

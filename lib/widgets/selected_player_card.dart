@@ -17,13 +17,12 @@ class SelectedPlayerCard extends StatelessWidget {
               previous.selectedPlayer != current.selectedPlayer,
           builder: (context, state) {
             final selectedPlayer = state.selectedPlayer;
-            if (selectedPlayer == null) {
-              return const SizedBox();
-            }
-            final nextConditionKey = context
-                .read<CurrentGameBloc>()
-                .state
-                .nextConditionKey(selectedPlayer.idCurrentCell);
+            if (selectedPlayer == null) return const SizedBox();
+            final idCurrentCell = selectedPlayer.idCurrentCell,
+                nextConditionKey = context
+                    .read<CurrentGameBloc>()
+                    .state
+                    .nextConditionKey(idCurrentCell);
             var subTitle;
             if (nextConditionKey != null) {
               final conditionCount = selectedPlayer.conditionKeyList
