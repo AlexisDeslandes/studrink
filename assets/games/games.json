@@ -282,12 +282,12 @@
       {
         "name": "MNM'S",
         "imgPath": "",
-        "sideEffectList": [
-          "Désigne un joueur.",
-          "Le joueur boit le nombre de gorgées et désigne un joueur qui les boit également."
-        ],
+        "throwDiceEffect": {
+          "sideEffect": "Désigne un joueur. Le joueur boit le nombre de gorgées et désigne un joueur qui les boit également."
+        },
+        "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
-        "cellType": 0
+        "cellType": 6
       },
       {
         "name": "QPUC Stage",
