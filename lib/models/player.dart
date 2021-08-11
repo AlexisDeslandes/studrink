@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:ptit_godet/models/condition_key.dart';
 import 'package:ptit_godet/models/resource.dart';
+
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:random_color/random_color.dart';
 
@@ -126,6 +127,8 @@ class Player extends Resource implements Comparable<Player> {
 
   @override
   int compareTo(Player other) {
-    return other.idCurrentCell.compareTo(this.idCurrentCell);
+    final idCellComparison = other.idCurrentCell.compareTo(this.idCurrentCell);
+    if (idCellComparison != 0) return idCellComparison;
+    return other.conditionKeyList.length.compareTo(this.conditionKeyList.length);
   }
 }
