@@ -656,14 +656,7 @@ class CurrentGameState extends Equatable {
     return null;
   }
 
-  Cell? get actualCell {
-    final ifElseMode = currentPlayer!.ifElseMode;
-    return ifElseMode == IfElseMode.ifMode
-        ? currentCell!.ifCell
-        : ifElseMode == IfElseMode.elseMode
-            ? currentCell!.elseCell
-            : currentCell;
-  }
+  Cell? get actualCell => currentCell!.actualCell(currentPlayer!.ifElseMode);
 
   get nextIndexPlayer {
     if (indexNextPlayer != null) {

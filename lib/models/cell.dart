@@ -1,5 +1,6 @@
 import 'package:ptit_godet/models/condition_key.dart';
 import 'package:ptit_godet/models/moving.dart';
+import 'package:ptit_godet/models/player.dart';
 import 'package:ptit_godet/models/prison_condition.dart';
 import 'package:ptit_godet/models/resource.dart';
 import 'package:ptit_godet/models/throw_dice_effect.dart';
@@ -278,7 +279,6 @@ class Cell extends Resource {
         conditionKeyLostLabel +
         stealConditionKey +
         battleLabel +
-        givenCondition +
         selfMovingLabel +
         otherMovingLabel +
         sideEffectsLabel +
@@ -286,6 +286,7 @@ class Cell extends Resource {
         prisonLabel +
         selfThrowDiceLabel +
         conditionKeyNeeded +
+        givenCondition +
         turnLost +
         sideEffectsLabelAfterTurnLost;
     if (toReturn.endsWith("\n\n")) {
@@ -294,5 +295,13 @@ class Cell extends Resource {
       return toReturn.substring(0, toReturn.length - 2);
     }
     return toReturn;
+  }
+
+  Cell? actualCell(IfElseMode ifElseMode) {
+    return ifElseMode == IfElseMode.ifMode
+        ? this.ifCell
+        : ifElseMode == IfElseMode.elseMode
+            ? this.elseCell
+            : this;
   }
 }
