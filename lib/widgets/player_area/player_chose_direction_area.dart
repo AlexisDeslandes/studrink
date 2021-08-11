@@ -9,26 +9,29 @@ class PlayerChoseDirectionArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          ColorButton(
-            text: "Avancer",
-            mini: true,
-            callback: () {
-              context.read<CurrentGameBloc>().add(const MovingForward());
-            },
-          ),
-          WhiteButton(
-            text: "Reculer",
-            mini: true,
-            callback: () {
-              context.read<CurrentGameBloc>().add(const MoveBack());
-            },
-          )
-        ],
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8.0),
+        child: Wrap(
+          spacing: 8.0,
+          children: [
+            ColorButton(
+              text: "Avancer",
+              mini: true,
+              callback: () {
+                context.read<CurrentGameBloc>().add(const MovingForward());
+              },
+            ),
+            WhiteButton(
+              text: "Reculer",
+              mini: true,
+              callback: () {
+                context.read<CurrentGameBloc>().add(const MoveBack());
+              },
+            )
+          ],
+        ),
       ),
     );
   }

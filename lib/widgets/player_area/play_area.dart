@@ -26,17 +26,19 @@ class PlayArea extends StatelessWidget {
         child: Container(
             height: 70.0,
             child: Stack(children: [
-              BlocBuilder<CurrentGameBloc, CurrentGameState>(
-                  buildWhen: (previous, current) =>
-                      (previous.currentPlayer != current.currentPlayer) ||
-                      (previous.currentPlayer?.state !=
-                          current.currentPlayer?.state),
-                  builder: (context, state) => AnimatedSwitcher(
-                        duration: Duration(milliseconds: 500),
-                        child: Container(
-                            key: ValueKey(state.currentPlayer),
-                            child: _getArea(state)),
-                      )),
+              Center(
+                child: BlocBuilder<CurrentGameBloc, CurrentGameState>(
+                    buildWhen: (previous, current) =>
+                        (previous.currentPlayer != current.currentPlayer) ||
+                        (previous.currentPlayer?.state !=
+                            current.currentPlayer?.state),
+                    builder: (context, state) => AnimatedSwitcher(
+                          duration: Duration(milliseconds: 500),
+                          child: Container(
+                              key: ValueKey(state.currentPlayer),
+                              child: _getArea(state)),
+                        )),
+              ),
               Align(
                   alignment: Alignment.centerRight,
                   child: Padding(
@@ -56,8 +58,8 @@ class PlayArea extends StatelessWidget {
                                       ],
                                       begin: Alignment.topCenter,
                                       end: Alignment.bottomCenter)),
-                              child:
-                                  Icon(Icons.not_listed_location_rounded, color: Colors.white)),
+                              child: Icon(Icons.not_listed_location_rounded,
+                                  color: Colors.white)),
                           onPressed: () {
                             animationController
                                 .reverse()

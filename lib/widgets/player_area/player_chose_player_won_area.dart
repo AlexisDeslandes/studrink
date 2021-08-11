@@ -25,20 +25,22 @@ class PlayerChosePlayerWonArea extends StatelessWidget {
         ),
         Expanded(
           child: Align(
-            alignment: Alignment.bottomCenter,
-            child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  WhiteButton(
-                      text: opponent.name,
-                      mini: true,
-                      callback: () => choseWinner(opponent)),
-                  ColorButton(
-                      text: currPlayer.name,
-                      callback: () => choseWinner(currPlayer),
-                      mini: true)
-                ]),
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Wrap(
+                  spacing: 8.0,
+                  children: [
+                    WhiteButton(
+                        text: opponent.name,
+                        mini: true,
+                        callback: () => choseWinner(opponent)),
+                    ColorButton(
+                        text: currPlayer.name,
+                        callback: () => choseWinner(currPlayer),
+                        mini: true)
+                  ]),
+            ),
           ),
         )
       ],
