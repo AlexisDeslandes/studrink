@@ -14,18 +14,22 @@ class CellAnnouncer extends StatefulWidget {
 class _CellAnnouncerState extends State<CellAnnouncer> {
   late final List<Cell> _cells =
       context.read<CurrentGameBloc>().state.boardGame!.cells;
+  late final PageController _pageCtrl =
+      context.read<GamePageViewBloc>().state.pageController;
+  late final VoidCallback _listener =
+      () => setState(() => _page = _pageCtrl.page!.round());
   int _page = 0;
 
   @override
   void initState() {
     super.initState();
-    final pageController =
-        context.read<GamePageViewBloc>().state.pageController;
-    pageController.addListener(() {
-      setState(() {
-        _page = pageController.page!.round();
-      });
-    });
+    _pageCtrl.addListener(_listener);
+  }
+
+  @override
+  void dispose() {
+    _pageCtrl.removeListener(_listener);
+    super.dispose();
   }
 
   @override

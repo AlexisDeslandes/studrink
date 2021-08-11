@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
+import 'package:ptit_godet/blocs/focused_cell_bloc/focused_cell_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/pages/my_custom_page.dart';
 import 'package:ptit_godet/widgets/base_screen.dart';
@@ -63,6 +64,7 @@ class ChosePlayersScreenState extends BaseScreenState {
                   onPressed: () {
                     Navigator.pop(ctx, true);
                     context.read<CurrentGameBloc>().add(ResetPlayerGame());
+                    context.read<FocusedCellBloc>().add(ResetFocusedCell());
                     controller.reverse().then(
                         (value) => context.read<NavBloc>().add(const PopNav()));
                   },

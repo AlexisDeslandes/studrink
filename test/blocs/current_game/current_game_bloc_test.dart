@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
 import 'package:ptit_godet/blocs/dice/dice_bloc.dart';
+import 'package:ptit_godet/blocs/focused_cell_bloc/focused_cell_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/models/board_game.dart';
 import 'package:ptit_godet/models/cell.dart';
@@ -14,6 +15,8 @@ import 'package:ptit_godet/models/player.dart';
 class NavBlocMock extends Mock implements NavBloc {}
 
 class DiceBlocMock extends Mock implements DiceBloc {}
+
+class FocusedCellBlocMock extends Mock implements FocusedCellBloc {}
 
 void main() {
   BoardGame _initBoardGame = BoardGame(
@@ -62,7 +65,10 @@ void main() {
   CurrentGameBloc _createBloc() {
     // ignore: close_sinks
     final navBloc = NavBlocMock(), diceBloc = DiceBlocMock();
-    return CurrentGameBloc(navBloc: navBloc, diceBloc: diceBloc);
+    return CurrentGameBloc(
+        navBloc: navBloc,
+        diceBloc: diceBloc,
+        focusedCellBloc: FocusedCellBlocMock());
   }
 
   group("CurrentGameBloc tests", () {

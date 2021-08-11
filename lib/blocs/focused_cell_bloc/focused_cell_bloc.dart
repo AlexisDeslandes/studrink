@@ -11,6 +11,8 @@ class FocusedCellBloc extends Bloc<FocusedCellEvent, FocusedCellState> {
   Stream<FocusedCellState> mapEventToState(FocusedCellEvent event) async* {
     if (event is ChangeFocusedPlayer) {
       yield FocusedCellState(event.player);
+    } else if (event is ResetFocusedCell) {
+      yield FocusedCellState();
     }
   }
 }
@@ -35,4 +37,8 @@ class ChangeFocusedPlayer extends FocusedCellEvent {
   final Player player;
 
   const ChangeFocusedPlayer(this.player);
+}
+
+class ResetFocusedCell extends FocusedCellEvent {
+  const ResetFocusedCell();
 }

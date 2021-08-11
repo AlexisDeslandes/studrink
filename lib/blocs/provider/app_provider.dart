@@ -20,24 +20,24 @@ class AppProvider extends StatelessWidget {
     return MultiProvider(providers: [
       BlocProvider<NavBloc>(create: (context) => NavBloc()),
       BlocProvider<DiceBloc>(create: (context) => DiceBloc()),
+      BlocProvider(create: (context) => FocusedCellBloc()),
       BlocProvider<BoardGameBloc>(
           lazy: false,
           create: (context) => BoardGameBloc(storage: LocalStorage())
             ..add(const InitBoardGame())),
       BlocProvider<CurrentGameBloc>(
           create: (context) => CurrentGameBloc(
+              focusedCellBloc: context.read<FocusedCellBloc>(),
               navBloc: context.read<NavBloc>(),
               diceBloc: context.read<DiceBloc>())),
       BlocProvider<MarketPlaceBloc>(
           lazy: false,
           create: (context) => MarketPlaceBloc()..add(const InitMarketPlace())),
-      BlocProvider(create: (context) => FocusedCellBloc()),
-      BlocProvider(create: (context) {
-        return GamePageViewBloc(
-            pageController: PageController(),
-            focusedCellBloc: context.read<FocusedCellBloc>(),
-            currentGameBloc: context.read<CurrentGameBloc>());
-      }),
+      BlocProvider(
+          create: (context) => GamePageViewBloc(
+              pageController: PageController(),
+              focusedCellBloc: context.read<FocusedCellBloc>(),
+              currentGameBloc: context.read<CurrentGameBloc>())),
     ], child: child);
   }
 }

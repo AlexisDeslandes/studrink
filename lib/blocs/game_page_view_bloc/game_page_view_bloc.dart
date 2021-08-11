@@ -12,13 +12,7 @@ class GamePageViewBloc extends Bloc<GamePageViewEvent, GamePageViewState> {
       {required PageController pageController,
       required this.currentGameBloc,
       required this.focusedCellBloc})
-      : super(GamePageViewState(pageController)) {
-    final playerListOnCurrentCell =
-        currentGameBloc.state.playerListFromCurrentCell;
-    if (playerListOnCurrentCell.isNotEmpty) {
-      focusedCellBloc.add(ChangeFocusedPlayer(playerListOnCurrentCell[0]));
-    }
-  }
+      : super(GamePageViewState(pageController));
 
   @override
   Stream<GamePageViewState> mapEventToState(GamePageViewEvent event) async* {

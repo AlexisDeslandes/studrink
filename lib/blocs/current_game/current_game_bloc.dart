@@ -6,6 +6,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/dice/dice_bloc.dart';
+import 'package:ptit_godet/blocs/focused_cell_bloc/focused_cell_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/models/board_game.dart';
 import 'package:ptit_godet/models/cell.dart';
@@ -16,21 +17,25 @@ import 'package:ptit_godet/pages/finish_game_page.dart';
 import 'package:ptit_godet/pages/game_page.dart';
 
 class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
-  final NavBloc navBloc;
-  final DiceBloc diceBloc;
-  final StreamController<String> _errorController;
-
-  CurrentGameBloc({required this.navBloc, required this.diceBloc})
+  CurrentGameBloc(
+      {required this.navBloc,
+      required this.diceBloc,
+      required this.focusedCellBloc})
       : _errorController = StreamController<String>.broadcast(),
         super(CurrentGameState.empty());
 
-  Stream<String> get errorStream => _errorController.stream;
+  final NavBloc navBloc;
+  final DiceBloc diceBloc;
+  final FocusedCellBloc focusedCellBloc;
+  final StreamController<String> _errorController;
 
   @override
   Future<void> close() {
     _errorController.close();
     return super.close();
   }
+
+  Stream<String> get errorStream => _errorController.stream;
 
   @override
   Stream<CurrentGameState> mapEventToState(CurrentGameEvent event) async* {
@@ -179,6 +184,11 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
   }
 
   Stream<CurrentGameState> _validateGame(ValidateGame event) async* {
+    final playerListOnCurrentCell = state.playerListFromCurrentCell;
+    if (playerListOnCurrentCell.isNotEmpty) {
+      focusedCellBloc.add(ChangeFocusedPlayer(playerListOnCurrentCell[0]));
+    }
+
     final playerList = state.playerList,
         areAllPlayerNameDifferent = playerList
             .fold<Map<String, int>>({}, (map, element) {
