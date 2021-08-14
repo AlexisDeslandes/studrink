@@ -165,6 +165,7 @@ class CurrentGameBloc extends BlocEmitter<CurrentGameEvent, CurrentGameState>
         nextCell = nextCell.ifCell!;
         emitRichTextSnackBar(RichText(
             text: TextSpan(children: [
+          TextSpan(text: "Cette case est à effet conditionnel.\n"),
           TextSpan(
               text: currentPlayer.name,
               style: TextStyle(fontWeight: FontWeight.bold)),
@@ -172,7 +173,7 @@ class CurrentGameBloc extends BlocEmitter<CurrentGameEvent, CurrentGameState>
           TextSpan(
               text: conditionKeyIf!.name,
               style: TextStyle(fontWeight: FontWeight.bold)),
-          TextSpan(text: ", les effets de la case suivront le "),
+          TextSpan(text: ", les effets de la case correspondent au "),
           TextSpan(text: "SI.", style: TextStyle(color: Colors.green)),
         ])));
         break;
@@ -180,6 +181,7 @@ class CurrentGameBloc extends BlocEmitter<CurrentGameEvent, CurrentGameState>
         nextCell = nextCell.elseCell!;
         emitRichTextSnackBar(RichText(
             text: TextSpan(children: [
+          TextSpan(text: "Cette case est à effet conditionnel.\n"),
           TextSpan(
               text: currentPlayer.name,
               style: TextStyle(fontWeight: FontWeight.bold)),
@@ -187,7 +189,7 @@ class CurrentGameBloc extends BlocEmitter<CurrentGameEvent, CurrentGameState>
           TextSpan(
               text: conditionKeyIf!.name,
               style: TextStyle(fontWeight: FontWeight.bold)),
-          TextSpan(text: ", les effets de la case suivront le "),
+          TextSpan(text: ", les effets de la case correspondent au "),
           TextSpan(text: "SINON.", style: TextStyle(color: Colors.red)),
         ])));
         break;
