@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -174,7 +175,6 @@ class CurrentGameBloc extends BlocEmitter<CurrentGameEvent, CurrentGameState>
           TextSpan(text: ", les effets de la case suivront le "),
           TextSpan(text: "SI.", style: TextStyle(color: Colors.green)),
         ])));
-
         break;
       case IfElseMode.elseMode:
         nextCell = nextCell.elseCell!;

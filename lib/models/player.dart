@@ -4,7 +4,6 @@ import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:ptit_godet/models/condition_key.dart';
 import 'package:ptit_godet/models/resource.dart';
-
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:random_color/random_color.dart';
 

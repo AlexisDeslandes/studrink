@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
-import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/models/player.dart';
-import 'package:ptit_godet/pages/recap_game_page.dart';
+import 'package:ptit_godet/widgets/bottom_sheet/app_bottom_sheet.dart';
+import 'package:ptit_godet/widgets/bottom_sheet/recap_game_scroll_view.dart';
 import 'package:ptit_godet/widgets/player_area/player_challenge_area.dart';
 import 'package:ptit_godet/widgets/player_area/player_chose_direction_area.dart';
 import 'package:ptit_godet/widgets/player_area/player_chose_player_won_area.dart';
@@ -61,17 +61,26 @@ class PlayArea extends StatelessWidget {
                               child: Icon(Icons.not_listed_location_rounded,
                                   color: Colors.white)),
                           onPressed: () {
-                            animationController
-                                .reverse()
-                                .then((value) => _navToRecap(context));
+                            showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(30.0))),
+                                builder: (context) => DraggableScrollableSheet(
+                                    initialChildSize: 0.3,
+                                    minChildSize: 0.2,
+                                    maxChildSize: 0.8,
+                                    expand: false,
+                                    builder:
+                                        (BuildContext context, controller) =>
+                                            AppBottomSheet(
+                                              child: RecapGameScrollView(
+                                                  controller: controller),
+                                            )));
                           })))
             ])));
   }
-
-  void _navToRecap(BuildContext context) => context.read<NavBloc>().add(PushNav(
-        pageBuilder: (_) => const RecapGamePage(),
-        onPop: () => animationController.forward(),
-      ));
 
   Widget _getArea(CurrentGameState state) {
     final currentPlayer = state.currentPlayer,

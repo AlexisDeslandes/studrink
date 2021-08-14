@@ -1,5 +1,5 @@
-import 'package:tuple/tuple.dart';
 import 'package:collection/collection.dart';
+import 'package:tuple/tuple.dart';
 
 extension MapExtension on Map {
   static Tuple2<K?, K?> getWinAndLost<K, T extends int>(

@@ -1,61 +1,67 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
 import 'package:ptit_godet/blocs/game_page_view_bloc/game_page_view_bloc.dart';
-import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
 import 'package:ptit_godet/models/condition_key.dart';
 import 'package:ptit_godet/models/player.dart';
-import 'package:ptit_godet/pages/my_custom_page.dart';
-import 'package:ptit_godet/widgets/base_screen.dart';
 import 'package:ptit_godet/widgets/glass/glass_widget.dart';
-import 'package:collection/collection.dart';
 import 'package:ptit_godet/widgets/recap_player_list_tile.dart';
 
-class RecapGamePage extends MyCustomPage {
-  const RecapGamePage()
-      : super(key: const ValueKey("/recap"), child: const RecapGameScreen());
-}
+class RecapGameScrollView extends StatefulWidget {
+  const RecapGameScrollView({Key? key, this.controller}) : super(key: key);
 
-class RecapGameScreen extends StatefulWidget {
-  const RecapGameScreen({Key? key}) : super(key: key);
+  final ScrollController? controller;
 
   @override
-  _RecapGameScreenState createState() => _RecapGameScreenState();
+  _RecapGameScrollViewState createState() => _RecapGameScrollViewState();
 }
 
-class _RecapGameScreenState extends BaseScreenState {
+class _RecapGameScrollViewState extends State<RecapGameScrollView> {
   @override
-  Widget body(BuildContext context) {
+  Widget build(BuildContext context) {
     final gameState = context.read<CurrentGameBloc>().state,
         playerList = gameState.playerListInWinOrder;
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-      child: ListView.separated(
-          separatorBuilder: (context, index) => const SizedBox(height: 15),
-          itemBuilder: (context, index) {
-            final player = playerList[index];
-            return RecapGameCard(
-              player: player,
-              index: index,
-              onSearch: () {
-                context
-                    .read<GamePageViewBloc>()
-                    .add(ChangePageView(player.idCurrentCell));
-                controller.reverse().then(
-                    (value) => context.read<NavBloc>().add(const PopNav()));
-              },
-            );
-          },
-          itemCount: playerList.length),
+    return CustomScrollView(
+      controller: widget.controller,
+      slivers: [
+        SliverToBoxAdapter(
+            child: Padding(
+          padding: const EdgeInsets.only(top: 8.0, left: 16, bottom: 10),
+          child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Résumé",
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline1!
+                        .copyWith(fontSize: 30)),
+                Text("Classements des joueurs",
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1!
+                        .copyWith(fontSize: 13)),
+              ]),
+        )),
+        SliverList(
+            delegate: SliverChildListDelegate(playerList
+                .mapIndexed((index, e) => Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 7.5, horizontal: 10),
+                      child: RecapGameCard(
+                        player: e,
+                        index: index,
+                        onSearch: () => context
+                            .read<GamePageViewBloc>()
+                            .add(ChangePageView(e.idCurrentCell)),
+                      ),
+                    ))
+                .toList())),
+      ],
     );
   }
-
-  @override
-  String get subTitle => "Classements des joueurs";
-
-  @override
-  String get title => "Résumé";
 }
 
 class RecapGameCard extends StatelessWidget {
