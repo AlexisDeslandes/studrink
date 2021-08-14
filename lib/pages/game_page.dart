@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
+import 'package:ptit_godet/extension/map_extension.dart';
+import 'package:ptit_godet/models/condition_key.dart';
 import 'package:ptit_godet/models/moving.dart';
 import 'package:ptit_godet/models/player.dart';
 import 'package:ptit_godet/navigators/widgets/back_btn_wrapper.dart';
@@ -19,9 +22,7 @@ import 'package:ptit_godet/widgets/selected_player_card.dart';
 
 class GamePage extends MyCustomPage {
   const GamePage()
-      : super(
-            child: const GameScreen(),
-            key: const ValueKey<String>("/game"));
+      : super(child: const GameScreen(), key: const ValueKey<String>("/game"));
 }
 
 class GameScreen extends StatefulWidget {
@@ -57,8 +58,6 @@ class _GameScreenState extends State<GameScreen>
       body: SafeArea(
         child: Stack(
           children: [
-            //todo Add a blocListener to display snackBar on new conditionKey
-            //todo currentUser should be equals on previous and current but condition Key differ
             BlocListener<CurrentGameBloc, CurrentGameState>(
               listenWhen: (previous, current) =>
                   previous.currentPlayer?.state != current.currentPlayer?.state,

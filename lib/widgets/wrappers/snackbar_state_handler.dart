@@ -17,7 +17,7 @@ mixin SnackBarStateHandler<W extends StatefulWidget> on State<W> {
     super.initState();
     _snackBarStream = SnackBarEmitter().stream.listen((event) {
       final snackBar = SnackBar(
-        content: Text(event.content),
+        content: event.richText ?? Text(event.content),
         action: SnackBarAction(
           label: event.buttonContent,
           textColor: Theme.of(context).primaryColor,

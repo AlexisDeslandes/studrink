@@ -13,12 +13,16 @@ class CallbackSnackBarElement extends Equatable {
   final String extra;
   final String buttonContent;
   final VoidCallback callback;
+  final RichText? richText;
 
   const CallbackSnackBarElement(this.content, this.buttonContent, this.callback,
-      {this.extra = ""});
+      {this.extra = "", this.richText});
 
   CallbackSnackBarElement.closable(String content)
-      : this(content, "Fermer", () {});
+      : this(content, "FERMER", () {});
+
+  CallbackSnackBarElement.richText(RichText richText)
+      : this("", "FERMER", () {}, richText: richText);
 
   @override
   String toString() {
@@ -114,6 +118,9 @@ mixin SnackBarBloc<E, S> on BlocEmitter<E, S> {
 
   void emitSnackBar(String content) =>
       _snackBarEmitter.add(CallbackSnackBarElement.closable(content));
+
+  void emitRichTextSnackBar(RichText richText) =>
+      _snackBarEmitter.add(CallbackSnackBarElement.richText(richText));
 }
 
 class SnackBarEmitter {

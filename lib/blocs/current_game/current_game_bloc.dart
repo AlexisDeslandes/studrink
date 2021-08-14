@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:ptit_godet/blocs/bloc_emitter.dart';
 import 'package:ptit_godet/blocs/dice/dice_bloc.dart';
 import 'package:ptit_godet/blocs/focused_cell_bloc/focused_cell_bloc.dart';
 import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
@@ -16,7 +16,8 @@ import 'package:ptit_godet/models/player.dart';
 import 'package:ptit_godet/pages/finish_game_page.dart';
 import 'package:ptit_godet/pages/game_page.dart';
 
-class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
+class CurrentGameBloc extends BlocEmitter<CurrentGameEvent, CurrentGameState>
+    with SnackBarBloc {
   CurrentGameBloc(
       {required this.navBloc,
       required this.diceBloc,
@@ -85,7 +86,8 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
   }
 
   PlayerState _playerStateFromCellType(Cell nextCell, int diceValue) {
-    final nextCellType = nextCell.cellType, currentPlayer = state.currentPlayer;
+    final nextCellType = nextCell.cellType,
+        currentPlayer = state.currentPlayer!;
     if (nextCellType == CellType.finish) {
       if (nextCell.diceCondition == diceValue) {
         return PlayerState.winner;
@@ -94,7 +96,26 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
     if (nextCellType == CellType.conditionKey) {
       final requiredConditionKey = nextCell.requiredConditionKey;
       if (requiredConditionKey == null ||
-          !currentPlayer!.conditionKeyList.contains(requiredConditionKey)) {
+          !currentPlayer.conditionKeyList.contains(requiredConditionKey)) {
+        emitRichTextSnackBar(RichText(
+            text: TextSpan(children: [
+          if (requiredConditionKey != null)
+            TextSpan(
+                text: currentPlayer.name,
+                style: TextStyle(fontWeight: FontWeight.bold)),
+          if (requiredConditionKey != null) TextSpan(text: " n'a pas de "),
+          if (requiredConditionKey != null)
+            TextSpan(
+                text: "${requiredConditionKey.name}. ",
+                style: TextStyle(fontWeight: FontWeight.bold)),
+          TextSpan(
+              text: currentPlayer.name,
+              style: TextStyle(fontWeight: FontWeight.bold)),
+          TextSpan(text: " retourne à un "),
+          TextSpan(
+              text: "précédent checkpoint.",
+              style: TextStyle(color: Colors.red))
+        ])));
         return PlayerState.returnPreviousCheckPoint;
       }
     } else if (nextCellType == CellType.selfMoving) {
@@ -102,7 +123,7 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
     } else if (nextCellType == CellType.turnLose) {
       return PlayerState.preTurnLost;
     } else if (nextCellType == CellType.selfThrowDice) {
-      if (currentPlayer!.state != PlayerState.throwDice) {
+      if (currentPlayer.state != PlayerState.throwDice) {
         return PlayerState.throwDice;
       }
       return PlayerState.thrownDice;
@@ -132,17 +153,43 @@ class CurrentGameBloc extends Bloc<CurrentGameEvent, CurrentGameState> {
                 ? diceValue
                 : trueThrowDice;
     diceBloc.add(ShowDice(shownDiceValue));
-    final ifElseMode = nextCell.cellType == CellType.ifElse
-        ? state.currentPlayer!.conditionKeyList.contains(nextCell.conditionIf)
-            ? IfElseMode.ifMode
-            : IfElseMode.elseMode
-        : IfElseMode.none;
+    final conditionKeyIf = nextCell.conditionIf,
+        ifElseMode = nextCell.cellType == CellType.ifElse
+            ? state.currentPlayer!.conditionKeyList.contains(conditionKeyIf)
+                ? IfElseMode.ifMode
+                : IfElseMode.elseMode
+            : IfElseMode.none;
     switch (ifElseMode) {
       case IfElseMode.ifMode:
         nextCell = nextCell.ifCell!;
+        emitRichTextSnackBar(RichText(
+            text: TextSpan(children: [
+          TextSpan(
+              text: currentPlayer.name,
+              style: TextStyle(fontWeight: FontWeight.bold)),
+          TextSpan(text: " a "),
+          TextSpan(
+              text: conditionKeyIf!.name,
+              style: TextStyle(fontWeight: FontWeight.bold)),
+          TextSpan(text: ", les effets de la case suivront le "),
+          TextSpan(text: "SI.", style: TextStyle(color: Colors.green)),
+        ])));
+
         break;
       case IfElseMode.elseMode:
         nextCell = nextCell.elseCell!;
+        emitRichTextSnackBar(RichText(
+            text: TextSpan(children: [
+          TextSpan(
+              text: currentPlayer.name,
+              style: TextStyle(fontWeight: FontWeight.bold)),
+          TextSpan(text: " n'a pas de "),
+          TextSpan(
+              text: conditionKeyIf!.name,
+              style: TextStyle(fontWeight: FontWeight.bold)),
+          TextSpan(text: ", les effets de la case suivront le "),
+          TextSpan(text: "SINON.", style: TextStyle(color: Colors.red)),
+        ])));
         break;
       default:
         nextCell = nextCell;
@@ -644,10 +691,8 @@ class CurrentGameState extends Equatable {
       boardGame!.cells[playerList[indexCurrentPlayer].idCurrentCell].name;
 
   Player? get currentPlayer {
-    if (playerList.length > indexCurrentPlayer) {
+    if (playerList.length > indexCurrentPlayer)
       return playerList[indexCurrentPlayer];
-    }
-    return null;
   }
 
   Cell? get currentCell {
