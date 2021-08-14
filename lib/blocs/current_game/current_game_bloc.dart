@@ -83,6 +83,8 @@ class CurrentGameBloc extends BlocEmitter<CurrentGameEvent, CurrentGameState>
       yield* _changePicturePlayer(event);
     } else if (event is ResetPlayerGame) {
       yield* _resetPlayerGame(event);
+    } else if (event is InitGameAnimationController) {
+      yield CurrentGameState.copy(state, controller: event.controller);
     }
   }
 
@@ -220,7 +222,8 @@ class CurrentGameBloc extends BlocEmitter<CurrentGameEvent, CurrentGameState>
     if (nextPlayerState == PlayerState.winner) {
       yield CurrentGameState.copy(state,
           playerList: playerList, winner: currentPlayer);
-      navBloc.add(ResetNav(pageBuilder: (dynamic) => const FinishGamePage()));
+      state.controller!.reverse().then((value) => navBloc
+          .add(ResetNav(pageBuilder: (dynamic) => const FinishGamePage())));
     } else {
       yield CurrentGameState.copy(state, playerList: playerList);
     }
@@ -519,6 +522,12 @@ abstract class CurrentGameEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class InitGameAnimationController extends CurrentGameEvent {
+  const InitGameAnimationController(this.controller);
+
+  final AnimationController controller;
+}
+
 class InitModelCurrentGame extends CurrentGameEvent {
   final BoardGame boardGame;
 
@@ -632,7 +641,8 @@ class CurrentGameState extends Equatable {
       this.indexNextPlayer = 1,
       this.indexCurrentPlayer = 0,
       this.currentOpponent,
-      this.winner});
+      this.winner,
+      this.controller});
 
   final BoardGame? boardGame;
   final List<Player> playerList;
@@ -640,6 +650,7 @@ class CurrentGameState extends Equatable {
   final int? indexNextPlayer;
   final Player? currentOpponent;
   final Player? winner;
+  final AnimationController? controller;
 
   CurrentGameState.empty()
       : this(playerList: List.generate(2, (_) => Player.fromGenerator()));
@@ -647,8 +658,14 @@ class CurrentGameState extends Equatable {
   bool get isFinish => winner != null;
 
   @override
-  List<Object?> get props =>
-      [boardGame, playerList, indexCurrentPlayer, currentOpponent, winner];
+  List<Object?> get props => [
+        boardGame,
+        playerList,
+        indexCurrentPlayer,
+        currentOpponent,
+        winner,
+        controller
+      ];
 
   CurrentGameState.copy(CurrentGameState old,
       {BoardGame? boardGame,
@@ -656,7 +673,8 @@ class CurrentGameState extends Equatable {
       Player? currentOpponent,
       int? indexNextPlayer,
       int? indexCurrentPlayer,
-      Player? winner})
+      Player? winner,
+      AnimationController? controller})
       : this(
             winner: winner ?? old.winner,
             currentOpponent: currentOpponent ?? old.currentOpponent,
@@ -667,7 +685,8 @@ class CurrentGameState extends Equatable {
                     ? old.indexNextPlayer
                     : indexNextPlayer ?? old.indexNextPlayer,
             indexCurrentPlayer: indexCurrentPlayer ?? old.indexCurrentPlayer,
-            playerList: playerList ?? old.playerList);
+            playerList: playerList ?? old.playerList,
+            controller: controller ?? old.controller);
 
   List<Player> get playerListFromCurrentCell {
     final idCurrentCell = boardGame!.cells.indexOf(currentCell!);

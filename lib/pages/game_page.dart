@@ -37,6 +37,14 @@ class _GameScreenState extends State<GameScreen>
         ..forward();
 
   @override
+  void initState() {
+    super.initState();
+    context
+        .read<CurrentGameBloc>()
+        .add(InitGameAnimationController(_controller));
+  }
+
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
