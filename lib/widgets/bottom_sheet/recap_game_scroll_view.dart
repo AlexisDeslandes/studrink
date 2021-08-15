@@ -6,6 +6,7 @@ import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
 import 'package:ptit_godet/blocs/game_page_view_bloc/game_page_view_bloc.dart';
 import 'package:ptit_godet/models/condition_key.dart';
 import 'package:ptit_godet/models/player.dart';
+import 'package:ptit_godet/widgets/buttons/mini_icon_button.dart';
 import 'package:ptit_godet/widgets/glass/glass_widget.dart';
 import 'package:ptit_godet/widgets/recap_player_list_tile.dart';
 
@@ -130,7 +131,8 @@ class RecapGameCard extends StatelessWidget {
                         .copyWith(fontSize: 15),
                     softWrap: true),
               )),
-              IconButton(onPressed: onSearch, icon: Icon(Icons.search))
+              Material(
+                  child: MiniIconButton(callback: onSearch, icon: Icons.search))
             ],
           )
         ]));
