@@ -50,7 +50,7 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, B
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(bottom: 20.0),
-                        child: Text("Petit Godet",
+                        child: Text("Studrink",
                             style: Theme.of(context).textTheme.headline2),
                       ),
                       ColorButton(
