@@ -51,7 +51,7 @@ class CurrentGameBloc extends BlocEmitter<CurrentGameEvent, CurrentGameState>
     } else if (event is ValidateGame) {
       yield* _validateGame(event);
     } else if (event is ThrowDice) {
-      final random = Random(), diceValue = random.nextInt(6) + 1;
+      final random = Random(), diceValue = random.nextInt(4) + 1;
       yield* _throwDice(event.value ?? diceValue);
     } else if (event is SwitchToOtherPlayer) {
       yield* _switchToOtherPlayer(event);
@@ -203,7 +203,7 @@ class CurrentGameBloc extends BlocEmitter<CurrentGameEvent, CurrentGameState>
         conditionKeyList = _getConditionKeyList(
             nextPlayerState, currentPlayer.conditionKeyList, nextCell),
         actualCell = nextCell.actualCell(ifElseMode)!,
-        drinkMap = _playerDrinkMap(actualCell, currentPlayer);
+        drinkMap = _playerDrinkMap(actualCell, currentPlayer, diceValue);
 
     var playerList = state.playerList.map((player) {
       if (player == currentPlayer) {
@@ -525,7 +525,8 @@ class CurrentGameBloc extends BlocEmitter<CurrentGameEvent, CurrentGameState>
     yield CurrentGameState.copy(CurrentGameState.empty(), boardGame: boardGame);
   }
 
-  Map<DrinkType, int> _playerDrinkMap(Cell nextCell, Player currentPlayer) {
+  Map<DrinkType, int> _playerDrinkMap(
+      Cell nextCell, Player currentPlayer, int diceValue) {
     final drinkMap = currentPlayer.drinkMap,
         effectsLabel = nextCell.sideEffectList,
         effectsAfterLabel = nextCell.sideEffectListAfterTurnLost,
@@ -541,12 +542,16 @@ class CurrentGameBloc extends BlocEmitter<CurrentGameEvent, CurrentGameState>
           final labelWithOnlyNumbers = e.replaceAll(RegExp('[^0-9]'), '');
           if (labelWithOnlyNumbers.isEmpty) return 1;
           return int.parse(labelWithOnlyNumbers);
-        });
+        }),
+        isThrowDiceDrink = currentPlayer.state == PlayerState.throwDice &&
+            nextCell.throwDiceEffect!.sideEffect.toLowerCase().contains("bois"),
+        throwDiceDrink = isThrowDiceDrink ? diceValue : 0;
     return {
       DrinkType.sips: drinkMap[DrinkType.sips]! +
           (sipsLabels.isNotEmpty
               ? sipsLabels.reduce((value, element) => value + element)
-              : 0),
+              : 0) +
+          throwDiceDrink,
       DrinkType.cemetery: drinkMap[DrinkType.cemetery]! +
           youDrinkLabels
               .where((element) =>
