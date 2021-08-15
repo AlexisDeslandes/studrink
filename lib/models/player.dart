@@ -91,6 +91,13 @@ class Player extends Resource implements Comparable<Player> {
       },
       this.avatar});
 
+  factory Player.addSips(Player e, {required int sipsCount}) {
+    return Player.copy(e, drinkMap: {
+      ...e.drinkMap,
+      DrinkType.sips: e.drinkMap[DrinkType.sips]! + sipsCount
+    });
+  }
+
   Player.fromGenerator()
       : this(color: RandomColor().randomColor(), id: idGenerator++);
 

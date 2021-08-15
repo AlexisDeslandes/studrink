@@ -202,10 +202,10 @@ class CurrentGameBloc extends BlocEmitter<CurrentGameEvent, CurrentGameState>
     final nextPlayerState = _playerStateFromCellType(nextCell, diceValue),
         conditionKeyList = _getConditionKeyList(
             nextPlayerState, currentPlayer.conditionKeyList, nextCell),
-        drinkMap =
-            _playerDrinkMap(nextCell.actualCell(ifElseMode)!, currentPlayer);
+        actualCell = nextCell.actualCell(ifElseMode)!,
+        drinkMap = _playerDrinkMap(actualCell, currentPlayer);
 
-    final playerList = state.playerList.map((player) {
+    var playerList = state.playerList.map((player) {
       if (player == currentPlayer) {
         final actualCell = state.actualCell,
             inPrison = actualCell!.cellType == CellType.jail;
@@ -222,6 +222,14 @@ class CurrentGameBloc extends BlocEmitter<CurrentGameEvent, CurrentGameState>
       return player;
     }).toList();
 
+    final everybodyDrinkCount = actualCell.sideEffectList
+        .where(
+            (element) => element.toLowerCase().contains("tout le monde boit"))
+        .length;
+    if (everybodyDrinkCount > 0)
+      playerList = playerList
+          .map((e) => Player.addSips(e, sipsCount: everybodyDrinkCount))
+          .toList();
     if (nextPlayerState == PlayerState.winner) {
       yield CurrentGameState.copy(state,
           playerList: playerList, winner: currentPlayer);
@@ -541,15 +549,18 @@ class CurrentGameBloc extends BlocEmitter<CurrentGameEvent, CurrentGameState>
               : 0),
       DrinkType.cemetery: drinkMap[DrinkType.cemetery]! +
           youDrinkLabels
-              .where((element) => element.contains(DrinkType.cemetery.extractedLabel))
+              .where((element) =>
+                  element.contains(DrinkType.cemetery.extractedLabel))
               .length,
       DrinkType.oneGulp: drinkMap[DrinkType.oneGulp]! +
           youDrinkLabels
-              .where((element) => element.contains(DrinkType.oneGulp.extractedLabel))
+              .where((element) =>
+                  element.contains(DrinkType.oneGulp.extractedLabel))
               .length,
       DrinkType.shot: drinkMap[DrinkType.shot]! +
           youDrinkLabels
-              .where((element) => element.contains(DrinkType.shot.extractedLabel))
+              .where(
+                  (element) => element.contains(DrinkType.shot.extractedLabel))
               .length
     };
   }
