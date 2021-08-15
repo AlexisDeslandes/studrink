@@ -32,9 +32,9 @@ class MarketPlaceBloc extends Bloc<MarketPlaceEvent, MarketPlaceState> {
     final List<Map<String, dynamic>> gamesAsJson =
         (jsonDecode(gamesAsString) as List<dynamic>)
             .cast<Map<String, dynamic>>();
-    return MarketPlaceState(
-        boardGameList:
-            gamesAsJson.map((json) => BoardGame.fromJson(json)).toList());
+    final boardGameList =
+        gamesAsJson.map((json) => BoardGame.fromJson(json)).toList();
+    return MarketPlaceState(boardGameList: boardGameList);
   }
 }
 
@@ -90,7 +90,7 @@ class MarketPlaceState extends Equatable {
             chosenBoardGame: chosenBoardGame ?? old.chosenBoardGame);
 
   List<BoardGame> get boardGameListTreated {
-    final searchList = _listContainingSearchWord;
+    final searchList = [..._listContainingSearchWord];
     switch (selectedSort) {
       case MarketSort.NEW:
         return searchList..sort((a, b) => a.date.compareTo(b.date));

@@ -32,7 +32,7 @@ class Cell extends Resource {
   Cell.nullable() : this(name: "", imgPath: "");
 
   final String name;
-  final String imgPath;
+  final String? imgPath;
   final CellType cellType;
   final List<String> sideEffectList;
   final List<String> sideEffectListAfterTurnLost;

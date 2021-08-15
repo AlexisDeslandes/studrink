@@ -5,7 +5,6 @@ import 'package:studrink/storage/local_storage.dart';
 import 'package:studrink/theme/app_theme.dart';
 import 'package:studrink/widgets/paints/app_background_paint.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'navigators/main_navigator.dart';
 
 void main() async {
