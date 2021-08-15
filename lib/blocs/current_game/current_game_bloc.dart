@@ -228,7 +228,7 @@ class CurrentGameBloc extends BlocEmitter<CurrentGameEvent, CurrentGameState>
         .length;
     if (everybodyDrinkCount > 0)
       playerList = playerList
-          .map((e) => Player.addSips(e, sipsCount: everybodyDrinkCount))
+          .map((e) => Player.addDrinks(e, sipsCount: everybodyDrinkCount))
           .toList();
     if (nextPlayerState == PlayerState.winner) {
       yield CurrentGameState.copy(state,
@@ -390,14 +390,19 @@ class CurrentGameBloc extends BlocEmitter<CurrentGameEvent, CurrentGameState>
   }
 
   Stream<CurrentGameState> _succeedChallenge() async* {
+    final challenge = state.actualCell?.challenge?.toLowerCase() ?? "",
+        hasDrinkOneGulp = challenge.contains("bois") &&
+            challenge.contains(DrinkType.oneGulp.extractedLabel);
     final playerList = state.playerList.map((player) {
       if (player == state.currentPlayer) {
-        return Player.copy(player,
+        final newPlayer = Player.copy(player,
             state: PlayerState.canEnd,
             conditionKeyList: [
               state.actualCell!.givenConditionKey!,
               ...player.conditionKeyList
             ]);
+        return Player.addDrinks(newPlayer,
+            oneGulpCount: hasDrinkOneGulp ? 1 : 0);
       }
       return player;
     }).toList();

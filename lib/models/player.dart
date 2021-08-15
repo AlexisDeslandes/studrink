@@ -91,10 +91,12 @@ class Player extends Resource implements Comparable<Player> {
       },
       this.avatar});
 
-  factory Player.addSips(Player e, {required int sipsCount}) {
+  factory Player.addDrinks(Player e,
+      {int sipsCount = 0, int oneGulpCount = 0}) {
     return Player.copy(e, drinkMap: {
       ...e.drinkMap,
-      DrinkType.sips: e.drinkMap[DrinkType.sips]! + sipsCount
+      DrinkType.sips: e.drinkMap[DrinkType.sips]! + sipsCount,
+      DrinkType.oneGulp: e.drinkMap[DrinkType.oneGulp]! + oneGulpCount
     });
   }
 
