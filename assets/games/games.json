@@ -30,7 +30,7 @@
         "name": "BressomLand",
         "imgPath": "",
         "sideEffectList": [
-          "Ca part en cul sec."
+          "Tu bois un cul sec."
         ],
         "sideEffectListAfterTurnLost": [],
         "cellType": 0
@@ -353,7 +353,7 @@
         "name": "BEACH",
         "imgPath": "",
         "sideEffectList": [
-          "Prends un shot"
+          "Bois un shot"
         ],
         "sideEffectListAfterTurnLost": [],
         "cellType": 0

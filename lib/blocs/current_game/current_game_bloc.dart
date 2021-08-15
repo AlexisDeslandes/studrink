@@ -201,13 +201,16 @@ class CurrentGameBloc extends BlocEmitter<CurrentGameEvent, CurrentGameState>
     }
     final nextPlayerState = _playerStateFromCellType(nextCell, diceValue),
         conditionKeyList = _getConditionKeyList(
-            nextPlayerState, currentPlayer.conditionKeyList, nextCell);
+            nextPlayerState, currentPlayer.conditionKeyList, nextCell),
+        drinkMap =
+            _playerDrinkMap(nextCell.actualCell(ifElseMode)!, currentPlayer);
 
     final playerList = state.playerList.map((player) {
       if (player == currentPlayer) {
         final actualCell = state.actualCell,
             inPrison = actualCell!.cellType == CellType.jail;
         return Player.copy(player,
+            drinkMap: drinkMap,
             jailTurnCount:
                 inPrison && trueThrowDice == 0 ? player.jailTurnCount + 1 : 0,
             ifElseMode: ifElseMode,
@@ -512,6 +515,43 @@ class CurrentGameBloc extends BlocEmitter<CurrentGameEvent, CurrentGameState>
   Stream<CurrentGameState> _resetPlayerGame(ResetPlayerGame event) async* {
     final boardGame = state.boardGame;
     yield CurrentGameState.copy(CurrentGameState.empty(), boardGame: boardGame);
+  }
+
+  Map<DrinkType, int> _playerDrinkMap(Cell nextCell, Player currentPlayer) {
+    final drinkMap = currentPlayer.drinkMap,
+        effectsLabel = nextCell.sideEffectList,
+        effectsAfterLabel = nextCell.sideEffectListAfterTurnLost,
+        youDrinkLabels = [...effectsLabel, ...effectsAfterLabel]
+            .map((e) => e.toLowerCase())
+            .where((element) => element.contains("bois")),
+        sipsLabels = youDrinkLabels
+            .where((element) =>
+                !element.contains(DrinkType.cemetery.extractedLabel) &&
+                !element.contains(DrinkType.oneGulp.extractedLabel) &&
+                !element.contains(DrinkType.shot.extractedLabel))
+            .map((e) {
+          final labelWithOnlyNumbers = e.replaceAll(RegExp('[^0-9]'), '');
+          if (labelWithOnlyNumbers.isEmpty) return 1;
+          return int.parse(labelWithOnlyNumbers);
+        });
+    return {
+      DrinkType.sips: drinkMap[DrinkType.sips]! +
+          (sipsLabels.isNotEmpty
+              ? sipsLabels.reduce((value, element) => value + element)
+              : 0),
+      DrinkType.cemetery: drinkMap[DrinkType.cemetery]! +
+          youDrinkLabels
+              .where((element) => element.contains(DrinkType.cemetery.extractedLabel))
+              .length,
+      DrinkType.oneGulp: drinkMap[DrinkType.oneGulp]! +
+          youDrinkLabels
+              .where((element) => element.contains(DrinkType.oneGulp.extractedLabel))
+              .length,
+      DrinkType.shot: drinkMap[DrinkType.shot]! +
+          youDrinkLabels
+              .where((element) => element.contains(DrinkType.shot.extractedLabel))
+              .length
+    };
   }
 }
 

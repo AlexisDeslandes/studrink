@@ -78,6 +78,7 @@ class RecapGameCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const bullet = "\u2022";
     final conditionKeyList = player.conditionKeyList;
     final Map<ConditionKey, int> conditionKeyMap = conditionKeyList
         .fold<Map<ConditionKey, int>>({}, (previousValue, element) {
@@ -109,8 +110,26 @@ class RecapGameCard extends StatelessWidget {
             ),
           ),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Expanded(child: const SizedBox()), //todo add drinks
+              Expanded(
+                  child: Padding(
+                padding: const EdgeInsets.only(left: 16.0, top: 10),
+                child: Text(
+                    player.drinkMap.entries
+                        .where((element) => element.value > 0)
+                        .fold(
+                            "",
+                            (previousValue, element) =>
+                                previousValue +
+                                "${previousValue.isNotEmpty ? "\n" : ""}$bullet ${element.value} ${element.key.label}"),
+                    style: Theme.of(context)
+                        .textTheme
+                        .caption!
+                        .copyWith(fontSize: 15),
+                    softWrap: true),
+              )),
               IconButton(onPressed: onSearch, icon: Icon(Icons.search))
             ],
           )
