@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
-import 'package:ptit_godet/blocs/focused_cell_bloc/focused_cell_bloc.dart';
-import 'package:ptit_godet/blocs/game_page_view_bloc/game_page_view_bloc.dart';
-import 'package:ptit_godet/widgets/game_page_view/card_cell.dart';
+import 'package:studrink/blocs/current_game/current_game_bloc.dart';
+import 'package:studrink/blocs/focused_cell_bloc/focused_cell_bloc.dart';
+import 'package:studrink/blocs/game_page_view_bloc/game_page_view_bloc.dart';
+import 'package:studrink/widgets/game_page_view/card_cell.dart';
 
 class GamePageView extends StatelessWidget {
   const GamePageView();

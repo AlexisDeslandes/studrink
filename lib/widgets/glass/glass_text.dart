@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ptit_godet/widgets/glass/glass_widget.dart';
+import 'package:studrink/widgets/glass/glass_widget.dart';
 
 class GlassText extends StatelessWidget {
   const GlassText({Key? key, required this.text}) : super(key: key);

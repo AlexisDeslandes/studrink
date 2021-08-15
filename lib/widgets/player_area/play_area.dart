@@ -1,17 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
-import 'package:ptit_godet/models/player.dart';
-import 'package:ptit_godet/widgets/bottom_sheet/app_bottom_sheet.dart';
-import 'package:ptit_godet/widgets/bottom_sheet/recap_game_scroll_view.dart';
-import 'package:ptit_godet/widgets/player_area/player_challenge_area.dart';
-import 'package:ptit_godet/widgets/player_area/player_chose_direction_area.dart';
-import 'package:ptit_godet/widgets/player_area/player_chose_player_won_area.dart';
-import 'package:ptit_godet/widgets/player_area/player_end_area.dart';
-import 'package:ptit_godet/widgets/player_area/player_moving_area.dart';
-import 'package:ptit_godet/widgets/player_area/player_ready_area.dart';
-import 'package:ptit_godet/widgets/player_area/player_return_previous_checkpoint_area.dart';
+import 'package:studrink/blocs/current_game/current_game_bloc.dart';
+import 'package:studrink/models/player.dart';
+import 'package:studrink/widgets/bottom_sheet/app_bottom_sheet.dart';
+import 'package:studrink/widgets/bottom_sheet/recap_game_scroll_view.dart';
+import 'package:studrink/widgets/player_area/player_challenge_area.dart';
+import 'package:studrink/widgets/player_area/player_chose_direction_area.dart';
+import 'package:studrink/widgets/player_area/player_chose_player_won_area.dart';
+import 'package:studrink/widgets/player_area/player_end_area.dart';
+import 'package:studrink/widgets/player_area/player_moving_area.dart';
+import 'package:studrink/widgets/player_area/player_ready_area.dart';
+import 'package:studrink/widgets/player_area/player_return_previous_checkpoint_area.dart';
 
 class PlayArea extends StatelessWidget {
   const PlayArea({Key? key, required this.animationController})

@@ -2,8 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:ptit_godet/models/board_game.dart';
-import 'package:ptit_godet/widgets/glass/glass_widget.dart';
+import 'package:studrink/models/board_game.dart';
+import 'package:studrink/widgets/glass/glass_widget.dart';
 
 class BoardGameTile extends StatelessWidget {
   final BoardGame boardGame;

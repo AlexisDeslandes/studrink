@@ -2,15 +2,15 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
-import 'package:ptit_godet/blocs/dice/dice_bloc.dart';
-import 'package:ptit_godet/blocs/focused_cell_bloc/focused_cell_bloc.dart';
-import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
-import 'package:ptit_godet/models/board_game.dart';
-import 'package:ptit_godet/models/cell.dart';
-import 'package:ptit_godet/models/condition_key.dart';
-import 'package:ptit_godet/models/moving.dart';
-import 'package:ptit_godet/models/player.dart';
+import 'package:studrink/blocs/current_game/current_game_bloc.dart';
+import 'package:studrink/blocs/dice/dice_bloc.dart';
+import 'package:studrink/blocs/focused_cell_bloc/focused_cell_bloc.dart';
+import 'package:studrink/blocs/nav/nav_bloc.dart';
+import 'package:studrink/models/board_game.dart';
+import 'package:studrink/models/cell.dart';
+import 'package:studrink/models/condition_key.dart';
+import 'package:studrink/models/moving.dart';
+import 'package:studrink/models/player.dart';
 
 class NavBlocMock extends Mock implements NavBloc {}
 

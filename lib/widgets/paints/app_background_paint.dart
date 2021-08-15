@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ptit_godet/painters/circle_blur_painter.dart';
+import 'package:studrink/painters/circle_blur_painter.dart';
 
 ///
 /// [Widget] used to wrap app pages to

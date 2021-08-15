@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ptit_godet/blocs/board_game/board_game_bloc.dart';
-import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
-import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
-import 'package:ptit_godet/pages/game_detail_page.dart';
-import 'package:ptit_godet/pages/market_page.dart';
-import 'package:ptit_godet/pages/my_custom_page.dart';
-import 'package:ptit_godet/widgets/base_screen.dart';
-import 'package:ptit_godet/widgets/buttons/color_button.dart';
-import 'package:ptit_godet/widgets/glass/glass_widget.dart';
-import 'package:ptit_godet/widgets/pre_game/board_game_tile.dart';
+import 'package:studrink/blocs/board_game/board_game_bloc.dart';
+import 'package:studrink/blocs/current_game/current_game_bloc.dart';
+import 'package:studrink/blocs/nav/nav_bloc.dart';
+import 'package:studrink/pages/game_detail_page.dart';
+import 'package:studrink/pages/market_page.dart';
+import 'package:studrink/pages/my_custom_page.dart';
+import 'package:studrink/widgets/base_screen.dart';
+import 'package:studrink/widgets/buttons/color_button.dart';
+import 'package:studrink/widgets/glass/glass_widget.dart';
+import 'package:studrink/widgets/pre_game/board_game_tile.dart';
 
 class ChoseGamePage extends MyCustomPage {
   const ChoseGamePage()

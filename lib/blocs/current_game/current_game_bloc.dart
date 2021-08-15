@@ -5,17 +5,17 @@ import 'dart:typed_data';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ptit_godet/blocs/bloc_emitter.dart';
-import 'package:ptit_godet/blocs/dice/dice_bloc.dart';
-import 'package:ptit_godet/blocs/focused_cell_bloc/focused_cell_bloc.dart';
-import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
-import 'package:ptit_godet/models/board_game.dart';
-import 'package:ptit_godet/models/cell.dart';
-import 'package:ptit_godet/models/condition_key.dart';
-import 'package:ptit_godet/models/moving.dart';
-import 'package:ptit_godet/models/player.dart';
-import 'package:ptit_godet/pages/finish_game_page.dart';
-import 'package:ptit_godet/pages/game_page.dart';
+import 'package:studrink/blocs/bloc_emitter.dart';
+import 'package:studrink/blocs/dice/dice_bloc.dart';
+import 'package:studrink/blocs/focused_cell_bloc/focused_cell_bloc.dart';
+import 'package:studrink/blocs/nav/nav_bloc.dart';
+import 'package:studrink/models/board_game.dart';
+import 'package:studrink/models/cell.dart';
+import 'package:studrink/models/condition_key.dart';
+import 'package:studrink/models/moving.dart';
+import 'package:studrink/models/player.dart';
+import 'package:studrink/pages/finish_game_page.dart';
+import 'package:studrink/pages/game_page.dart';
 
 class CurrentGameBloc extends BlocEmitter<CurrentGameEvent, CurrentGameState>
     with SnackBarBloc {

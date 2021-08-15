@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:ptit_godet/models/player.dart';
-import 'package:ptit_godet/widgets/player_avatar.dart';
+import 'package:studrink/models/player.dart';
+import 'package:studrink/widgets/player_avatar.dart';
 
 typedef ChoseOpponentContentCallback = Widget Function(Player player);
 

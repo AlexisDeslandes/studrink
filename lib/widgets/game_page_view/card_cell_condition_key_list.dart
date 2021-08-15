@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
-import 'package:ptit_godet/blocs/focused_cell_bloc/focused_cell_bloc.dart';
-import 'package:ptit_godet/models/cell.dart';
+import 'package:studrink/blocs/current_game/current_game_bloc.dart';
+import 'package:studrink/blocs/focused_cell_bloc/focused_cell_bloc.dart';
+import 'package:studrink/models/cell.dart';
 
 class CardCellConditionKeyList extends StatelessWidget {
   final Cell cell;

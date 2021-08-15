@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
-import 'package:ptit_godet/blocs/bloc_emitter.dart';
-import 'package:ptit_godet/models/board_game.dart';
-import 'package:ptit_godet/storage/local_storage.dart';
+import 'package:studrink/blocs/bloc_emitter.dart';
+import 'package:studrink/models/board_game.dart';
+import 'package:studrink/storage/local_storage.dart';
 
 class BoardGameBloc extends BlocEmitter<BoardGameEvent, BoardGameState>
     with SnackBarBloc {

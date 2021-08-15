@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
-import 'package:ptit_godet/blocs/focused_cell_bloc/focused_cell_bloc.dart';
-import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
-import 'package:ptit_godet/pages/my_custom_page.dart';
-import 'package:ptit_godet/widgets/base_screen.dart';
-import 'package:ptit_godet/widgets/buttons/color_button.dart';
-import 'package:ptit_godet/widgets/glass/glass_widget.dart';
-import 'package:ptit_godet/widgets/recap_player_list_tile.dart';
+import 'package:studrink/blocs/current_game/current_game_bloc.dart';
+import 'package:studrink/blocs/focused_cell_bloc/focused_cell_bloc.dart';
+import 'package:studrink/blocs/nav/nav_bloc.dart';
+import 'package:studrink/pages/my_custom_page.dart';
+import 'package:studrink/widgets/base_screen.dart';
+import 'package:studrink/widgets/buttons/color_button.dart';
+import 'package:studrink/widgets/glass/glass_widget.dart';
+import 'package:studrink/widgets/recap_player_list_tile.dart';
 
 class FinishGamePage extends MyCustomPage {
   const FinishGamePage()

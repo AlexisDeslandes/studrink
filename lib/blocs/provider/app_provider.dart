@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:ptit_godet/blocs/board_game/board_game_bloc.dart';
-import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
-import 'package:ptit_godet/blocs/dice/dice_bloc.dart';
-import 'package:ptit_godet/blocs/focused_cell_bloc/focused_cell_bloc.dart';
-import 'package:ptit_godet/blocs/game_page_view_bloc/game_page_view_bloc.dart';
-import 'package:ptit_godet/blocs/market_place/market_place_bloc.dart';
-import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
-import 'package:ptit_godet/storage/local_storage.dart';
+import 'package:studrink/blocs/board_game/board_game_bloc.dart';
+import 'package:studrink/blocs/current_game/current_game_bloc.dart';
+import 'package:studrink/blocs/dice/dice_bloc.dart';
+import 'package:studrink/blocs/focused_cell_bloc/focused_cell_bloc.dart';
+import 'package:studrink/blocs/game_page_view_bloc/game_page_view_bloc.dart';
+import 'package:studrink/blocs/market_place/market_place_bloc.dart';
+import 'package:studrink/blocs/nav/nav_bloc.dart';
+import 'package:studrink/storage/local_storage.dart';
 
 class AppProvider extends StatelessWidget {
   final Widget child;

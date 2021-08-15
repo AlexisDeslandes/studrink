@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
-import 'package:ptit_godet/blocs/focused_cell_bloc/focused_cell_bloc.dart';
-import 'package:ptit_godet/widgets/glass/glass_widget.dart';
-import 'package:ptit_godet/widgets/player_avatar.dart';
-import 'package:ptit_godet/widgets/user_dice_view.dart';
+import 'package:studrink/blocs/current_game/current_game_bloc.dart';
+import 'package:studrink/blocs/focused_cell_bloc/focused_cell_bloc.dart';
+import 'package:studrink/widgets/glass/glass_widget.dart';
+import 'package:studrink/widgets/player_avatar.dart';
+import 'package:studrink/widgets/user_dice_view.dart';
 
 class SelectedPlayerCard extends StatelessWidget {
   const SelectedPlayerCard();

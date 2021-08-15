@@ -1,5 +1,5 @@
-import 'package:ptit_godet/models/cell.dart';
-import 'package:ptit_godet/models/resource.dart';
+import 'package:studrink/models/cell.dart';
+import 'package:studrink/models/resource.dart';
 
 class BoardGame extends Resource {
   final String name;

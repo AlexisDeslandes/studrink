@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
-import 'package:ptit_godet/extension/string_extension.dart';
-import 'package:ptit_godet/pages/image_detail_page.dart';
+import 'package:studrink/blocs/nav/nav_bloc.dart';
+import 'package:studrink/extension/string_extension.dart';
+import 'package:studrink/pages/image_detail_page.dart';
 
 typedef ImagePickScreenshotView = void Function(
     PageBuilder builder, dynamic args);

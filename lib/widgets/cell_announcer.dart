@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
-import 'package:ptit_godet/blocs/game_page_view_bloc/game_page_view_bloc.dart';
-import 'package:ptit_godet/models/cell.dart';
+import 'package:studrink/blocs/current_game/current_game_bloc.dart';
+import 'package:studrink/blocs/game_page_view_bloc/game_page_view_bloc.dart';
+import 'package:studrink/models/cell.dart';
 
 class CellAnnouncer extends StatefulWidget {
   const CellAnnouncer();

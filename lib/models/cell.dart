@@ -1,9 +1,9 @@
-import 'package:ptit_godet/models/condition_key.dart';
-import 'package:ptit_godet/models/moving.dart';
-import 'package:ptit_godet/models/player.dart';
-import 'package:ptit_godet/models/prison_condition.dart';
-import 'package:ptit_godet/models/resource.dart';
-import 'package:ptit_godet/models/throw_dice_effect.dart';
+import 'package:studrink/models/condition_key.dart';
+import 'package:studrink/models/moving.dart';
+import 'package:studrink/models/player.dart';
+import 'package:studrink/models/prison_condition.dart';
+import 'package:studrink/models/resource.dart';
+import 'package:studrink/models/throw_dice_effect.dart';
 
 enum CellType {
   noEffect,

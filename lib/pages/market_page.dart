@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:ptit_godet/blocs/board_game/board_game_bloc.dart';
-import 'package:ptit_godet/blocs/market_place/market_place_bloc.dart';
-import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
-import 'package:ptit_godet/models/board_game.dart';
-import 'package:ptit_godet/navigators/widgets/back_btn_wrapper.dart';
-import 'package:ptit_godet/pages/detail_market_page.dart';
-import 'package:ptit_godet/pages/my_custom_page.dart';
-import 'package:ptit_godet/widgets/glass/glass_widget.dart';
-import 'package:ptit_godet/widgets/my_choice_chip.dart';
+import 'package:studrink/blocs/board_game/board_game_bloc.dart';
+import 'package:studrink/blocs/market_place/market_place_bloc.dart';
+import 'package:studrink/blocs/nav/nav_bloc.dart';
+import 'package:studrink/models/board_game.dart';
+import 'package:studrink/navigators/widgets/back_btn_wrapper.dart';
+import 'package:studrink/pages/detail_market_page.dart';
+import 'package:studrink/pages/my_custom_page.dart';
+import 'package:studrink/widgets/glass/glass_widget.dart';
+import 'package:studrink/widgets/my_choice_chip.dart';
 
 ///
 /// Page that contains market place of P'tit godet.

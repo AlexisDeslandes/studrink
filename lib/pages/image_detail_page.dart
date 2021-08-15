@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
-import 'package:ptit_godet/navigators/widgets/back_btn_wrapper.dart';
-import 'package:ptit_godet/pages/my_custom_page.dart';
+import 'package:studrink/blocs/nav/nav_bloc.dart';
+import 'package:studrink/navigators/widgets/back_btn_wrapper.dart';
+import 'package:studrink/pages/my_custom_page.dart';
 
 class ImageDetailPage extends MyCustomPage {
   ImageDetailPage({required String path, required String heroTag})

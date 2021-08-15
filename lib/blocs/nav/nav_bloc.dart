@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ptit_godet/pages/home_page.dart';
+import 'package:studrink/pages/home_page.dart';
 
 typedef Page PageBuilder(dynamic args);
 

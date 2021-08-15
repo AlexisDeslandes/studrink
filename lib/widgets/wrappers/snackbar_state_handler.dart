@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ptit_godet/blocs/bloc_emitter.dart';
+import 'package:studrink/blocs/bloc_emitter.dart';
 
 ///
 /// Class to use as mixin on a state class of a stateful widget.

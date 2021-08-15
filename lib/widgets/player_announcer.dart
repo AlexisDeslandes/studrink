@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
+import 'package:studrink/blocs/current_game/current_game_bloc.dart';
 
 class PlayerAnnouncer extends StatelessWidget {
   const PlayerAnnouncer();

@@ -2,17 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:ptit_godet/blocs/board_game/board_game_bloc.dart';
-import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
-import 'package:ptit_godet/blocs/market_place/market_place_bloc.dart';
-import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
-import 'package:ptit_godet/navigators/widgets/back_btn_wrapper.dart';
-import 'package:ptit_godet/pages/game_detail_page.dart';
-import 'package:ptit_godet/pages/my_custom_page.dart';
-import 'package:ptit_godet/widgets/buttons/color_button.dart';
-import 'package:ptit_godet/widgets/buttons/white_button.dart';
-import 'package:ptit_godet/widgets/detail_market/screenshot_view.dart';
-import 'package:ptit_godet/widgets/glass/glass_text.dart';
+import 'package:studrink/blocs/board_game/board_game_bloc.dart';
+import 'package:studrink/blocs/current_game/current_game_bloc.dart';
+import 'package:studrink/blocs/market_place/market_place_bloc.dart';
+import 'package:studrink/blocs/nav/nav_bloc.dart';
+import 'package:studrink/navigators/widgets/back_btn_wrapper.dart';
+import 'package:studrink/pages/game_detail_page.dart';
+import 'package:studrink/pages/my_custom_page.dart';
+import 'package:studrink/widgets/buttons/color_button.dart';
+import 'package:studrink/widgets/buttons/white_button.dart';
+import 'package:studrink/widgets/detail_market/screenshot_view.dart';
+import 'package:studrink/widgets/glass/glass_text.dart';
 
 class DetailMarketPage extends MyCustomPage {
   const DetailMarketPage()

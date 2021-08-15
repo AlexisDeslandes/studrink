@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
+import 'package:studrink/blocs/nav/nav_bloc.dart';
 
 /// [BackBtnWrapper] is a mixin to used on every
 /// screen state of BIM module.

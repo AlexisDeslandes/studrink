@@ -2,21 +2,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
-import 'package:ptit_godet/blocs/nav/nav_bloc.dart';
-import 'package:ptit_godet/models/moving.dart';
-import 'package:ptit_godet/models/player.dart';
-import 'package:ptit_godet/navigators/widgets/back_btn_wrapper.dart';
-import 'package:ptit_godet/pages/my_custom_page.dart';
-import 'package:ptit_godet/widgets/bottom_sheet/app_bottom_sheet.dart';
-import 'package:ptit_godet/widgets/bottom_sheet/chose_opponent_list_view.dart';
-import 'package:ptit_godet/widgets/cell_announcer.dart';
-import 'package:ptit_godet/widgets/dice_view.dart';
-import 'package:ptit_godet/widgets/game_page_view/game_page_view.dart';
-import 'package:ptit_godet/widgets/player_announcer.dart';
-import 'package:ptit_godet/widgets/player_area/play_area.dart';
-import 'package:ptit_godet/widgets/player_overlay.dart';
-import 'package:ptit_godet/widgets/selected_player_card.dart';
+import 'package:studrink/blocs/current_game/current_game_bloc.dart';
+import 'package:studrink/blocs/nav/nav_bloc.dart';
+import 'package:studrink/models/moving.dart';
+import 'package:studrink/models/player.dart';
+import 'package:studrink/navigators/widgets/back_btn_wrapper.dart';
+import 'package:studrink/pages/my_custom_page.dart';
+import 'package:studrink/widgets/bottom_sheet/app_bottom_sheet.dart';
+import 'package:studrink/widgets/bottom_sheet/chose_opponent_list_view.dart';
+import 'package:studrink/widgets/cell_announcer.dart';
+import 'package:studrink/widgets/dice_view.dart';
+import 'package:studrink/widgets/game_page_view/game_page_view.dart';
+import 'package:studrink/widgets/player_announcer.dart';
+import 'package:studrink/widgets/player_area/play_area.dart';
+import 'package:studrink/widgets/player_overlay.dart';
+import 'package:studrink/widgets/selected_player_card.dart';
 
 class GamePage extends MyCustomPage {
   const GamePage()

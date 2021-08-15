@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ptit_godet/models/board_game.dart';
-import 'package:ptit_godet/widgets/my_choice_chip.dart';
+import 'package:studrink/models/board_game.dart';
+import 'package:studrink/widgets/my_choice_chip.dart';
 
 class MarketPlaceBloc extends Bloc<MarketPlaceEvent, MarketPlaceState> {
   final AssetBundle assetBundle;

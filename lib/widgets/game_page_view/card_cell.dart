@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:ptit_godet/models/cell.dart';
-import 'package:ptit_godet/widgets/game_page_view/card_cell_player_list.dart';
-import 'package:ptit_godet/widgets/glass/glass_widget.dart';
+import 'package:studrink/models/cell.dart';
+import 'package:studrink/widgets/game_page_view/card_cell_player_list.dart';
+import 'package:studrink/widgets/glass/glass_widget.dart';
 
 class CardCell extends StatelessWidget {
   final Cell cell;

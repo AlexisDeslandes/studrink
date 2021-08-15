@@ -1,4 +1,4 @@
-package com.coacheet.ptit_godet
+package com.coacheet.studrink
 
 import io.flutter.embedding.android.FlutterActivity
 

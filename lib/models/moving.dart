@@ -1,4 +1,4 @@
-import 'package:ptit_godet/models/resource.dart';
+import 'package:studrink/models/resource.dart';
 
 enum MovingType { forward, backward }
 

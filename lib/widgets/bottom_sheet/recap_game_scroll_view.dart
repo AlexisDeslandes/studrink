@@ -2,13 +2,13 @@ import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ptit_godet/blocs/current_game/current_game_bloc.dart';
-import 'package:ptit_godet/blocs/game_page_view_bloc/game_page_view_bloc.dart';
-import 'package:ptit_godet/models/condition_key.dart';
-import 'package:ptit_godet/models/player.dart';
-import 'package:ptit_godet/widgets/buttons/mini_icon_button.dart';
-import 'package:ptit_godet/widgets/glass/glass_widget.dart';
-import 'package:ptit_godet/widgets/recap_player_list_tile.dart';
+import 'package:studrink/blocs/current_game/current_game_bloc.dart';
+import 'package:studrink/blocs/game_page_view_bloc/game_page_view_bloc.dart';
+import 'package:studrink/models/condition_key.dart';
+import 'package:studrink/models/player.dart';
+import 'package:studrink/widgets/buttons/mini_icon_button.dart';
+import 'package:studrink/widgets/glass/glass_widget.dart';
+import 'package:studrink/widgets/recap_player_list_tile.dart';
 
 class RecapGameScrollView extends StatefulWidget {
   const RecapGameScrollView({Key? key, this.controller}) : super(key: key);
