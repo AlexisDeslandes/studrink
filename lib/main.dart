@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: "P'tit Godet",
+        title: "Studrink",
         theme: AppTheme().lightTheme,
         home: AppProvider(
             child: AppBackgroundPaint(
