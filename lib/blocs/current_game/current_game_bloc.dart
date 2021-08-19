@@ -51,7 +51,7 @@ class CurrentGameBloc extends BlocEmitter<CurrentGameEvent, CurrentGameState>
     } else if (event is ValidateGame) {
       yield* _validateGame(event);
     } else if (event is ThrowDice) {
-      final random = Random(), diceValue = random.nextInt(4) + 1;
+      final random = Random(), diceValue = random.nextInt(6) + 1;
       yield* _throwDice(event.value ?? diceValue);
     } else if (event is SwitchToOtherPlayer) {
       yield* _switchToOtherPlayer(event);
@@ -150,7 +150,7 @@ class CurrentGameBloc extends BlocEmitter<CurrentGameEvent, CurrentGameState>
         idCurrentCell = currentPlayer!.idCurrentCell,
         idNextCell = _getNextCell(idCurrentCell, diceValue, force),
         trueThrowDice = idNextCell - idCurrentCell;
-    var nextCell = state.boardGame!.cells[idNextCell],
+    final nextCell = state.boardGame!.cells[idNextCell],
         shownDiceValue =
             nextCell.cellType == CellType.jail || trueThrowDice == 0
                 ? diceValue
@@ -164,7 +164,6 @@ class CurrentGameBloc extends BlocEmitter<CurrentGameEvent, CurrentGameState>
             : IfElseMode.none;
     switch (ifElseMode) {
       case IfElseMode.ifMode:
-        nextCell = nextCell.ifCell!;
         emitRichTextSnackBar(RichText(
             text: TextSpan(children: [
           TextSpan(text: "Cette case est à effet conditionnel.\n"),
@@ -180,7 +179,6 @@ class CurrentGameBloc extends BlocEmitter<CurrentGameEvent, CurrentGameState>
         ])));
         break;
       case IfElseMode.elseMode:
-        nextCell = nextCell.elseCell!;
         emitRichTextSnackBar(RichText(
             text: TextSpan(children: [
           TextSpan(text: "Cette case est à effet conditionnel.\n"),
@@ -196,13 +194,12 @@ class CurrentGameBloc extends BlocEmitter<CurrentGameEvent, CurrentGameState>
         ])));
         break;
       default:
-        nextCell = nextCell;
         break;
     }
-    final nextPlayerState = _playerStateFromCellType(nextCell, diceValue),
+    final actualCell = nextCell.actualCell(ifElseMode)!,
+        nextPlayerState = _playerStateFromCellType(actualCell, diceValue),
         conditionKeyList = _getConditionKeyList(
             nextPlayerState, currentPlayer.conditionKeyList, nextCell),
-        actualCell = nextCell.actualCell(ifElseMode)!,
         drinkMap = _playerDrinkMap(actualCell, currentPlayer, diceValue);
 
     var playerList = state.playerList.map((player) {
