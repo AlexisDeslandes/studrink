@@ -9,6 +9,7 @@ import 'package:studrink/blocs/nav/nav_bloc.dart';
 import 'package:studrink/navigators/widgets/back_btn_wrapper.dart';
 import 'package:studrink/pages/game_detail_page.dart';
 import 'package:studrink/pages/my_custom_page.dart';
+import 'package:studrink/utils/studrink_utils.dart';
 import 'package:studrink/widgets/buttons/color_button.dart';
 import 'package:studrink/widgets/buttons/white_button.dart';
 import 'package:studrink/widgets/detail_market/screenshot_view.dart';
@@ -36,8 +37,9 @@ class DetailMarketScreenState extends State<DetailMarketScreen>
 
   @override
   Widget build(BuildContext context) {
-    final boardGame = context.read<MarketPlaceBloc>().state.chosenBoardGame!;
-    final isImgFromWeb = boardGame.imgUrl.startsWith("http");
+    final boardGame = context.read<MarketPlaceBloc>().state.chosenBoardGame!,
+        isImgFromWeb = boardGame.imgUrl.startsWith("http"),
+        isATablet = isTablet(context);
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
@@ -90,89 +92,105 @@ class DetailMarketScreenState extends State<DetailMarketScreen>
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ScaleTransition(
-                      scale: _controller
-                          .drive(CurveTween(curve: Interval(2 / 3, 1.0)))
-                          .drive(TweenSequence([
-                            TweenSequenceItem(
-                                tween: Tween(begin: 0.0, end: 1.3),
-                                weight: 0.7),
-                            TweenSequenceItem(
-                                tween: Tween(begin: 1.3, end: 1.0), weight: 0.3)
-                          ])),
-                      child: BlocBuilder<BoardGameBloc, BoardGameState>(
-                        builder: (context, state) {
-                          final boardGameList = state.boardGameList;
-                          if (boardGameList.contains(boardGame))
+                padding: EdgeInsets.symmetric(horizontal: isATablet ? 75 : 0),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ScaleTransition(
+                        scale: _controller
+                            .drive(CurveTween(curve: Interval(2 / 3, 1.0)))
+                            .drive(TweenSequence([
+                              TweenSequenceItem(
+                                  tween: Tween(begin: 0.0, end: 1.3),
+                                  weight: 0.7),
+                              TweenSequenceItem(
+                                  tween: Tween(begin: 1.3, end: 1.0),
+                                  weight: 0.3)
+                            ])),
+                        child: BlocBuilder<BoardGameBloc, BoardGameState>(
+                          builder: (context, state) {
+                            final boardGameList = state.boardGameList;
+                            if (boardGameList.contains(boardGame))
+                              return ColorButton(
+                                text: "Désinstaller",
+                                callback: () {
+                                  context
+                                      .read<BoardGameBloc>()
+                                      .add(DeleteBoardGame(boardGame));
+                                },
+                                mini: true,
+                              );
                             return ColorButton(
-                              text: "Désinstaller",
+                              text: "Installer",
                               callback: () {
                                 context
                                     .read<BoardGameBloc>()
-                                    .add(DeleteBoardGame(boardGame));
+                                    .add(AddBoardGame(boardGame));
                               },
                               mini: true,
                             );
-                          return ColorButton(
-                            text: "Installer",
-                            callback: () {
-                              context
-                                  .read<BoardGameBloc>()
-                                  .add(AddBoardGame(boardGame));
-                            },
-                            mini: true,
-                          );
-                        },
-                      ),
-                    ),
-                    ScaleTransition(
-                      scale: _controller
-                          .drive(CurveTween(curve: Interval(2 / 3, 1.0)))
-                          .drive(TweenSequence([
-                            TweenSequenceItem(
-                                tween: Tween(begin: 0.0, end: 1.3),
-                                weight: 0.7),
-                            TweenSequenceItem(
-                                tween: Tween(begin: 1.3, end: 1.0), weight: 0.3)
-                          ])),
-                      child: BlocBuilder<BoardGameBloc, BoardGameState>(
-                        builder: (context, state) => WhiteButton(
-                          text: "Lancer",
-                          callback: state.boardGameList.contains(boardGame)
-                              ? () {
-                                  boardGame.screenshots.forEach((element) =>
-                                      precacheImage(
-                                          AssetImage(
-                                              "assets/screenshots/$element"),
-                                          context));
-                                  context.read<CurrentGameBloc>()
-                                    ..add(InitModelCurrentGame(
-                                        boardGame: boardGame));
-                                  _controller.reverse().then((value) => context
-                                      .read<NavBloc>()
-                                      .add(PushNav(
-                                          pageBuilder: (_) =>
-                                              const GameDetailPage(),
-                                          onPop: () => _controller.forward())));
-                                }
-                              : null,
-                          mini: true,
+                          },
                         ),
                       ),
-                    )
-                  ],
+                      ScaleTransition(
+                        scale: _controller
+                            .drive(CurveTween(curve: Interval(2 / 3, 1.0)))
+                            .drive(TweenSequence([
+                              TweenSequenceItem(
+                                  tween: Tween(begin: 0.0, end: 1.3),
+                                  weight: 0.7),
+                              TweenSequenceItem(
+                                  tween: Tween(begin: 1.3, end: 1.0),
+                                  weight: 0.3)
+                            ])),
+                        child: BlocBuilder<BoardGameBloc, BoardGameState>(
+                          builder: (context, state) => WhiteButton(
+                            text: "Lancer",
+                            callback: state.boardGameList.contains(boardGame)
+                                ? () {
+                                    boardGame.screenshots.forEach((element) =>
+                                        precacheImage(
+                                            AssetImage(
+                                                "assets/screenshots/$element"),
+                                            context));
+                                    context.read<CurrentGameBloc>()
+                                      ..add(InitModelCurrentGame(
+                                          boardGame: boardGame));
+                                    _controller.reverse().then((value) =>
+                                        context.read<NavBloc>().add(PushNav(
+                                            pageBuilder: (_) =>
+                                                const GameDetailPage(),
+                                            onPop: () =>
+                                                _controller.forward())));
+                                  }
+                                : null,
+                            mini: true,
+                          ),
+                        ),
+                      )
+                    ]
+                        .map((e) => Flexible(
+                            child: Padding(
+                                padding: isATablet
+                                    ? EdgeInsets.symmetric(horizontal: 20.0)
+                                    : EdgeInsets.zero,
+                                child: e)))
+                        .toList(),
+                  ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 30.0),
-                child: FadeTransition(
-                    opacity: _controller
-                        .drive(CurveTween(curve: Interval(1 / 3, 2 / 3))),
-                    child: GlassText(text: boardGame.description)),
+                child: Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: isATablet ? 75 : 8.0),
+                  child: FadeTransition(
+                      opacity: _controller
+                          .drive(CurveTween(curve: Interval(1 / 3, 2 / 3))),
+                      child: GlassText(text: boardGame.description)),
+                ),
               ),
               Expanded(
                 child: FadeTransition(

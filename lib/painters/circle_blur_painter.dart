@@ -22,8 +22,8 @@ class AppBackgroundPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     const blurSigma = 50.0, tinyCircleRadius = 27.5;
     final width = size.width,
-        topCircleRadius = width * 2 / 3,
-        bottomCircleSize = width * 3 / 5;
+        topCircleRadius = width > 600 ? width * 1 / 3 : width * 2 / 3,
+        bottomCircleSize = width > 600 ? width * 1.5 / 5 : width * 3 / 5;
     var center, radius;
 
     final backgroundPaint = Paint()
@@ -68,7 +68,7 @@ class AppBackgroundPainter extends CustomPainter {
           Rect.fromCircle(center: center, radius: tinyCircleRadius));
     canvas.drawCircle(center, tinyCircleRadius, tinyYellowPaint);
 
-    final bigCircleRadius = width * 0.19;
+    final bigCircleRadius = width > 600 ? 150.0 : width * 0.19;
     center = Offset(width - 20 - bigCircleRadius, size.height / 2);
     final bigYellowPaint = Paint()
       ..shader = yellowGradient.createShader(

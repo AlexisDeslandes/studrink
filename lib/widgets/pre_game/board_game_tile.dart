@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:studrink/models/board_game.dart';
+import 'package:studrink/utils/studrink_utils.dart';
 import 'package:studrink/widgets/glass/glass_widget.dart';
 
 class BoardGameTile extends StatelessWidget {
@@ -26,13 +27,16 @@ class BoardGameTile extends StatelessWidget {
                     width: 46.0,
                     height: 46.0,
                   ))
-              : imgUrl.contains(".svg")
-                  ? SvgPicture.asset(
-                      imgUrl,
-                      height: 46.0,
-                      width: 46.0,
-                    )
-                  : Image.asset(imgUrl),
+              : Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: imgUrl.contains(".svg")
+                    ? SvgPicture.asset(
+                        imgUrl,
+                        height: 46.0,
+                        width: 46.0,
+                      )
+                    : Image.asset(imgUrl),
+              ),
           title: Text(
             boardGame.name,
             style: TextStyle(

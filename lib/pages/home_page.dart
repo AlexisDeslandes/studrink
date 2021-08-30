@@ -9,6 +9,7 @@ import 'package:studrink/navigators/widgets/back_btn_wrapper.dart';
 import 'package:studrink/pages/chose_game_page.dart';
 import 'package:studrink/pages/market_page.dart';
 import 'package:studrink/pages/my_custom_page.dart';
+import 'package:studrink/utils/studrink_utils.dart';
 import 'package:studrink/widgets/buttons/color_button.dart';
 import 'package:studrink/widgets/buttons/white_button.dart';
 import 'package:studrink/widgets/glass/glass_widget.dart';
@@ -25,14 +26,18 @@ class HomeScreen extends StatefulWidget {
   State<StatefulWidget> createState() => HomeScreenState();
 }
 
-class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, BackBtnWrapper {
+class HomeScreenState extends State<HomeScreen>
+    with TickerProviderStateMixin, BackBtnWrapper {
   late final _controller =
       AnimationController(vsync: this, duration: Duration(milliseconds: 500))
         ..forward();
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size.width * 0.663;
+    final mediaSize = MediaQuery.of(context).size,
+        isATablet = isTablet(context),
+        size =
+            isTablet(context) ? mediaSize.width * 0.4 : mediaSize.width * 0.663;
     return Center(
       child: SlideTransition(
         position: _controller
@@ -43,7 +48,8 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin, B
           child: ClipRRect(
               borderRadius: BorderRadius.circular(25.0),
               child: GlassWidget(
-                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  padding: EdgeInsets.symmetric(
+                      vertical: 20.0, horizontal: isATablet ? 20 : 0),
                   width: size,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,

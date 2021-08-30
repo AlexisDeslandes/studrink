@@ -8,6 +8,7 @@ import 'package:studrink/models/moving.dart';
 import 'package:studrink/models/player.dart';
 import 'package:studrink/navigators/widgets/back_btn_wrapper.dart';
 import 'package:studrink/pages/my_custom_page.dart';
+import 'package:studrink/utils/studrink_utils.dart';
 import 'package:studrink/widgets/bottom_sheet/app_bottom_sheet.dart';
 import 'package:studrink/widgets/bottom_sheet/chose_opponent_list_view.dart';
 import 'package:studrink/widgets/cell_announcer.dart';
@@ -116,8 +117,12 @@ class _GameScreenState extends State<GameScreen>
                         padding: EdgeInsets.only(
                             bottom: size.height < 700 ? 25 : 50,
                             top: 20,
-                            right: 50,
-                            left: 50),
+                            right: isTablet(context)
+                                ? MediaQuery.of(context).size.width / 3
+                                : 50.0,
+                            left: isTablet(context)
+                                ? MediaQuery.of(context).size.width / 3
+                                : 50.0),
                         child: FadeTransition(
                           child: const SelectedPlayerCard(),
                           opacity: _controller

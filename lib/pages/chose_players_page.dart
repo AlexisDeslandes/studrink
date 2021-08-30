@@ -5,6 +5,7 @@ import 'package:studrink/blocs/current_game/current_game_bloc.dart';
 import 'package:studrink/blocs/focused_cell_bloc/focused_cell_bloc.dart';
 import 'package:studrink/blocs/nav/nav_bloc.dart';
 import 'package:studrink/pages/my_custom_page.dart';
+import 'package:studrink/utils/studrink_utils.dart';
 import 'package:studrink/widgets/base_screen.dart';
 import 'package:studrink/widgets/glass/glass_widget.dart';
 import 'package:studrink/widgets/pre_game/add_player_button.dart';
@@ -115,6 +116,7 @@ class ChosePlayersScreenState extends BaseScreenState {
                       opacity: controller
                           .drive(CurveTween(curve: Interval(0.5, 0.8))),
                       child: GlassWidget(
+                        width: isTablet(context) ? 400 : null,
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [

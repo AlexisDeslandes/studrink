@@ -11,6 +11,7 @@ import 'package:studrink/models/board_game.dart';
 import 'package:studrink/navigators/widgets/back_btn_wrapper.dart';
 import 'package:studrink/pages/detail_market_page.dart';
 import 'package:studrink/pages/my_custom_page.dart';
+import 'package:studrink/utils/studrink_utils.dart';
 import 'package:studrink/widgets/glass/glass_widget.dart';
 import 'package:studrink/widgets/my_choice_chip.dart';
 
@@ -46,6 +47,8 @@ class MarketScreenState extends State<MarketScreen>
 
   @override
   Widget build(BuildContext context) {
+    final isATablet = isTablet(context),
+        width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
@@ -65,7 +68,7 @@ class MarketScreenState extends State<MarketScreen>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.6,
+                width: isATablet ? width * 0.4 : width * 0.6,
                 child: SlideTransition(
                   position: _controller
                       .drive(CurveTween(curve: Interval(0.0, 0.5)))
@@ -113,7 +116,7 @@ class MarketScreenState extends State<MarketScreen>
                 ),
               ),
               Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
+                  padding: EdgeInsets.only(top: 20.0),
                   child: SlideTransition(
                     position: _controller
                         .drive(CurveTween(curve: Interval(0.0, 0.5)))
@@ -125,18 +128,15 @@ class MarketScreenState extends State<MarketScreen>
                       child: BlocBuilder<MarketPlaceBloc, MarketPlaceState>(
                           buildWhen: (previous, current) =>
                               previous.selectedSort != current.selectedSort,
-                          builder: (context, state) => Row(
+                          builder: (context, state) => Wrap(
                               children: MarketSort.values
-                                  .map((sort) => Expanded(
-                                        child: MyChoiceChip(
-                                            position: sort.position,
-                                            label: sort.description,
-                                            selected:
-                                                state.selectedSort == sort,
-                                            onSelected: (_) => context
-                                                .read<MarketPlaceBloc>()
-                                                .add(ChangeMarketSort(sort))),
-                                      ))
+                                  .map((sort) => MyChoiceChip(
+                                      position: sort.position,
+                                      label: sort.description,
+                                      selected: state.selectedSort == sort,
+                                      onSelected: (_) => context
+                                          .read<MarketPlaceBloc>()
+                                          .add(ChangeMarketSort(sort))))
                                   .toList())),
                     ),
                   )),
@@ -150,37 +150,29 @@ class MarketScreenState extends State<MarketScreen>
                       builder: (context, state) {
                     final boardGameListTreated = state.boardGameListTreated;
                     return BlocBuilder<BoardGameBloc, BoardGameState>(
-                      builder: (context, boardGameState) =>
-                          StaggeredGridView.countBuilder(
-                              itemCount: boardGameListTreated.length,
-                              crossAxisCount: 2,
-                              staggeredTileBuilder: (index) =>
-                                  StaggeredTile.fit(1),
-                              itemBuilder: (context, index) {
-                                final boardGame = boardGameListTreated[index];
-                                return MarketGameTile(
-                                    onTap: (value) {
-                                      boardGame.screenshots.forEach((element) =>
-                                          precacheImage(
-                                              AssetImage(
-                                                  "assets/screenshots/$element"),
-                                              context));
-                                      context
-                                          .read<MarketPlaceBloc>()
-                                          .add(ChoseBoardGame(boardGame));
-                                      _controller.reverse().then((value) =>
-                                          context.read<NavBloc>().add(PushNav(
-                                              pageBuilder: (_) =>
-                                                  const DetailMarketPage(),
-                                              onPop: () =>
-                                                  _controller.forward())));
-                                    },
-                                    installed: boardGameState.boardGameList
-                                        .contains(boardGame),
-                                    boardGame: boardGame);
-                              },
-                              mainAxisSpacing: 10.0,
-                              crossAxisSpacing: 10.0),
+                      builder: (context, boardGameState) => Wrap(
+                          children: boardGameListTreated
+                              .map((boardGame) => MarketGameTile(
+                                  onTap: (value) {
+                                    boardGame.screenshots.forEach((element) =>
+                                        precacheImage(
+                                            AssetImage(
+                                                "assets/screenshots/$element"),
+                                            context));
+                                    context
+                                        .read<MarketPlaceBloc>()
+                                        .add(ChoseBoardGame(boardGame));
+                                    _controller.reverse().then((value) =>
+                                        context.read<NavBloc>().add(PushNav(
+                                            pageBuilder: (_) =>
+                                                const DetailMarketPage(),
+                                            onPop: () =>
+                                                _controller.forward())));
+                                  },
+                                  installed: boardGameState.boardGameList
+                                      .contains(boardGame),
+                                  boardGame: boardGame))
+                              .toList()),
                     );
                   }),
                 ),
@@ -209,6 +201,7 @@ class MarketGameTile extends StatelessWidget {
     final isImgFromWeb = boardGame.imgUrl.startsWith("http"),
         chips = boardGame.chips;
     return GlassWidget(
+      width: 160,
       radius: 12.0,
       opacity: 0.41,
       padding: EdgeInsets.all(8.0),

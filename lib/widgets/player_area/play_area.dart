@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studrink/blocs/current_game/current_game_bloc.dart';
 import 'package:studrink/models/player.dart';
+import 'package:studrink/utils/studrink_utils.dart';
 import 'package:studrink/widgets/bottom_sheet/app_bottom_sheet.dart';
 import 'package:studrink/widgets/bottom_sheet/recap_game_scroll_view.dart';
 import 'package:studrink/widgets/player_area/player_challenge_area.dart';
@@ -44,11 +45,11 @@ class PlayArea extends StatelessWidget {
                   child: Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: FloatingActionButton(
-                          mini: true,
+                          mini: !isTablet(context),
                           heroTag: "recap",
                           child: Container(
-                              width: 56,
-                              height: 56,
+                              width: isTablet(context) ? 100 : 56,
+                              height: isTablet(context) ? 100 : 56,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(100.0),
                                   gradient: LinearGradient(

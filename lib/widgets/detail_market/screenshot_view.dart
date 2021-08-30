@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:studrink/blocs/nav/nav_bloc.dart';
 import 'package:studrink/extension/string_extension.dart';
 import 'package:studrink/pages/image_detail_page.dart';
+import 'package:studrink/utils/studrink_utils.dart';
 
 typedef ImagePickScreenshotView = void Function(
     PageBuilder builder, dynamic args);
@@ -20,7 +21,8 @@ class ScreenshotView extends StatefulWidget {
 }
 
 class _ScreenshotViewState extends State<ScreenshotView> {
-  PageController _pageController = PageController(viewportFraction: 0.7);
+  late PageController _pageController =
+      PageController(viewportFraction: isTablet(context) ? 0.3 : 0.7);
   int _idFocus = 0;
 
   @override

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:studrink/constants/button_constants.dart';
+import 'package:studrink/utils/studrink_utils.dart';
 
 class WhiteButton extends StatelessWidget {
   const WhiteButton(
@@ -11,12 +12,22 @@ class WhiteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final buttonSize =
-        (mini ? ButtonConstants.miniButtonSize : ButtonConstants.buttonSize) *
-            MediaQuery.of(context).size.width;
+    final buttonSize = mini
+        ? isTablet(context)
+            ? 200.0
+            : 150.0
+        : isTablet(context)
+            ? 300.0
+            : 200.0;
     return Container(
       width: buttonSize,
-      height: mini ? 40.0 : 61.0,
+      height: mini
+          ? isTablet(context)
+              ? 60
+              : 40.0
+          : isTablet(context)
+              ? 70.0
+              : 61.0,
       child: Material(
           color: Colors.transparent,
           child: InkWell(

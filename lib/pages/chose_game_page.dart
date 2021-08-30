@@ -7,6 +7,7 @@ import 'package:studrink/blocs/nav/nav_bloc.dart';
 import 'package:studrink/pages/game_detail_page.dart';
 import 'package:studrink/pages/market_page.dart';
 import 'package:studrink/pages/my_custom_page.dart';
+import 'package:studrink/utils/studrink_utils.dart';
 import 'package:studrink/widgets/base_screen.dart';
 import 'package:studrink/widgets/buttons/color_button.dart';
 import 'package:studrink/widgets/glass/glass_widget.dart';
@@ -45,26 +46,33 @@ class ChoseGameScreenState extends BaseScreenState {
         if (boardGameList.isNotEmpty) {
           return Padding(
             padding: const EdgeInsets.only(top: 30.0),
-            child: ListView.builder(
-              itemBuilder: (context, index) => Padding(
-                padding: const EdgeInsets.only(
-                    left: 30.0, right: 30.0, top: 4, bottom: 4),
-                child: BoardGameTile(
-                    boardGame: boardGameList[index],
-                    onTap: () {
-                      final boardGame = boardGameList[index];
-                      boardGame.screenshots.forEach((element) => precacheImage(
-                          AssetImage("assets/screenshots/$element"), context));
-                      context.read<CurrentGameBloc>()
-                        ..add(InitModelCurrentGame(boardGame: boardGame));
-                      controller.reverse().then((value) => context
-                          .read<NavBloc>()
-                          .add(PushNav(
-                              pageBuilder: (_) => const GameDetailPage(),
-                              onPop: () => controller.forward())));
-                    }),
+            child: Center(
+              child: SizedBox(
+                width: isTablet(context) ? 400 : null,
+                child: ListView.builder(
+                  itemBuilder: (context, index) => Padding(
+                    padding:
+                        EdgeInsets.only(left: 30.0, right: 30.0, top: 4, bottom: 4),
+                    child: BoardGameTile(
+                        boardGame: boardGameList[index],
+                        onTap: () {
+                          final boardGame = boardGameList[index];
+                          boardGame.screenshots.forEach((element) =>
+                              precacheImage(
+                                  AssetImage("assets/screenshots/$element"),
+                                  context));
+                          context.read<CurrentGameBloc>()
+                            ..add(InitModelCurrentGame(boardGame: boardGame));
+                          controller.reverse().then((value) => context
+                              .read<NavBloc>()
+                              .add(PushNav(
+                                  pageBuilder: (_) => const GameDetailPage(),
+                                  onPop: () => controller.forward())));
+                        }),
+                  ),
+                  itemCount: boardGameList.length,
+                ),
               ),
-              itemCount: boardGameList.length,
             ),
           );
         } else {

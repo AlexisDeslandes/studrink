@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -19,7 +20,7 @@ class FabCamera extends StatelessWidget {
     return Container(
       child: FloatingActionButton(
         heroTag: "fab_camera_${player.id}",
-        onPressed: () => _takePicture(context),
+        onPressed: kIsWeb ? null : () => _takePicture(context),
         mini: true,
         child: BlocBuilder<CurrentGameBloc, CurrentGameState>(
           buildWhen: (previous, current) {
@@ -44,7 +45,9 @@ class FabCamera extends StatelessWidget {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100.0),
                     color: player.color),
-                child: Icon(Icons.camera_alt, color: Colors.black));
+                child: kIsWeb
+                    ? null
+                    : Icon(Icons.camera_alt, color: Colors.black));
           },
         ),
       ),

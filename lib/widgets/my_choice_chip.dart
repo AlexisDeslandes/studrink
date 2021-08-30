@@ -32,6 +32,7 @@ class MyChoiceChip extends StatelessWidget {
       borderRadius: borderRadius,
       color: Colors.transparent,
       child: Container(
+        width: 100,
         decoration: BoxDecoration(
             color: selected ? null : Colors.white,
             borderRadius: borderRadius,
