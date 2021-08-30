@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -57,37 +58,37 @@ class DetailMarketScreenState extends State<DetailMarketScreen>
           padding: const EdgeInsets.only(left: 20.0, right: 20.0),
           child: Column(
             children: [
-              SlideTransition(
-                position: _controller
-                    .drive(CurveTween(curve: Interval(0.0, 1 / 3)))
-                    .drive(Tween(begin: Offset(0.0, -0.3), end: Offset.zero)),
-                child: FadeTransition(
-                  opacity: _controller
-                      .drive(CurveTween(curve: Interval(0.0, 1 / 3))),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                          height: 70.0,
-                          width: 70.0,
-                          child: isImgFromWeb
-                              ? ClipRRect(
-                                  borderRadius: BorderRadius.circular(12.0),
-                                  child: Image.network(boardGame.imgUrl))
-                              : Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 5.0, left: 5.0),
-                                  child: SvgPicture.asset(boardGame.imgUrl),
-                                )),
-                      Expanded(
-                          child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 20.0),
-                          child: Text(boardGame.name,
-                              style: Theme.of(context).textTheme.headline2),
-                        ),
-                      ))
-                    ],
+              Align(
+                alignment: Alignment.topLeft,
+                child: SlideTransition(
+                  position: _controller
+                      .drive(CurveTween(curve: Interval(0.0, 1 / 3)))
+                      .drive(Tween(begin: Offset(0.0, -0.3), end: Offset.zero)),
+                  child: FadeTransition(
+                    opacity: _controller
+                        .drive(CurveTween(curve: Interval(0.0, 1 / 3))),
+                    child: Wrap(
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      alignment: WrapAlignment.start,
+                      spacing: 10.0,
+                      children: [
+                        if (!kIsWeb || isTablet(context))
+                          SizedBox(
+                              height: 50.0,
+                              width: 50.0,
+                              child: isImgFromWeb
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(12.0),
+                                      child: Image.network(boardGame.imgUrl))
+                                  : Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 5.0, left: 5.0),
+                                      child: SvgPicture.asset(boardGame.imgUrl),
+                                    )),
+                        Text(boardGame.name,
+                            style: Theme.of(context).textTheme.headline2)
+                      ],
+                    ),
                   ),
                 ),
               ),

@@ -13,6 +13,7 @@ import 'package:studrink/utils/studrink_utils.dart';
 import 'package:studrink/widgets/buttons/color_button.dart';
 import 'package:studrink/widgets/buttons/white_button.dart';
 import 'package:studrink/widgets/glass/glass_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends MyCustomPage {
   const HomePage()
@@ -38,71 +39,90 @@ class HomeScreenState extends State<HomeScreen>
         isATablet = isTablet(context),
         size =
             isTablet(context) ? mediaSize.width * 0.4 : mediaSize.width * 0.663;
-    return Center(
-      child: SlideTransition(
-        position: _controller
-            .drive(CurveTween(curve: Curves.easeInOut))
-            .drive(Tween(begin: Offset(0.0, -0.35), end: Offset.zero)),
-        child: FadeTransition(
-          opacity: _controller,
-          child: ClipRRect(
-              borderRadius: BorderRadius.circular(25.0),
-              child: GlassWidget(
-                  padding: EdgeInsets.symmetric(
-                      vertical: 20.0, horizontal: isATablet ? 20 : 0),
-                  width: size,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 20.0),
-                        child: Text("Studrink",
-                            style: Theme.of(context).textTheme.headline2),
-                      ),
-                      ColorButton(
-                          text: "Jouer",
-                          callback: () {
-                            final boardGameList = context
-                                .read<BoardGameBloc>()
-                                .state
-                                .boardGameList;
-                            boardGameList
-                                .where((element) =>
-                                    element.imgUrl.startsWith("http"))
-                                .forEach((element) => DefaultCacheManager()
-                                    .downloadFile(element.imgUrl));
-                            _controller.reverse().then((_) => context
-                                .read<NavBloc>()
-                                .add(PushNav(
-                                    pageBuilder: (_) => const ChoseGamePage(),
-                                    onPop: () => _controller.forward())));
-                          }),
-                      Padding(
-                        padding: EdgeInsets.only(top: 20.0),
-                        child: WhiteButton(
-                          text: "Market",
-                          callback: () {
-                            final boardGameList = context
-                                .read<MarketPlaceBloc>()
-                                .state
-                                .boardGameList;
-                            boardGameList
-                                .where((element) =>
-                                    element.imgUrl.startsWith("http"))
-                                .forEach((element) => DefaultCacheManager()
-                                    .downloadFile(element.imgUrl));
-                            _controller.reverse().then((value) => context
-                                .read<NavBloc>()
-                                .add(PushNav(
-                                    pageBuilder: (_) => const MarketPage(),
-                                    onPop: () => _controller.forward())));
-                          },
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Center(
+        child: SlideTransition(
+          position: _controller
+              .drive(CurveTween(curve: Curves.easeInOut))
+              .drive(Tween(begin: Offset(0.0, -0.35), end: Offset.zero)),
+          child: FadeTransition(
+            opacity: _controller,
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(25.0),
+                child: GlassWidget(
+                    padding: EdgeInsets.symmetric(
+                        vertical: 20.0, horizontal: isATablet ? 20 : 0),
+                    width: size,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 20.0),
+                          child: Text("Studrink",
+                              style: Theme.of(context).textTheme.headline2),
                         ),
-                      )
-                    ],
-                  ))),
+                        ColorButton(
+                            text: "Jouer",
+                            callback: () {
+                              final boardGameList = context
+                                  .read<BoardGameBloc>()
+                                  .state
+                                  .boardGameList;
+                              boardGameList
+                                  .where((element) =>
+                                      element.imgUrl.startsWith("http"))
+                                  .forEach((element) => DefaultCacheManager()
+                                      .downloadFile(element.imgUrl));
+                              _controller.reverse().then((_) => context
+                                  .read<NavBloc>()
+                                  .add(PushNav(
+                                      pageBuilder: (_) => const ChoseGamePage(),
+                                      onPop: () => _controller.forward())));
+                            }),
+                        Padding(
+                          padding: EdgeInsets.only(top: 20.0),
+                          child: WhiteButton(
+                            text: "Market",
+                            callback: () {
+                              final boardGameList = context
+                                  .read<MarketPlaceBloc>()
+                                  .state
+                                  .boardGameList;
+                              boardGameList
+                                  .where((element) =>
+                                      element.imgUrl.startsWith("http"))
+                                  .forEach((element) => DefaultCacheManager()
+                                      .downloadFile(element.imgUrl));
+                              _controller.reverse().then((value) => context
+                                  .read<NavBloc>()
+                                  .add(PushNav(
+                                      pageBuilder: (_) => const MarketPage(),
+                                      onPop: () => _controller.forward())));
+                            },
+                          ),
+                        ),
+                      ],
+                    ))),
+          ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+          heroTag: "msg",
+          child: Container(
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100.0),
+                  gradient: LinearGradient(colors: [
+                    Theme.of(context).accentColor,
+                    Theme.of(context).primaryColor
+                  ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+              child: Icon(Icons.message, color: Colors.white)),
+          onPressed: () => _launchURL("mailto:deslandes.alexis1@gmail.com")),
     );
   }
+
+  void _launchURL(String url) async =>
+      await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
 }

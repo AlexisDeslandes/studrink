@@ -32,7 +32,7 @@ class MyChoiceChip extends StatelessWidget {
       borderRadius: borderRadius,
       color: Colors.transparent,
       child: Container(
-        width: 100,
+        width: 90,
         decoration: BoxDecoration(
             color: selected ? null : Colors.white,
             borderRadius: borderRadius,
@@ -48,12 +48,12 @@ class MyChoiceChip extends StatelessWidget {
             onTap: () => onSelected(selected),
             child: Center(
               child: Padding(
-                padding: const EdgeInsets.all(12.0),
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
                 child: Text(label,
                     style: Theme.of(context)
                         .textTheme
                         .headline1!
-                        .copyWith(fontSize: 16.0, fontWeight: FontWeight.bold)),
+                        .copyWith(fontSize: 14.0, fontWeight: FontWeight.bold)),
               ),
             ),
           ),
