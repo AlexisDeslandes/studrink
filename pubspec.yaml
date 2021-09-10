@@ -25,6 +25,7 @@ dependencies:
   url_launcher: ^6.0.9
   back_button_interceptor: ^5.0.1
   tuple: ^2.0.0
+  image: ^3.0.2
 
 dev_dependencies:
   flutter_test:
