@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter/services.dart';
 import 'package:studrink/blocs/bloc_emitter.dart';
 import 'package:studrink/models/board_game.dart';
 import 'package:studrink/storage/local_storage.dart';
@@ -8,24 +9,24 @@ import 'package:studrink/storage/local_storage.dart';
 class BoardGameBloc extends BlocEmitter<BoardGameEvent, BoardGameState>
     with SnackBarBloc {
   final LocalStorage storage;
+  final AssetBundle assetBundle;
 
-  BoardGameBloc({required LocalStorage storage})
+  BoardGameBloc({required LocalStorage storage, AssetBundle? assetBundle})
       : storage = storage,
+        assetBundle = assetBundle ?? rootBundle,
         super(BoardGameState.empty());
 
   @override
   Stream<BoardGameState> mapEventToState(BoardGameEvent event) async* {
     if (event is InitBoardGame) {
-      var list = <BoardGame>[];
-      final boardGameListEncoded =
-          storage.read(LocalStorageKeywords.boardGameList);
-      if (boardGameListEncoded != null) {
-        Iterable boardGameListAsIterable = jsonDecode(boardGameListEncoded);
-        list = List<Map<String, dynamic>>.from(boardGameListAsIterable)
-            .map((m) => BoardGame.fromJson(m))
-            .toList();
-      }
-      yield BoardGameState(boardGameList: list);
+      final gamesAsString =
+          await assetBundle.loadString("assets/games/games.json");
+      final List<Map<String, dynamic>> gamesAsJson =
+          (jsonDecode(gamesAsString) as List<dynamic>)
+              .cast<Map<String, dynamic>>();
+      final boardGameList =
+          gamesAsJson.map((json) => BoardGame.fromJson(json)).toList();
+      yield BoardGameState(boardGameList: boardGameList);
     } else if (event is AddBoardGame) {
       final boardGame = event.boardGame,
           boardGameList = [...state.boardGameList, boardGame];

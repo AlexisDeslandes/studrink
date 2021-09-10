@@ -42,71 +42,46 @@ class HomeScreenState extends State<HomeScreen>
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Center(
-        child: SlideTransition(
-          position: _controller
-              .drive(CurveTween(curve: Curves.easeInOut))
-              .drive(Tween(begin: Offset(0.0, -0.35), end: Offset.zero)),
-          child: FadeTransition(
-            opacity: _controller,
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(25.0),
-                child: GlassWidget(
-                    padding: EdgeInsets.symmetric(
-                        vertical: 20.0, horizontal: isATablet ? 20 : 0),
-                    width: size,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 20.0),
-                          child: Text("Studrink",
-                              style: Theme.of(context).textTheme.headline2),
-                        ),
-                        ColorButton(
-                            text: "Jouer",
-                            callback: () {
-                              final boardGameList = context
-                                  .read<BoardGameBloc>()
-                                  .state
-                                  .boardGameList;
-                              boardGameList
-                                  .where((element) =>
-                                      element.imgUrl.startsWith("http"))
-                                  .forEach((element) => DefaultCacheManager()
-                                      .downloadFile(element.imgUrl));
-                              _controller.reverse().then((_) => context
-                                  .read<NavBloc>()
-                                  .add(PushNav(
-                                      pageBuilder: (_) => const ChoseGamePage(),
-                                      onPop: () => _controller.forward())));
-                            }),
-                        Padding(
-                          padding: EdgeInsets.only(top: 20.0),
-                          child: WhiteButton(
-                            text: "Market",
-                            callback: () {
-                              final boardGameList = context
-                                  .read<MarketPlaceBloc>()
-                                  .state
-                                  .boardGameList;
-                              boardGameList
-                                  .where((element) =>
-                                      element.imgUrl.startsWith("http"))
-                                  .forEach((element) => DefaultCacheManager()
-                                      .downloadFile(element.imgUrl));
-                              _controller.reverse().then((value) => context
-                                  .read<NavBloc>()
-                                  .add(PushNav(
-                                      pageBuilder: (_) => const MarketPage(),
-                                      onPop: () => _controller.forward())));
-                            },
-                          ),
-                        ),
-                      ],
-                    ))),
-          ),
-        ),
-      ),
+          child: SlideTransition(
+              position: _controller
+                  .drive(CurveTween(curve: Curves.easeInOut))
+                  .drive(Tween(begin: Offset(0.0, -0.35), end: Offset.zero)),
+              child: FadeTransition(
+                  opacity: _controller,
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(25.0),
+                      child: GlassWidget(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 20.0, horizontal: isATablet ? 20 : 0),
+                          width: size,
+                          child:
+                              Column(mainAxisSize: MainAxisSize.min, children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 20.0),
+                              child: Text("Studrink",
+                                  style: Theme.of(context).textTheme.headline2),
+                            ),
+                            ColorButton(
+                                text: "Jouer",
+                                callback: () {
+                                  final boardGameList = context
+                                      .read<BoardGameBloc>()
+                                      .state
+                                      .boardGameList;
+                                  boardGameList
+                                      .where((element) =>
+                                          element.imgUrl.startsWith("http"))
+                                      .forEach((element) =>
+                                          DefaultCacheManager()
+                                              .downloadFile(element.imgUrl));
+                                  _controller.reverse().then((_) => context
+                                      .read<NavBloc>()
+                                      .add(PushNav(
+                                          pageBuilder: (_) =>
+                                              const ChoseGamePage(),
+                                          onPop: () => _controller.forward())));
+                                })
+                          ])))))),
       floatingActionButton: FloatingActionButton(
           heroTag: "msg",
           child: Container(
