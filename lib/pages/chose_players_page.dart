@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studrink/blocs/current_game/current_game_bloc.dart';
@@ -104,51 +105,53 @@ class ChosePlayersScreenState extends BaseScreenState {
       children: [
         Flexible(
           child: BlocBuilder<CurrentGameBloc, CurrentGameState>(
+              buildWhen: (previous, current) =>
+                  !listEquals(previous.playerList, current.playerList),
               builder: (context, state) {
-            final playerList = state.playerList;
-            return Padding(
-              padding:
-                  const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    FadeTransition(
-                      opacity: controller
-                          .drive(CurveTween(curve: Interval(0.5, 0.8))),
-                      child: GlassWidget(
-                        width: isTablet(context) ? 400 : null,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            ...playerList.map((player) => ListTile(
-                                  title: PlayerField(player),
-                                  leading: FabCamera(player: player),
-                                  trailing: FloatingActionButton(
-                                      heroTag: "fab_player_${player.id}",
-                                      child: Icon(Icons.delete,
-                                          color: Colors.black),
-                                      mini: true,
-                                      onPressed: () => context
-                                          .read<CurrentGameBloc>()
-                                          .add(RemovePlayer(player))),
-                                )),
-                          ],
+                final playerList = state.playerList;
+                return Padding(
+                  padding:
+                      const EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        FadeTransition(
+                          opacity: controller
+                              .drive(CurveTween(curve: Interval(0.5, 0.8))),
+                          child: GlassWidget(
+                            width: isTablet(context) ? 400 : null,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                ...playerList.map((player) => ListTile(
+                                      title: PlayerField(player),
+                                      leading: FabCamera(player: player),
+                                      trailing: FloatingActionButton(
+                                          heroTag: "fab_player_${player.id}",
+                                          child: Icon(Icons.delete,
+                                              color: Colors.black),
+                                          mini: true,
+                                          onPressed: () => context
+                                              .read<CurrentGameBloc>()
+                                              .add(RemovePlayer(player))),
+                                    )),
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                              child: FadeTransition(
+                                  child: const AddPlayerButton(),
+                                  opacity: controller.drive(
+                                      CurveTween(curve: Interval(0.5, 1.0))))),
+                        )
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(
-                          child: FadeTransition(
-                              child: const AddPlayerButton(),
-                              opacity: controller.drive(
-                                  CurveTween(curve: Interval(0.5, 1.0))))),
-                    )
-                  ],
-                ),
-              ),
-            );
-          }),
+                  ),
+                );
+              }),
         ),
       ],
     );

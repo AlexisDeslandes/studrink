@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -13,44 +12,27 @@ class FabCamera extends StatelessWidget {
 
   const FabCamera({Key? key, required this.player}) : super(key: key);
 
-  bool sameUser(Player element) => element.id == player.id;
-
   @override
   Widget build(BuildContext context) {
+    final avatarPlayer = player.avatar;
     return Container(
       child: FloatingActionButton(
-        heroTag: "fab_camera_${player.id}",
-        onPressed: kIsWeb ? null : () => _takePicture(context),
-        mini: true,
-        child: BlocBuilder<CurrentGameBloc, CurrentGameState>(
-          buildWhen: (previous, current) {
-            final playerPrevious =
-                    previous.playerList.firstWhereOrNull(sameUser),
-                playerCurrent = current.playerList.firstWhereOrNull(sameUser);
-            return playerCurrent != null &&
-                playerPrevious != null &&
-                playerPrevious.avatar != playerCurrent.avatar;
-          },
-          builder: (context, state) {
-            final avatarPlayer =
-                state.playerList.firstWhereOrNull(sameUser)?.avatar;
-            if (avatarPlayer != null) {
-              return ClipRRect(
+          heroTag: "fab_camera_${player.id}",
+          onPressed: kIsWeb ? null : () => _takePicture(context),
+          mini: true,
+          child: avatarPlayer != null
+              ? ClipRRect(
                   child: Image.memory(avatarPlayer),
-                  borderRadius: BorderRadius.circular(100.0));
-            }
-            return Container(
-                width: 48.0,
-                height: 48.0,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100.0),
-                    color: player.color),
-                child: kIsWeb
-                    ? null
-                    : Icon(Icons.camera_alt, color: Colors.black));
-          },
-        ),
-      ),
+                  borderRadius: BorderRadius.circular(100.0))
+              : Container(
+                  width: 48.0,
+                  height: 48.0,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100.0),
+                      color: player.color),
+                  child: kIsWeb
+                      ? null
+                      : Icon(Icons.camera_alt, color: Colors.black))),
     );
   }
 
