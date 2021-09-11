@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studrink/blocs/current_game/current_game_bloc.dart';
 import 'package:studrink/blocs/game_page_view_bloc/game_page_view_bloc.dart';
 import 'package:studrink/models/cell.dart';
+import 'package:studrink/widgets/condition_widget.dart';
 
 class CellAnnouncer extends StatefulWidget {
   const CellAnnouncer();
@@ -34,19 +36,23 @@ class _CellAnnouncerState extends State<CellAnnouncer> {
 
   @override
   Widget build(BuildContext context) {
-    final cellName = _cells[_page].name;
-    return AnimatedSwitcher(
-        duration: Duration(milliseconds: 500),
-        switchInCurve: Interval(0.5, 1.0),
-        switchOutCurve: Interval(0.0, 0.5),
-        transitionBuilder: (child, animation) {
-          return ClipRRect(
-              child: FadeTransition(opacity: animation, child: child));
-        },
-        child: Align(
+    final cellName = _cells[_page].name,
+        cellText = Align(
             key: ValueKey(cellName),
             alignment: Alignment.centerLeft,
             child:
-                Text(cellName, style: Theme.of(context).textTheme.headline1)));
+                Text(cellName, style: Theme.of(context).textTheme.headline1));
+    return ConditionWidget(
+        appear: !kIsWeb,
+        appearWidgetCallback: () => AnimatedSwitcher(
+            duration: Duration(milliseconds: 500),
+            switchInCurve: Interval(0.5, 1.0),
+            switchOutCurve: Interval(0.0, 0.5),
+            transitionBuilder: (child, animation) {
+              return ClipRRect(
+                  child: FadeTransition(opacity: animation, child: child));
+            },
+            child: cellText),
+        replaceWidgetCallback: () => cellText);
   }
 }
