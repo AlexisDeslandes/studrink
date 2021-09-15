@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:studrink/models/cell.dart';
+import 'package:studrink/widgets/condition_widget.dart';
 import 'package:studrink/widgets/game_page_view/card_cell_player_list.dart';
 import 'package:studrink/widgets/glass/glass_widget.dart';
 
@@ -24,11 +25,22 @@ class CardCell extends StatelessWidget {
             children: [
               Expanded(
                 child: Align(
-                    child: SvgPicture.asset(_icon, width: size, height: size),
+                    child: ConditionWidget(
+                        appear: cell.imgPath != null,
+                        appearWidgetCallback: () => Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 30.0, left: 8.0, right: 8.0),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(25.0),
+                                  child: Image.asset(cell.imgPath!)),
+                            ),
+                        replaceWidgetCallback: () =>
+                            SvgPicture.asset(_icon, width: size, height: size)),
                     alignment: Alignment.center),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 6.0),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 6.0),
                 child: Center(
                     child: Text(
                   cell.effectsLabel,

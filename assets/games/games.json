@@ -13,7 +13,6 @@
       },
       {
         "name": "Polypoint",
-        "imgPath": "",
         "moving": {
           "movingType": 0,
           "count": 2
@@ -28,7 +27,6 @@
       },
       {
         "name": "BressomLand",
-        "imgPath": "",
         "sideEffectList": [
           "Tu bois un cul sec."
         ],
@@ -37,7 +35,6 @@
       },
       {
         "name": "Clausse",
-        "imgPath": "",
         "sideEffectList": [
           "Tu bois."
         ],
@@ -46,7 +43,6 @@
       },
       {
         "name": "WEC1",
-        "imgPath": "",
         "sideEffectList": [
           "Tu bois"
         ],
@@ -57,7 +53,6 @@
       },
       {
         "name": "Parking",
-        "imgPath": "",
         "sideEffectList": [
           "Invente ta propre règle."
         ],
@@ -66,7 +61,6 @@
       },
       {
         "name": "Partiel",
-        "imgPath": "",
         "prisonCondition": {
           "dicePossibilities": [
             3,
@@ -84,7 +78,6 @@
         "throwDiceEffect": {
           "sideEffect": "Bois sa valeur."
         },
-        "imgPath": "",
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
         "cellType": 6
@@ -92,7 +85,6 @@
       {
         "name": "Polypoint",
         "challenge": "Bois un cul sec.",
-        "imgPath": "",
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
         "conditionKey": {
@@ -104,14 +96,12 @@
       {
         "name": "Seau d'eau mie",
         "movingUndeterminedCount": 1,
-        "imgPath": "",
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
         "cellType": 8
       },
       {
         "name": "Depardieu",
-        "imgPath": "",
         "sideEffectList": [
           "Tout le monde boit."
         ],
@@ -120,7 +110,6 @@
       },
       {
         "name": "4a",
-        "imgPath": "",
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
         "conditionKey": {
@@ -135,7 +124,6 @@
       },
       {
         "name": "Otrak",
-        "imgPath": "",
         "sideEffectList": [
           "Bois un cimetière."
         ],
@@ -144,7 +132,6 @@
       },
       {
         "name": "Intégration BDSM",
-        "imgPath": "",
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
         "conditionKey": {
@@ -155,7 +142,6 @@
       },
       {
         "name": "Shi Fu Cuite",
-        "imgPath": "",
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
         "conditionKey": {
@@ -166,7 +152,6 @@
       },
       {
         "name": "Parking",
-        "imgPath": "",
         "moving": {
           "movingType": 0,
           "count": 1
@@ -177,7 +162,6 @@
       },
       {
         "name": "WEC2",
-        "imgPath": "",
         "sideEffectList": [
           "Bois un cul sec.",
           "Embrasse le plus bourré."
@@ -187,7 +171,6 @@
       },
       {
         "name": "Nazgûl",
-        "imgPath": "",
         "moving": {
           "movingType": 1,
           "count": 1
@@ -199,7 +182,6 @@
       {
         "name": "Picsou",
         "challenge": "Les autres te lancent un défis.",
-        "imgPath": "",
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
         "conditionKey": {
@@ -210,7 +192,6 @@
       },
       {
         "name": "Ski",
-        "imgPath": "",
         "sideEffectList": [
           "Bois 3 gorgées."
         ],
@@ -219,14 +200,12 @@
       },
       {
         "name": "KO",
-        "imgPath": "",
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
         "cellType": 4
       },
       {
         "name": "Fist",
-        "imgPath": "",
         "moving": {
           "movingType": 1,
           "count": 2
@@ -241,14 +220,12 @@
           "id": 104737958,
           "name": "UE"
         },
-        "imgPath": "",
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
         "cellType": 10
       },
       {
         "name": "5A",
-        "imgPath": "",
         "sideEffectList": [
           "Tu bois"
         ],
@@ -261,7 +238,6 @@
       },
       {
         "name": "BDSM",
-        "imgPath": "",
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
         "conditionKey": {
@@ -272,7 +248,6 @@
       },
       {
         "name": "WEC3",
-        "imgPath": "",
         "sideEffectList": [
           "Donne 2 gorgées."
         ],
@@ -281,7 +256,6 @@
       },
       {
         "name": "MNM'S",
-        "imgPath": "",
         "throwDiceEffect": {
           "sideEffect": "Désigne un joueur. Le joueur boit le nombre de gorgées et désigne un joueur qui les boit également."
         },
@@ -292,7 +266,6 @@
       {
         "name": "QPUC Stage",
         "challenge": "Un autre joueur te pose une question.",
-        "imgPath": "",
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
         "conditionKey": {
@@ -303,7 +276,6 @@
       },
       {
         "name": "ABEL",
-        "imgPath": "",
         "sideEffectList": [
           "Bois 4 gorgées."
         ],
@@ -312,13 +284,11 @@
       },
       {
         "name": "BDSM",
-        "imgPath": "",
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
         "cellType": 11,
         "ifCell": {
           "name": "",
-          "imgPath": "",
           "sideEffectList": [
             "donne un cul sec"
           ],
@@ -331,7 +301,6 @@
         },
         "elseCell": {
           "name": "",
-          "imgPath": "",
           "moving": {
             "movingType": 1,
             "count": 1
@@ -351,7 +320,6 @@
       },
       {
         "name": "BEACH",
-        "imgPath": "",
         "sideEffectList": [
           "Bois un shot"
         ],
@@ -362,7 +330,6 @@
         "name": "Blackout",
         "tpCell": {
           "name": "4a",
-          "imgPath": "",
           "sideEffectList": [],
           "sideEffectListAfterTurnLost": [],
           "conditionKey": {
@@ -375,14 +342,12 @@
           },
           "cellType": 1
         },
-        "imgPath": "",
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
         "cellType": 1
       },
       {
         "name": "Stage",
-        "imgPath": "",
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
         "conditionKey": {
@@ -393,7 +358,6 @@
       },
       {
         "name": "Diplôme",
-        "imgPath": "",
         "sideEffectList": [],
         "sideEffectListAfterTurnLost": [],
         "requiredConditionKey": {
@@ -405,7 +369,6 @@
       {
         "name": "Embauche",
         "diceCondition": 6,
-        "imgPath": "",
         "sideEffectList": [
           "Tu bois la différence.",
           "Tout le monde finira son verre pour fêter l'embauche."
