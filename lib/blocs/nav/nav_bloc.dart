@@ -32,6 +32,16 @@ abstract class NavEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class ReplaceNav extends NavEvent {
+  final dynamic args;
+  final PageBuilder pageBuilder;
+
+  const ReplaceNav({required this.pageBuilder, this.args});
+
+  @override
+  List<Object> get props => [pageBuilder, args];
+}
+
 class PushNav extends NavEvent {
   final dynamic args;
   final PageBuilder pageBuilder;
@@ -76,6 +86,15 @@ class NavBloc extends Bloc<NavEvent, NavState> {
             pageBuilder: event.pageBuilder,
             args: event.args,
             onPop: event.onPop)
+      ]);
+    } else if (event is ReplaceNav) {
+      final lastNavElement = currentNavList.last;
+      yield NavState([
+        ...currentNavList.sublist(0, currentNavList.length - 1),
+        NavStateElement(
+            pageBuilder: event.pageBuilder,
+            args: event.args,
+            onPop: lastNavElement.onPop)
       ]);
     } else if (event is PopNav) {
       final lastNavElement = currentNavList.last;

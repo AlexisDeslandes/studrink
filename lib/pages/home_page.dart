@@ -3,15 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:studrink/blocs/board_game/board_game_bloc.dart';
-import 'package:studrink/blocs/market_place/market_place_bloc.dart';
 import 'package:studrink/blocs/nav/nav_bloc.dart';
 import 'package:studrink/navigators/widgets/back_btn_wrapper.dart';
 import 'package:studrink/pages/chose_game_page.dart';
-import 'package:studrink/pages/market_page.dart';
 import 'package:studrink/pages/my_custom_page.dart';
 import 'package:studrink/utils/studrink_utils.dart';
 import 'package:studrink/widgets/buttons/color_button.dart';
-import 'package:studrink/widgets/buttons/white_button.dart';
 import 'package:studrink/widgets/glass/glass_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 

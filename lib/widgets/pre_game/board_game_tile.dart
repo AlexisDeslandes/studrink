@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:studrink/models/board_game.dart';
-import 'package:studrink/utils/studrink_utils.dart';
 import 'package:studrink/widgets/glass/glass_widget.dart';
 
 class BoardGameTile extends StatelessWidget {

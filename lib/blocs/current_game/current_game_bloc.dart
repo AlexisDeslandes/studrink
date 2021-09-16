@@ -16,6 +16,8 @@ import 'package:studrink/models/moving.dart';
 import 'package:studrink/models/player.dart';
 import 'package:studrink/pages/finish_game_page.dart';
 import 'package:studrink/pages/game_page.dart';
+import 'package:studrink/pages/tutorial_page.dart';
+import 'package:studrink/storage/local_storage.dart';
 
 class CurrentGameBloc extends BlocEmitter<CurrentGameEvent, CurrentGameState>
     with SnackBarBloc {
@@ -272,8 +274,12 @@ class CurrentGameBloc extends BlocEmitter<CurrentGameEvent, CurrentGameState>
           .add("Il doit y avoir au moins 2 joueurs pour lancer une partie.");
     } else if (playerList.every((element) => element.name.isNotEmpty) &&
         areAllPlayerNameDifferent) {
-      event.animationCallback().then((value) => navBloc.add(
-          PushNav(pageBuilder: (_) => const GamePage(), onPop: event.onPop)));
+      event.animationCallback().then((value) => navBloc.add(PushNav(
+          pageBuilder: (_) =>
+              LocalStorage().read(LocalStorageKeywords.tutorialDone) != null
+                  ? const GamePage()
+                  : const TutorialPage(),
+          onPop: event.onPop)));
     } else {
       _errorController
           .add("Tous les pseudos doivent être saisis et différents.");

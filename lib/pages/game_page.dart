@@ -129,7 +129,7 @@ class _GameScreenState extends State<GameScreen>
                               .drive(CurveTween(curve: Interval(1 / 3, 2 / 3))),
                         )),
                     ScaleTransition(
-                      child: PlayArea(animationController: _controller),
+                      child: const PlayArea(),
                       scale: _controller
                           .drive(CurveTween(
                               curve: Interval(

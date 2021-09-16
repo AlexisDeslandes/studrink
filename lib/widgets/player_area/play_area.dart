@@ -15,10 +15,7 @@ import 'package:studrink/widgets/player_area/player_ready_area.dart';
 import 'package:studrink/widgets/player_area/player_return_previous_checkpoint_area.dart';
 
 class PlayArea extends StatelessWidget {
-  const PlayArea({Key? key, required this.animationController})
-      : super(key: key);
-
-  final AnimationController animationController;
+  const PlayArea({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
