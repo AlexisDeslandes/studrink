@@ -18,6 +18,7 @@ import 'package:studrink/widgets/player_announcer.dart';
 import 'package:studrink/widgets/player_area/play_area.dart';
 import 'package:studrink/widgets/player_overlay.dart';
 import 'package:studrink/widgets/selected_player_card.dart';
+import 'package:studrink/widgets/turn_indicator.dart';
 
 class GamePage extends MyCustomPage {
   const GamePage()
@@ -80,29 +81,27 @@ class _GameScreenState extends State<GameScreen>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     FadeTransition(
-                      opacity: _controller
-                          .drive(CurveTween(curve: Interval(0.0, 1 / 3))),
-                      child: SlideTransition(
-                        position: _controller
-                            .drive(CurveTween(curve: Interval(0.0, 1 / 3)))
-                            .drive(Tween(
-                                begin: Offset(0.0, -0.5), end: Offset.zero)),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 35.0),
-                              child: const CellAnnouncer(),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 35.0),
-                              child: const PlayerAnnouncer(),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
+                        opacity: _controller
+                            .drive(CurveTween(curve: Interval(0.0, 1 / 3))),
+                        child: SlideTransition(
+                            position: _controller
+                                .drive(CurveTween(curve: Interval(0.0, 1 / 3)))
+                                .drive(Tween(
+                                    begin: Offset(0.0, -0.5),
+                                    end: Offset.zero)),
+                            child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 35.0),
+                                      child: const CellAnnouncer()),
+                                  Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 35.0),
+                                      child: const PlayerAnnouncer())
+                                ]))),
                     Expanded(
                       child: Padding(
                           padding: const EdgeInsets.only(top: 50.0),
@@ -148,7 +147,8 @@ class _GameScreenState extends State<GameScreen>
                 ),
               ),
             ),
-            const DiceView()
+            const DiceView(),
+            Positioned(child: const TurnIndicator(), right: 10, top: 60)
           ],
         ),
       ),

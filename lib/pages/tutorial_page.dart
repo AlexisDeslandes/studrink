@@ -17,6 +17,7 @@ import 'package:studrink/widgets/player_announcer.dart';
 import 'package:studrink/widgets/player_area/play_area.dart';
 import 'package:studrink/widgets/sd_dialog.dart';
 import 'package:studrink/widgets/selected_player_card.dart';
+import 'package:studrink/widgets/turn_indicator.dart';
 
 class TutorialPage extends MyCustomPage {
   const TutorialPage()
@@ -151,7 +152,7 @@ class _TutorialScreenState extends State<TutorialScreen>
                       child: IgnorePointer(child: const CellAnnouncer())),
                   Padding(
                       padding: const EdgeInsets.only(left: 35.0),
-                      child: const PlayerAnnouncer())
+                      child: const PlayerAnnouncer()),
                 ],
               ),
             ),

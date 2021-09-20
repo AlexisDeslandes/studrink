@@ -303,9 +303,11 @@ class CurrentGameBloc extends BlocEmitter<CurrentGameEvent, CurrentGameState>
       }
       return player;
     }).toList();
+    final indexNextPlayer = state.nextIndexPlayer;
     yield CurrentGameState.copy(state,
         playerList: playerList,
-        indexCurrentPlayer: state.nextIndexPlayer,
+        indexCurrentPlayer: indexNextPlayer,
+        isEven: indexNextPlayer == 0 ? !state.isEven : null,
         indexNextPlayer: -1);
   }
 
@@ -699,14 +701,15 @@ class ResetPlayerGame extends CurrentGameEvent {
 }
 
 class CurrentGameState extends Equatable {
-  CurrentGameState(
+  const CurrentGameState(
       {this.boardGame,
       this.playerList = const [],
       this.indexNextPlayer = 1,
       this.indexCurrentPlayer = 0,
       this.currentOpponent,
       this.winner,
-      this.controller});
+      this.controller,
+      this.isEven = false});
 
   final BoardGame? boardGame;
   final List<Player> playerList;
@@ -715,6 +718,7 @@ class CurrentGameState extends Equatable {
   final Player? currentOpponent;
   final Player? winner;
   final AnimationController? controller;
+  final bool isEven; //pair ou impair
 
   CurrentGameState.empty()
       : this(playerList: List.generate(2, (_) => Player.fromGenerator()));
@@ -728,7 +732,8 @@ class CurrentGameState extends Equatable {
         indexCurrentPlayer,
         currentOpponent,
         winner,
-        controller
+        controller,
+        isEven
       ];
 
   CurrentGameState.copy(CurrentGameState old,
@@ -738,8 +743,10 @@ class CurrentGameState extends Equatable {
       int? indexNextPlayer,
       int? indexCurrentPlayer,
       Player? winner,
-      AnimationController? controller})
+      AnimationController? controller,
+      bool? isEven})
       : this(
+            isEven: isEven ?? old.isEven,
             winner: winner ?? old.winner,
             currentOpponent: currentOpponent ?? old.currentOpponent,
             boardGame: boardGame ?? old.boardGame,
@@ -761,11 +768,8 @@ class CurrentGameState extends Equatable {
 
   List<Player> get playerListInWinOrder => [...playerList]..sort();
 
-  List<Player> playerListFromIdCell(int idCell) {
-    return playerList
-        .where((element) => element.idCurrentCell == idCell)
-        .toList();
-  }
+  List<Player> playerListFromIdCell(int idCell) =>
+      playerList.where((element) => element.idCurrentCell == idCell).toList();
 
   List<Player> playerListFromCell(Cell cell) {
     final idCell = boardGame!.cells.indexOf(cell);
@@ -793,9 +797,9 @@ class CurrentGameState extends Equatable {
 
   Cell? get actualCell => currentCell!.actualCell(currentPlayer!.ifElseMode);
 
-  get nextIndexPlayer {
+  int get nextIndexPlayer {
     if (indexNextPlayer != null) {
-      return indexNextPlayer;
+      return indexNextPlayer!;
     } else if (indexCurrentPlayer == playerList.length - 1) {
       return 0;
     }

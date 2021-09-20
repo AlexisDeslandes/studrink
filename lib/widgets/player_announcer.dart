@@ -21,25 +21,24 @@ class PlayerAnnouncer extends StatelessWidget {
           return Row(children: [
             Text("C'est au tour de ",
                 style: Theme.of(context).textTheme.subtitle1),
-            Expanded(
-                child: ConditionWidget(
-                    appear: !kIsWeb,
-                    appearWidgetCallback: () => AnimatedSwitcher(
-                        duration: Duration(milliseconds: 500),
-                        switchInCurve: Interval(0.5, 1.0),
-                        switchOutCurve: Interval(0.0, 0.5),
-                        transitionBuilder: (child, animation) {
-                          return ClipRRect(
-                              child: FadeTransition(
-                                  opacity: animation,
-                                  child: SlideTransition(
-                                      position: animation.drive(Tween(
-                                          begin: Offset(0.0, 1.0),
-                                          end: Offset(0.0, 0.0))),
-                                      child: child)));
-                        },
-                        child: wrappedSubtitle),
-                    replaceWidgetCallback: () => wrappedSubtitle))
+            ConditionWidget(
+                appear: !kIsWeb,
+                appearWidgetCallback: () => AnimatedSwitcher(
+                    duration: Duration(milliseconds: 500),
+                    switchInCurve: Interval(0.5, 1.0),
+                    switchOutCurve: Interval(0.0, 0.5),
+                    transitionBuilder: (child, animation) {
+                      return ClipRRect(
+                          child: FadeTransition(
+                              opacity: animation,
+                              child: SlideTransition(
+                                  position: animation.drive(Tween(
+                                      begin: Offset(0.0, 1.0),
+                                      end: Offset(0.0, 0.0))),
+                                  child: child)));
+                    },
+                    child: wrappedSubtitle),
+                replaceWidgetCallback: () => wrappedSubtitle)
           ]);
         },
         buildWhen: (previous, current) =>
