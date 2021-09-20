@@ -17,6 +17,9 @@ class AppProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const maxWidth = 1400; // => fraction 0.3
+    final width = MediaQuery.of(context).size.width,
+        fraction = 0.65 - (width > 500 ? (width * (0.35) / maxWidth) : 0.0);
     return MultiProvider(providers: [
       BlocProvider<NavBloc>(create: (context) => NavBloc()),
       BlocProvider<DiceBloc>(create: (context) => DiceBloc()),
@@ -35,7 +38,7 @@ class AppProvider extends StatelessWidget {
           create: (context) => MarketPlaceBloc()..add(const InitMarketPlace())),
       BlocProvider(
           create: (context) => GamePageViewBloc(
-              pageController: PageController(viewportFraction: 0.65),
+              pageController: PageController(viewportFraction: fraction),
               focusedCellBloc: context.read<FocusedCellBloc>(),
               currentGameBloc: context.read<CurrentGameBloc>())),
     ], child: child);

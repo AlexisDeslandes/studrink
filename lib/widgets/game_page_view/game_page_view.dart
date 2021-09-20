@@ -48,12 +48,21 @@ class _GamePageViewState extends State<GamePageView> {
               },
               itemBuilder: (context, index) {
                 final cell = cells[index], isNotFocused = _focusedPage != index;
-                return AnimatedContainer(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: isNotFocused ? 20 : 0.0,
-                      vertical: isNotFocused ? 30 : 0.0),
-                  duration: Duration(milliseconds: 200),
-                  child: CardCell(cell: cell),
+                return LayoutBuilder(
+                  builder: (context, constraints) {
+                    final height = constraints.maxHeight;
+                    return Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: height > 540 ? ((height - 540) / 2) : 0.0),
+                      child: AnimatedContainer(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: isNotFocused ? 20 : 0.0,
+                            vertical: isNotFocused ? 30 : 0.0),
+                        duration: Duration(milliseconds: 200),
+                        child: CardCell(cell: cell),
+                      ),
+                    );
+                  },
                 );
               },
               itemCount: cells.length,

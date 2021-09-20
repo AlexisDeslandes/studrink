@@ -97,21 +97,24 @@ class _TutorialScreenState extends State<TutorialScreen>
               alignment: alignment,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: SdDialog(
-                  title: title,
-                  content: content,
-                  actions: [
-                    TextButton(
-                        onPressed: () {
-                          if (_isOverlayVisible) _overlayEntry?.remove();
-                          _isOverlayVisible = false;
-                          onPressed();
-                        },
-                        child: Text("COMPRIS",
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontWeight: FontWeight.bold)))
-                  ],
+                child: SizedBox(
+                  width: isTablet(context) ? 500 : null,
+                  child: SdDialog(
+                    title: title,
+                    content: content,
+                    actions: [
+                      TextButton(
+                          onPressed: () {
+                            if (_isOverlayVisible) _overlayEntry?.remove();
+                            _isOverlayVisible = false;
+                            onPressed();
+                          },
+                          child: Text("COMPRIS",
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontWeight: FontWeight.bold)))
+                    ],
+                  ),
                 ),
               ),
             )));
