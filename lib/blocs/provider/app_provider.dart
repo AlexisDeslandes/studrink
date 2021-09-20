@@ -35,7 +35,7 @@ class AppProvider extends StatelessWidget {
           create: (context) => MarketPlaceBloc()..add(const InitMarketPlace())),
       BlocProvider(
           create: (context) => GamePageViewBloc(
-              pageController: PageController(),
+              pageController: PageController(viewportFraction: 0.65),
               focusedCellBloc: context.read<FocusedCellBloc>(),
               currentGameBloc: context.read<CurrentGameBloc>())),
     ], child: child);
