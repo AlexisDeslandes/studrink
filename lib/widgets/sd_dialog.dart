@@ -5,7 +5,7 @@ class SdDialog extends StatelessWidget {
       {Key? key, required this.title, required this.content, this.actions})
       : super(key: key);
 
-  final String title;
+  final String? title;
   final String content;
   final List<TextButton>? actions;
 
@@ -18,6 +18,10 @@ class SdDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (title != null) Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: Text(title!),
+            ),
             Text(content,
                 style: Theme.of(context)
                     .textTheme

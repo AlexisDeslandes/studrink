@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:studrink/blocs/current_game/current_game_bloc.dart';
 import 'package:studrink/blocs/nav/nav_bloc.dart';
 import 'package:studrink/navigators/widgets/back_btn_wrapper.dart';
 import 'package:studrink/pages/game_page.dart';
@@ -57,28 +58,35 @@ class _TutorialScreenState extends State<TutorialScreen>
                       "Elles t'indiquent l'effet sur le joueur et les joueurs actuellement dessus. " +
                       "La partie plus basse te donne des informations sur le joueur sélectionné.",
                   onPressed: () => _gameViewController.reverse().then((value) =>
-                      _playAreaController
-                          .forward()
-                          .then((value) => _displayOverlay(
-                                context,
-                                content:
-                                    "Tout en bas, tu retrouves les contrôles du jeu. Tu pourras passer les tours, choisir les adversaires, réussir ou rater les défis ...\nLe bouton de droite te permet de connaître le classement de la partie.",
-                                onPressed: () {
-                                  LocalStorage().write(
-                                      LocalStorageKeywords.tutorialDone, "T");
-                                  _playAreaController.reverse().then((value) =>
-                                      context.read<NavBloc>().add(ReplaceNav(
-                                          pageBuilder: (_) =>
-                                              const GamePage())));
-                                },
-                              ))),
+                      _playAreaController.forward().then((value) =>
+                          _displayOverlay(
+                            context,
+                            content:
+                                "Tout en bas, tu retrouves les contrôles du jeu. Tu pourras passer les tours, choisir les adversaires, réussir ou rater les défis ...\nLe bouton de droite te permet de connaître le classement de la partie.",
+                            onPressed: () {
+                              _playAreaController.reverse().then((value) =>
+                                  _displayOverlay(context,
+                                      title: "But du jeu",
+                                      content: context
+                                          .read<CurrentGameBloc>()
+                                          .state
+                                          .boardGame!
+                                          .goal, onPressed: () {
+                                    LocalStorage().write(
+                                        LocalStorageKeywords.tutorialDone, "T");
+                                    context.read<NavBloc>().add(ReplaceNav(
+                                        pageBuilder: (_) => const GamePage()));
+                                  }));
+                            },
+                          ))),
                 )))));
   }
 
   void _displayOverlay(BuildContext context,
       {required String content,
       required VoidCallback onPressed,
-      Alignment alignment = Alignment.center}) {
+      Alignment alignment = Alignment.center,
+      String? title}) {
     final topPadding = MediaQuery.of(context).viewPadding.top;
     OverlayState overlayState = Overlay.of(context)!;
     _overlayEntry = OverlayEntry(
@@ -89,7 +97,7 @@ class _TutorialScreenState extends State<TutorialScreen>
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: SdDialog(
-                  title: "Informations",
+                  title: title,
                   content: content,
                   actions: [
                     TextButton(

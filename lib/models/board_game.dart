@@ -11,6 +11,7 @@ class BoardGame extends Resource {
   final bool event;
   final List<String> screenshots;
   final List<String> chips;
+  final String goal;
 
   const BoardGame(
       {required this.date,
@@ -21,28 +22,30 @@ class BoardGame extends Resource {
       this.cells = const [],
       this.screenshots = const [],
       this.event = false,
-      this.chips = const []});
+      this.chips = const [],
+      this.goal = ""});
 
-  BoardGame.fromJson(Map<String, dynamic> map)
+  BoardGame.fromJson(Map<String, dynamic> json)
       : this(
-            name: map["name"],
-            chips: map["chips"] != null
-                ? (map["chips"] as List<dynamic>).cast<String>()
+            goal: json["goal"],
+            name: json["name"],
+            chips: json["chips"] != null
+                ? (json["chips"] as List<dynamic>).cast<String>()
                 : [],
-            teaser: map["teaser"],
-            imgUrl: map["imgUrl"] ?? "assets/icons/beer.svg",
-            description: map["description"],
-            event: map["event"] != null && map["event"] ? true : false,
-            date: map["date"] != null
-                ? DateTime.fromMillisecondsSinceEpoch(map["date"])
+            teaser: json["teaser"],
+            imgUrl: json["imgUrl"] ?? "assets/icons/beer.svg",
+            description: json["description"],
+            event: json["event"] != null && json["event"] ? true : false,
+            date: json["date"] != null
+                ? DateTime.fromMillisecondsSinceEpoch(json["date"])
                 : DateTime.now(),
-            cells: map["cells"] != null
-                ? List<Map<String, dynamic>>.from(map["cells"])
+            cells: json["cells"] != null
+                ? List<Map<String, dynamic>>.from(json["cells"])
                     .map((e) => Cell.fromJson(e))
                     .toList()
                 : [],
-            screenshots: map["screenshots"] != null
-                ? (map["screenshots"] as List<dynamic>).cast<String>()
+            screenshots: json["screenshots"] != null
+                ? (json["screenshots"] as List<dynamic>).cast<String>()
                 : []);
 
   @override
