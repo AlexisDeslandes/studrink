@@ -91,8 +91,20 @@ class HomeScreenState extends State<HomeScreen>
                     Theme.of(context).primaryColor
                   ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
               child: Icon(Icons.message, color: Colors.white)),
-          onPressed: () => _launchURL("mailto:deslandes.alexis1@gmail.com")),
+          onPressed: () => _launchURL(Uri(
+              scheme: "mailto",
+              path: "deslandes.alexis1@gmail.com",
+              query: encodeQueryParameters(<String, String>{
+                "subject": "Mon idée de nouvelle case ou de nouvelle partie"
+              })).toString())),
     );
+  }
+
+  String? encodeQueryParameters(Map<String, String> params) {
+    return params.entries
+        .map((e) =>
+            '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+        .join('&');
   }
 
   void _launchURL(String url) async =>

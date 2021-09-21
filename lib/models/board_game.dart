@@ -49,7 +49,7 @@ class BoardGame extends Resource {
                 : []);
 
   @override
-  List<Object> get props => [name];
+  List<Object?> get props => [name];
 
   @override
   Map<String, dynamic> toJson() {

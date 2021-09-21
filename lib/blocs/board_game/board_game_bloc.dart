@@ -54,14 +54,14 @@ class BoardGameState extends Equatable {
   const BoardGameState.empty() : boardGameList = const [];
 
   @override
-  List<Object> get props => [boardGameList];
+  List<Object?> get props => [boardGameList];
 }
 
 abstract class BoardGameEvent extends Equatable {
   const BoardGameEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class InitBoardGame extends BoardGameEvent {

@@ -29,7 +29,7 @@ class DiceState extends Equatable {
   final int lastDiceValue;
 
   @override
-  List<Object> get props => [diceValue, lastDiceValue];
+  List<Object?> get props => [diceValue, lastDiceValue];
 }
 
 class ShowDice extends Equatable {
@@ -38,5 +38,5 @@ class ShowDice extends Equatable {
   ShowDice(this.diceValue);
 
   @override
-  List<Object> get props => [diceValue];
+  List<Object?> get props => [diceValue];
 }

@@ -585,7 +585,7 @@ abstract class CurrentGameEvent extends Equatable {
   const CurrentGameEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class InitGameAnimationController extends CurrentGameEvent {
@@ -679,7 +679,7 @@ class ChangeNamePlayer extends CurrentGameEvent {
   const ChangeNamePlayer({required this.player, required this.name});
 
   @override
-  List<Object> get props => [player, name];
+  List<Object?> get props => [player, name];
 }
 
 class ChangePicturePlayer extends CurrentGameEvent {

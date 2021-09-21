@@ -9,7 +9,7 @@ class ConditionKey extends Resource {
   final String name;
 
   @override
-  List<Object> get props => [id, name];
+  List<Object?> get props => [id, name];
 
   @override
   Map<String, dynamic> toJson() {

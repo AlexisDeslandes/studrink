@@ -9,7 +9,7 @@ class ThrowDiceEffect extends Resource {
       : this(sideEffect: map["sideEffect"]);
 
   @override
-  List<Object> get props => [sideEffect];
+  List<Object?> get props => [sideEffect];
 
   @override
   Map<String, dynamic> toJson() {

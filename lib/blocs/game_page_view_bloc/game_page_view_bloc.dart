@@ -38,14 +38,14 @@ class GamePageViewState extends Equatable {
   const GamePageViewState(this.pageController);
 
   @override
-  List<Object> get props => [pageController];
+  List<Object?> get props => [pageController];
 }
 
 abstract class GamePageViewEvent extends Equatable {
   const GamePageViewEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class ChangePageView extends GamePageViewEvent {

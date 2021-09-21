@@ -9,7 +9,7 @@ class PrisonCondition extends Resource {
       : this(List<int>.from(map["dicePossibilities"]));
 
   @override
-  List<Object> get props => [dicePossibilities];
+  List<Object?> get props => [dicePossibilities];
 
   String get dicePossibilitiesLabel => dicePossibilities.join(" ou ");
 

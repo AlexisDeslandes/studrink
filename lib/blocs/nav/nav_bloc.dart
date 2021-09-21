@@ -13,7 +13,7 @@ class NavStateElement extends Equatable {
   const NavStateElement({required this.pageBuilder, this.args, this.onPop});
 
   @override
-  List<Object> get props => [pageBuilder, args];
+  List<Object?> get props => [pageBuilder, args];
 }
 
 class NavState extends Equatable {
@@ -22,14 +22,14 @@ class NavState extends Equatable {
   NavState(this.navStateElementList);
 
   @override
-  List<Object> get props => [navStateElementList];
+  List<Object?> get props => [navStateElementList];
 }
 
 abstract class NavEvent extends Equatable {
   const NavEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class ReplaceNav extends NavEvent {
@@ -39,7 +39,7 @@ class ReplaceNav extends NavEvent {
   const ReplaceNav({required this.pageBuilder, this.args});
 
   @override
-  List<Object> get props => [pageBuilder, args];
+  List<Object?> get props => [pageBuilder, args];
 }
 
 class PushNav extends NavEvent {
@@ -50,7 +50,7 @@ class PushNav extends NavEvent {
   const PushNav({required this.pageBuilder, this.args, this.onPop});
 
   @override
-  List<Object> get props => [pageBuilder, args];
+  List<Object?> get props => [pageBuilder, args];
 }
 
 class ResetNav extends NavEvent {
@@ -60,7 +60,7 @@ class ResetNav extends NavEvent {
   const ResetNav({required this.pageBuilder, this.args});
 
   @override
-  List<Object> get props => [args, pageBuilder];
+  List<Object?> get props => [args, pageBuilder];
 }
 
 class PopNav extends NavEvent {

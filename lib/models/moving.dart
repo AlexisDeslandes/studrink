@@ -14,7 +14,7 @@ class Moving extends Resource {
             count: map["count"]);
 
   @override
-  List<Object> get props => [movingType, count];
+  List<Object?> get props => [movingType, count];
 
   @override
   Map<String, dynamic> toJson() {
