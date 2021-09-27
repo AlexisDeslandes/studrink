@@ -307,7 +307,7 @@ class CurrentGameBloc extends BlocEmitter<CurrentGameEvent, CurrentGameState>
     yield CurrentGameState.copy(state,
         playerList: playerList,
         indexCurrentPlayer: indexNextPlayer,
-        isEven: indexNextPlayer == 0 ? !state.isEven : null,
+        turnCount: indexNextPlayer == 0 ? state.turnCount + 1 : null,
         indexNextPlayer: -1);
   }
 
@@ -709,7 +709,7 @@ class CurrentGameState extends Equatable {
       this.currentOpponent,
       this.winner,
       this.controller,
-      this.isEven = false});
+      this.turnCount = 1});
 
   final BoardGame? boardGame;
   final List<Player> playerList;
@@ -718,7 +718,7 @@ class CurrentGameState extends Equatable {
   final Player? currentOpponent;
   final Player? winner;
   final AnimationController? controller;
-  final bool isEven; //pair ou impair
+  final int turnCount;
 
   CurrentGameState.empty()
       : this(playerList: List.generate(2, (_) => Player.fromGenerator()));
@@ -733,7 +733,7 @@ class CurrentGameState extends Equatable {
         currentOpponent,
         winner,
         controller,
-        isEven
+        turnCount
       ];
 
   CurrentGameState.copy(CurrentGameState old,
@@ -744,9 +744,9 @@ class CurrentGameState extends Equatable {
       int? indexCurrentPlayer,
       Player? winner,
       AnimationController? controller,
-      bool? isEven})
+      int? turnCount})
       : this(
-            isEven: isEven ?? old.isEven,
+            turnCount: turnCount ?? old.turnCount,
             winner: winner ?? old.winner,
             currentOpponent: currentOpponent ?? old.currentOpponent,
             boardGame: boardGame ?? old.boardGame,

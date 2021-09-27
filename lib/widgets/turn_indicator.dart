@@ -9,12 +9,12 @@ class TurnIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CurrentGameBloc, CurrentGameState>(
-        buildWhen: (previous, current) => previous.isEven != current.isEven,
+        buildWhen: (previous, current) => previous.turnCount != current.turnCount,
         builder: (context, state) => Padding(
               padding: const EdgeInsets.only(right: 10.0),
               child: GlassWidget(
                 padding: EdgeInsets.all(8.0),
-                child: Text(state.isEven ? "Tour pair" : "Tour impair",
+                child: Text("Tour n°${state.turnCount}",
                     style: Theme.of(context)
                         .textTheme
                         .caption!
