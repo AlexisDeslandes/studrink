@@ -14,6 +14,7 @@ import 'package:studrink/widgets/bottom_sheet/chose_opponent_list_view.dart';
 import 'package:studrink/widgets/cell_announcer.dart';
 import 'package:studrink/widgets/dice_view.dart';
 import 'package:studrink/widgets/game_page_view/game_page_view.dart';
+import 'package:studrink/widgets/game_slider.dart';
 import 'package:studrink/widgets/player_announcer.dart';
 import 'package:studrink/widgets/player_area/play_area.dart';
 import 'package:studrink/widgets/player_overlay.dart';
@@ -103,15 +104,13 @@ class _GameScreenState extends State<GameScreen>
                                       child: const PlayerAnnouncer())
                                 ]))),
                     Expanded(
-                      child: Padding(
-                          padding: const EdgeInsets.only(top: 50.0),
-                          child: Center(
-                              child: FadeTransition(
-                            child: const GamePageView(),
-                            opacity: _controller.drive(
-                                CurveTween(curve: Interval(1 / 3, 2 / 3))),
-                          ))),
-                    ),
+                        child: Padding(
+                            padding: const EdgeInsets.only(top: 50.0),
+                            child: Center(
+                                child: FadeTransition(
+                                    child: const GamePageView(),
+                                    opacity: _controller.drive(CurveTween(
+                                        curve: Interval(1 / 3, 2 / 3))))))),
                     Padding(
                         padding: EdgeInsets.only(
                             bottom: size.height < 700 ? 25 : 50,
@@ -130,11 +129,7 @@ class _GameScreenState extends State<GameScreen>
                     ScaleTransition(
                       child: const PlayArea(),
                       scale: _controller
-                          .drive(CurveTween(
-                              curve: Interval(
-                            2 / 3,
-                            1.0,
-                          )))
+                          .drive(CurveTween(curve: Interval(2 / 3, 1.0)))
                           .drive(TweenSequence([
                             TweenSequenceItem(
                                 tween: Tween(begin: 0.0, end: 1.3),
@@ -148,7 +143,11 @@ class _GameScreenState extends State<GameScreen>
               ),
             ),
             const DiceView(),
-            Positioned(child: const TurnIndicator(), right: 10, top: 60)
+            Positioned(child: const TurnIndicator(), right: 10, top: 60),
+            Positioned(
+                width: MediaQuery.of(context).size.width,
+                child: Center(child: const GameSlider()),
+                bottom: 88 - 48 / 2)
           ],
         ),
       ),

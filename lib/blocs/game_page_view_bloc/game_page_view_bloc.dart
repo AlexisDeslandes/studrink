@@ -19,7 +19,7 @@ class GamePageViewBloc extends Bloc<GamePageViewEvent, GamePageViewState> {
     if (event is ChangePageView) {
       final page = event.page;
       state.pageController.animateToPage(page,
-          curve: Curves.easeInOut, duration: Duration(seconds: 1));
+          curve: Curves.easeInOut, duration: event.duration);
       final currentGameBlocState = currentGameBloc.state,
           playerListOnCell = currentGameBlocState.playerListFromIdCell(page),
           currentPlayer = currentGameBlocState.currentPlayer;
@@ -49,7 +49,8 @@ abstract class GamePageViewEvent extends Equatable {
 }
 
 class ChangePageView extends GamePageViewEvent {
-  final int page;
+  const ChangePageView(this.page, {this.duration = const Duration(seconds: 1)});
 
-  const ChangePageView(this.page);
+  final int page;
+  final Duration duration;
 }
