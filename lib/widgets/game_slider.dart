@@ -17,13 +17,23 @@ class _GameSliderState extends State<GameSlider> {
       context.read<CurrentGameBloc>().state.boardGame!.cells.length;
   late final PageController _controller =
       context.read<GamePageViewBloc>().state.pageController;
+  late final _listener;
+
+  //todo fix issue
+  //setState() called after dispose(): _GameSliderState#e62ed(lifecycle state: defunct, not mounted)
 
   @override
   void initState() {
     super.initState();
-    _controller.addListener(() {
+    _controller.addListener(_listener = () {
       if (!_isSliding) setState(() => _value = _controller.page!);
     });
+  }
+
+  @override
+  void dispose() {
+    _controller.removeListener(_listener);
+    super.dispose();
   }
 
   @override
