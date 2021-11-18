@@ -19,42 +19,37 @@ class CardCellPlayerList extends StatelessWidget {
         builder: (context, focusedCellState) {
           const imageSize = 40.0, borderRadius = 3.0;
           final playerList = currentGameState.playerListFromCell(cell);
-          return Row(children: [
-            Expanded(
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                itemCount: playerList.length,
-                itemBuilder: (context, index) {
-                  final player = playerList[index];
-                  final hasFocus = focusedCellState.selectedPlayer == player;
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 3.0),
-                    child: GestureDetector(
-                      onTap: () => context
-                          .read<FocusedCellBloc>()
-                          .add(ChangeFocusedPlayer(player)),
-                      child: Container(
-                        width: imageSize + borderRadius * 2,
-                        height: imageSize + borderRadius * 2,
-                        child: Center(
-                          child: PlayerAvatar(
-                              player: player,
-                              decoration: hasFocus
-                                  ? BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                          color: Colors.white,
-                                          width: borderRadius))
-                                  : null),
-                        ),
-                      ),
+          return ListView.builder(
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            itemCount: playerList.length,
+            itemBuilder: (context, index) {
+              final player = playerList[index];
+              final hasFocus = focusedCellState.selectedPlayer == player;
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 3.0),
+                child: GestureDetector(
+                  onTap: () => context
+                      .read<FocusedCellBloc>()
+                      .add(ChangeFocusedPlayer(player)),
+                  child: Container(
+                    width: imageSize + borderRadius * 2,
+                    height: imageSize + borderRadius * 2,
+                    child: Center(
+                      child: PlayerAvatar(
+                          player: player,
+                          decoration: hasFocus
+                              ? BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                      color: Colors.white, width: borderRadius))
+                              : null),
                     ),
-                  );
-                },
-              ),
-            )
-          ]);
+                  ),
+                ),
+              );
+            },
+          );
         },
       );
     });

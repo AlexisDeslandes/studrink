@@ -19,9 +19,6 @@ class _GameSliderState extends State<GameSlider> {
       context.read<GamePageViewBloc>().state.pageController;
   late final _listener;
 
-  //todo fix issue
-  //setState() called after dispose(): _GameSliderState#e62ed(lifecycle state: defunct, not mounted)
-
   @override
   void initState() {
     super.initState();
@@ -39,9 +36,11 @@ class _GameSliderState extends State<GameSlider> {
   @override
   Widget build(BuildContext context) {
     //todo remonter le titre pour créer de l'espace, trouver un moyen
-    // de rajouter les users au dessus du game slider
+    //todo de rajouter les users au dessus du game slider
     return SliderTheme(
-        data: SliderThemeData(inactiveTrackColor: Color(0x84188297)),
+        data: SliderThemeData(
+            inactiveTrackColor: Color(0x84188297),
+            tickMarkShape: SliderTickMarkShape.noTickMark),
         child: Slider(
             divisions: _cellsCount,
             value: _value,

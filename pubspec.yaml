@@ -26,6 +26,7 @@ dependencies:
   back_button_interceptor: ^5.0.2
   tuple: ^2.0.0
   image: ^3.0.5
+  avatar_glow: ^2.0.2
 
 dev_dependencies:
   flutter_test:

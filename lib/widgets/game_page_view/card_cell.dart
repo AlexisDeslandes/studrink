@@ -17,12 +17,17 @@ class CardCell extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size.width * 0.6;
     return GlassWidget(
-        child: Stack(
-      children: [
-        Column(
+        child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Padding(
+                  padding: const EdgeInsets.only(left: 15.0, top: 15.0),
+                  child: Text(cell.name,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline1!
+                          .copyWith(fontSize: 30))),
               Expanded(
                 child: Align(
                     child: ConditionWidget(
@@ -48,12 +53,6 @@ class CardCell extends StatelessWidget {
                   textAlign: TextAlign.center,
                 )),
               )
-            ]),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SizedBox(child: CardCellPlayerList(cell), height: 50),
-        ),
-      ],
-    ));
+            ]));
   }
 }

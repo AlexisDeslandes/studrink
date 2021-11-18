@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
+
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:random_color/random_color.dart';
 import 'package:studrink/models/condition_key.dart';
@@ -180,5 +181,10 @@ class Player extends Resource implements Comparable<Player> {
     if (idCellComparison != 0) return idCellComparison;
     return other.conditionKeyList.length
         .compareTo(this.conditionKeyList.length);
+  }
+
+  String get shortName {
+    if (name.length > 1) return name.substring(0, 2);
+    return name.substring(0, 1);
   }
 }

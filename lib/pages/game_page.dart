@@ -1,3 +1,4 @@
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -11,15 +12,13 @@ import 'package:studrink/pages/my_custom_page.dart';
 import 'package:studrink/utils/studrink_utils.dart';
 import 'package:studrink/widgets/bottom_sheet/app_bottom_sheet.dart';
 import 'package:studrink/widgets/bottom_sheet/chose_opponent_list_view.dart';
-import 'package:studrink/widgets/cell_announcer.dart';
 import 'package:studrink/widgets/dice_view.dart';
 import 'package:studrink/widgets/game_page_view/game_page_view.dart';
 import 'package:studrink/widgets/game_slider.dart';
-import 'package:studrink/widgets/player_announcer.dart';
 import 'package:studrink/widgets/player_area/play_area.dart';
+import 'package:studrink/widgets/player_avatar.dart';
 import 'package:studrink/widgets/player_overlay.dart';
 import 'package:studrink/widgets/selected_player_card.dart';
-import 'package:studrink/widgets/turn_indicator.dart';
 
 class GamePage extends MyCustomPage {
   const GamePage()
@@ -49,108 +48,111 @@ class _GameScreenState extends State<GameScreen>
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: FadeTransition(
-          opacity: _controller,
-          child: BackButton(
-              onPressed: () => _controller
-                  .reverse()
-                  .then((value) => context.read<NavBloc>().add(const PopNav())),
-              color: Colors.black),
-        ),
-      ),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            BlocListener<CurrentGameBloc, CurrentGameState>(
-              listenWhen: (previous, current) =>
-                  previous.currentPlayer?.state != current.currentPlayer?.state,
-              listener: _displayBottomSheet,
-              child: BlocListener<CurrentGameBloc, CurrentGameState>(
-                listenWhen: (previous, current) =>
-                    previous.currentPlayer?.name !=
-                        current.currentPlayer?.name &&
-                    current.currentPlayer != null,
-                listener: (context, state) =>
-                    _displayOverlay(context, state, size.width, size.height),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    FadeTransition(
-                        opacity: _controller
-                            .drive(CurveTween(curve: Interval(0.0, 1 / 3))),
-                        child: SlideTransition(
-                            position: _controller
-                                .drive(CurveTween(curve: Interval(0.0, 1 / 3)))
-                                .drive(Tween(
-                                    begin: Offset(0.0, -0.5),
-                                    end: Offset.zero)),
-                            child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 35.0),
-                                      child: const CellAnnouncer()),
-                                  Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 35.0),
-                                      child: const PlayerAnnouncer())
-                                ]))),
-                    Expanded(
-                        child: Padding(
-                            padding: const EdgeInsets.only(top: 50.0),
+    final size = MediaQuery.of(context).size, glowSize = 70.0;
+    return Stack(
+      children: [
+        Positioned(
+            left: MediaQuery.of(context).size.width / 2 - glowSize,
+            top: glowSize / 4,
+            child: BlocBuilder<CurrentGameBloc, CurrentGameState>(
+                builder: (context, state) => AvatarGlow(
+                    glowColor: state.currentPlayer!.color,
+                    child: Stack(
+                      children: [
+                        PlayerAvatar(
+                          player: state.currentPlayer!,
+                          size: 60,
+                        ),
+                        Positioned.fill(
                             child: Center(
-                                child: FadeTransition(
-                                    child: const GamePageView(),
-                                    opacity: _controller.drive(CurveTween(
-                                        curve: Interval(1 / 3, 2 / 3))))))),
-                    Padding(
-                        padding: EdgeInsets.only(
-                            bottom: size.height < 700 ? 25 : 50,
-                            top: 20,
-                            right: isTablet(context)
-                                ? MediaQuery.of(context).size.width / 3
-                                : 50.0,
-                            left: isTablet(context)
-                                ? MediaQuery.of(context).size.width / 3
-                                : 50.0),
-                        child: FadeTransition(
-                          child: const SelectedPlayerCard(),
-                          opacity: _controller
-                              .drive(CurveTween(curve: Interval(1 / 3, 2 / 3))),
-                        )),
-                    ScaleTransition(
-                      child: const PlayArea(),
-                      scale: _controller
-                          .drive(CurveTween(curve: Interval(2 / 3, 1.0)))
-                          .drive(TweenSequence([
-                            TweenSequenceItem(
-                                tween: Tween(begin: 0.0, end: 1.3),
-                                weight: 0.7),
-                            TweenSequenceItem(
-                                tween: Tween(begin: 1.3, end: 1.0), weight: 0.3)
-                          ])),
-                    )
-                  ],
-                ),
-              ),
+                                child: Text(state.currentPlayer!.shortName,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold))))
+                      ],
+                    ),
+                    endRadius: glowSize))),
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            leading: FadeTransition(
+              opacity: _controller,
+              child: BackButton(
+                  onPressed: () => _controller.reverse().then(
+                      (value) => context.read<NavBloc>().add(const PopNav())),
+                  color: Colors.black),
             ),
-            const DiceView(),
-            Positioned(child: const TurnIndicator(), right: 10, top: 60),
-            Positioned(
-                width: MediaQuery.of(context).size.width,
-                child: Center(child: const GameSlider()),
-                bottom: 88 - 48 / 2)
-          ],
+          ),
+          body: SafeArea(
+            child: Stack(
+              children: [
+                BlocListener<CurrentGameBloc, CurrentGameState>(
+                  listenWhen: (previous, current) =>
+                      previous.currentPlayer?.state !=
+                      current.currentPlayer?.state,
+                  listener: _displayBottomSheet,
+                  child: BlocListener<CurrentGameBloc, CurrentGameState>(
+                    listenWhen: (previous, current) =>
+                        previous.currentPlayer?.name !=
+                            current.currentPlayer?.name &&
+                        current.currentPlayer != null,
+                    listener: (context, state) => _displayOverlay(
+                        context, state, size.width, size.height),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                            child: Padding(
+                                padding: const EdgeInsets.only(top: 50.0),
+                                child: Center(
+                                    child: FadeTransition(
+                                        child: const GamePageView(),
+                                        opacity: _controller.drive(CurveTween(
+                                            curve: Interval(1 / 3, 2 / 3))))))),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20.0),
+                          child: const GameSlider(),
+                        ),
+                        Padding(
+                            padding: EdgeInsets.only(
+                                bottom: size.height < 700 ? 25 : 50,
+                                top: 20,
+                                right: isTablet(context)
+                                    ? MediaQuery.of(context).size.width / 3
+                                    : 50.0,
+                                left: isTablet(context)
+                                    ? MediaQuery.of(context).size.width / 3
+                                    : 50.0),
+                            child: FadeTransition(
+                              child: const SelectedPlayerCard(),
+                              opacity: _controller.drive(
+                                  CurveTween(curve: Interval(1 / 3, 2 / 3))),
+                            )),
+                        ScaleTransition(
+                          child: const PlayArea(),
+                          scale: _controller
+                              .drive(CurveTween(curve: Interval(2 / 3, 1.0)))
+                              .drive(TweenSequence([
+                                TweenSequenceItem(
+                                    tween: Tween(begin: 0.0, end: 1.3),
+                                    weight: 0.7),
+                                TweenSequenceItem(
+                                    tween: Tween(begin: 1.3, end: 1.0),
+                                    weight: 0.3)
+                              ])),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                const DiceView(),
+                //Positioned(child: const TurnIndicator(), right: 10, top: 60)
+              ],
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 
