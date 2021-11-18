@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:studrink/blocs/board_game/board_game_bloc.dart';
 import 'package:studrink/blocs/nav/nav_bloc.dart';
+import 'package:studrink/constants/sd_constants.dart';
 import 'package:studrink/navigators/widgets/back_btn_wrapper.dart';
 import 'package:studrink/pages/chose_game_page.dart';
 import 'package:studrink/pages/create_game_page.dart';
@@ -28,8 +29,23 @@ class HomeScreen extends StatefulWidget {
 class HomeScreenState extends State<HomeScreen>
     with TickerProviderStateMixin, BackBtnWrapper {
   late final _controller =
-      AnimationController(vsync: this, duration: Duration(milliseconds: 500))
+      AnimationController(vsync: this, duration: SDConstants.pageAnimDuration)
         ..forward();
+
+  void _navToPlayGame() {
+    final boardGameList = context.read<BoardGameBloc>().state.boardGameList;
+    boardGameList.where((element) => element.imgUrl.startsWith("http")).forEach(
+        (element) => DefaultCacheManager().downloadFile(element.imgUrl));
+    _controller.reverse().then((_) => context.read<NavBloc>().add(PushNav(
+        pageBuilder: (_) => const ChoseGamePage(),
+        onPop: () => _controller.forward())));
+  }
+
+  void _navToCreateGame() {
+    _controller.reverse().then((_) => context.read<NavBloc>().add(PushNav(
+        pageBuilder: (_) => const CreateGamePage(),
+        onPop: () => _controller.forward())));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,40 +80,12 @@ class HomeScreenState extends State<HomeScreen>
                                             .headline2),
                                   ),
                                   ColorButton(
-                                      text: "Jouer",
-                                      callback: () {
-                                        final boardGameList = context
-                                            .read<BoardGameBloc>()
-                                            .state
-                                            .boardGameList;
-                                        boardGameList
-                                            .where((element) => element.imgUrl
-                                                .startsWith("http"))
-                                            .forEach((element) =>
-                                                DefaultCacheManager()
-                                                    .downloadFile(
-                                                        element.imgUrl));
-                                        _controller.reverse().then((_) =>
-                                            context.read<NavBloc>().add(PushNav(
-                                                pageBuilder: (_) =>
-                                                    const ChoseGamePage(),
-                                                onPop: () =>
-                                                    _controller.forward())));
-                                      }),
+                                      text: "Jouer", callback: _navToPlayGame),
                                   Padding(
                                       padding: const EdgeInsets.only(top: 20.0),
                                       child: WhiteButton(
                                           text: "Créer",
-                                          callback: () => _controller
-                                              .reverse()
-                                              .then((_) => context
-                                                  .read<NavBloc>()
-                                                  .add(PushNav(
-                                                    pageBuilder: (_) =>
-                                                        const CreateGamePage(),
-                                                    onPop: () =>
-                                                        _controller.forward(),
-                                                  )))))
+                                          callback: _navToCreateGame))
                                 ])))))));
   }
 }
