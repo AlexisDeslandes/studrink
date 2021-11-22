@@ -19,11 +19,6 @@ class ColorButton extends StatelessWidget {
         : isTablet(context)
             ? 300.0
             : 200.0;
-    /*final buttonSize =
-        (mini ? ButtonConstants.miniButtonSize : ButtonConstants.buttonSize) *
-            MediaQuery.of(context).size.width;
-
-     */
     return Container(
       width: buttonSize,
       height: mini

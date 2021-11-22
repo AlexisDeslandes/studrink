@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:studrink/widgets/buttons/sd_fab.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MailToFab extends StatelessWidget {
@@ -17,18 +18,9 @@ class MailToFab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
+    return SDFab(
         heroTag: "msg",
-        child: Container(
-            width: 56,
-            height: 56,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100.0),
-                gradient: LinearGradient(colors: [
-                  Theme.of(context).accentColor,
-                  Theme.of(context).primaryColor
-                ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
-            child: Icon(Icons.message, color: Colors.white)),
+        icon: Icons.message,
         onPressed: () => _launchURL(Uri(
             scheme: "mailto",
             path: "deslandes.alexis1@gmail.com",
