@@ -8,6 +8,7 @@ import 'package:studrink/blocs/current_game/current_game_bloc.dart';
 import 'package:studrink/blocs/market_place/market_place_bloc.dart';
 import 'package:studrink/blocs/nav/nav_bloc.dart';
 import 'package:studrink/navigators/widgets/back_btn_wrapper.dart';
+import 'package:studrink/pages/chose_players_page.dart';
 import 'package:studrink/pages/game_detail_page.dart';
 import 'package:studrink/pages/my_custom_page.dart';
 import 'package:studrink/utils/studrink_utils.dart';
@@ -162,7 +163,7 @@ class DetailMarketScreenState extends State<DetailMarketScreen>
                                     _controller.reverse().then((value) =>
                                         context.read<NavBloc>().add(PushNav(
                                             pageBuilder: (_) =>
-                                                const GameDetailPage(),
+                                                const ChosePlayersPage(),
                                             onPop: () =>
                                                 _controller.forward())));
                                   }

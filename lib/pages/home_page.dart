@@ -8,6 +8,7 @@ import 'package:studrink/constants/sd_constants.dart';
 import 'package:studrink/navigators/widgets/back_btn_wrapper.dart';
 import 'package:studrink/pages/chose_game_page.dart';
 import 'package:studrink/pages/create_game_page.dart';
+import 'package:studrink/pages/market_page.dart';
 import 'package:studrink/pages/my_custom_page.dart';
 import 'package:studrink/utils/studrink_utils.dart';
 import 'package:studrink/widgets/buttons/color_button.dart';
@@ -37,7 +38,7 @@ class HomeScreenState extends State<HomeScreen>
     boardGameList.where((element) => element.imgUrl.startsWith("http")).forEach(
         (element) => DefaultCacheManager().downloadFile(element.imgUrl));
     _controller.reverse().then((_) => context.read<NavBloc>().add(PushNav(
-        pageBuilder: (_) => const ChoseGamePage(),
+        pageBuilder: (_) => const MarketPage(),
         onPop: () => _controller.forward())));
   }
 

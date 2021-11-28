@@ -10,7 +10,9 @@ import 'package:studrink/models/board_game.dart';
 import 'package:studrink/navigators/widgets/back_btn_wrapper.dart';
 import 'package:studrink/pages/detail_market_page.dart';
 import 'package:studrink/pages/my_custom_page.dart';
+import 'package:studrink/pages/qr_code_page.dart';
 import 'package:studrink/utils/studrink_utils.dart';
+import 'package:studrink/widgets/buttons/sd_fab.dart';
 import 'package:studrink/widgets/glass/glass_widget.dart';
 import 'package:studrink/widgets/my_choice_chip.dart';
 
@@ -50,6 +52,18 @@ class MarketScreenState extends State<MarketScreen>
         width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.transparent,
+      floatingActionButton: ScaleTransition(
+        scale: _controller.drive(CurveTween(curve: Interval(0.8, 1.0))),
+        child: SDFab(
+          icon: Icons.qr_code,
+          onPressed: () => _controller.reverse().then((_) => context
+              .read<NavBloc>()
+              .add(PushNav(
+                  pageBuilder: (_) => const QRCodePage(),
+                  onPop: () => _controller.forward()))),
+          heroTag: "market_fab",
+        ),
+      ),
       appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -168,8 +182,6 @@ class MarketScreenState extends State<MarketScreen>
                                             onPop: () =>
                                                 _controller.forward())));
                                   },
-                                  installed: boardGameState.boardGameList
-                                      .contains(boardGame),
                                   boardGame: boardGame))
                               .toList()),
                     );
@@ -185,14 +197,9 @@ class MarketScreenState extends State<MarketScreen>
 }
 
 class MarketGameTile extends StatelessWidget {
-  const MarketGameTile(
-      {Key? key,
-      required this.boardGame,
-      required this.installed,
-      required this.onTap})
+  const MarketGameTile({Key? key, required this.boardGame, required this.onTap})
       : super(key: key);
   final BoardGame boardGame;
-  final bool installed;
   final ValueChanged<BoardGame> onTap;
 
   @override
@@ -224,11 +231,6 @@ class MarketGameTile extends StatelessWidget {
                             padding: const EdgeInsets.only(top: 5.0, left: 5.0),
                             child: SvgPicture.asset(boardGame.imgUrl),
                           )),
-                if (installed)
-                  Expanded(
-                      child: Align(
-                          child: Icon(Icons.check),
-                          alignment: Alignment.topRight))
               ],
             ),
           ),

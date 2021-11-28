@@ -24,6 +24,8 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>io.flutter.embedded_views_preview</key>
+  <true/>
 	<key>NSCameraUsageDescription</key>
 	<string>Players can add a picture to identify themselves with other players.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

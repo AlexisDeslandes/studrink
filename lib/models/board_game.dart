@@ -48,6 +48,10 @@ class BoardGame extends Resource {
                 ? (json["screenshots"] as List<dynamic>).cast<String>()
                 : []);
 
+  static BoardGame? fromCode(String code) {
+    //todo
+  }
+
   @override
   List<Object?> get props => [name];
 
@@ -65,4 +69,6 @@ class BoardGame extends Resource {
       "chips": chips
     };
   }
+
+
 }
