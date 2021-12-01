@@ -1,11 +1,11 @@
 import 'package:studrink/models/resource.dart';
 
-class PrisonCondition extends Resource {
+class JailCondition extends Resource {
   final List<int> dicePossibilities;
 
-  PrisonCondition(this.dicePossibilities);
+  JailCondition(this.dicePossibilities);
 
-  PrisonCondition.fromJson(Map<String, dynamic> map)
+  JailCondition.fromJson(Map<String, dynamic> map)
       : this(List<int>.from(map["dicePossibilities"]));
 
   @override

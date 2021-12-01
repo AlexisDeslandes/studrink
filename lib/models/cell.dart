@@ -1,7 +1,8 @@
+import 'package:studrink/models/board_game.dart';
 import 'package:studrink/models/condition_key.dart';
 import 'package:studrink/models/moving.dart';
 import 'package:studrink/models/player.dart';
-import 'package:studrink/models/prison_condition.dart';
+import 'package:studrink/models/jail_condition.dart';
 import 'package:studrink/models/resource.dart';
 import 'package:studrink/models/throw_dice_effect.dart';
 
@@ -39,7 +40,7 @@ class Cell extends Resource {
   final ConditionKey? givenConditionKey;
   final ConditionKey? requiredConditionKey;
   final ConditionKey? conditionKeyStolen;
-  final PrisonCondition? jailCondition;
+  final JailCondition? jailCondition;
   final Moving? moving;
   final ThrowDiceEffect? throwDiceEffect;
   final String? challenge;
@@ -50,6 +51,7 @@ class Cell extends Resource {
   final ConditionKey? conditionIf;
   final ConditionKey? lostConditionKey;
   final int? diceCondition;
+  final int? tpCellIndex;
 
   Cell(
       {required this.name,
@@ -70,7 +72,94 @@ class Cell extends Resource {
       this.conditionIf,
       this.ifCell,
       this.elseCell,
-      this.diceCondition});
+      this.diceCondition,
+      this.tpCellIndex});
+
+  factory Cell.fromCode(String code, {String divider = "£"}) {
+    final parts = code.split(divider);
+    var name,
+        diceCondition,
+        tpCell,
+        cks,
+        muc,
+        ch,
+        tde,
+        ip,
+        pc,
+        m,
+        sel,
+        selatl,
+        ck,
+        rck,
+        ct,
+        ic,
+        ci,
+        ec,
+        lck;
+    for (var value in parts) {
+      if (value.startsWith("n:"))
+        name = value.substring(2);
+      else if (value.startsWith("dc:"))
+        diceCondition = int.parse(value.substring(3));
+      else if (value.startsWith("tc:"))
+        tpCell = int.parse(value.substring(3)); //index of the cell
+      else if (value.startsWith("cks:"))
+        cks = ConditionKey(name: value.substring(3)); //condition key
+      else if (value.startsWith("muc:"))
+        muc = int.parse(value.substring(4)); //moving
+      else if (value.startsWith("ch:"))
+        ch = value.substring(3); //Challenge
+      else if (value.startsWith("tde:"))
+        tde = value.substring(4); //throw dice effect
+      else if (value.startsWith("ip:"))
+        ip = value.substring(3); //img path
+      else if (value.startsWith("pc:")) //prison condition List<int>
+        pc = JailCondition(
+            (value.substring(3).split(";")).map((e) => int.parse(e)).toList());
+      else if (value.startsWith("m:")) {
+        final type = MovingType.values[(int.parse(value.substring(2, 3)))];
+        m = Moving(
+            movingType: type, count: int.parse(value.substring(3))); //moving
+      } else if (value.startsWith("sel:"))
+        sel = value.substring(4); //sideEffectList
+      else if (value.startsWith("selatl:"))
+        selatl = value.substring(7); //sideEffectAfterTurnLost
+      else if (value.startsWith("ck:"))
+        ck = ConditionKey(name: value.substring(3)); //condition key
+      else if (value.startsWith("rck:"))
+        rck = ConditionKey(name: value.substring(4)); //required condition key
+      else if (value.startsWith("t:")) //type of cell
+        ct = int.parse(value.substring(2));
+      else if (value.startsWith("ic:")) //ifCell
+        ic = Cell.fromCode(value.substring(4, value.length - 1), divider: "§");
+      else if (value.startsWith("ci:")) //condition if
+        ci = ConditionKey(name: value.substring(3));
+      else if (value.startsWith("ec:")) //else cell
+        ec = Cell.fromCode(value.substring(4, value.length - 1), divider: "§");
+      else if (value.startsWith("lck:")) // condition key
+        lck = ConditionKey(name: value.substring(4));
+    }
+    return Cell(
+        name: name ?? "",
+        imgPath: ip,
+        cellType: CellType.values[ct],
+        challenge: ch,
+        diceCondition: diceCondition,
+        elseCell: ec,
+        ifCell: ic,
+        moving: m,
+        jailCondition: pc,
+        movingUndeterminedCount: muc,
+        sideEffectList: sel != null ? [sel] : [],
+        sideEffectListAfterTurnLost: selatl != null ? [selatl] : [],
+        throwDiceEffect: tde != null ? ThrowDiceEffect(sideEffect: tde) : null,
+        tpCellIndex: tpCell,
+        conditionIf: ci,
+        conditionKeyStolen: cks,
+        givenConditionKey: ck,
+        lostConditionKey: lck,
+        requiredConditionKey: rck);
+  }
 
   @override
   Map<String, dynamic> toJson() {
@@ -129,7 +218,7 @@ class Cell extends Resource {
                 ? ThrowDiceEffect.fromJson(map["throwDiceEffect"])
                 : null,
             jailCondition: map["prisonCondition"] != null
-                ? PrisonCondition.fromJson(map["prisonCondition"])
+                ? JailCondition.fromJson(map["prisonCondition"])
                 : null,
             moving:
                 map["moving"] != null ? Moving.fromJson(map["moving"]) : null,
@@ -304,4 +393,27 @@ class Cell extends Resource {
             ? this.elseCell
             : this;
   }
+
+  Cell.copy(Cell e, {Cell? tpCell})
+      : this(
+            name: e.name,
+            imgPath: e.imgPath,
+            cellType: e.cellType,
+            challenge: e.challenge,
+            diceCondition: e.diceCondition,
+            elseCell: e.elseCell,
+            ifCell: e.ifCell,
+            moving: e.moving,
+            jailCondition: e.jailCondition,
+            movingUndeterminedCount: e.movingUndeterminedCount,
+            sideEffectList: e.sideEffectList,
+            sideEffectListAfterTurnLost: e.sideEffectListAfterTurnLost,
+            throwDiceEffect: e.throwDiceEffect,
+            tpCellIndex: e.tpCellIndex,
+            conditionIf: e.conditionIf,
+            conditionKeyStolen: e.conditionKeyStolen,
+            givenConditionKey: e.givenConditionKey,
+            lostConditionKey: e.lostConditionKey,
+            requiredConditionKey: e.requiredConditionKey,
+            tpCell: tpCell ?? e.tpCell);
 }

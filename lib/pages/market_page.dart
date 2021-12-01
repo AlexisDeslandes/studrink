@@ -163,27 +163,32 @@ class MarketScreenState extends State<MarketScreen>
                       builder: (context, state) {
                     final boardGameListTreated = state.boardGameListTreated;
                     return BlocBuilder<BoardGameBloc, BoardGameState>(
-                      builder: (context, boardGameState) => Wrap(
-                          children: boardGameListTreated
-                              .map((boardGame) => MarketGameTile(
-                                  onTap: (value) {
-                                    boardGame.screenshots.forEach((element) =>
-                                        precacheImage(
-                                            AssetImage(
-                                                "assets/screenshots/$element"),
-                                            context));
-                                    context
-                                        .read<MarketPlaceBloc>()
-                                        .add(ChoseBoardGame(boardGame));
-                                    _controller.reverse().then((value) =>
-                                        context.read<NavBloc>().add(PushNav(
-                                            pageBuilder: (_) =>
-                                                const DetailMarketPage(),
-                                            onPop: () =>
-                                                _controller.forward())));
-                                  },
-                                  boardGame: boardGame))
-                              .toList()),
+                      builder: (context, boardGameState) => GridView.builder(
+                        itemCount: boardGameListTreated.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2),
+                        itemBuilder: (context, index) {
+                          final boardGame = boardGameListTreated[index];
+                          return MarketGameTile(
+                              onTap: (value) {
+                                boardGame.screenshots.forEach((element) =>
+                                    precacheImage(
+                                        AssetImage(
+                                            "assets/screenshots/$element"),
+                                        context));
+                                context
+                                    .read<MarketPlaceBloc>()
+                                    .add(ChoseBoardGame(boardGame));
+                                _controller.reverse().then((value) => context
+                                    .read<NavBloc>()
+                                    .add(PushNav(
+                                        pageBuilder: (_) =>
+                                            const DetailMarketPage(),
+                                        onPop: () => _controller.forward())));
+                              },
+                              boardGame: boardGame);
+                        },
+                      ),
                     );
                   }),
                 ),

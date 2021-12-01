@@ -49,7 +49,25 @@ class BoardGame extends Resource {
                 : []);
 
   static BoardGame? fromCode(String code) {
-    //todo
+    final lines = code.split("|");
+    var cellsString = lines.sublist(7);
+    final cellsTpNotTreated = cellsString.map((e) => Cell.fromCode(e)).toList(),
+        cells = cellsTpNotTreated.map((e) {
+          if (e.tpCellIndex != null)
+            return Cell.copy(e, tpCell: cellsTpNotTreated[e.tpCellIndex!]);
+          return e;
+        }).toList();
+    return BoardGame(
+        date: DateTime.now(),
+        imgUrl:
+            "https://img.lovepik.com/original_origin_pic/19/01/05/3b3852ab17f50f666f1d142e705ea3b8.png_wh300.png",
+        name: lines[1],
+        description: lines[3],
+        teaser: lines[2],
+        screenshots: lines[4].split(","),
+        chips: lines[5].split(","),
+        goal: lines[6],
+        cells: cells);
   }
 
   @override
@@ -69,6 +87,4 @@ class BoardGame extends Resource {
       "chips": chips
     };
   }
-
-
 }
