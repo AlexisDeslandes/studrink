@@ -32,6 +32,7 @@ class BoardGameBloc extends BlocEmitter<BoardGameEvent, BoardGameState>
           boardGameList = [...state.boardGameList, boardGame];
       await storage.write(
           LocalStorageKeywords.boardGameList, jsonEncode(boardGameList));
+      print(boardGameList);
       yield BoardGameState(boardGameList: boardGameList);
       emitSnackBar("Le jeu a bien été ajouté.");
     } else if (event is DeleteBoardGame) {

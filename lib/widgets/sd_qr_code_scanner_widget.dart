@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:studrink/blocs/board_game/board_game_bloc.dart';
 import 'package:studrink/blocs/nav/nav_bloc.dart';
@@ -30,9 +31,9 @@ class _SDQrCodeScannerWidgetState extends State<SDQrCodeScannerWidget> {
   }
 
   @override
-  Future dispose() async {
+  void dispose() {
     _controller.dispose();
-    await _subscription.cancel();
+    _subscription.cancel();
     super.dispose();
   }
 

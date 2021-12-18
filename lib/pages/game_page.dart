@@ -1,6 +1,4 @@
 import 'package:avatar_glow/avatar_glow.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studrink/blocs/current_game/current_game_bloc.dart';

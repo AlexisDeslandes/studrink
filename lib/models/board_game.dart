@@ -64,8 +64,8 @@ class BoardGame extends Resource {
         name: lines[1],
         description: lines[3],
         teaser: lines[2],
-        screenshots: lines[4].split(","),
-        chips: lines[5].split(","),
+        screenshots: lines[4].split("£"),
+        chips: lines[5].split("£"),
         goal: lines[6],
         cells: cells);
   }
