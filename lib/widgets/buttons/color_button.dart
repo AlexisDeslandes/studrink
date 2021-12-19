@@ -7,7 +7,7 @@ class ColorButton extends StatelessWidget {
       {Key? key, required this.text, required this.callback, this.mini = false})
       : super(key: key);
   final String text;
-  final VoidCallback callback;
+  final VoidCallback? callback;
   final bool mini;
 
   @override

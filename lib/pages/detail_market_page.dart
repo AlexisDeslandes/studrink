@@ -110,30 +110,17 @@ class DetailMarketScreenState extends State<DetailMarketScreen>
                                 tween: Tween(begin: 1.3, end: 1.0), weight: 0.3)
                           ])),
                       child: BlocBuilder<BoardGameBloc, BoardGameState>(
-                        builder: (context, state) {
-                          final boardGameList = state.boardGameList;
-                          if (boardGameList.contains(boardGame))
-                            return ColorButton(
-                              text: "Désinstaller",
-                              callback: () {
-                                context
-                                    .read<BoardGameBloc>()
-                                    .add(DeleteBoardGame(boardGame));
-                                _controller.reverse().then((_) =>
-                                    context.read<NavBloc>().add(PopNav()));
-                              },
-                              mini: true,
-                            );
-                          return ColorButton(
-                            text: "Installer",
-                            callback: () {
-                              context
-                                  .read<BoardGameBloc>()
-                                  .add(AddBoardGame(boardGame));
-                            },
-                            mini: true,
-                          );
-                        },
+                        builder: (context, state) => WhiteButton(
+                          text: "Désinstaller",
+                          callback: () {
+                            context
+                                .read<BoardGameBloc>()
+                                .add(DeleteBoardGame(boardGame));
+                            _controller.reverse().then(
+                                (_) => context.read<NavBloc>().add(PopNav()));
+                          },
+                          mini: true,
+                        ),
                       ),
                     ),
                     ScaleTransition(
@@ -147,7 +134,7 @@ class DetailMarketScreenState extends State<DetailMarketScreen>
                                 tween: Tween(begin: 1.3, end: 1.0), weight: 0.3)
                           ])),
                       child: BlocBuilder<BoardGameBloc, BoardGameState>(
-                        builder: (context, state) => WhiteButton(
+                        builder: (context, state) => ColorButton(
                           text: "Lancer",
                           callback: state.boardGameList.contains(boardGame)
                               ? () {
@@ -198,11 +185,13 @@ class DetailMarketScreenState extends State<DetailMarketScreen>
                       constraints: BoxConstraints(maxHeight: 350),
                       child: ScreenshotView(
                         cells: boardGame.cells,
-                        pickImage: (builder, args) => _controller.reverse().then(
-                            (value) => context.read<NavBloc>().add(PushNav(
-                                pageBuilder: builder,
-                                args: args,
-                                onPop: () => _controller.forward()))),
+                        pickImage: (builder, args) => _controller
+                            .reverse()
+                            .then((value) => context.read<NavBloc>().add(
+                                PushNav(
+                                    pageBuilder: builder,
+                                    args: args,
+                                    onPop: () => _controller.forward()))),
                       ),
                     ),
                   ),
