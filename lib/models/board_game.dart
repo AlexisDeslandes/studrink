@@ -9,7 +9,6 @@ class BoardGame extends Resource {
   final List<Cell> cells;
   final DateTime date;
   final bool event;
-  final List<String> screenshots;
   final List<String> chips;
   final String goal;
 
@@ -20,7 +19,6 @@ class BoardGame extends Resource {
       this.teaser = "",
       this.description = "",
       this.cells = const [],
-      this.screenshots = const [],
       this.event = false,
       this.chips = const [],
       this.goal = ""});
@@ -43,14 +41,11 @@ class BoardGame extends Resource {
                 ? List<Map<String, dynamic>>.from(json["cells"])
                     .map((e) => Cell.fromJson(e))
                     .toList()
-                : [],
-            screenshots: json["screenshots"] != null
-                ? (json["screenshots"] as List<dynamic>).cast<String>()
                 : []);
 
   static BoardGame? fromCode(String code) {
     final lines = code.split("|");
-    var cellsString = lines.sublist(7);
+    var cellsString = lines.sublist(6);
     final cellsTpNotTreated = cellsString.map((e) => Cell.fromCode(e)).toList(),
         cells = cellsTpNotTreated.map((e) {
           if (e.tpCellIndex != null)
@@ -64,9 +59,8 @@ class BoardGame extends Resource {
         name: lines[1],
         description: lines[3],
         teaser: lines[2],
-        screenshots: lines[4].split("£"),
-        chips: lines[5].split("£"),
-        goal: lines[6],
+        chips: lines[4].split("£"),
+        goal: lines[5],
         cells: cells);
   }
 
@@ -83,7 +77,6 @@ class BoardGame extends Resource {
       "imgUrl": imgUrl,
       "date": date.millisecondsSinceEpoch,
       "event": event,
-      "screenshots": screenshots,
       "chips": chips,
       "goal": goal
     };

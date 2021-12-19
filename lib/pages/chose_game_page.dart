@@ -71,10 +71,6 @@ class ChoseGameScreenState extends BaseScreenState {
                         boardGame: boardGameList[index],
                         onTap: () {
                           final boardGame = boardGameList[index];
-                          boardGame.screenshots.forEach((element) =>
-                              precacheImage(
-                                  AssetImage("assets/screenshots/$element"),
-                                  context));
                           context.read<CurrentGameBloc>()
                             ..add(InitModelCurrentGame(boardGame: boardGame));
                           controller.reverse().then((value) => context

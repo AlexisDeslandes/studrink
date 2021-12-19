@@ -180,12 +180,6 @@ class MarketScreenState extends State<MarketScreen>
                                                     state.boardGameList[index];
                                                 return MarketGameTile(
                                                     onTap: (value) {
-                                                      boardGame.screenshots
-                                                          .forEach((element) =>
-                                                              precacheImage(
-                                                                  AssetImage(
-                                                                      "assets/screenshots/$element"),
-                                                                  context));
                                                       context
                                                           .read<
                                                               MarketPlaceBloc>()

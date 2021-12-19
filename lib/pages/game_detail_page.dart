@@ -57,7 +57,7 @@ class _GameDetailScreenState extends BaseScreenState {
           Expanded(
             child: FadeTransition(
                 child: ScreenshotView(
-                  screenshots: boardGame.screenshots,
+                  cells: boardGame.cells,
                   pickImage: (builder, args) => controller.reverse().then(
                       (value) => context.read<NavBloc>().add(PushNav(
                           pageBuilder: builder,
