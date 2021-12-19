@@ -19,20 +19,24 @@ class BoardGameBloc extends BlocEmitter<BoardGameEvent, BoardGameState>
   @override
   Stream<BoardGameState> mapEventToState(BoardGameEvent event) async* {
     if (event is InitBoardGame) {
-      final gamesAsString =
-          await assetBundle.loadString("assets/games/games.json");
-      final List<Map<String, dynamic>> gamesAsJson =
-          (jsonDecode(gamesAsString) as List<dynamic>)
-              .cast<Map<String, dynamic>>();
-      final boardGameList =
-          gamesAsJson.map((json) => BoardGame.fromJson(json)).toList();
-      yield BoardGameState(boardGameList: boardGameList);
+      final storedGamesString =
+          storage.read(LocalStorageKeywords.boardGameList);
+      if (storedGamesString != null) {
+        final storedGames = (jsonDecode(storedGamesString) as List)
+            .map((e) => BoardGame.fromJson(e))
+            .toList();
+        yield BoardGameState(boardGameList: storedGames);
+      } else {
+        final gooseGameString =
+                await assetBundle.loadString("assets/games/jeu_de_loie.std"),
+            gooseGame = BoardGame.fromCode(gooseGameString)!;
+        yield BoardGameState(boardGameList: [gooseGame]);
+      }
     } else if (event is AddBoardGame) {
       final boardGame = event.boardGame,
           boardGameList = [...state.boardGameList, boardGame];
       await storage.write(
           LocalStorageKeywords.boardGameList, jsonEncode(boardGameList));
-      print(boardGameList);
       yield BoardGameState(boardGameList: boardGameList);
       emitSnackBar("Le jeu a bien été ajouté.");
     } else if (event is DeleteBoardGame) {

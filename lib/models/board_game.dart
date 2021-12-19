@@ -84,7 +84,8 @@ class BoardGame extends Resource {
       "date": date.millisecondsSinceEpoch,
       "event": event,
       "screenshots": screenshots,
-      "chips": chips
+      "chips": chips,
+      "goal": goal
     };
   }
 }

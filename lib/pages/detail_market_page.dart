@@ -9,7 +9,6 @@ import 'package:studrink/blocs/market_place/market_place_bloc.dart';
 import 'package:studrink/blocs/nav/nav_bloc.dart';
 import 'package:studrink/navigators/widgets/back_btn_wrapper.dart';
 import 'package:studrink/pages/chose_players_page.dart';
-import 'package:studrink/pages/game_detail_page.dart';
 import 'package:studrink/pages/my_custom_page.dart';
 import 'package:studrink/utils/studrink_utils.dart';
 import 'package:studrink/widgets/buttons/color_button.dart';
@@ -121,6 +120,8 @@ class DetailMarketScreenState extends State<DetailMarketScreen>
                                   context
                                       .read<BoardGameBloc>()
                                       .add(DeleteBoardGame(boardGame));
+                                  _controller.reverse().then((_) =>
+                                      context.read<NavBloc>().add(PopNav()));
                                 },
                                 mini: true,
                               );

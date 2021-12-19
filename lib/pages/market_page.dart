@@ -172,6 +172,8 @@ class MarketScreenState extends State<MarketScreen>
                                                   state.boardGameList.length,
                                               gridDelegate:
                                                   SliverGridDelegateWithFixedCrossAxisCount(
+                                                      mainAxisSpacing: 10,
+                                                      crossAxisSpacing: 10,
                                                       crossAxisCount: 2),
                                               itemBuilder: (context, index) {
                                                 final boardGame =
