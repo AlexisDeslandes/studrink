@@ -107,8 +107,7 @@ class DetailMarketScreenState extends State<DetailMarketScreen>
                                 tween: Tween(begin: 0.0, end: 1.3),
                                 weight: 0.7),
                             TweenSequenceItem(
-                                tween: Tween(begin: 1.3, end: 1.0),
-                                weight: 0.3)
+                                tween: Tween(begin: 1.3, end: 1.0), weight: 0.3)
                           ])),
                       child: BlocBuilder<BoardGameBloc, BoardGameState>(
                         builder: (context, state) {
@@ -145,8 +144,7 @@ class DetailMarketScreenState extends State<DetailMarketScreen>
                                 tween: Tween(begin: 0.0, end: 1.3),
                                 weight: 0.7),
                             TweenSequenceItem(
-                                tween: Tween(begin: 1.3, end: 1.0),
-                                weight: 0.3)
+                                tween: Tween(begin: 1.3, end: 1.0), weight: 0.3)
                           ])),
                       child: BlocBuilder<BoardGameBloc, BoardGameState>(
                         builder: (context, state) => WhiteButton(
@@ -156,12 +154,12 @@ class DetailMarketScreenState extends State<DetailMarketScreen>
                                   context.read<CurrentGameBloc>()
                                     ..add(InitModelCurrentGame(
                                         boardGame: boardGame));
-                                  _controller.reverse().then((value) =>
-                                      context.read<NavBloc>().add(PushNav(
+                                  _controller.reverse().then((value) => context
+                                      .read<NavBloc>()
+                                      .add(PushNav(
                                           pageBuilder: (_) =>
                                               const ChosePlayersPage(),
-                                          onPop: () =>
-                                              _controller.forward())));
+                                          onPop: () => _controller.forward())));
                                 }
                               : null,
                           mini: true,
@@ -180,10 +178,10 @@ class DetailMarketScreenState extends State<DetailMarketScreen>
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 30.0, left: 20.0, right: 20.0),
+              padding:
+                  const EdgeInsets.only(top: 30.0, left: 20.0, right: 20.0),
               child: Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: isATablet ? 75 : 8.0),
+                padding: EdgeInsets.symmetric(horizontal: isATablet ? 75 : 8.0),
                 child: FadeTransition(
                     opacity: _controller
                         .drive(CurveTween(curve: Interval(1 / 3, 2 / 3))),
@@ -194,13 +192,20 @@ class DetailMarketScreenState extends State<DetailMarketScreen>
               child: FadeTransition(
                 opacity: _controller
                     .drive(CurveTween(curve: Interval(1 / 3, 2 / 3))),
-                child: ScreenshotView(
-                  cells: boardGame.cells,
-                  pickImage: (builder, args) => _controller.reverse().then(
-                      (value) => context.read<NavBloc>().add(PushNav(
-                          pageBuilder: builder,
-                          args: args,
-                          onPop: () => _controller.forward()))),
+                child: Center(
+                  child: LayoutBuilder(
+                    builder: (context, constraints) => Container(
+                      constraints: BoxConstraints(maxHeight: 350),
+                      child: ScreenshotView(
+                        cells: boardGame.cells,
+                        pickImage: (builder, args) => _controller.reverse().then(
+                            (value) => context.read<NavBloc>().add(PushNav(
+                                pageBuilder: builder,
+                                args: args,
+                                onPop: () => _controller.forward()))),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             )

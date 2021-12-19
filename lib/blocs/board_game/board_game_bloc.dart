@@ -21,7 +21,7 @@ class BoardGameBloc extends BlocEmitter<BoardGameEvent, BoardGameState>
     if (event is InitBoardGame) {
       final storedGamesString =
           storage.read(LocalStorageKeywords.boardGameList);
-      if (storedGamesString != null) {
+      if (storedGamesString != null && storedGamesString != "[]") {
         final storedGames = (jsonDecode(storedGamesString) as List)
             .map((e) => BoardGame.fromJson(e))
             .toList();
@@ -38,7 +38,6 @@ class BoardGameBloc extends BlocEmitter<BoardGameEvent, BoardGameState>
       await storage.write(
           LocalStorageKeywords.boardGameList, jsonEncode(boardGameList));
       yield BoardGameState(boardGameList: boardGameList);
-      emitSnackBar("Le jeu a bien été ajouté.");
     } else if (event is DeleteBoardGame) {
       final boardGameList = state.boardGameList
           .where((element) => element != event.boardGame)
@@ -46,7 +45,6 @@ class BoardGameBloc extends BlocEmitter<BoardGameEvent, BoardGameState>
       await storage.write(
           LocalStorageKeywords.boardGameList, jsonEncode(boardGameList));
       yield BoardGameState(boardGameList: boardGameList);
-      emitSnackBar("Le jeu a bien été supprimé.");
     }
   }
 }
