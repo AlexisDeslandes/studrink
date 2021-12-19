@@ -110,7 +110,7 @@ class _GameScreenState extends State<GameScreen>
                                             curve: Interval(1 / 3, 2 / 3))))))),
                         Padding(
                           padding: const EdgeInsets.only(top: 20.0),
-                          child: const GameSlider(),
+                          //child: const GameSlider(),
                         ),
                         Padding(
                             padding: EdgeInsets.only(

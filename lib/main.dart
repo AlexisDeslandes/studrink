@@ -5,8 +5,7 @@ import 'package:studrink/blocs/provider/app_provider.dart';
 import 'package:studrink/storage/local_storage.dart';
 import 'package:studrink/theme/app_theme.dart';
 import 'package:studrink/widgets/paints/app_background_paint.dart';
-
-import 'navigators/main_navigator.dart';
+import 'package:studrink/widgets/sd_game_slider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +25,12 @@ class MyApp extends StatelessWidget {
         home: AppProvider(
             child: AppBackgroundPaint(
                 child: Scaffold(
-                    body: const MainNavigator(),
+                    //body: const MainNavigator(),
+                    body: Center(
+                      child: Builder(
+                        builder: (context) => SDGameSlider(),
+                      ),
+                    ),
                     backgroundColor: Colors.transparent))));
   }
 }
