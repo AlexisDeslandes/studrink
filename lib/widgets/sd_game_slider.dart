@@ -14,6 +14,14 @@ class SDGameSlider extends StatefulWidget {
 
 class _SDGameSliderState extends State<SDGameSlider> {
   double _thumbPosition = 0.0;
+  List<Player> _playerList = [
+    Player(
+      id: 8,
+      color: Colors.red,
+    ),
+    Player(id: 9, color: Colors.orange),
+    Player(id: 10, color: Colors.grey)
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +41,7 @@ class _SDGameSliderState extends State<SDGameSlider> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Container(
-                        width: _thumbPosition,
+                        width: _thumbPosition + thumbSize / 2,
                         decoration: BoxDecoration(
                             color: Theme.of(context).primaryColor,
                             borderRadius: BorderRadius.circular(100.0)),
@@ -80,20 +88,18 @@ class _SDGameSliderState extends State<SDGameSlider> {
                 ],
               )),
           Positioned(
-            left: _thumbPosition > width / 2
-                ? _thumbPosition - 150 //todo determine child width instead of 150
+            left: _thumbPosition > width / 2 //todo animate when mid transition
+                ? _thumbPosition -
+                    (_playerList.length * 40 + (_playerList.length - 1) * 12)
                 : _thumbPosition,
             bottom: 0,
             child: GlassWidget(
                 padding: EdgeInsets.all(12.0),
                 child: Wrap(
-                  spacing: 12.0,
-                  children: [
-                    PlayerAvatar(player: Player(id: 8, color: Colors.red)),
-                    PlayerAvatar(player: Player(id: 9, color: Colors.orange)),
-                    PlayerAvatar(player: Player(id: 10, color: Colors.grey))
-                  ],
-                )),
+                    spacing: 12.0,
+                    children: _playerList
+                        .map((e) => PlayerAvatar(player: e))
+                        .toList())),
           )
         ],
       ),
