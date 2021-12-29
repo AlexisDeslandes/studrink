@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:studrink/blocs/provider/app_provider.dart';
 import 'package:studrink/storage/local_storage.dart';
 import 'package:studrink/theme/app_theme.dart';
 import 'package:studrink/widgets/paints/app_background_paint.dart';
 import 'package:studrink/widgets/sd_game_slider.dart';
+
+import 'blocs/current_game/current_game_bloc.dart';
+import 'blocs/dice/dice_bloc.dart';
+import 'blocs/focused_cell_bloc/focused_cell_bloc.dart';
+import 'blocs/nav/nav_bloc.dart';
+import 'models/board_game.dart';
+import 'models/cell.dart';
+import 'models/condition_key.dart';
+import 'models/moving.dart';
+import 'models/player.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +39,76 @@ class MyApp extends StatelessWidget {
                     //body: const MainNavigator(),
                     body: Center(
                       child: Builder(
-                        builder: (context) => SDGameSlider(),
+                        builder: (context) => BlocProvider(
+                            create: (context) => CurrentGameBloc(
+                                navBloc: NavBloc(),
+                                diceBloc: DiceBloc(),
+                                focusedCellBloc: FocusedCellBloc())
+                              ..emit(CurrentGameState(
+                                  playerList: [
+                                    Player(
+                                        conditionKeyList: [
+                                          ConditionKey(name: "Polypoint")
+                                        ],
+                                        state: PlayerState.ready,
+                                        name: "Alexis",
+                                        color: Colors.red,
+                                        idCurrentCell: 3,
+                                        id: 0),
+                                    Player(
+                                        conditionKeyList: [
+                                          ConditionKey(name: "Polypoint")
+                                        ],
+                                        state: PlayerState.ready,
+                                        name: "Alexis",
+                                        color: Colors.orange,
+                                        idCurrentCell: 1,
+                                        id: 1)
+                                  ],
+                                  boardGame: BoardGame(
+                                      name: "Jeux de l'oie",
+                                      cells: [
+                                        Cell(
+                                            name: "Rentrée",
+                                            imgPath: "",
+                                            sideEffectList: [
+                                              "C'est la rentrée !"
+                                            ]),
+                                        Cell(
+                                            cellType: CellType.selfMoving,
+                                            moving: Moving(
+                                                count: 2,
+                                                movingType: MovingType.forward),
+                                            name: "Polypoint",
+                                            imgPath: "",
+                                            givenConditionKey: ConditionKey(
+                                                name: "Polypoint")),
+                                        Cell(
+                                            name: "4a",
+                                            imgPath: "",
+                                            cellType: CellType.conditionKey,
+                                            givenConditionKey:
+                                                ConditionKey(name: "Polypoint"),
+                                            requiredConditionKey: ConditionKey(
+                                                name: "Polypoint")),
+                                        Cell(
+                                            name: "Intégration BDSM",
+                                            imgPath: "",
+                                            givenConditionKey:
+                                                ConditionKey(name: "BDSM")),
+                                        Cell(
+                                            name: "5A",
+                                            imgPath: "",
+                                            cellType: CellType.conditionKey,
+                                            sideEffectList: ["Tu bois"],
+                                            requiredConditionKey:
+                                                ConditionKey(name: "UE"))
+                                      ],
+                                      imgUrl: '',
+                                      date: DateTime.now()),
+                                  indexCurrentPlayer: 0,
+                                  indexNextPlayer: 0)),
+                            child: SDGameSlider()),
                       ),
                     ),
                     backgroundColor: Colors.transparent))));
