@@ -18,8 +18,9 @@ class GamePageViewBloc extends Bloc<GamePageViewEvent, GamePageViewState> {
   Stream<GamePageViewState> mapEventToState(GamePageViewEvent event) async* {
     if (event is ChangePageView) {
       final page = event.page;
-      state.pageController.animateToPage(page,
-          curve: Curves.easeInOut, duration: event.duration);
+      if (state.pageController.hasClients)
+        state.pageController.animateToPage(page,
+            curve: Curves.easeInOut, duration: event.duration);
       final currentGameBlocState = currentGameBloc.state,
           playerListOnCell = currentGameBlocState.playerListFromIdCell(page),
           currentPlayer = currentGameBlocState.currentPlayer;
@@ -28,17 +29,19 @@ class GamePageViewBloc extends Bloc<GamePageViewEvent, GamePageViewState> {
       } else if (playerListOnCell.isNotEmpty) {
         focusedCellBloc.add(ChangeFocusedPlayer(playerListOnCell[0]));
       }
+      yield GamePageViewState(state.pageController, page);
     }
   }
 }
 
 class GamePageViewState extends Equatable {
-  final PageController pageController;
+  const GamePageViewState(this.pageController, [this.page = 0]);
 
-  const GamePageViewState(this.pageController);
+  final PageController pageController;
+  final int page;
 
   @override
-  List<Object?> get props => [pageController];
+  List<Object?> get props => [pageController, page];
 }
 
 abstract class GamePageViewEvent extends Equatable {
