@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studrink/blocs/current_game/current_game_bloc.dart';
 import 'package:studrink/blocs/game_page_view_bloc/game_page_view_bloc.dart';
+import 'package:studrink/models/player.dart';
 import 'package:studrink/widgets/glass/glass_widget.dart';
 import 'package:studrink/widgets/player_avatar.dart';
 
@@ -21,9 +22,9 @@ class _SDGameSliderState extends State<SDGameSlider> {
 
   @override
   Widget build(BuildContext context) {
-    const heightWidget = 200.0;
-    final maxWidth = MediaQuery.of(context).size.width;
-    final state = context.read<CurrentGameBloc>().state,
+    const heightWidget = 320.0;
+    final maxWidth = MediaQuery.of(context).size.width,
+        state = context.read<CurrentGameBloc>().state,
         cells = state.boardGame!.cells,
         cellIndex =
             ((_thumbPosition - _thumbSize) / maxWidth * cells.length).round(),
@@ -33,20 +34,7 @@ class _SDGameSliderState extends State<SDGameSlider> {
       height: heightWidget,
       child: Stack(
         children: [
-          for (final player in state.playerList
-              .where((element) => element.idCurrentCell != cellIndex))
-            Positioned.fill(
-                child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        PlayerAvatar(player: player),
-                        Container(color: Colors.white, height: 30, width: 3)
-                      ],
-                    )),
-                left: player.idCurrentCell * (maxWidth / cells.length) - 20,
-                bottom: 60),
+          ..._buildPlayers(state.playerList, cellIndex, maxWidth, cells.length),
           Positioned.fill(
               child: Center(
             child: Container(
@@ -131,5 +119,39 @@ class _SDGameSliderState extends State<SDGameSlider> {
     context
         .read<GamePageViewBloc>()
         .add(ChangePageView(cellIndex, duration: Duration(milliseconds: 200)));
+  }
+
+  List<Widget> _buildPlayers(
+      List<Player> playerList, int cellIndex, double maxWidth, int cellCount) {
+    final playerListSortedByIdCurrentCell = playerList
+            .where((element) => element.idCurrentCell != cellIndex)
+            .toList()
+          ..sort((a, b) => a.idCurrentCell.compareTo(b.idCurrentCell)),
+        widgets = <Widget>[];
+    var shiftCount = 0;
+
+    for (var i = 0; i < playerListSortedByIdCurrentCell.length; i++) {
+      final player = playerListSortedByIdCurrentCell[i];
+      final isPreceded = i > 0 &&
+          player.idCurrentCell - 1 ==
+              playerListSortedByIdCurrentCell[i - 1].idCurrentCell;
+      if (isPreceded) shiftCount = (shiftCount + 1) % 3;
+      final shiftValue = shiftCount * 45.0;
+      widgets.add(Positioned.fill(
+          child: Align(
+              alignment: Alignment.centerLeft,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  PlayerAvatar(player: player),
+                  Container(
+                      color: Colors.white, height: 30.0 + shiftValue, width: 3)
+                ],
+              )),
+          left: player.idCurrentCell * (maxWidth / cellCount) - 20,
+          bottom: 60.0 + shiftValue));
+    }
+
+    return widgets.reversed.toList();
   }
 }

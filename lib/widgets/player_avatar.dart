@@ -20,7 +20,11 @@ class PlayerAvatar extends StatelessWidget {
         child: ClipOval(
             child: player.avatar != null
                 ? Image.memory(player.avatar!, width: size)
-                : Container(color: player.color, width: size, height: size)),
+                : Container(
+                    color: player.color,
+                    width: size,
+                    height: size,
+                    child: Center(child: Text(player.shortName)))),
       ),
     );
   }

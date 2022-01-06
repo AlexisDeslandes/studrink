@@ -15,7 +15,6 @@ import 'blocs/nav/nav_bloc.dart';
 import 'models/board_game.dart';
 import 'models/cell.dart';
 import 'models/condition_key.dart';
-import 'models/moving.dart';
 import 'models/player.dart';
 
 void main() async {
@@ -53,57 +52,46 @@ class MyApp extends StatelessWidget {
                                         state: PlayerState.ready,
                                         name: "Alexis",
                                         color: Colors.red,
-                                        idCurrentCell: 3,
+                                        idCurrentCell: 2,
                                         id: 0),
                                     Player(
                                         conditionKeyList: [
                                           ConditionKey(name: "Polypoint")
                                         ],
                                         state: PlayerState.ready,
-                                        name: "Alexis",
+                                        name: "Thomas",
                                         color: Colors.orange,
                                         idCurrentCell: 1,
-                                        id: 1)
+                                        id: 1),
+                                    Player(
+                                        conditionKeyList: [
+                                          ConditionKey(name: "Polypoint")
+                                        ],
+                                        state: PlayerState.ready,
+                                        name: "Eva",
+                                        color: Colors.green,
+                                        idCurrentCell: 0,
+                                        id: 2),
+                                    Player(
+                                        conditionKeyList: [
+                                          ConditionKey(name: "Polypoint")
+                                        ],
+                                        state: PlayerState.ready,
+                                        name: "Renaud",
+                                        color: Colors.green,
+                                        idCurrentCell: 3,
+                                        id: 3)
                                   ],
                                   boardGame: BoardGame(
                                       name: "Jeux de l'oie",
-                                      cells: [
-                                        Cell(
-                                            name: "Rentrée",
-                                            imgPath: "",
-                                            sideEffectList: [
-                                              "C'est la rentrée !"
-                                            ]),
-                                        Cell(
-                                            cellType: CellType.selfMoving,
-                                            moving: Moving(
-                                                count: 2,
-                                                movingType: MovingType.forward),
-                                            name: "Polypoint",
-                                            imgPath: "",
-                                            givenConditionKey: ConditionKey(
-                                                name: "Polypoint")),
-                                        Cell(
-                                            name: "4a",
-                                            imgPath: "",
-                                            cellType: CellType.conditionKey,
-                                            givenConditionKey:
-                                                ConditionKey(name: "Polypoint"),
-                                            requiredConditionKey: ConditionKey(
-                                                name: "Polypoint")),
-                                        Cell(
-                                            name: "Intégration BDSM",
-                                            imgPath: "",
-                                            givenConditionKey:
-                                                ConditionKey(name: "BDSM")),
-                                        Cell(
-                                            name: "5A",
-                                            imgPath: "",
-                                            cellType: CellType.conditionKey,
-                                            sideEffectList: ["Tu bois"],
-                                            requiredConditionKey:
-                                                ConditionKey(name: "UE"))
-                                      ],
+                                      cells: List.filled(
+                                          35,
+                                          Cell(
+                                              name: "Rentrée",
+                                              imgPath: "",
+                                              sideEffectList: [
+                                                "C'est la rentrée !"
+                                              ])),
                                       imgUrl: '',
                                       date: DateTime.now()),
                                   indexCurrentPlayer: 0,
