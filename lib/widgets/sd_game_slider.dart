@@ -51,23 +51,28 @@ class _SDGameSliderState extends State<SDGameSlider> {
                     ),
                     opacity: 0.50)),
           )),
+
+          // Current players draw
           if (playerListAtCurrentCell.isNotEmpty)
-            Positioned(
+            Positioned.fill(
               left: _thumbPosition >
                       maxWidth / 2 //todo animate when mid transition
                   ? _thumbPosition -
                       (playerListAtCurrentCell.length * 40 +
                           (playerListAtCurrentCell.length - 1) * 12)
                   : _thumbPosition,
-              bottom: 0,
-              child: GlassWidget(
-                  opacity: 0.5,
-                  padding: EdgeInsets.all(12.0),
-                  child: Wrap(
-                      spacing: 12.0,
-                      children: playerListAtCurrentCell
-                          .map((e) => PlayerAvatar(player: e))
-                          .toList())),
+              bottom: -130,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: GlassWidget(
+                    opacity: 0.5,
+                    padding: EdgeInsets.all(12.0),
+                    child: Wrap(
+                        spacing: 12.0,
+                        children: playerListAtCurrentCell
+                            .map((e) => PlayerAvatar(player: e))
+                            .toList())),
+              ),
             ),
           Positioned(
               top: heightWidget / 2 - _thumbSize / 2,
