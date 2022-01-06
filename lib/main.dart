@@ -78,7 +78,7 @@ class MyApp extends StatelessWidget {
                                         ],
                                         state: PlayerState.ready,
                                         name: "Renaud",
-                                        color: Colors.green,
+                                        color: Colors.amber,
                                         idCurrentCell: 3,
                                         id: 3)
                                   ],

@@ -26,9 +26,8 @@ class _SDGameSliderState extends State<SDGameSlider> {
     final maxWidth = MediaQuery.of(context).size.width,
         state = context.read<CurrentGameBloc>().state,
         cells = state.boardGame!.cells,
-        cellIndex =
-            ((_thumbPosition - _thumbSize) / maxWidth * cells.length).round(),
-        playerList = state.playerListFromIdCell(cellIndex);
+        cellIndex = ((_thumbPosition) / maxWidth * cells.length).round(),
+        playerListAtCurrentCell = state.playerListFromIdCell(cellIndex);
     return SizedBox(
       width: maxWidth,
       height: heightWidget,
@@ -52,12 +51,13 @@ class _SDGameSliderState extends State<SDGameSlider> {
                     ),
                     opacity: 0.50)),
           )),
-          if (playerList.isNotEmpty)
+          if (playerListAtCurrentCell.isNotEmpty)
             Positioned(
               left: _thumbPosition >
                       maxWidth / 2 //todo animate when mid transition
                   ? _thumbPosition -
-                      (playerList.length * 40 + (playerList.length - 1) * 12)
+                      (playerListAtCurrentCell.length * 40 +
+                          (playerListAtCurrentCell.length - 1) * 12)
                   : _thumbPosition,
               bottom: 0,
               child: GlassWidget(
@@ -65,7 +65,7 @@ class _SDGameSliderState extends State<SDGameSlider> {
                   padding: EdgeInsets.all(12.0),
                   child: Wrap(
                       spacing: 12.0,
-                      children: playerList
+                      children: playerListAtCurrentCell
                           .map((e) => PlayerAvatar(player: e))
                           .toList())),
             ),
@@ -75,8 +75,8 @@ class _SDGameSliderState extends State<SDGameSlider> {
               child: Column(
                 children: [
                   GestureDetector(
-                    onPanUpdate: (details) =>
-                        _updateThumbPosition(maxWidth, cells.length, details),
+                    onPanUpdate: (details) => _updateThumbPosition(
+                        maxWidth - _thumbSize, cells.length, details),
                     child: Material(
                       elevation: 5,
                       borderRadius: BorderRadius.circular(100.0),
@@ -94,7 +94,7 @@ class _SDGameSliderState extends State<SDGameSlider> {
                           height: _thumbSize),
                     ),
                   ),
-                  if (playerList.isNotEmpty)
+                  if (playerListAtCurrentCell.isNotEmpty)
                     Container(
                       width: 2,
                       height: 23,
@@ -108,14 +108,13 @@ class _SDGameSliderState extends State<SDGameSlider> {
   }
 
   void _updateThumbPosition(
-      double maxWidth, int cellCount, DragUpdateDetails details) {
+      double maxThumbPositionValue, int cellCount, DragUpdateDetails details) {
     setState(() => _thumbPosition = max(
         0,
-        min(maxWidth - _thumbSize,
+        min(maxThumbPositionValue,
             details.globalPosition.dx - _thumbSize / 2)));
     final cellIndex =
-        ((_thumbPosition - _thumbSize) / maxWidth * cellCount).round();
-    print("Cell index $cellIndex");
+        ((_thumbPosition) / maxThumbPositionValue * cellCount).round();
     context
         .read<GamePageViewBloc>()
         .add(ChangePageView(cellIndex, duration: Duration(milliseconds: 200)));
