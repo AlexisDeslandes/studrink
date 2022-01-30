@@ -6,7 +6,6 @@ import 'package:studrink/blocs/current_game/current_game_bloc.dart';
 import 'package:studrink/blocs/dice/dice_bloc.dart';
 import 'package:studrink/blocs/focused_cell_bloc/focused_cell_bloc.dart';
 import 'package:studrink/blocs/game_page_view_bloc/game_page_view_bloc.dart';
-import 'package:studrink/blocs/market_place/market_place_bloc.dart';
 import 'package:studrink/blocs/nav/nav_bloc.dart';
 import 'package:studrink/storage/local_storage.dart';
 
@@ -33,9 +32,6 @@ class AppProvider extends StatelessWidget {
               focusedCellBloc: context.read<FocusedCellBloc>(),
               navBloc: context.read<NavBloc>(),
               diceBloc: context.read<DiceBloc>())),
-      BlocProvider<MarketPlaceBloc>(
-          lazy: false,
-          create: (context) => MarketPlaceBloc()..add(const InitMarketPlace())),
       BlocProvider(
           create: (context) => GamePageViewBloc(
               pageController: PageController(viewportFraction: fraction),

@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:studrink/blocs/board_game/board_game_bloc.dart';
 import 'package:studrink/blocs/current_game/current_game_bloc.dart';
-import 'package:studrink/blocs/market_place/market_place_bloc.dart';
 import 'package:studrink/blocs/nav/nav_bloc.dart';
 import 'package:studrink/navigators/widgets/back_btn_wrapper.dart';
 import 'package:studrink/pages/chose_players_page.dart';
@@ -12,24 +11,24 @@ import 'package:studrink/pages/my_custom_page.dart';
 import 'package:studrink/utils/studrink_utils.dart';
 import 'package:studrink/widgets/buttons/color_button.dart';
 import 'package:studrink/widgets/buttons/white_button.dart';
-import 'package:studrink/widgets/detail_market/screenshot_view.dart';
+import 'package:studrink/widgets/screenshot_view.dart';
 import 'package:studrink/widgets/glass/glass_text.dart';
 
-class DetailMarketPage extends MyCustomPage {
-  const DetailMarketPage()
+class DetailGamePage extends MyCustomPage {
+  const DetailGamePage()
       : super(
-            key: const ValueKey("/detail_market_page"),
-            child: const DetailMarketScreen());
+            key: const ValueKey("/detail_game"),
+            child: const DetailGameScreen());
 }
 
-class DetailMarketScreen extends StatefulWidget {
-  const DetailMarketScreen();
+class DetailGameScreen extends StatefulWidget {
+  const DetailGameScreen();
 
   @override
-  State<StatefulWidget> createState() => DetailMarketScreenState();
+  State<StatefulWidget> createState() => DetailGameScreenState();
 }
 
-class DetailMarketScreenState extends State<DetailMarketScreen>
+class DetailGameScreenState extends State<DetailGameScreen>
     with TickerProviderStateMixin, BackBtnWrapper {
   late final _controller =
       AnimationController(vsync: this, duration: Duration(milliseconds: 900))
@@ -37,7 +36,7 @@ class DetailMarketScreenState extends State<DetailMarketScreen>
 
   @override
   Widget build(BuildContext context) {
-    final boardGame = context.read<MarketPlaceBloc>().state.chosenBoardGame!,
+    final boardGame = context.read<CurrentGameBloc>().state.boardGame!,
         isImgFromWeb = boardGame.imgUrl.startsWith("http"),
         isATablet = isTablet(context);
     return Scaffold(

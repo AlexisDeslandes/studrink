@@ -81,4 +81,11 @@ class BoardGame extends Resource {
       "goal": goal
     };
   }
+
+  bool match(String query) {
+    final queryLower = query.toLowerCase();
+    return name.toLowerCase().contains(queryLower) ||
+        description.toLowerCase().contains(queryLower) ||
+        chips.any((element) => element.toLowerCase().contains(queryLower));
+  }
 }
