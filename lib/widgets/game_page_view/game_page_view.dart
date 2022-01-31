@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studrink/blocs/current_game/current_game_bloc.dart';
 import 'package:studrink/blocs/focused_cell_bloc/focused_cell_bloc.dart';
 import 'package:studrink/blocs/game_page_view_bloc/game_page_view_bloc.dart';
-import 'package:studrink/widgets/game_page_view/card_cell.dart';
+import 'package:studrink/widgets/card_cell_v2.dart';
 
 class GamePageView extends StatefulWidget {
   const GamePageView();
@@ -48,21 +48,12 @@ class _GamePageViewState extends State<GamePageView> {
               },
               itemBuilder: (context, index) {
                 final cell = cells[index], isNotFocused = _focusedPage != index;
-                return LayoutBuilder(
-                  builder: (context, constraints) {
-                    final height = constraints.maxHeight;
-                    return Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: height > 540 ? ((height - 540) / 2) : 0.0),
-                      child: AnimatedContainer(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: isNotFocused ? 20 : 0.0,
-                            vertical: isNotFocused ? 30 : 0.0),
-                        duration: Duration(milliseconds: 200),
-                        child: CardCell(cell: cell),
-                      ),
-                    );
-                  },
+                return AnimatedContainer(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: isNotFocused ? 30 : 0.0),
+                  duration: Duration(milliseconds: 200),
+                  child: CardCellV2(cell: cell),
                 );
               },
               itemCount: cells.length,

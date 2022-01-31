@@ -18,7 +18,7 @@ class AppProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     const maxWidth = 1400; // => fraction 0.3
     final width = MediaQuery.of(context).size.width,
-        fraction = 0.65 - (width > 500 ? (width * (0.35) / maxWidth) : 0.0);
+        fraction = 0.70 - (width > 500 ? (width * (0.35) / maxWidth) : 0.0);
     return MultiProvider(providers: [
       BlocProvider<NavBloc>(create: (context) => NavBloc()),
       BlocProvider<DiceBloc>(create: (context) => DiceBloc()),

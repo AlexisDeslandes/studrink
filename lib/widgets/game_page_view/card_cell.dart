@@ -31,25 +31,25 @@ class CardCell extends StatelessWidget {
                     child: ConditionWidget(
                         appear: cell.imgPath != null,
                         appearWidgetCallback: () => Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 30.0, left: 8.0, right: 8.0),
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(25.0),
-                                  child: Image.asset(cell.imgPath!)),
-                            ),
+                          padding: const EdgeInsets.only(
+                              top: 30.0, left: 8.0, right: 8.0),
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(25.0),
+                              child: Image.asset(cell.imgPath!)),
+                        ),
                         replaceWidgetCallback: () =>
                             SvgPicture.asset(_icon, width: size, height: size)),
                     alignment: Alignment.center),
               ),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 6.0),
+                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 6.0),
                 child: Center(
                     child: Text(
-                  cell.effectsLabel,
-                  style: Theme.of(context).textTheme.bodyText1,
-                  textAlign: TextAlign.center,
-                )),
+                      cell.effectsLabel,
+                      style: Theme.of(context).textTheme.bodyText1,
+                      textAlign: TextAlign.center,
+                    )),
               )
             ]));
   }
