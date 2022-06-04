@@ -43,6 +43,14 @@ class BoardGame extends Resource {
                     .toList()
                 : []);
 
+  int get cellCountForGridView {
+    var cellCount = cells.length;
+    while (cellCount % 3 != 1) {
+      cellCount += 1;
+    }
+    return cellCount;
+  }
+
   static BoardGame? fromCode(String code) {
     final lines = code.split("|");
     var cellsString = lines.sublist(6);

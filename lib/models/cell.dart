@@ -1,8 +1,7 @@
-import 'package:studrink/models/board_game.dart';
 import 'package:studrink/models/condition_key.dart';
+import 'package:studrink/models/jail_condition.dart';
 import 'package:studrink/models/moving.dart';
 import 'package:studrink/models/player.dart';
-import 'package:studrink/models/jail_condition.dart';
 import 'package:studrink/models/resource.dart';
 import 'package:studrink/models/throw_dice_effect.dart';
 
@@ -360,6 +359,8 @@ class Cell extends Resource {
     }
     return "";
   }
+
+  String get iconPath => "assets/icons/${cellType.value}.svg";
 
   String get effectsLabel {
     final toReturn = diceConditionLabel +

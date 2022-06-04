@@ -1,5 +1,7 @@
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:studrink/blocs/current_game/current_game_bloc.dart';
 import 'package:studrink/blocs/nav/nav_bloc.dart';
 import 'package:studrink/models/moving.dart';
@@ -8,10 +10,10 @@ import 'package:studrink/navigators/widgets/back_btn_wrapper.dart';
 import 'package:studrink/pages/my_custom_page.dart';
 import 'package:studrink/widgets/bottom_sheet/app_bottom_sheet.dart';
 import 'package:studrink/widgets/bottom_sheet/chose_opponent_list_view.dart';
-import 'package:studrink/widgets/current_player_widget.dart';
 import 'package:studrink/widgets/dice_view.dart';
-import 'package:studrink/widgets/game_page_view/game_page_view.dart';
+import 'package:studrink/widgets/glass/glass_widget.dart';
 import 'package:studrink/widgets/player_area/play_area.dart';
+import 'package:studrink/widgets/player_avatar.dart';
 import 'package:studrink/widgets/player_overlay.dart';
 
 class GamePageV2 extends MyCustomPage {
@@ -49,12 +51,25 @@ class _GameScreenV2State extends State<GameScreenV2>
       children: [
         Positioned(
             left: MediaQuery.of(context).size.width / 2 - glowSize,
-            top: glowSize / 4,
-            child: BlocBuilder<CurrentGameBloc, CurrentGameState>(
-                buildWhen: (previous, current) =>
-                    previous.currentPlayer != current.currentPlayer,
-                builder: (context, state) =>
-                    CurrentPlayerWidget(player: state.currentPlayer!))),
+            top: -glowSize / 4,
+            child: BlocSelector<CurrentGameBloc, CurrentGameState, Player>(
+                selector: (state) => state.currentPlayer!,
+                builder: (context, currentPlayer) => AvatarGlow(
+                    glowColor: currentPlayer.color,
+                    child: Stack(
+                      children: [
+                        PlayerAvatar(
+                          player: currentPlayer,
+                          size: 60,
+                        ),
+                        Positioned.fill(
+                            child: Center(
+                                child: Text(currentPlayer.shortName,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold))))
+                      ],
+                    ),
+                    endRadius: glowSize))),
         Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
@@ -85,15 +100,96 @@ class _GameScreenV2State extends State<GameScreenV2>
                         context, state, size.width, size.height),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Center(
-                            child: FadeTransition(
-                                child: ConstrainedBox(
-                                    constraints: BoxConstraints(maxHeight: 321),
-                                    child: const GamePageView()),
-                                opacity: _controller.drive(CurveTween(
-                                    curve: Interval(1 / 3, 2 / 3))))),
+                        Expanded(child:
+                            BlocBuilder<CurrentGameBloc, CurrentGameState>(
+                          builder: (context, state) {
+                            return Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 16, horizontal: 8),
+                              child: GridView.builder(
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 3),
+                                  itemCount:
+                                      state.boardGame!.cellCountForGridView,
+                                  itemBuilder: (context, index) {
+                                    final cellIndex = (index + 3) % 6 == 0
+                                        ? index + 2
+                                        : (index + 1) % 6 == 0
+                                            ? index - 2
+                                            : index;
+
+                                    final length =
+                                        state.boardGame!.cells.length;
+
+                                    if (cellIndex >= length) {
+                                      return SizedBox();
+                                    }
+
+                                    return Stack(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(4.0),
+                                          child: GlassWidget(
+                                            padding: EdgeInsets.all(12),
+                                            child: Center(
+                                              child: SvgPicture.asset(
+                                                state.boardGame!
+                                                    .cells[cellIndex].iconPath,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        if (!(((cellIndex + 3) % 6 == 0) ||
+                                            ((cellIndex + 4) % 6 == 0)))
+                                          Positioned.fill(
+                                              child: Align(
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  child: Container(
+                                                    color: Colors.black,
+                                                    width: 4,
+                                                    height: 3,
+                                                  ))),
+                                        if (!(((cellIndex) % 6 == 0) ||
+                                            ((cellIndex + 1) % 6 == 0)))
+                                          Positioned.fill(
+                                              child: Align(
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                  child: Container(
+                                                    color: Colors.black,
+                                                    width: 4,
+                                                    height: 3,
+                                                  ))),
+                                        if ((cellIndex + 1) % 3 == 0)
+                                          Positioned.fill(
+                                              child: Align(
+                                                  alignment:
+                                                      Alignment.bottomCenter,
+                                                  child: Container(
+                                                    color: Colors.black,
+                                                    width: 4,
+                                                    height: 3,
+                                                  ))),
+                                        if ((cellIndex) % 3 == 0 &&
+                                            cellIndex != 0)
+                                          Positioned.fill(
+                                              child: Align(
+                                                  alignment:
+                                                      Alignment.topCenter,
+                                                  child: Container(
+                                                    color: Colors.black,
+                                                    width: 4,
+                                                    height: 3,
+                                                  )))
+                                      ],
+                                    );
+                                  }),
+                            );
+                          },
+                        )),
                         ScaleTransition(
                           child: const PlayArea(),
                           scale: _controller
@@ -111,8 +207,7 @@ class _GameScreenV2State extends State<GameScreenV2>
                     ),
                   ),
                 ),
-                const DiceView(),
-                //Positioned(child: const TurnIndicator(), right: 10, top: 60)
+                const DiceView()
               ],
             ),
           ),

@@ -12,7 +12,6 @@ import 'package:studrink/widgets/bottom_sheet/app_bottom_sheet.dart';
 import 'package:studrink/widgets/bottom_sheet/chose_opponent_list_view.dart';
 import 'package:studrink/widgets/dice_view.dart';
 import 'package:studrink/widgets/game_page_view/game_page_view.dart';
-import 'package:studrink/widgets/game_slider.dart';
 import 'package:studrink/widgets/player_area/play_area.dart';
 import 'package:studrink/widgets/player_avatar.dart';
 import 'package:studrink/widgets/player_overlay.dart';
