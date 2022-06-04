@@ -255,13 +255,15 @@ class MarketGameTile extends StatelessWidget {
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: chips
-                          .mapIndexed((index, element) => Chip(
-                              label: Text(chips[index]),
-                              materialTapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
-                              backgroundColor: index % 2 == 0
-                                  ? Theme.of(context).primaryColor
-                                  : Theme.of(context).accentColor))
+                          .mapIndexed((index, element) => Flexible(
+                                child: Chip(
+                                    label: Text(chips[index]),
+                                    materialTapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                    backgroundColor: index % 2 == 0
+                                        ? Theme.of(context).primaryColor
+                                        : Theme.of(context).accentColor),
+                              ))
                           .toList()))
             ])));
   }

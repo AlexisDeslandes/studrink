@@ -23,20 +23,20 @@ class CardCellV2 extends StatelessWidget {
                       .textTheme
                       .headline1!
                       .copyWith(fontSize: 30)),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: paddingValue),
-                child: Align(
-                    child: SvgPicture.asset(_icon, width: size, height: size),
-                    alignment: Alignment.center),
-              ),
               Flexible(
-                child: Center(
-                    child: Text(
-                  cell.effectsLabel,
-                  style: Theme.of(context).textTheme.bodyText1,
-                  textAlign: TextAlign.center,
-                )),
-              )
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: paddingValue),
+                  child: Align(
+                      child: SvgPicture.asset(_icon, width: size, height: size),
+                      alignment: Alignment.center),
+                ),
+              ),
+              Center(
+                  child: Text(
+                cell.effectsLabel,
+                style: Theme.of(context).textTheme.bodyText1,
+                textAlign: TextAlign.center,
+              ))
             ]));
   }
 }
