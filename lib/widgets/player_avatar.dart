@@ -6,6 +6,7 @@ class PlayerAvatar extends StatelessWidget {
   const PlayerAvatar(
       {Key? key, required this.player, this.decoration, this.size = 40.0})
       : super(key: key);
+
   final Player player;
   final Decoration? decoration;
   final double size;
@@ -24,7 +25,10 @@ class PlayerAvatar extends StatelessWidget {
                     color: player.color,
                     width: size,
                     height: size,
-                    child: Center(child: Text(player.shortName)))),
+                    child: Center(
+                        child: Text(player.shortName,
+                            style:
+                                size <= 30 ? TextStyle(fontSize: 15) : null)))),
       ),
     );
   }

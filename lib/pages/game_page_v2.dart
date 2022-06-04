@@ -120,9 +120,10 @@ class _GameScreenV2State extends State<GameScreenV2>
                                       return SizedBox();
                                     }
                                     return GridCell(
-                                      cellIndex: cellIndex,
-                                      cell: state.boardGame!.cells[cellIndex],
-                                    );
+                                        cellIndex: cellIndex,
+                                        cell: state.boardGame!.cells[cellIndex],
+                                        playerList: state
+                                            .playerListFromIdCell(cellIndex));
                                   }),
                             );
                           },

@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:studrink/models/cell.dart';
+import 'package:studrink/models/player.dart';
 import 'package:studrink/widgets/glass/glass_widget.dart';
+import 'package:studrink/widgets/player_avatar.dart';
 
 class GridCell extends StatelessWidget {
-  const GridCell({Key? key, required this.cellIndex, required this.cell})
+  const GridCell(
+      {Key? key,
+      required this.cellIndex,
+      required this.cell,
+      required this.playerList})
       : super(key: key);
 
   //Starting at 0
   final int cellIndex;
   final Cell cell;
+  final List<Player> playerList;
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +26,8 @@ class GridCell extends StatelessWidget {
           padding: const EdgeInsets.all(4.0),
           child: GlassWidget(
             padding: EdgeInsets.all(12),
-            child: Center(
-              child: SvgPicture.asset(
-                cell.iconPath,
-              ),
+            child: SvgPicture.asset(
+              cell.iconPath,
             ),
           ),
         ),
@@ -71,6 +76,15 @@ class GridCell extends StatelessWidget {
                   padding: EdgeInsets.all(3),
                   child:
                       Text("${cellIndex + 1}", style: TextStyle(fontSize: 15))),
+            )),
+        Positioned(
+            top: 10,
+            left: 10,
+            child: Wrap(
+              spacing: 4,
+              children: playerList
+                  .map((e) => PlayerAvatar(player: e, size: 30))
+                  .toList(),
             ))
       ],
     );
