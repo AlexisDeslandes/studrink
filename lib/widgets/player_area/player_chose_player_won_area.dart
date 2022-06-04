@@ -26,8 +26,7 @@ class PlayerChosePlayerWonArea extends StatelessWidget {
         ),
         Expanded(
           child: Align(
-            alignment:
-                isTablet(context) ? Alignment.center : Alignment.centerLeft,
+            alignment: Alignment.center,
             child: Padding(
               padding: const EdgeInsets.only(left: 8.0),
               child: Wrap(spacing: isTablet(context) ? 20.0 : 8.0, children: [

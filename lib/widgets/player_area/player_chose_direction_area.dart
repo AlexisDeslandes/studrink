@@ -11,7 +11,7 @@ class PlayerChoseDirectionArea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: isTablet(context) ? Alignment.center : Alignment.centerLeft,
+      alignment: Alignment.center,
       child: Padding(
         padding: const EdgeInsets.only(left: 8.0),
         child: Wrap(
