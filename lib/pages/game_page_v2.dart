@@ -67,11 +67,6 @@ class _GameScreenV2State extends State<GameScreenV2>
                           player: currentPlayer,
                           size: 60,
                         ),
-                        Positioned.fill(
-                            child: Center(
-                                child: Text(currentPlayer.shortName,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold))))
                       ],
                     ),
                     endRadius: glowSize))),
@@ -117,7 +112,6 @@ class _GameScreenV2State extends State<GameScreenV2>
                                 state.currentPlayer!.idCurrentCell;
                             final offset = idCurrentCell ~/ 3 * _cellSize -
                                 (_cellSize * 3 / 2);
-                            print(_gridController.offset);
 
                             _gridController.animateTo(offset,
                                 duration: Duration(milliseconds: 600),

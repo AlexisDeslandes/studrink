@@ -12,8 +12,7 @@ class CurrentPlayerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const glowSize = 70.0;
-    final playerColor = player.color,
-        shouldTextColorBeWhite = playerColor.shouldTextColorBeWhite;
+    final playerColor = player.color, textColor = playerColor.contrastColor;
     return AvatarGlow(
         glowColor: playerColor,
         child: Stack(
@@ -26,10 +25,7 @@ class CurrentPlayerWidget extends StatelessWidget {
                 child: Center(
                     child: Text(player.shortName,
                         style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: shouldTextColorBeWhite
-                                ? Colors.white
-                                : Colors.black))))
+                            fontWeight: FontWeight.bold, color: textColor))))
           ],
         ),
         endRadius: glowSize);

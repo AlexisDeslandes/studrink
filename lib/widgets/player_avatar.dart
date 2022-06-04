@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:studrink/extension/color_extension.dart';
 import 'package:studrink/models/player.dart';
 
 class PlayerAvatar extends StatelessWidget {
@@ -27,8 +28,9 @@ class PlayerAvatar extends StatelessWidget {
                     height: size,
                     child: Center(
                         child: Text(player.shortName,
-                            style:
-                                size <= 30 ? TextStyle(fontSize: 15) : null)))),
+                            style: TextStyle(
+                                fontSize: size <= 30 ? 15 : null,
+                                color: player.color.contrastColor))))),
       ),
     );
   }
