@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,27 +51,14 @@ class _GameScreenV2State extends State<GameScreenV2>
   @override
   Widget build(BuildContext context) {
     const horizontalPadding = 8.0;
-    final size = MediaQuery.of(context).size, glowSize = 70.0;
+    final mediaData = MediaQuery.of(context);
+    final size = mediaData.size, glowSize = 70.0;
+    final topPadding = mediaData.viewPadding.top;
+    final bodyHeight = size.height - topPadding - kToolbarHeight;
     _cellSize = (size.width - (horizontalPadding * 2)) / 3;
 
     return Stack(
       children: [
-        Positioned(
-            left: MediaQuery.of(context).size.width / 2 - glowSize,
-            top: -glowSize / 4,
-            child: BlocSelector<CurrentGameBloc, CurrentGameState, Player>(
-                selector: (state) => state.currentPlayer!,
-                builder: (context, currentPlayer) => AvatarGlow(
-                    glowColor: currentPlayer.color,
-                    child: Stack(
-                      children: [
-                        PlayerAvatar(
-                          player: currentPlayer,
-                          size: 60,
-                        ),
-                      ],
-                    ),
-                    endRadius: glowSize))),
         Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
@@ -83,87 +72,101 @@ class _GameScreenV2State extends State<GameScreenV2>
                   color: Colors.black),
             ),
           ),
-          body: SafeArea(
-            child: Stack(
-              children: [
-                BlocListener<CurrentGameBloc, CurrentGameState>(
+          body: Stack(
+            children: [
+              BlocListener<CurrentGameBloc, CurrentGameState>(
+                listenWhen: (previous, current) =>
+                    previous.currentPlayer?.state !=
+                    current.currentPlayer?.state,
+                listener: _displayBottomSheet,
+                child: BlocListener<CurrentGameBloc, CurrentGameState>(
                   listenWhen: (previous, current) =>
-                      previous.currentPlayer?.state !=
-                      current.currentPlayer?.state,
-                  listener: _displayBottomSheet,
-                  child: BlocListener<CurrentGameBloc, CurrentGameState>(
+                      previous.currentPlayer?.name !=
+                          current.currentPlayer?.name &&
+                      current.currentPlayer != null,
+                  listener: (context, state) =>
+                      _displayOverlay(context, state, size.width, size.height),
+                  child: BlocConsumer<CurrentGameBloc, CurrentGameState>(
                     listenWhen: (previous, current) =>
-                        previous.currentPlayer?.name !=
-                            current.currentPlayer?.name &&
-                        current.currentPlayer != null,
-                    listener: (context, state) => _displayOverlay(
-                        context, state, size.width, size.height),
-                    child: BlocConsumer<CurrentGameBloc, CurrentGameState>(
-                      listenWhen: (previous, current) =>
-                          previous.currentPlayer?.idCurrentCell !=
-                          current.currentPlayer?.idCurrentCell,
-                      listener: (context, state) {
-                        final idCurrentCell =
-                            state.currentPlayer!.idCurrentCell;
-                        final offset = idCurrentCell ~/ 3 * _cellSize -
-                            (_cellSize * 3 / 2);
+                        previous.currentPlayer?.idCurrentCell !=
+                        current.currentPlayer?.idCurrentCell,
+                    listener: (context, state) {
+                      final idCurrentCell = state.currentPlayer!.idCurrentCell;
+                      final row = idCurrentCell ~/ 3;
 
-                        _gridController.animateTo(offset,
-                            duration: Duration(milliseconds: 600),
-                            curve: Curves.ease);
-                      },
-                      builder: (context, state) {
-                        return Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 16, horizontal: horizontalPadding),
-                          child: GridView.builder(
-                              controller: _gridController,
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 3),
-                              itemCount: state.boardGame!.cellCountForGridView,
-                              itemBuilder: (context, index) {
-                                final cellIndex = gridIndex(index);
-                                final length = state.boardGame!.cellCount;
-                                if (cellIndex >= length) {
-                                  return SizedBox();
-                                }
-                                return GridCell(
-                                    cellIndex: cellIndex,
-                                    cell: state.boardGame!.cells[cellIndex],
-                                    playerList:
-                                        state.playerListFromIdCell(cellIndex),
-                                    current:
-                                        state.currentPlayer!.idCurrentCell ==
-                                            cellIndex);
-                              }),
-                        );
-                      },
-                    ),
+                      final offset =
+                          row * _cellSize - (bodyHeight / 2 - _cellSize);
+                      _gridController.animateTo(
+                          min(max(offset, 0),
+                              _gridController.position.maxScrollExtent),
+                          duration: Duration(milliseconds: 600),
+                          curve: Curves.ease);
+                    },
+                    builder: (context, state) {
+                      return Padding(
+                        padding: EdgeInsets.only(
+                            top: 16,
+                            left: horizontalPadding,
+                            right: horizontalPadding),
+                        child: GridView.builder(
+                            controller: _gridController,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3),
+                            itemCount: state.boardGame!.cellCountForGridView,
+                            itemBuilder: (context, index) {
+                              final cellIndex = gridIndex(index);
+                              final length = state.boardGame!.cellCount;
+                              if (cellIndex >= length) {
+                                return SizedBox();
+                              }
+                              return GridCell(
+                                  cellIndex: cellIndex,
+                                  cell: state.boardGame!.cells[cellIndex],
+                                  playerList:
+                                      state.playerListFromIdCell(cellIndex),
+                                  current: state.currentPlayer!.idCurrentCell ==
+                                      cellIndex);
+                            }),
+                      );
+                    },
                   ),
                 ),
-                const DiceView(),
-                Positioned.fill(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: ScaleTransition(
-                      child: const PlayArea(),
-                      scale: _controller
-                          .drive(CurveTween(curve: Interval(2 / 3, 1.0)))
-                          .drive(TweenSequence([
-                            TweenSequenceItem(
-                                tween: Tween(begin: 0.0, end: 1.3),
-                                weight: 0.7),
-                            TweenSequenceItem(
-                                tween: Tween(begin: 1.3, end: 1.0), weight: 0.3)
-                          ])),
-                    ),
+              ),
+              const DiceView(),
+              Positioned.fill(
+                bottom: MediaQuery.of(context).viewPadding.bottom,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: ScaleTransition(
+                    child: const PlayArea(),
+                    scale: _controller
+                        .drive(CurveTween(curve: Interval(2 / 3, 1.0)))
+                        .drive(TweenSequence([
+                          TweenSequenceItem(
+                              tween: Tween(begin: 0.0, end: 1.3), weight: 0.7),
+                          TweenSequenceItem(
+                              tween: Tween(begin: 1.3, end: 1.0), weight: 0.3)
+                        ])),
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
         ),
+        Positioned.fill(
+            child: Align(
+          alignment: Alignment.topCenter,
+          child: BlocSelector<CurrentGameBloc, CurrentGameState, Player>(
+              selector: (state) => state.currentPlayer!,
+              builder: (context, currentPlayer) => AvatarGlow(
+                  glowColor: currentPlayer.color,
+                  child: PlayerAvatar(
+                    player: currentPlayer,
+                    size: 60,
+                  ),
+                  endRadius: glowSize)),
+        ))
       ],
     );
   }
