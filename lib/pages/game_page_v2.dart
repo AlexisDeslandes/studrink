@@ -35,6 +35,8 @@ class _GameScreenV2State extends State<GameScreenV2>
   late final _controller =
       AnimationController(vsync: this, duration: Duration(milliseconds: 900))
         ..forward();
+  late final _gridController = ScrollController();
+  late double _cellSize;
 
   @override
   void initState() {
@@ -46,7 +48,10 @@ class _GameScreenV2State extends State<GameScreenV2>
 
   @override
   Widget build(BuildContext context) {
+    const horizontalPadding = 8.0;
     final size = MediaQuery.of(context).size, glowSize = 70.0;
+    _cellSize = (size.width - (horizontalPadding * 2)) / 3;
+
     return Stack(
       children: [
         Positioned(
@@ -101,13 +106,29 @@ class _GameScreenV2State extends State<GameScreenV2>
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(child:
-                            BlocBuilder<CurrentGameBloc, CurrentGameState>(
+                        Expanded(
+                            child:
+                                BlocConsumer<CurrentGameBloc, CurrentGameState>(
+                          listenWhen: (previous, current) =>
+                              previous.currentPlayer?.idCurrentCell !=
+                              current.currentPlayer?.idCurrentCell,
+                          listener: (context, state) {
+                            final idCurrentCell =
+                                state.currentPlayer!.idCurrentCell;
+                            final offset = idCurrentCell ~/ 3 * _cellSize -
+                                (_cellSize * 3 / 2);
+                            print(_gridController.offset);
+
+                            _gridController.animateTo(offset,
+                                duration: Duration(milliseconds: 600),
+                                curve: Curves.ease);
+                          },
                           builder: (context, state) {
                             return Padding(
                               padding: EdgeInsets.symmetric(
-                                  vertical: 16, horizontal: 8),
+                                  vertical: 16, horizontal: horizontalPadding),
                               child: GridView.builder(
+                                  controller: _gridController,
                                   gridDelegate:
                                       SliverGridDelegateWithFixedCrossAxisCount(
                                           crossAxisCount: 3),
