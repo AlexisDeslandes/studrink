@@ -61,7 +61,17 @@ class GridCell extends StatelessWidget {
                     color: Colors.black,
                     width: 4,
                     height: 3,
-                  )))
+                  ))),
+        Positioned.fill(
+            bottom: 4,
+            right: 4,
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: GlassWidget(
+                  padding: EdgeInsets.all(3),
+                  child:
+                      Text("${cellIndex + 1}", style: TextStyle(fontSize: 15))),
+            ))
       ],
     );
   }
