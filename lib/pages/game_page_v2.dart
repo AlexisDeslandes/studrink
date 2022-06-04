@@ -123,7 +123,10 @@ class _GameScreenV2State extends State<GameScreenV2>
                                         cellIndex: cellIndex,
                                         cell: state.boardGame!.cells[cellIndex],
                                         playerList: state
-                                            .playerListFromIdCell(cellIndex));
+                                            .playerListFromIdCell(cellIndex),
+                                        current: state
+                                                .currentPlayer!.idCurrentCell ==
+                                            cellIndex);
                                   }),
                             );
                           },

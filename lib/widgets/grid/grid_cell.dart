@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:studrink/blocs/current_game/current_game_bloc.dart';
 import 'package:studrink/models/cell.dart';
 import 'package:studrink/models/player.dart';
 import 'package:studrink/widgets/glass/glass_widget.dart';
@@ -10,22 +12,31 @@ class GridCell extends StatelessWidget {
       {Key? key,
       required this.cellIndex,
       required this.cell,
-      required this.playerList})
+      required this.playerList,
+      required this.current})
       : super(key: key);
 
   //Starting at 0
   final int cellIndex;
   final Cell cell;
   final List<Player> playerList;
+  final bool current;
 
   @override
   Widget build(BuildContext context) {
+    Player? currentPlayer;
+    if (current) {
+      currentPlayer = context.read<CurrentGameBloc>().state.currentPlayer;
+    }
+
     return Stack(
       children: [
         Padding(
           padding: const EdgeInsets.all(4.0),
           child: GlassWidget(
-            padding: EdgeInsets.all(12),
+            borderColor: current ? currentPlayer!.color : Colors.white,
+            borderWidth: current ? 3 : 1,
+            padding: EdgeInsets.all(6),
             child: SvgPicture.asset(
               cell.iconPath,
             ),
@@ -80,6 +91,7 @@ class GridCell extends StatelessWidget {
         Positioned(
             top: 10,
             left: 10,
+            //todo adapt size
             child: Wrap(
               spacing: 4,
               children: playerList

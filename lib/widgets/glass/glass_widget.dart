@@ -12,6 +12,8 @@ class GlassWidget extends StatelessWidget {
   final bool border;
   final BorderRadius? borderRadius;
   final Color? backgroundColor;
+  final Color borderColor;
+  final double borderWidth;
 
   const GlassWidget(
       {Key? key,
@@ -23,7 +25,9 @@ class GlassWidget extends StatelessWidget {
       this.blur = 12.0,
       this.border = true,
       this.borderRadius,
-      this.backgroundColor})
+      this.backgroundColor,
+      this.borderColor = Colors.white,
+      this.borderWidth = 1.0})
       : super(key: key);
 
   @override
@@ -39,7 +43,7 @@ class GlassWidget extends StatelessWidget {
                 color: backgroundColor?.withOpacity(opacity) ??
                     Colors.white.withOpacity(opacity),
                 border:
-                    border ? Border.all(color: Colors.white, width: 1) : null,
+                    border ? Border.all(color: borderColor, width: borderWidth) : null,
                 borderRadius: borderRadius ?? BorderRadius.circular(radius)),
             child: child),
       ),
