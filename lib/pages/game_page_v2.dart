@@ -98,72 +98,68 @@ class _GameScreenV2State extends State<GameScreenV2>
                         current.currentPlayer != null,
                     listener: (context, state) => _displayOverlay(
                         context, state, size.width, size.height),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                            child:
-                                BlocConsumer<CurrentGameBloc, CurrentGameState>(
-                          listenWhen: (previous, current) =>
-                              previous.currentPlayer?.idCurrentCell !=
-                              current.currentPlayer?.idCurrentCell,
-                          listener: (context, state) {
-                            final idCurrentCell =
-                                state.currentPlayer!.idCurrentCell;
-                            final offset = idCurrentCell ~/ 3 * _cellSize -
-                                (_cellSize * 3 / 2);
+                    child: BlocConsumer<CurrentGameBloc, CurrentGameState>(
+                      listenWhen: (previous, current) =>
+                          previous.currentPlayer?.idCurrentCell !=
+                          current.currentPlayer?.idCurrentCell,
+                      listener: (context, state) {
+                        final idCurrentCell =
+                            state.currentPlayer!.idCurrentCell;
+                        final offset = idCurrentCell ~/ 3 * _cellSize -
+                            (_cellSize * 3 / 2);
 
-                            _gridController.animateTo(offset,
-                                duration: Duration(milliseconds: 600),
-                                curve: Curves.ease);
-                          },
-                          builder: (context, state) {
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 16, horizontal: horizontalPadding),
-                              child: GridView.builder(
-                                  controller: _gridController,
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 3),
-                                  itemCount:
-                                      state.boardGame!.cellCountForGridView,
-                                  itemBuilder: (context, index) {
-                                    final cellIndex = gridIndex(index);
-                                    final length = state.boardGame!.cellCount;
-                                    if (cellIndex >= length) {
-                                      return SizedBox();
-                                    }
-                                    return GridCell(
-                                        cellIndex: cellIndex,
-                                        cell: state.boardGame!.cells[cellIndex],
-                                        playerList: state
-                                            .playerListFromIdCell(cellIndex),
-                                        current: state
-                                                .currentPlayer!.idCurrentCell ==
+                        _gridController.animateTo(offset,
+                            duration: Duration(milliseconds: 600),
+                            curve: Curves.ease);
+                      },
+                      builder: (context, state) {
+                        return Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 16, horizontal: horizontalPadding),
+                          child: GridView.builder(
+                              controller: _gridController,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 3),
+                              itemCount: state.boardGame!.cellCountForGridView,
+                              itemBuilder: (context, index) {
+                                final cellIndex = gridIndex(index);
+                                final length = state.boardGame!.cellCount;
+                                if (cellIndex >= length) {
+                                  return SizedBox();
+                                }
+                                return GridCell(
+                                    cellIndex: cellIndex,
+                                    cell: state.boardGame!.cells[cellIndex],
+                                    playerList:
+                                        state.playerListFromIdCell(cellIndex),
+                                    current:
+                                        state.currentPlayer!.idCurrentCell ==
                                             cellIndex);
-                                  }),
-                            );
-                          },
-                        )),
-                        ScaleTransition(
-                          child: const PlayArea(),
-                          scale: _controller
-                              .drive(CurveTween(curve: Interval(2 / 3, 1.0)))
-                              .drive(TweenSequence([
-                                TweenSequenceItem(
-                                    tween: Tween(begin: 0.0, end: 1.3),
-                                    weight: 0.7),
-                                TweenSequenceItem(
-                                    tween: Tween(begin: 1.3, end: 1.0),
-                                    weight: 0.3)
-                              ])),
-                        )
-                      ],
+                              }),
+                        );
+                      },
                     ),
                   ),
                 ),
-                const DiceView()
+                const DiceView(),
+                Positioned.fill(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: ScaleTransition(
+                      child: const PlayArea(),
+                      scale: _controller
+                          .drive(CurveTween(curve: Interval(2 / 3, 1.0)))
+                          .drive(TweenSequence([
+                            TweenSequenceItem(
+                                tween: Tween(begin: 0.0, end: 1.3),
+                                weight: 0.7),
+                            TweenSequenceItem(
+                                tween: Tween(begin: 1.3, end: 1.0), weight: 0.3)
+                          ])),
+                    ),
+                  ),
+                )
               ],
             ),
           ),
