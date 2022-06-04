@@ -51,6 +51,8 @@ class BoardGame extends Resource {
     return cellCount;
   }
 
+  int get cellCount => cells.length;
+
   static BoardGame? fromCode(String code) {
     final lines = code.split("|");
     var cellsString = lines.sublist(6);

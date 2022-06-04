@@ -1,17 +1,17 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:studrink/blocs/current_game/current_game_bloc.dart';
 import 'package:studrink/blocs/nav/nav_bloc.dart';
 import 'package:studrink/models/moving.dart';
 import 'package:studrink/models/player.dart';
 import 'package:studrink/navigators/widgets/back_btn_wrapper.dart';
 import 'package:studrink/pages/my_custom_page.dart';
+import 'package:studrink/utils/studrink_utils.dart';
 import 'package:studrink/widgets/bottom_sheet/app_bottom_sheet.dart';
 import 'package:studrink/widgets/bottom_sheet/chose_opponent_list_view.dart';
 import 'package:studrink/widgets/dice_view.dart';
-import 'package:studrink/widgets/glass/glass_widget.dart';
+import 'package:studrink/widgets/grid/grid_cell.dart';
 import 'package:studrink/widgets/player_area/play_area.dart';
 import 'package:studrink/widgets/player_avatar.dart';
 import 'package:studrink/widgets/player_overlay.dart';
@@ -114,77 +114,14 @@ class _GameScreenV2State extends State<GameScreenV2>
                                   itemCount:
                                       state.boardGame!.cellCountForGridView,
                                   itemBuilder: (context, index) {
-                                    final cellIndex = (index + 3) % 6 == 0
-                                        ? index + 2
-                                        : (index + 1) % 6 == 0
-                                            ? index - 2
-                                            : index;
-
-                                    final length =
-                                        state.boardGame!.cells.length;
-
+                                    final cellIndex = gridIndex(index);
+                                    final length = state.boardGame!.cellCount;
                                     if (cellIndex >= length) {
                                       return SizedBox();
                                     }
-
-                                    return Stack(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: GlassWidget(
-                                            padding: EdgeInsets.all(12),
-                                            child: Center(
-                                              child: SvgPicture.asset(
-                                                state.boardGame!
-                                                    .cells[cellIndex].iconPath,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        if (!(((cellIndex + 3) % 6 == 0) ||
-                                            ((cellIndex + 4) % 6 == 0)))
-                                          Positioned.fill(
-                                              child: Align(
-                                                  alignment:
-                                                      Alignment.centerRight,
-                                                  child: Container(
-                                                    color: Colors.black,
-                                                    width: 4,
-                                                    height: 3,
-                                                  ))),
-                                        if (!(((cellIndex) % 6 == 0) ||
-                                            ((cellIndex + 1) % 6 == 0)))
-                                          Positioned.fill(
-                                              child: Align(
-                                                  alignment:
-                                                      Alignment.centerLeft,
-                                                  child: Container(
-                                                    color: Colors.black,
-                                                    width: 4,
-                                                    height: 3,
-                                                  ))),
-                                        if ((cellIndex + 1) % 3 == 0)
-                                          Positioned.fill(
-                                              child: Align(
-                                                  alignment:
-                                                      Alignment.bottomCenter,
-                                                  child: Container(
-                                                    color: Colors.black,
-                                                    width: 4,
-                                                    height: 3,
-                                                  ))),
-                                        if ((cellIndex) % 3 == 0 &&
-                                            cellIndex != 0)
-                                          Positioned.fill(
-                                              child: Align(
-                                                  alignment:
-                                                      Alignment.topCenter,
-                                                  child: Container(
-                                                    color: Colors.black,
-                                                    width: 4,
-                                                    height: 3,
-                                                  )))
-                                      ],
+                                    return GridCell(
+                                      cellIndex: cellIndex,
+                                      cell: state.boardGame!.cells[cellIndex],
                                     );
                                   }),
                             );
