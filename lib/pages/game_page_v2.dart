@@ -17,7 +17,6 @@ import 'package:studrink/widgets/grid/grid_cell.dart';
 import 'package:studrink/widgets/player_area/play_area.dart';
 import 'package:studrink/widgets/player_avatar.dart';
 import 'package:studrink/widgets/player_overlay.dart';
-import 'package:studrink/widgets/sliver_card_cell_v2.dart';
 
 class GamePageV2 extends MyCustomPage {
   const GamePageV2()
@@ -98,7 +97,7 @@ class _GameScreenV2State extends State<GameScreenV2>
                       final offset = row * (_cellSize * 5 / 4) -
                           (bodyHeight / 2 - (_cellSize * 5 / 4));
                       _gridController.animateTo(
-                          min(max(offset + 300, 0),
+                          min(max(offset, 0),
                               _gridController.position.maxScrollExtent),
                           duration: Duration(milliseconds: 600),
                           curve: Curves.ease);
@@ -112,9 +111,6 @@ class _GameScreenV2State extends State<GameScreenV2>
                         child: CustomScrollView(
                           controller: _gridController,
                           slivers: [
-                            SliverPersistentHeader(
-                              delegate: SliverCardCellV2(),
-                            ),
                             SliverGrid(
                                 delegate: SliverChildBuilderDelegate(
                                     (context, index) {

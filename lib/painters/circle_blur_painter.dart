@@ -66,34 +66,34 @@ class AppBackgroundPainter extends CustomPainter {
     final tinyYellowPaint = Paint()
       ..shader = yellowGradient.createShader(
           Rect.fromCircle(center: center, radius: tinyCircleRadius));
-    canvas.drawCircle(center, tinyCircleRadius, tinyYellowPaint);
+    //canvas.drawCircle(center, tinyCircleRadius, tinyYellowPaint);
 
     final bigCircleRadius = width > 600 ? 150.0 : width * 0.19;
     center = Offset(width - 20 - bigCircleRadius, size.height / 2);
     final bigYellowPaint = Paint()
       ..shader = yellowGradient.createShader(
           Rect.fromCircle(center: center, radius: bigCircleRadius));
-    canvas.drawCircle(center, bigCircleRadius, bigYellowPaint);
+    //canvas.drawCircle(center, bigCircleRadius, bigYellowPaint);
 
     final midCircleRadius = bigCircleRadius - 12.5;
     center = Offset(width / 2, size.height * 0.237 + midCircleRadius);
     final topPrimaryPaint = Paint()
       ..shader = primaryGradient.createShader(
           Rect.fromCircle(center: center, radius: midCircleRadius));
-    canvas.drawCircle(center, midCircleRadius, topPrimaryPaint);
+    //canvas.drawCircle(center, midCircleRadius, topPrimaryPaint);
 
     center = Offset(
         width * 0.16 + midCircleRadius, size.height * 0.586 + midCircleRadius);
     final bottomPrimaryPaint = Paint()
       ..shader = primaryGradient.createShader(
           Rect.fromCircle(center: center, radius: midCircleRadius));
-    canvas.drawCircle(center, midCircleRadius, bottomPrimaryPaint);
+    //canvas.drawCircle(center, midCircleRadius, bottomPrimaryPaint);
 
     center = Offset(3 * tinyCircleRadius, size.height - 3 * tinyCircleRadius);
     final tinyPrimaryPaint = Paint()
       ..shader = primaryGradient.createShader(
           Rect.fromCircle(center: center, radius: tinyCircleRadius));
-    canvas.drawCircle(center, tinyCircleRadius, tinyPrimaryPaint);
+    //canvas.drawCircle(center, tinyCircleRadius, tinyPrimaryPaint);
   }
 
   @override
