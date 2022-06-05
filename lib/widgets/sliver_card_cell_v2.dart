@@ -1,27 +1,20 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:studrink/blocs/current_game/current_game_bloc.dart';
-import 'package:studrink/models/cell.dart';
-import 'package:studrink/widgets/card_cell_v2.dart';
+import 'package:studrink/widgets/game_page_view/game_page_view.dart';
 
-class SliverCardCellV2 extends SliverPersistentHeaderDelegate {
+class SliverGamePageView extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return BlocSelector<CurrentGameBloc, CurrentGameState, Cell>(
-        selector: (state) => state.currentCell!,
-        builder: (context, cell) => Padding(
-              padding: const EdgeInsets.only(
-                  left: 30, right: 30, top: 20, bottom: 12),
-              child: CardCellV2(cell: cell),
-            ));
-  }
+          BuildContext context, double shrinkOffset, bool overlapsContent) =>
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12.0),
+        child: const GamePageView(),
+      );
 
   @override
-  double get maxExtent => 320;
+  double get maxExtent => 310;
 
   @override
-  double get minExtent => 0;
+  double get minExtent => 200;
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) =>
