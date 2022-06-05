@@ -13,7 +13,8 @@ class GridCell extends StatelessWidget {
       required this.cellIndex,
       required this.cell,
       required this.playerList,
-      required this.current})
+      required this.current,
+      required this.constraints})
       : super(key: key);
 
   //Starting at 0
@@ -21,6 +22,7 @@ class GridCell extends StatelessWidget {
   final Cell cell;
   final List<Player> playerList;
   final bool current;
+  final BoxConstraints constraints;
 
   @override
   Widget build(BuildContext context) {
@@ -29,65 +31,76 @@ class GridCell extends StatelessWidget {
       currentPlayer = context.read<CurrentGameBloc>().state.currentPlayer;
     }
 
+    final heightDiff = constraints.maxHeight - constraints.maxWidth;
+
     return Stack(
       children: [
         Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: GlassWidget(
-            borderColor: current ? currentPlayer!.color : Colors.white,
-            borderWidth: current ? 3 : 1,
-            padding: EdgeInsets.all(6),
-            child: SvgPicture.asset(
-              cell.iconPath,
-            ),
+          padding: EdgeInsets.only(left: 4, right: 4, bottom: heightDiff),
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              GlassWidget(
+                borderColor: current ? currentPlayer!.color : Colors.white,
+                borderWidth: current ? 3 : 1,
+                padding: EdgeInsets.all(6),
+                child: SvgPicture.asset(
+                  cell.iconPath,
+                ),
+              ),
+              if (!(((cellIndex + 3) % 6 == 0) || ((cellIndex + 4) % 6 == 0)))
+                Positioned.fill(
+                    right: -4,
+                    child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Container(
+                          color: Colors.black,
+                          width: 4,
+                          height: 3,
+                        ))),
+              if (!(((cellIndex) % 6 == 0) || ((cellIndex + 1) % 6 == 0)))
+                Positioned.fill(
+                    left: -5,
+                    child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          color: Colors.black,
+                          width: 5,
+                          height: 3,
+                        ))),
+              if ((cellIndex + 1) % 3 == 0)
+                Positioned.fill(
+                    bottom: -heightDiff / 2,
+                    child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                          color: Colors.black,
+                          width: 4,
+                          height: heightDiff / 2,
+                        ))),
+              if ((cellIndex) % 3 == 0 && cellIndex != 0)
+                Positioned.fill(
+                    top: -heightDiff / 2,
+                    child: Align(
+                        alignment: Alignment.topCenter,
+                        child: Container(
+                          color: Colors.black,
+                          width: 4,
+                          height: heightDiff / 2,
+                        ))),
+              Positioned.fill(
+                  bottom: 4,
+                  right: 4,
+                  child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: GlassWidget(
+                        padding: EdgeInsets.all(3),
+                        child: Text("${cellIndex + 1}",
+                            style: TextStyle(fontSize: 15))),
+                  ))
+            ],
           ),
         ),
-        if (!(((cellIndex + 3) % 6 == 0) || ((cellIndex + 4) % 6 == 0)))
-          Positioned.fill(
-              child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Container(
-                    color: Colors.black,
-                    width: 4,
-                    height: 3,
-                  ))),
-        if (!(((cellIndex) % 6 == 0) || ((cellIndex + 1) % 6 == 0)))
-          Positioned.fill(
-              child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Container(
-                    color: Colors.black,
-                    width: 4,
-                    height: 3,
-                  ))),
-        if ((cellIndex + 1) % 3 == 0)
-          Positioned.fill(
-              child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    color: Colors.black,
-                    width: 4,
-                    height: 3,
-                  ))),
-        if ((cellIndex) % 3 == 0 && cellIndex != 0)
-          Positioned.fill(
-              child: Align(
-                  alignment: Alignment.topCenter,
-                  child: Container(
-                    color: Colors.black,
-                    width: 4,
-                    height: 3,
-                  ))),
-        Positioned.fill(
-            bottom: 4,
-            right: 4,
-            child: Align(
-              alignment: Alignment.bottomRight,
-              child: GlassWidget(
-                  padding: EdgeInsets.all(3),
-                  child:
-                      Text("${cellIndex + 1}", style: TextStyle(fontSize: 15))),
-            )),
         Positioned(
             top: 10,
             left: 10,

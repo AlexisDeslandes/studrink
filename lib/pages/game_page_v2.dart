@@ -94,8 +94,8 @@ class _GameScreenV2State extends State<GameScreenV2>
                       final idCurrentCell = state.currentPlayer!.idCurrentCell;
                       final row = idCurrentCell ~/ 3;
 
-                      final offset =
-                          row * _cellSize - (bodyHeight / 2 - _cellSize);
+                      final offset = row * (_cellSize * 5 / 4) -
+                          (bodyHeight / 2 - (_cellSize * 5 / 4));
                       _gridController.animateTo(
                           min(max(offset, 0),
                               _gridController.position.maxScrollExtent),
@@ -112,7 +112,7 @@ class _GameScreenV2State extends State<GameScreenV2>
                             controller: _gridController,
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3),
+                                    childAspectRatio: 4 / 5, crossAxisCount: 3),
                             itemCount: state.boardGame!.cellCountForGridView,
                             itemBuilder: (context, index) {
                               final cellIndex = gridIndex(index);
@@ -120,13 +120,17 @@ class _GameScreenV2State extends State<GameScreenV2>
                               if (cellIndex >= length) {
                                 return SizedBox();
                               }
-                              return GridCell(
-                                  cellIndex: cellIndex,
-                                  cell: state.boardGame!.cells[cellIndex],
-                                  playerList:
-                                      state.playerListFromIdCell(cellIndex),
-                                  current: state.currentPlayer!.idCurrentCell ==
-                                      cellIndex);
+                              return LayoutBuilder(
+                                builder: (context, constraints) => GridCell(
+                                    constraints: constraints,
+                                    cellIndex: cellIndex,
+                                    cell: state.boardGame!.cells[cellIndex],
+                                    playerList:
+                                        state.playerListFromIdCell(cellIndex),
+                                    current:
+                                        state.currentPlayer!.idCurrentCell ==
+                                            cellIndex),
+                              );
                             }),
                       );
                     },
