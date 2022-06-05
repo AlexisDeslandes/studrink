@@ -17,6 +17,7 @@ import 'package:studrink/widgets/grid/grid_cell.dart';
 import 'package:studrink/widgets/player_area/play_area.dart';
 import 'package:studrink/widgets/player_avatar.dart';
 import 'package:studrink/widgets/player_overlay.dart';
+import 'package:studrink/widgets/sliver_card_cell_v2.dart';
 
 class GamePageV2 extends MyCustomPage {
   const GamePageV2()
@@ -97,7 +98,7 @@ class _GameScreenV2State extends State<GameScreenV2>
                       final offset = row * (_cellSize * 5 / 4) -
                           (bodyHeight / 2 - (_cellSize * 5 / 4));
                       _gridController.animateTo(
-                          min(max(offset, 0),
+                          min(max(offset + 300, 0),
                               _gridController.position.maxScrollExtent),
                           duration: Duration(milliseconds: 600),
                           curve: Curves.ease);
@@ -108,30 +109,40 @@ class _GameScreenV2State extends State<GameScreenV2>
                             top: 16,
                             left: horizontalPadding,
                             right: horizontalPadding),
-                        child: GridView.builder(
-                            controller: _gridController,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    childAspectRatio: 4 / 5, crossAxisCount: 3),
-                            itemCount: state.boardGame!.cellCountForGridView,
-                            itemBuilder: (context, index) {
-                              final cellIndex = gridIndex(index);
-                              final length = state.boardGame!.cellCount;
-                              if (cellIndex >= length) {
-                                return SizedBox();
-                              }
-                              return LayoutBuilder(
-                                builder: (context, constraints) => GridCell(
-                                    constraints: constraints,
-                                    cellIndex: cellIndex,
-                                    cell: state.boardGame!.cells[cellIndex],
-                                    playerList:
-                                        state.playerListFromIdCell(cellIndex),
-                                    current:
-                                        state.currentPlayer!.idCurrentCell ==
+                        child: CustomScrollView(
+                          controller: _gridController,
+                          slivers: [
+                            SliverPersistentHeader(
+                              delegate: SliverCardCellV2(),
+                            ),
+                            SliverGrid(
+                                delegate: SliverChildBuilderDelegate(
+                                    (context, index) {
+                                  final cellIndex = gridIndex(index);
+                                  final length = state.boardGame!.cellCount;
+                                  if (cellIndex >= length) {
+                                    return SizedBox();
+                                  }
+                                  return LayoutBuilder(
+                                    builder: (context, constraints) => GridCell(
+                                        constraints: constraints,
+                                        cellIndex: cellIndex,
+                                        cell: state.boardGame!.cells[cellIndex],
+                                        playerList: state
+                                            .playerListFromIdCell(cellIndex),
+                                        current: state
+                                                .currentPlayer!.idCurrentCell ==
                                             cellIndex),
-                              );
-                            }),
+                                  );
+                                },
+                                    childCount:
+                                        state.boardGame!.cellCountForGridView),
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 3,
+                                        childAspectRatio: 4 / 5))
+                          ],
+                        ),
                       );
                     },
                   ),
