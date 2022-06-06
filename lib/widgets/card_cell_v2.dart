@@ -28,7 +28,10 @@ class CardCellV2 extends StatelessWidget {
                         .textTheme
                         .headline1!
                         .copyWith(fontSize: 30)),
-                Expanded(child: Center(child: SvgPicture.asset(_icon))),
+                Expanded(child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Center(child: SvgPicture.asset(_icon)),
+                )),
                 Center(
                     child: Text(
                   effectsLabel,
