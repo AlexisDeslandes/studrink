@@ -23,10 +23,6 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: "Studrink",
         theme: AppTheme().lightTheme,
-        home: AppProvider(
-            child: AppBackgroundPaint(
-                child: Scaffold(
-                    body: const MainNavigator(),
-                    backgroundColor: Colors.transparent))));
+        home: AppProvider(child: Scaffold(body: const MainNavigator())));
   }
 }

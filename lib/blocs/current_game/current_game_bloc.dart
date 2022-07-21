@@ -16,6 +16,7 @@ import 'package:studrink/models/moving.dart';
 import 'package:studrink/models/player.dart';
 import 'package:studrink/pages/finish_game_page.dart';
 import 'package:studrink/pages/game_page.dart';
+import 'package:studrink/pages/game_page_v2.dart';
 import 'package:studrink/pages/tutorial_page.dart';
 import 'package:studrink/storage/local_storage.dart';
 
@@ -277,7 +278,7 @@ class CurrentGameBloc extends BlocEmitter<CurrentGameEvent, CurrentGameState>
       event.animationCallback().then((value) => navBloc.add(PushNav(
           pageBuilder: (_) =>
               LocalStorage().read(LocalStorageKeywords.tutorialDone) != null
-                  ? const GamePage()
+                  ? const GamePageV2()
                   : const TutorialPage(),
           onPop: event.onPop)));
     } else {

@@ -61,7 +61,6 @@ class _GameScreenV2State extends State<GameScreenV2>
     return Stack(
       children: [
         Scaffold(
-          backgroundColor: Colors.transparent,
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
@@ -97,8 +96,11 @@ class _GameScreenV2State extends State<GameScreenV2>
 
                       final offset = row * (_cellSize * 5 / 4) -
                           (bodyHeight / 2 - (_cellSize * 5 / 4));
+                      //todo créer un stack au dessus au bout de qq seconde qui s'agrandirait
+                      // et montrerai titre et description, interdire le scroll dès lors et ajouter un bouton pour fermer
+                      //todo découper en toute petite tâche sur 1 mois pour pouvoir en réaliser tous les jours.
                       _gridController.animateTo(
-                          min(max(offset + 300, 0),
+                          min(max(offset, 0),
                               _gridController.position.maxScrollExtent),
                           duration: Duration(milliseconds: 600),
                           curve: Curves.ease);
@@ -112,9 +114,6 @@ class _GameScreenV2State extends State<GameScreenV2>
                         child: CustomScrollView(
                           controller: _gridController,
                           slivers: [
-                            SliverPersistentHeader(
-                              delegate: SliverGamePageView(),
-                            ),
                             SliverGrid(
                                 delegate: SliverChildBuilderDelegate(
                                     (context, index) {

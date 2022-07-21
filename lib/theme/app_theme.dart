@@ -12,7 +12,7 @@ class AppTheme {
     final headline2 = TextStyle(
         color: Colors.black, fontWeight: FontWeight.bold, fontSize: 30);
     return lightTheme.copyWith(
-        scaffoldBackgroundColor: Color(0xffe3c0c0),
+        scaffoldBackgroundColor: Color(0xff9b9db4),
         snackBarTheme: SnackBarThemeData(),
         floatingActionButtonTheme: FloatingActionButtonThemeData(
           backgroundColor: lightTheme.scaffoldBackgroundColor,
@@ -30,9 +30,7 @@ class AppTheme {
         canvasColor: Colors.transparent,
         textTheme: lightTheme.textTheme.copyWith(
             subtitle1: TextStyle(
-                color: Color(0xff663A3C),
-                fontWeight: FontWeight.w500,
-                fontSize: 16),
+                color: Colors.black, fontWeight: FontWeight.w500, fontSize: 16),
             headline1: headline2.copyWith(fontSize: 40),
             headline2: headline2,
             bodyText1:
