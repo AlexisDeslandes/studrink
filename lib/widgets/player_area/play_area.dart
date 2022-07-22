@@ -19,7 +19,7 @@ class PlayArea extends StatelessWidget {
     return Padding(
         padding: const EdgeInsets.only(bottom: 8.0),
         child: Container(
-            height: 70.0,
+            height: 80.0,
             child: Center(
               child: BlocBuilder<CurrentGameBloc, CurrentGameState>(
                   buildWhen: (previous, current) =>
@@ -39,9 +39,8 @@ class PlayArea extends StatelessWidget {
     final currentPlayer = state.currentPlayer,
         currentPlayerState = currentPlayer!.state,
         actualCell = state.actualCell;
-    if (actualCell == null) {
-      return const SizedBox();
-    }
+    if (actualCell == null) return const SizedBox();
+
     if ([PlayerState.ready, PlayerState.throwDice]
         .contains(currentPlayerState)) {
       return const PlayerReadyArea();
