@@ -17,6 +17,7 @@ import 'package:studrink/utils/studrink_utils.dart';
 import 'package:studrink/widgets/bottom_sheet/app_bottom_sheet.dart';
 import 'package:studrink/widgets/bottom_sheet/chose_opponent_list_view.dart';
 import 'package:studrink/widgets/card_cell_v2.dart';
+import 'package:studrink/widgets/card_cell_v3.dart';
 import 'package:studrink/widgets/dice_view.dart';
 import 'package:studrink/widgets/game_page_view/card_cell.dart';
 import 'package:studrink/widgets/glass/glass_widget.dart';
@@ -212,20 +213,11 @@ class _GameScreenV2State extends State<GameScreenV2>
                 return Positioned(
                     top: rect.top,
                     left: rect.left,
-                    height: rect.height,
-                    width: rect.width,
-                    child: GlassWidget(
-                      borderColor: context
-                          .read<CurrentGameBloc>()
-                          .state
-                          .currentPlayer!
-                          .color,
-                      borderWidth: 3,
-                      padding: EdgeInsets.all(6),
-                      child: SvgPicture.asset(
-                        data.item1.iconPath,
-                      ),
-                    ));
+                    child: CardCellV3(
+                        key: UniqueKey(),
+                        cell: data.item1,
+                        initWidth: rect.width,
+                        initHeight: rect.height));
               }
               return const SizedBox();
             })
