@@ -1,10 +1,14 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:studrink/blocs/current_game/current_game_bloc.dart';
 import 'package:studrink/blocs/nav/nav_bloc.dart';
+import 'package:studrink/models/cell.dart';
 import 'package:studrink/models/moving.dart';
 import 'package:studrink/models/player.dart';
 import 'package:studrink/navigators/widgets/back_btn_wrapper.dart';
@@ -12,12 +16,15 @@ import 'package:studrink/pages/my_custom_page.dart';
 import 'package:studrink/utils/studrink_utils.dart';
 import 'package:studrink/widgets/bottom_sheet/app_bottom_sheet.dart';
 import 'package:studrink/widgets/bottom_sheet/chose_opponent_list_view.dart';
+import 'package:studrink/widgets/card_cell_v2.dart';
 import 'package:studrink/widgets/dice_view.dart';
+import 'package:studrink/widgets/game_page_view/card_cell.dart';
+import 'package:studrink/widgets/glass/glass_widget.dart';
 import 'package:studrink/widgets/grid/grid_cell.dart';
 import 'package:studrink/widgets/player_area/play_area.dart';
 import 'package:studrink/widgets/player_avatar.dart';
 import 'package:studrink/widgets/player_overlay.dart';
-import 'package:studrink/widgets/sliver_card_cell_v2.dart';
+import 'package:tuple/tuple.dart';
 
 class GamePageV2 extends MyCustomPage {
   const GamePageV2()
@@ -35,6 +42,9 @@ class GameScreenV2 extends StatefulWidget {
 
 class _GameScreenV2State extends State<GameScreenV2>
     with TickerProviderStateMixin, BackBtnWrapper {
+  late GlobalKey _currentKey;
+
+  final StreamController<Tuple2<Cell, Rect>> _focusSubject = StreamController();
   late final _controller =
       AnimationController(vsync: this, duration: Duration(milliseconds: 900))
         ..forward();
@@ -90,20 +100,28 @@ class _GameScreenV2State extends State<GameScreenV2>
                     listenWhen: (previous, current) =>
                         previous.currentPlayer?.idCurrentCell !=
                         current.currentPlayer?.idCurrentCell,
-                    listener: (context, state) {
+                    listener: (context, state) async {
                       final idCurrentCell = state.currentPlayer!.idCurrentCell;
                       final row = idCurrentCell ~/ 3;
 
-                      final offset = row * (_cellSize * 5 / 4) -
+                      var offset = row * (_cellSize * 5 / 4) -
                           (bodyHeight / 2 - (_cellSize * 5 / 4));
+                      offset = min(max(offset, 0),
+                          _gridController.position.maxScrollExtent);
                       //todo créer un stack au dessus au bout de qq seconde qui s'agrandirait
                       // et montrerai titre et description, interdire le scroll dès lors et ajouter un bouton pour fermer
-                      //todo découper en toute petite tâche sur 1 mois pour pouvoir en réaliser tous les jours.
-                      _gridController.animateTo(
-                          min(max(offset, 0),
-                              _gridController.position.maxScrollExtent),
+                      await _gridController.animateTo(offset,
                           duration: Duration(milliseconds: 600),
                           curve: Curves.ease);
+                      RenderBox box = _currentKey.currentContext!
+                          .findRenderObject()! as RenderBox;
+                      final paintBounds = box.paintBounds;
+                      final position = box.localToGlobal(Offset.zero);
+                      //box.paintBounds
+                      _focusSubject.add(Tuple2(
+                          state.currentCell!,
+                          Rect.fromLTWH(position.dx, position.dy,
+                              paintBounds.width, paintBounds.height)));
                     },
                     builder: (context, state) {
                       return Padding(
@@ -122,16 +140,20 @@ class _GameScreenV2State extends State<GameScreenV2>
                                   if (cellIndex >= length) {
                                     return SizedBox();
                                   }
+                                  final current =
+                                      state.currentPlayer!.idCurrentCell ==
+                                          cellIndex;
                                   return LayoutBuilder(
                                     builder: (context, constraints) => GridCell(
+                                        glassKey: current
+                                            ? (_currentKey = GlobalKey())
+                                            : null,
                                         constraints: constraints,
                                         cellIndex: cellIndex,
                                         cell: state.boardGame!.cells[cellIndex],
                                         playerList: state
                                             .playerListFromIdCell(cellIndex),
-                                        current: state
-                                                .currentPlayer!.idCurrentCell ==
-                                            cellIndex),
+                                        current: current),
                                   );
                                 },
                                     childCount:
@@ -180,7 +202,33 @@ class _GameScreenV2State extends State<GameScreenV2>
                     size: 60,
                   ),
                   endRadius: glowSize)),
-        ))
+        )),
+        StreamBuilder<Tuple2<Cell, Rect>>(
+            stream: _focusSubject.stream,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final data = snapshot.data!;
+                final rect = data.item2;
+                return Positioned(
+                    top: rect.top,
+                    left: rect.left,
+                    height: rect.height,
+                    width: rect.width,
+                    child: GlassWidget(
+                      borderColor: context
+                          .read<CurrentGameBloc>()
+                          .state
+                          .currentPlayer!
+                          .color,
+                      borderWidth: 3,
+                      padding: EdgeInsets.all(6),
+                      child: SvgPicture.asset(
+                        data.item1.iconPath,
+                      ),
+                    ));
+              }
+              return const SizedBox();
+            })
       ],
     );
   }

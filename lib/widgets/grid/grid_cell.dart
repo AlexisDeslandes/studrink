@@ -14,7 +14,8 @@ class GridCell extends StatelessWidget {
       required this.cell,
       required this.playerList,
       required this.current,
-      required this.constraints})
+      required this.constraints,
+      this.glassKey})
       : super(key: key);
 
   //Starting at 0
@@ -23,6 +24,7 @@ class GridCell extends StatelessWidget {
   final List<Player> playerList;
   final bool current;
   final BoxConstraints constraints;
+  final GlobalKey<State<StatefulWidget>>? glassKey;
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +43,7 @@ class GridCell extends StatelessWidget {
             clipBehavior: Clip.none,
             children: [
               GlassWidget(
+                key: glassKey,
                 borderColor: current ? currentPlayer!.color : Colors.white,
                 borderWidth: current ? 3 : 1,
                 padding: EdgeInsets.all(6),
