@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -35,19 +36,45 @@ class _CardCellV3State extends State<CardCellV3>
 
   @override
   Widget build(BuildContext context) {
+    final initWidth = widget.initWidth;
+    final initHeight = widget.initHeight;
+    final cell = widget.cell;
     return AnimatedBuilder(
       animation: _controller.drive(CurveTween(curve: Curves.ease)),
       builder: (context, child) => SizedBox(
-        width: widget.initWidth + _controller.value * widget.initWidth,
-        height: widget.initHeight + _controller.value * widget.initHeight,
+        width: (1 + _controller.value) * initWidth,
+        height: (1 + _controller.value) * initHeight,
         child: child,
       ),
       child: GlassWidget(
         borderColor: context.read<CurrentGameBloc>().state.currentPlayer!.color,
         borderWidth: 3,
         padding: EdgeInsets.all(6),
-        child: SvgPicture.asset(
-          widget.cell.iconPath,
+        child: Column(
+          children: [
+            SizedBox(
+              width: initWidth - 18,
+              height: initHeight - 18,
+              child: SvgPicture.asset(
+                cell.iconPath,
+              ),
+            ),
+            Flexible(
+              child: Align(
+                alignment: Alignment.center,
+                child: Text(
+                  cell.name,
+                  style: Theme.of(context).textTheme.headline2,
+                ),
+              ),
+            ),
+            Flexible(
+                child: Text(
+              cell.effectsLabel,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 14),
+            )),
+          ],
         ),
       ),
     );
