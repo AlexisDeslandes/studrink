@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:studrink/blocs/current_game/current_game_bloc.dart';
@@ -11,12 +10,14 @@ class CardCellV3 extends StatefulWidget {
       {Key? key,
       required this.cell,
       required this.initWidth,
-      required this.initHeight})
+      required this.initHeight,
+      required this.onReduce})
       : super(key: key);
 
   final Cell cell;
   final double initWidth;
   final double initHeight;
+  final VoidCallback onReduce;
 
   @override
   State<CardCellV3> createState() => _CardCellV3State();
@@ -24,9 +25,9 @@ class CardCellV3 extends StatefulWidget {
 
 class _CardCellV3State extends State<CardCellV3>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _controller =
-      AnimationController(vsync: this, duration: Duration(milliseconds: 400))
-        ..forward();
+  late final AnimationController _controller = AnimationController(
+      vsync: this, duration: Duration(milliseconds: 400), upperBound: 1.1)
+    ..forward();
 
   @override
   void dispose() {
@@ -39,6 +40,7 @@ class _CardCellV3State extends State<CardCellV3>
     final initWidth = widget.initWidth;
     final initHeight = widget.initHeight;
     final cell = widget.cell;
+    //todo add players and cell number
     return AnimatedBuilder(
       animation: _controller.drive(CurveTween(curve: Curves.ease)),
       builder: (context, child) => SizedBox(
@@ -50,30 +52,44 @@ class _CardCellV3State extends State<CardCellV3>
         borderColor: context.read<CurrentGameBloc>().state.currentPlayer!.color,
         borderWidth: 3,
         padding: EdgeInsets.all(6),
-        child: Column(
+        child: Stack(
           children: [
-            SizedBox(
-              width: initWidth - 18,
-              height: initHeight - 18,
-              child: SvgPicture.asset(
-                cell.iconPath,
-              ),
-            ),
-            Flexible(
-              child: Align(
-                alignment: Alignment.center,
-                child: Text(
-                  cell.name,
-                  style: Theme.of(context).textTheme.headline2,
+            Column(
+              children: [
+                SizedBox(
+                  width: initWidth - 18,
+                  height: initHeight - 18,
+                  child: SvgPicture.asset(
+                    cell.iconPath,
+                  ),
                 ),
-              ),
+                Flexible(
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      cell.name,
+                      style: Theme.of(context).textTheme.headline2,
+                    ),
+                  ),
+                ),
+                Flexible(
+                    child: Text(
+                  cell.effectsLabel,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      ?.copyWith(fontSize: 14),
+                )),
+              ],
             ),
-            Flexible(
-                child: Text(
-              cell.effectsLabel,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 14),
-            )),
+            Positioned(
+                right: 0,
+                top: 0,
+                child: IconButton(
+                    onPressed: () =>
+                        _controller.reverse().then((_) => widget.onReduce()),
+                    icon: Icon(Icons.close_fullscreen))),
           ],
         ),
       ),

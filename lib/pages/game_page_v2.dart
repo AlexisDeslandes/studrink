@@ -18,6 +18,7 @@ import 'package:studrink/widgets/bottom_sheet/app_bottom_sheet.dart';
 import 'package:studrink/widgets/bottom_sheet/chose_opponent_list_view.dart';
 import 'package:studrink/widgets/card_cell_v2.dart';
 import 'package:studrink/widgets/card_cell_v3.dart';
+import 'package:studrink/widgets/condition_widget.dart';
 import 'package:studrink/widgets/dice_view.dart';
 import 'package:studrink/widgets/game_page_view/card_cell.dart';
 import 'package:studrink/widgets/glass/glass_widget.dart';
@@ -210,14 +211,24 @@ class _GameScreenV2State extends State<GameScreenV2>
               if (snapshot.hasData) {
                 final data = snapshot.data!;
                 final rect = data.item2;
-                return Positioned(
-                    top: rect.top,
-                    left: rect.left,
-                    child: CardCellV3(
-                        key: UniqueKey(),
-                        cell: data.item1,
-                        initWidth: rect.width,
-                        initHeight: rect.height));
+                var display = true;
+                return StatefulBuilder(
+                  builder: (context, setState) {
+                    return ConditionWidget(
+                      appear: display,
+                      appearWidgetCallback: () => Positioned(
+                          top: rect.top,
+                          left: rect.left,
+                          child: CardCellV3(
+                            key: UniqueKey(),
+                            cell: data.item1,
+                            initWidth: rect.width,
+                            initHeight: rect.height,
+                            onReduce: () => setState(() => display = false),
+                          )),
+                    );
+                  },
+                );
               }
               return const SizedBox();
             })
