@@ -65,12 +65,14 @@ class _GameScreenV2State extends State<GameScreenV2>
   }
 
   Future<void> _expandCell(int idCell, Cell cell) async {
+
     final row = idCell ~/ 3;
     final mediaData = MediaQuery.of(context);
     final size = mediaData.size;
     final topPadding = mediaData.viewPadding.top;
     final bodyHeight = size.height - topPadding - kToolbarHeight;
 
+    //todo si il y a une cell déjà expand on devrait la fermer quand on click sur une autre
     var offset =
         row * (_cellSize * 5 / 4) - (bodyHeight / 2 - (_cellSize * 5 / 4));
     offset = min(max(offset, 0), _gridController.position.maxScrollExtent);
