@@ -78,6 +78,7 @@ class _GameScreenV2State extends State<GameScreenV2>
     if (offset == 0) {
       await Future.delayed(duration);
     } else {
+      //todo Quand offset = 0 et qu'on a descendu la liste, on devrait remonter la liste.
       await _gridController.animateTo(offset,
           duration: duration, curve: Curves.ease);
     }
@@ -127,9 +128,13 @@ class _GameScreenV2State extends State<GameScreenV2>
                   listener: (context, state) =>
                       _displayOverlay(context, state, size.width, size.height),
                   child: BlocConsumer<CurrentGameBloc, CurrentGameState>(
-                    listenWhen: (previous, current) =>
-                        previous.currentPlayer?.idCurrentCell !=
-                        current.currentPlayer?.idCurrentCell,
+                    listenWhen: (previous, current) {
+                      final previousPlayer = previous.currentPlayer;
+                      final currentPlayer = current.currentPlayer;
+                      return previousPlayer != currentPlayer ||
+                          previousPlayer?.idCurrentCell !=
+                              currentPlayer?.idCurrentCell;
+                    },
                     listener: (context, state) => _expandCell(
                         state.currentPlayer!.idCurrentCell, state.currentCell!),
                     builder: (context, state) {
@@ -181,7 +186,6 @@ class _GameScreenV2State extends State<GameScreenV2>
                   ),
                 ),
               ),
-              const DiceView(),
               Positioned.fill(
                 bottom: MediaQuery.of(context).viewPadding.bottom,
                 child: Align(
@@ -230,7 +234,7 @@ class _GameScreenV2State extends State<GameScreenV2>
                           top: rect.top,
                           left: rect.left,
                           child: CardCellV3(
-                            key: UniqueKey(),
+                            key: ObjectKey(data.item1),
                             cell: data.item1,
                             initWidth: rect.width,
                             initHeight: rect.height,
@@ -241,7 +245,8 @@ class _GameScreenV2State extends State<GameScreenV2>
                 );
               }
               return const SizedBox();
-            })
+            }),
+        const DiceView(),
       ],
     );
   }
