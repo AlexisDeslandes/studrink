@@ -74,8 +74,13 @@ class _GameScreenV2State extends State<GameScreenV2>
     var offset =
         row * (_cellSize * 5 / 4) - (bodyHeight / 2 - (_cellSize * 5 / 4));
     offset = min(max(offset, 0), _gridController.position.maxScrollExtent);
-    await _gridController.animateTo(offset,
-        duration: Duration(milliseconds: 600), curve: Curves.ease);
+    const duration = Duration(milliseconds: 600);
+    if (offset == 0) {
+      await Future.delayed(duration);
+    } else {
+      await _gridController.animateTo(offset,
+          duration: duration, curve: Curves.ease);
+    }
     RenderBox box =
         _cellKeys[idCell].currentContext!.findRenderObject()! as RenderBox;
     final paintBounds = box.paintBounds;
