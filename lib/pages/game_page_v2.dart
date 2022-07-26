@@ -44,7 +44,10 @@ class GameScreenV2 extends StatefulWidget {
 
 class _GameScreenV2State extends State<GameScreenV2>
     with TickerProviderStateMixin, BackBtnWrapper {
-  late GlobalKey _currentKey;
+  late List<GlobalKey> _cellKeys = List.generate(
+    context.read<CurrentGameBloc>().state.boardGame!.cellCount,
+    (index) => GlobalKey(),
+  );
 
   final StreamController<Tuple2<Cell, Rect>> _focusSubject = StreamController();
   late final _controller =
@@ -61,13 +64,33 @@ class _GameScreenV2State extends State<GameScreenV2>
         .add(InitGameAnimationController(_controller));
   }
 
+  Future<void> _expandCell(int idCell, Cell cell) async {
+    final row = idCell ~/ 3;
+    final mediaData = MediaQuery.of(context);
+    final size = mediaData.size;
+    final topPadding = mediaData.viewPadding.top;
+    final bodyHeight = size.height - topPadding - kToolbarHeight;
+
+    var offset =
+        row * (_cellSize * 5 / 4) - (bodyHeight / 2 - (_cellSize * 5 / 4));
+    offset = min(max(offset, 0), _gridController.position.maxScrollExtent);
+    await _gridController.animateTo(offset,
+        duration: Duration(milliseconds: 600), curve: Curves.ease);
+    RenderBox box =
+        _cellKeys[idCell].currentContext!.findRenderObject()! as RenderBox;
+    final paintBounds = box.paintBounds;
+    final position = box.localToGlobal(Offset.zero);
+    _focusSubject.add(Tuple2(
+        cell,
+        Rect.fromLTWH(
+            position.dx, position.dy, paintBounds.width, paintBounds.height)));
+  }
+
   @override
   Widget build(BuildContext context) {
     const horizontalPadding = 8.0;
     final mediaData = MediaQuery.of(context);
     final size = mediaData.size, glowSize = 70.0;
-    final topPadding = mediaData.viewPadding.top;
-    final bodyHeight = size.height - topPadding - kToolbarHeight;
     _cellSize = (size.width - (horizontalPadding * 2)) / 3;
 
     return Stack(
@@ -102,29 +125,8 @@ class _GameScreenV2State extends State<GameScreenV2>
                     listenWhen: (previous, current) =>
                         previous.currentPlayer?.idCurrentCell !=
                         current.currentPlayer?.idCurrentCell,
-                    listener: (context, state) async {
-                      final idCurrentCell = state.currentPlayer!.idCurrentCell;
-                      final row = idCurrentCell ~/ 3;
-
-                      var offset = row * (_cellSize * 5 / 4) -
-                          (bodyHeight / 2 - (_cellSize * 5 / 4));
-                      offset = min(max(offset, 0),
-                          _gridController.position.maxScrollExtent);
-                      //todo créer un stack au dessus au bout de qq seconde qui s'agrandirait
-                      // et montrerai titre et description, interdire le scroll dès lors et ajouter un bouton pour fermer
-                      await _gridController.animateTo(offset,
-                          duration: Duration(milliseconds: 600),
-                          curve: Curves.ease);
-                      RenderBox box = _currentKey.currentContext!
-                          .findRenderObject()! as RenderBox;
-                      final paintBounds = box.paintBounds;
-                      final position = box.localToGlobal(Offset.zero);
-                      //box.paintBounds
-                      _focusSubject.add(Tuple2(
-                          state.currentCell!,
-                          Rect.fromLTWH(position.dx, position.dy,
-                              paintBounds.width, paintBounds.height)));
-                    },
+                    listener: (context, state) => _expandCell(
+                        state.currentPlayer!.idCurrentCell, state.currentCell!),
                     builder: (context, state) {
                       return Padding(
                         padding: EdgeInsets.only(
@@ -139,23 +141,26 @@ class _GameScreenV2State extends State<GameScreenV2>
                                     (context, index) {
                                   final cellIndex = gridIndex(index);
                                   final length = state.boardGame!.cellCount;
-                                  if (cellIndex >= length) {
-                                    return SizedBox();
-                                  }
+                                  if (cellIndex >= length) return SizedBox();
+
                                   final current =
                                       state.currentPlayer!.idCurrentCell ==
                                           cellIndex;
+                                  final cell =
+                                      state.boardGame!.cells[cellIndex];
                                   return LayoutBuilder(
-                                    builder: (context, constraints) => GridCell(
-                                        glassKey: current
-                                            ? (_currentKey = GlobalKey())
-                                            : null,
-                                        constraints: constraints,
-                                        cellIndex: cellIndex,
-                                        cell: state.boardGame!.cells[cellIndex],
-                                        playerList: state
-                                            .playerListFromIdCell(cellIndex),
-                                        current: current),
+                                    builder: (context, constraints) =>
+                                        GestureDetector(
+                                      onTap: () => _expandCell(cellIndex, cell),
+                                      child: GridCell(
+                                          glassKey: _cellKeys[cellIndex],
+                                          constraints: constraints,
+                                          cellIndex: cellIndex,
+                                          cell: cell,
+                                          playerList: state
+                                              .playerListFromIdCell(cellIndex),
+                                          current: current),
+                                    ),
                                   );
                                 },
                                     childCount:

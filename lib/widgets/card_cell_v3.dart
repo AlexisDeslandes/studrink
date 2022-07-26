@@ -72,15 +72,17 @@ class _CardCellV3State extends State<CardCellV3>
                     ),
                   ),
                 ),
-                Flexible(
-                    child: Text(
+                Expanded(
+                    child: Center(
+                      child: Text(
                   cell.effectsLabel,
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
-                      .textTheme
-                      .bodyText1
-                      ?.copyWith(fontSize: 14),
-                )),
+                        .textTheme
+                        .bodyText1
+                        ?.copyWith(fontSize: 14),
+                ),
+                    )),
               ],
             ),
             Positioned(
