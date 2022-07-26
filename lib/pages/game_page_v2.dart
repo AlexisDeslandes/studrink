@@ -75,13 +75,14 @@ class _GameScreenV2State extends State<GameScreenV2>
         row * (_cellSize * 5 / 4) - (bodyHeight / 2 - (_cellSize * 5 / 4));
     offset = min(max(offset, 0), _gridController.position.maxScrollExtent);
     const duration = Duration(milliseconds: 600);
-    if (offset == 0) {
+
+    if (_gridController.offset == offset) {
       await Future.delayed(duration);
     } else {
-      //todo Quand offset = 0 et qu'on a descendu la liste, on devrait remonter la liste.
       await _gridController.animateTo(offset,
           duration: duration, curve: Curves.ease);
     }
+
     RenderBox box =
         _cellKeys[idCell].currentContext!.findRenderObject()! as RenderBox;
     final paintBounds = box.paintBounds;
