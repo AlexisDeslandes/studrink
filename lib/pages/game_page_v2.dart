@@ -49,7 +49,8 @@ class _GameScreenV2State extends State<GameScreenV2>
     (index) => GlobalKey(),
   );
 
-  final StreamController<Tuple2<Cell, Rect>> _focusSubject = StreamController();
+  final StreamController<Tuple2<Cell, Rect>?> _focusSubject =
+      StreamController();
   late final _controller =
       AnimationController(vsync: this, duration: Duration(milliseconds: 900))
         ..forward();
@@ -65,7 +66,7 @@ class _GameScreenV2State extends State<GameScreenV2>
   }
 
   Future<void> _expandCell(int idCell, Cell cell) async {
-
+    _focusSubject.add(null);
     final row = idCell ~/ 3;
     final mediaData = MediaQuery.of(context);
     final size = mediaData.size;
@@ -76,7 +77,7 @@ class _GameScreenV2State extends State<GameScreenV2>
     var offset =
         row * (_cellSize * 5 / 4) - (bodyHeight / 2 - (_cellSize * 5 / 4));
     offset = min(max(offset, 0), _gridController.position.maxScrollExtent);
-    const duration = Duration(milliseconds: 600);
+    const duration = Duration(milliseconds: 400);
 
     if (_gridController.offset == offset) {
       await Future.delayed(duration);
@@ -84,7 +85,8 @@ class _GameScreenV2State extends State<GameScreenV2>
       await _gridController.animateTo(offset,
           duration: duration, curve: Curves.ease);
     }
-
+    //todo mettre boutton du bas au dessus de la case hover
+    //todo corriger le double animation de la case
     RenderBox box =
         _cellKeys[idCell].currentContext!.findRenderObject()! as RenderBox;
     final paintBounds = box.paintBounds;
@@ -222,33 +224,10 @@ class _GameScreenV2State extends State<GameScreenV2>
                   ),
                   endRadius: glowSize)),
         )),
-        StreamBuilder<Tuple2<Cell, Rect>>(
+        StreamBuilder<Tuple2<Cell, Rect>?>(
             stream: _focusSubject.stream,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                final data = snapshot.data!;
-                final rect = data.item2;
-                var display = true;
-                return StatefulBuilder(
-                  builder: (context, setState) {
-                    return ConditionWidget(
-                      appear: display,
-                      appearWidgetCallback: () => Positioned(
-                          top: rect.top,
-                          left: rect.left,
-                          child: CardCellV3(
-                            key: ObjectKey(data.item1),
-                            cell: data.item1,
-                            initWidth: rect.width,
-                            initHeight: rect.height,
-                            onReduce: () => setState(() => display = false),
-                          )),
-                    );
-                  },
-                );
-              }
-              return const SizedBox();
-            }),
+            builder: (context, snapshot) =>
+                JeSaisPas(cellTuple: snapshot.data)),
         const DiceView(),
       ],
     );
