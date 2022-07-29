@@ -21,7 +21,7 @@ class _JeSaisPasState extends State<JeSaisPas>
   late Tuple2<Cell, Rect>? _focusCellTuple = widget.cellTuple;
 
   late final AnimationController _controller = AnimationController(
-      vsync: this, duration: Duration(milliseconds: 400), upperBound: 1.1);
+      vsync: this, duration: Duration(milliseconds: 200), upperBound: 1.1);
 
   @override
   void initState() {
@@ -43,7 +43,7 @@ class _JeSaisPasState extends State<JeSaisPas>
         _controller.reverse().then((_) {
           setState(() {
             _focusCellTuple = widget.cellTuple;
-            _controller.forward();
+            //_controller.forward();
           });
         });
       } else {

@@ -67,6 +67,7 @@ class _GameScreenV2State extends State<GameScreenV2>
 
   Future<void> _expandCell(int idCell, Cell cell) async {
     _focusSubject.add(null);
+    await Future.delayed(Duration(milliseconds: 200));
     final row = idCell ~/ 3;
     final mediaData = MediaQuery.of(context);
     final size = mediaData.size;
@@ -77,7 +78,7 @@ class _GameScreenV2State extends State<GameScreenV2>
     var offset =
         row * (_cellSize * 5 / 4) - (bodyHeight / 2 - (_cellSize * 5 / 4));
     offset = min(max(offset, 0), _gridController.position.maxScrollExtent);
-    const duration = Duration(milliseconds: 400);
+    const duration = Duration(milliseconds: 300);
 
     if (_gridController.offset == offset) {
       await Future.delayed(duration);
