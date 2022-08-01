@@ -65,7 +65,7 @@ class _GameScreenV2State extends State<GameScreenV2>
         .add(InitGameAnimationController(_controller));
   }
 
-  Future<void> _expandCell(int idCell, Cell cell) async {
+  Future<void> _expandCell(int idCell, CurrentGameState state) async {
     _focusSubject.add(null);
     await Future.delayed(Duration(milliseconds: 200));
     final row = idCell ~/ 3;
@@ -86,11 +86,11 @@ class _GameScreenV2State extends State<GameScreenV2>
           duration: duration, curve: Curves.ease);
     }
     //todo mettre boutton du bas au dessus de la case hover
-    //todo corriger le double animation de la case
     RenderBox box =
         _cellKeys[idCell].currentContext!.findRenderObject()! as RenderBox;
     final paintBounds = box.paintBounds;
     final position = box.localToGlobal(Offset.zero);
+    final cell = state.boardGame!.cells[idCell];
     _focusSubject.add(Tuple2(
         cell,
         Rect.fromLTWH(
@@ -136,12 +136,22 @@ class _GameScreenV2State extends State<GameScreenV2>
                     listenWhen: (previous, current) {
                       final previousPlayer = previous.currentPlayer;
                       final currentPlayer = current.currentPlayer;
-                      return previousPlayer?.id != currentPlayer?.id ||
-                          previousPlayer?.idCurrentCell !=
-                              currentPlayer?.idCurrentCell;
+                      final idPreviousCell = previousPlayer!.idCurrentCell;
+                      final previousCell =
+                          current.boardGame!.cells[idPreviousCell];
+
+                      final justHadPickedOtherMoving =
+                          previousCell.cellType == CellType.otherMoving &&
+                              previousPlayer.id != currentPlayer?.id &&
+                              currentPlayer!.idCurrentCell != 0;
+
+                      return (previousPlayer.id != currentPlayer?.id ||
+                              previousPlayer.idCurrentCell !=
+                                  currentPlayer?.idCurrentCell) &&
+                          !justHadPickedOtherMoving;
                     },
-                    listener: (context, state) => _expandCell(
-                        state.currentPlayer!.idCurrentCell, state.currentCell!),
+                    listener: (context, state) =>
+                        _expandCell(state.currentPlayer!.idCurrentCell, state),
                     builder: (context, state) {
                       return Padding(
                         padding: EdgeInsets.only(
@@ -166,7 +176,8 @@ class _GameScreenV2State extends State<GameScreenV2>
                                   return LayoutBuilder(
                                     builder: (context, constraints) =>
                                         GestureDetector(
-                                      onTap: () => _expandCell(cellIndex, cell),
+                                      onTap: () =>
+                                          _expandCell(cellIndex, state),
                                       child: GridCell(
                                           glassKey: _cellKeys[cellIndex],
                                           constraints: constraints,
