@@ -74,7 +74,6 @@ class _GameScreenV2State extends State<GameScreenV2>
     final topPadding = mediaData.viewPadding.top;
     final bodyHeight = size.height - topPadding - kToolbarHeight;
 
-    //todo si il y a une cell déjà expand on devrait la fermer quand on click sur une autre
     var offset =
         row * (_cellSize * 5 / 4) - (bodyHeight / 2 - (_cellSize * 5 / 4));
     offset = min(max(offset, 0), _gridController.position.maxScrollExtent);
@@ -137,7 +136,7 @@ class _GameScreenV2State extends State<GameScreenV2>
                     listenWhen: (previous, current) {
                       final previousPlayer = previous.currentPlayer;
                       final currentPlayer = current.currentPlayer;
-                      return previousPlayer != currentPlayer ||
+                      return previousPlayer?.id != currentPlayer?.id ||
                           previousPlayer?.idCurrentCell !=
                               currentPlayer?.idCurrentCell;
                     },
