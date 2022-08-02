@@ -55,14 +55,23 @@ class _JeSaisPasState extends State<JeSaisPas>
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return ConditionWidget(
         appear: _focusCellTuple != null,
         appearWidgetCallback: () {
           final rect = _focusCellTuple!.item2;
+          var left, right;
           final cell = _focusCellTuple!.item1;
+          if (rect.left <= width / 2) {
+            left = rect.left;
+          } else {
+            right = width - rect.right;
+          }
+
           return Positioned(
               top: rect.top,
-              left: rect.left,
+              left: left,
+              right: right,
               child: CardCellV3(
                 key: ObjectKey(cell),
                 controller: _controller,
@@ -121,6 +130,7 @@ class CardCellV3 extends StatelessWidget {
                     alignment: Alignment.center,
                     child: Text(
                       cell.name,
+                      textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.headline2,
                     ),
                   ),
