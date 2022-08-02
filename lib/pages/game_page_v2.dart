@@ -43,7 +43,7 @@ class _GameScreenV2State extends State<GameScreenV2>
     (index) => GlobalKey(),
   );
 
-  final StreamController<Tuple2<Cell, Rect>?> _focusSubject =
+  final StreamController<Tuple2<int, Rect>?> _focusSubject =
       StreamController();
   late final _controller =
       AnimationController(vsync: this, duration: Duration(milliseconds: 900))
@@ -84,9 +84,8 @@ class _GameScreenV2State extends State<GameScreenV2>
         _cellKeys[idCell].currentContext!.findRenderObject()! as RenderBox;
     final paintBounds = box.paintBounds;
     final position = box.localToGlobal(Offset.zero);
-    final cell = state.boardGame!.cells[idCell];
     _focusSubject.add(Tuple2(
-        cell,
+        idCell,
         Rect.fromLTWH(
             position.dx, position.dy, paintBounds.width, paintBounds.height)));
   }
@@ -229,7 +228,7 @@ class _GameScreenV2State extends State<GameScreenV2>
                   ),
                   endRadius: glowSize)),
         )),
-        StreamBuilder<Tuple2<Cell, Rect>?>(
+        StreamBuilder<Tuple2<int, Rect>?>(
             stream: _focusSubject.stream,
             builder: (context, snapshot) =>
                 JeSaisPas(cellTuple: snapshot.data)),

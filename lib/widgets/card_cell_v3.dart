@@ -3,14 +3,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:studrink/blocs/current_game/current_game_bloc.dart';
 import 'package:studrink/models/cell.dart';
+import 'package:studrink/models/player.dart';
 import 'package:studrink/widgets/condition_widget.dart';
 import 'package:studrink/widgets/glass/glass_widget.dart';
+import 'package:studrink/widgets/player_avatar.dart';
 import 'package:tuple/tuple.dart';
 
 class JeSaisPas extends StatefulWidget {
   const JeSaisPas({Key? key, this.cellTuple}) : super(key: key);
 
-  final Tuple2<Cell, Rect>? cellTuple;
+  final Tuple2<int, Rect>? cellTuple;
 
   @override
   State<JeSaisPas> createState() => _JeSaisPasState();
@@ -18,7 +20,7 @@ class JeSaisPas extends StatefulWidget {
 
 class _JeSaisPasState extends State<JeSaisPas>
     with SingleTickerProviderStateMixin {
-  late Tuple2<Cell, Rect>? _focusCellTuple = widget.cellTuple;
+  late Tuple2<int, Rect>? _focusCellTuple = widget.cellTuple;
 
   late final AnimationController _controller = AnimationController(
       vsync: this, duration: Duration(milliseconds: 200), upperBound: 1.1);
@@ -61,7 +63,7 @@ class _JeSaisPasState extends State<JeSaisPas>
         appearWidgetCallback: () {
           final rect = _focusCellTuple!.item2;
           var left, right;
-          final cell = _focusCellTuple!.item1;
+          final indexCell = _focusCellTuple!.item1;
           if (rect.left <= width / 2) {
             left = rect.left;
           } else {
@@ -72,13 +74,23 @@ class _JeSaisPasState extends State<JeSaisPas>
               top: rect.top,
               left: left,
               right: right,
-              child: CardCellV3(
-                key: ObjectKey(cell),
-                controller: _controller,
-                cell: cell,
-                initWidth: rect.width,
-                initHeight: rect.height,
-                onReduce: () => setState(() => _focusCellTuple = null),
+              child: BlocSelector<CurrentGameBloc, CurrentGameState,
+                  Tuple2<Cell, List<Player>>>(
+                selector: (state) {
+                  final cell = state.boardGame!.cells[indexCell];
+                  final players = state.playerListFromIdCell(indexCell);
+                  return Tuple2(cell, players);
+                },
+                builder: (context, tuple) => CardCellV3(
+                  key: ObjectKey(indexCell),
+                  indexCell: indexCell,
+                  controller: _controller,
+                  cell: tuple.item1,
+                  playerList: tuple.item2,
+                  initWidth: rect.width,
+                  initHeight: rect.height,
+                  onReduce: () => setState(() => _focusCellTuple = null),
+                ),
               ));
         });
   }
@@ -87,14 +99,18 @@ class _JeSaisPasState extends State<JeSaisPas>
 class CardCellV3 extends StatelessWidget {
   const CardCellV3(
       {Key? key,
+      required this.indexCell,
       required this.cell,
+      required this.playerList,
       required this.initWidth,
       required this.initHeight,
       required this.onReduce,
       required this.controller})
       : super(key: key);
 
+  final int indexCell;
   final Cell cell;
+  final List<Player> playerList;
   final AnimationController controller;
   final double initWidth;
   final double initHeight;
@@ -155,6 +171,26 @@ class CardCellV3 extends StatelessWidget {
                     onPressed: () =>
                         controller.reverse().then((_) => onReduce()),
                     icon: Icon(Icons.close_fullscreen))),
+            Positioned.fill(
+                bottom: 4,
+                right: 4,
+                child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: GlassWidget(
+                      padding: EdgeInsets.all(3),
+                      child: Text("${indexCell + 1}",
+                          style: TextStyle(fontSize: 15))),
+                )),
+            Positioned(
+                top: 10,
+                left: 10,
+                //todo adapt size
+                child: Wrap(
+                  spacing: 4,
+                  children: playerList
+                      .map((e) => PlayerAvatar(player: e, size: 30))
+                      .toList(),
+                ))
           ],
         ),
       ),
