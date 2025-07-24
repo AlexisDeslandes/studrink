@@ -1,0 +1,396 @@
+[
+  {
+    "name": "Jeu de l'oie",
+    "teaser": "Pour retrouver les saveurs d'antant.",
+    "cells": [
+      {
+        "name": "Rentrée",
+        "sideEffectList": [
+          "C'est la rentrée !"
+        ],
+        "sideEffectListAfterTurnLost": [],
+        "cellType": 0
+      },
+      {
+        "name": "Polypoint",
+        "moving": {
+          "movingType": 0,
+          "count": 2
+        },
+        "sideEffectList": [],
+        "sideEffectListAfterTurnLost": [],
+        "conditionKey": {
+          "id": 421700460,
+          "name": "Polypoint"
+        },
+        "cellType": 2
+      },
+      {
+        "name": "BressomLand",
+        "sideEffectList": [
+          "Tu bois un cul sec."
+        ],
+        "sideEffectListAfterTurnLost": [],
+        "cellType": 0
+      },
+      {
+        "name": "Clausse",
+        "sideEffectList": [
+          "Tu bois."
+        ],
+        "sideEffectListAfterTurnLost": [],
+        "cellType": 0
+      },
+      {
+        "name": "WEC1",
+        "sideEffectList": [
+          "Tu bois"
+        ],
+        "sideEffectListAfterTurnLost": [
+          "Tu bois"
+        ],
+        "cellType": 4
+      },
+      {
+        "name": "Parking",
+        "sideEffectList": [
+          "Invente ta propre règle."
+        ],
+        "sideEffectListAfterTurnLost": [],
+        "cellType": 0
+      },
+      {
+        "name": "Partiel",
+        "prisonCondition": {
+          "dicePossibilities": [
+            3,
+            4
+          ]
+        },
+        "sideEffectList": [
+          "Plus le droit de boire."
+        ],
+        "sideEffectListAfterTurnLost": [],
+        "cellType": 5
+      },
+      {
+        "name": "Balais-couille",
+        "throwDiceEffect": {
+          "sideEffect": "Bois sa valeur."
+        },
+        "sideEffectList": [],
+        "sideEffectListAfterTurnLost": [],
+        "cellType": 6
+      },
+      {
+        "name": "Polypoint",
+        "challenge": "Bois un cul sec.",
+        "sideEffectList": [],
+        "sideEffectListAfterTurnLost": [],
+        "conditionKey": {
+          "id": 421700460,
+          "name": "Polypoint"
+        },
+        "cellType": 7
+      },
+      {
+        "name": "Seau d'eau mie",
+        "movingUndeterminedCount": 1,
+        "sideEffectList": [],
+        "sideEffectListAfterTurnLost": [],
+        "cellType": 8
+      },
+      {
+        "name": "Depardieu",
+        "sideEffectList": [
+          "Tout le monde boit."
+        ],
+        "sideEffectListAfterTurnLost": [],
+        "cellType": 0
+      },
+      {
+        "name": "4a",
+        "sideEffectList": [],
+        "sideEffectListAfterTurnLost": [],
+        "conditionKey": {
+          "id": 421700460,
+          "name": "Polypoint"
+        },
+        "requiredConditionKey": {
+          "id": 421700460,
+          "name": "Polypoint"
+        },
+        "cellType": 1
+      },
+      {
+        "name": "Otrak",
+        "sideEffectList": [
+          "Bois un cimetière."
+        ],
+        "sideEffectListAfterTurnLost": [],
+        "cellType": 0
+      },
+      {
+        "name": "Inté BDSM",
+        "sideEffectList": [],
+        "sideEffectListAfterTurnLost": [],
+        "conditionKey": {
+          "id": 191154793,
+          "name": "BDSM"
+        },
+        "cellType": 0
+      },
+      {
+        "name": "Shi Fu Cuite",
+        "sideEffectList": [],
+        "sideEffectListAfterTurnLost": [],
+        "conditionKey": {
+          "id": 104737958,
+          "name": "UE"
+        },
+        "cellType": 9
+      },
+      {
+        "name": "Parking",
+        "moving": {
+          "movingType": 0,
+          "count": 1
+        },
+        "sideEffectList": [],
+        "sideEffectListAfterTurnLost": [],
+        "cellType": 3
+      },
+      {
+        "name": "WEC2",
+        "sideEffectList": [
+          "Bois un cul sec.",
+          "Embrasse le plus bourré."
+        ],
+        "sideEffectListAfterTurnLost": [],
+        "cellType": 0
+      },
+      {
+        "name": "Nazgûl",
+        "moving": {
+          "movingType": 1,
+          "count": 1
+        },
+        "sideEffectList": [],
+        "sideEffectListAfterTurnLost": [],
+        "cellType": 3
+      },
+      {
+        "name": "Picsou",
+        "challenge": "Les autres te lancent un défis.",
+        "sideEffectList": [],
+        "sideEffectListAfterTurnLost": [],
+        "conditionKey": {
+          "id": 104737958,
+          "name": "UE"
+        },
+        "cellType": 7
+      },
+      {
+        "name": "Ski",
+        "sideEffectList": [
+          "Bois 3 gorgées."
+        ],
+        "sideEffectListAfterTurnLost": [],
+        "cellType": 0
+      },
+      {
+        "name": "KO",
+        "sideEffectList": [],
+        "sideEffectListAfterTurnLost": [],
+        "cellType": 4
+      },
+      {
+        "name": "Fist",
+        "moving": {
+          "movingType": 1,
+          "count": 2
+        },
+        "sideEffectList": [],
+        "sideEffectListAfterTurnLost": [],
+        "cellType": 2
+      },
+      {
+        "name": "Triche",
+        "conditionKeyStolen": {
+          "id": 104737958,
+          "name": "UE"
+        },
+        "sideEffectList": [],
+        "sideEffectListAfterTurnLost": [],
+        "cellType": 10
+      },
+      {
+        "name": "5A",
+        "sideEffectList": [
+          "Tu bois"
+        ],
+        "sideEffectListAfterTurnLost": [],
+        "requiredConditionKey": {
+          "id": 104737958,
+          "name": "UE"
+        },
+        "cellType": 1
+      },
+      {
+        "name": "BDSM",
+        "sideEffectList": [],
+        "sideEffectListAfterTurnLost": [],
+        "conditionKey": {
+          "id": 191154793,
+          "name": "BDSM"
+        },
+        "cellType": 0
+      },
+      {
+        "name": "WEC3",
+        "sideEffectList": [
+          "Donne 2 gorgées."
+        ],
+        "sideEffectListAfterTurnLost": [],
+        "cellType": 0
+      },
+      {
+        "name": "MNM'S",
+        "throwDiceEffect": {
+          "sideEffect": "Désigne un joueur. Le joueur boit le nombre de gorgées et désigne un joueur qui les boit également."
+        },
+        "sideEffectList": [],
+        "sideEffectListAfterTurnLost": [],
+        "cellType": 6
+      },
+      {
+        "name": "QPUC Stage",
+        "challenge": "Un autre joueur te pose une question.",
+        "sideEffectList": [],
+        "sideEffectListAfterTurnLost": [],
+        "conditionKey": {
+          "id": 572209877,
+          "name": "Stage"
+        },
+        "cellType": 7
+      },
+      {
+        "name": "ABEL",
+        "sideEffectList": [
+          "Bois 4 gorgées."
+        ],
+        "sideEffectListAfterTurnLost": [],
+        "cellType": 0
+      },
+      {
+        "name": "BDSM",
+        "sideEffectList": [],
+        "sideEffectListAfterTurnLost": [],
+        "cellType": 11,
+        "ifCell": {
+          "name": "",
+          "sideEffectList": [
+            "donne un cul sec"
+          ],
+          "sideEffectListAfterTurnLost": [],
+          "cellType": 0
+        },
+        "conditionIf": {
+          "id": 191154793,
+          "name": "BDSM"
+        },
+        "elseCell": {
+          "name": "",
+          "moving": {
+            "movingType": 1,
+            "count": 1
+          },
+          "sideEffectList": [],
+          "sideEffectListAfterTurnLost": [],
+          "conditionKey": {
+            "id": 191154793,
+            "name": "BDSM"
+          },
+          "cellType": 2,
+          "lostConditionKey": {
+            "id": 572209877,
+            "name": "Stage"
+          }
+        }
+      },
+      {
+        "name": "BEACH",
+        "sideEffectList": [
+          "Bois un shot"
+        ],
+        "sideEffectListAfterTurnLost": [],
+        "cellType": 0
+      },
+      {
+        "name": "Blackout",
+        "tpCell": {
+          "name": "4a",
+          "sideEffectList": [],
+          "sideEffectListAfterTurnLost": [],
+          "conditionKey": {
+            "id": 421700460,
+            "name": "Polypoint"
+          },
+          "requiredConditionKey": {
+            "id": 421700460,
+            "name": "Polypoint"
+          },
+          "cellType": 1
+        },
+        "sideEffectList": [],
+        "sideEffectListAfterTurnLost": [],
+        "cellType": 1
+      },
+      {
+        "name": "Stage",
+        "sideEffectList": [],
+        "sideEffectListAfterTurnLost": [],
+        "conditionKey": {
+          "id": 572209877,
+          "name": "Stage"
+        },
+        "cellType": 0
+      },
+      {
+        "name": "Diplôme",
+        "sideEffectList": [],
+        "sideEffectListAfterTurnLost": [],
+        "requiredConditionKey": {
+          "id": 572209877,
+          "name": "Stage"
+        },
+        "cellType": 1
+      },
+      {
+        "name": "Embauche",
+        "diceCondition": 6,
+        "sideEffectList": [
+          "Tu bois la différence.",
+          "Tout le monde finira son verre pour fêter l'embauche."
+        ],
+        "sideEffectListAfterTurnLost": [],
+        "cellType": 12
+      }
+    ],
+    "description": "Le jeu de l'oie est le premier jeu sorti sur Studrink. Rentre dans la peau d'un étudiant de Nice et participe aux événements du WEC, MNM's, SKI et tant d'autres.",
+    "imgUrl": "assets/icons/goose.svg",
+    "date": 1619884520475,
+    "event": false,
+    "screenshots": [
+      "screen1.png",
+      "screen2.png",
+      "screen3.png",
+      "screen4.png"
+    ],
+    "chips": [
+      "Original",
+      "Shots"
+    ],
+    "goal": "Pour remporter la partie, valide tes 3 années de cycle ingénieur. Pour cela, rien de plus simple : Récupère un polypoint en 3a, un UE en 4a et un stage en 5a : tu pourras les gagner sur certaines cases du jeu. Attention aux redoublements !"
+  }
+]

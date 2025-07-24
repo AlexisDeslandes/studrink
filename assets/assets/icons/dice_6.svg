@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="88" height="88" viewBox="0 0 88 88">
+  <defs>
+    <filter id="Rectangle_44" x="0" y="0" width="88" height="88" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Groupe_67" data-name="Groupe 67" transform="translate(-2909 1057)">
+    <g transform="matrix(1, 0, 0, 1, 2909, -1057)" filter="url(#Rectangle_44)">
+      <rect id="Rectangle_44-2" data-name="Rectangle 44" width="70" height="70" transform="translate(9 6)" fill="#fff"/>
+    </g>
+    <circle id="Ellipse_40" data-name="Ellipse 40" cx="7" cy="7" r="7" transform="translate(2930 -1039)"/>
+    <circle id="Ellipse_41" data-name="Ellipse 41" cx="7" cy="7" r="7" transform="translate(2962 -1007)"/>
+    <circle id="Ellipse_42" data-name="Ellipse 42" cx="7" cy="7" r="7" transform="translate(2962 -1039)"/>
+    <circle id="Ellipse_43" data-name="Ellipse 43" cx="7" cy="7" r="7" transform="translate(2930 -1007)"/>
+    <circle id="Ellipse_44" data-name="Ellipse 44" cx="7" cy="7" r="7" transform="translate(2930 -1023)"/>
+    <circle id="Ellipse_45" data-name="Ellipse 45" cx="7" cy="7" r="7" transform="translate(2962 -1023)"/>
+  </g>
+</svg>
