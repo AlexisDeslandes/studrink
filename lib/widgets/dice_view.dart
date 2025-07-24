@@ -14,7 +14,7 @@ class DiceView extends StatelessWidget {
           builder: (context, state) {
             final diceValue = state.diceValue;
             if (diceValue > 0)
-              return SvgPicture.asset("assets/icons/dice_$diceValue.svg");
+              return Image.asset("assets/icons/dice_$diceValue.png");
             return const SizedBox();
           },
           buildWhen: (previous, current) =>

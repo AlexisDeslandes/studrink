@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:studrink/models/cell.dart';
 import 'package:studrink/widgets/condition_widget.dart';
 import 'package:studrink/widgets/game_page_view/card_cell_player_list.dart';
@@ -11,7 +9,7 @@ class CardCell extends StatelessWidget {
 
   const CardCell({Key? key, required this.cell}) : super(key: key);
 
-  String get _icon => "assets/icons/${cell.cellType.value}.svg";
+  String get _icon => "assets/icons/${cell.cellType.value}.png";
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +33,7 @@ class CardCell extends StatelessWidget {
                                   child: Image.asset(cell.imgPath!)),
                             ),
                         replaceWidgetCallback: () =>
-                            SvgPicture.asset(_icon, width: size, height: size)),
+                            Image.asset(_icon, width: size, height: size)),
                     alignment: Alignment.center),
               ),
               Padding(
