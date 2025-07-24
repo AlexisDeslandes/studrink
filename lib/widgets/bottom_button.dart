@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BottomButton extends StatelessWidget {
@@ -10,10 +9,6 @@ class BottomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      child: Text(text,
-          style: Theme.of(context).textTheme.button?.copyWith(fontSize: 20)),
-      onPressed: onPressed,
-    );
+    return TextButton(child: Text(text), onPressed: onPressed);
   }
 }

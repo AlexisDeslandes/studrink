@@ -198,6 +198,7 @@ class MarketGameTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     final isImgFromWeb = boardGame.imgUrl.startsWith("http"),
         chips = boardGame.chips;
     return GlassWidget(
@@ -237,7 +238,7 @@ class MarketGameTile extends StatelessWidget {
                 child: Text(boardGame.name,
                     style: Theme.of(context)
                         .textTheme
-                        .headline1!
+                        .titleLarge!
                         .copyWith(fontSize: 18)),
               ),
               Padding(
@@ -246,7 +247,7 @@ class MarketGameTile extends StatelessWidget {
                   boardGame.teaser,
                   style: Theme.of(context)
                       .textTheme
-                      .bodyText1!
+                      .bodyMedium!
                       .copyWith(fontSize: 12.0, fontWeight: FontWeight.w300),
                 ),
               ),
@@ -261,8 +262,8 @@ class MarketGameTile extends StatelessWidget {
                                     materialTapTargetSize:
                                         MaterialTapTargetSize.shrinkWrap,
                                     backgroundColor: index % 2 == 0
-                                        ? Theme.of(context).primaryColor
-                                        : Theme.of(context).accentColor),
+                                        ? colorScheme.primary
+                                        : colorScheme.secondary),
                               ))
                           .toList()))
             ])));

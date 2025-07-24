@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,12 +48,12 @@ class ChosePlayersScreenState extends BaseScreenState {
               "Avertissement",
               style: Theme.of(context)
                   .textTheme
-                  .headline1!
+                  .titleLarge!
                   .copyWith(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             content: Text(
                 "Etes-vous sûr de vouloir quitter la partie courante ? La progression sera perdue.",
-                style: Theme.of(context).textTheme.bodyText1),
+                style: Theme.of(context).textTheme.bodyMedium),
             actions: [
               TextButton(
                   onPressed: () {
@@ -77,27 +76,28 @@ class ChosePlayersScreenState extends BaseScreenState {
   }
 
   @override
-  Widget? floatingActionButton(BuildContext context) => ScaleTransition(
-        scale: controller.drive(CurveTween(curve: Interval(0.8, 1.0))),
-        child: FloatingActionButton(
-            heroTag: "chose_player",
-            child: Container(
-                width: 56,
-                height: 56,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100.0),
-                    gradient: LinearGradient(
-                        colors: [
-                          Theme.of(context).accentColor,
-                          Theme.of(context).primaryColor
-                        ],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter)),
-                child: Icon(Icons.play_arrow, color: Colors.white)),
-            onPressed: () => context.read<CurrentGameBloc>().add(ValidateGame(
-                onPop: () => controller.forward(),
-                animationCallback: controller.reverse))),
-      );
+  Widget? floatingActionButton(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    return ScaleTransition(
+      scale: controller.drive(CurveTween(curve: Interval(0.8, 1.0))),
+      child: FloatingActionButton(
+          heroTag: "chose_player",
+          child: Container(
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100.0),
+                  gradient: LinearGradient(
+                      colors: [colorScheme.secondary, colorScheme.primary],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter)),
+              child: Icon(Icons.play_arrow, color: Colors.white)),
+          onPressed: () => context.read<CurrentGameBloc>().add(ValidateGame(
+              onPop: () => controller.forward(),
+              animationCallback: controller.reverse))),
+    );
+  }
 
   @override
   Widget body(BuildContext context) {

@@ -34,11 +34,11 @@ mixin BackBtnWrapper<T extends StatefulWidget> on State<T> {
                 "Avertissement",
                 style: Theme.of(context)
                     .textTheme
-                    .headline1!
+                    .titleLarge!
                     .copyWith(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               content:
-                  Text(content, style: Theme.of(context).textTheme.bodyText1),
+                  Text(content, style: Theme.of(context).textTheme.bodyMedium),
               actions: [
                 TextButton(
                     onPressed: () => Navigator.pop(ctx),

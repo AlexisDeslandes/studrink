@@ -18,7 +18,7 @@ class RecapPlayerListTile extends StatelessWidget {
         player.name,
         style: Theme.of(context)
             .textTheme
-            .bodyText1!
+            .bodyMedium!
             .copyWith(fontSize: 24, fontWeight: FontWeight.w400),
       ),
       subtitle: Text(
@@ -26,7 +26,7 @@ class RecapPlayerListTile extends StatelessWidget {
         style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
       ),
       trailing: Text("${index + 1}${index == 0 ? "er" : "è"}",
-          style: Theme.of(context).textTheme.headline2!.copyWith(fontSize: 24)),
+          style: Theme.of(context).textTheme.titleMedium!.copyWith(fontSize: 24)),
     );
   }
 }

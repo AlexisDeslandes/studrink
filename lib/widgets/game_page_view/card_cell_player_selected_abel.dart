@@ -20,7 +20,7 @@ class CardCellPlayerSelectedLabel extends StatelessWidget {
         final selectedPlayer = state.selectedPlayer;
         if (selectedPlayer != null && playersOnCell.contains(selectedPlayer)) {
           return Text(state.selectedPlayer?.name ?? "",
-              style: Theme.of(context).textTheme.bodyText1);
+              style: Theme.of(context).textTheme.bodyMedium);
         }
         return Container();
       });

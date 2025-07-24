@@ -13,12 +13,13 @@ class AppBackgroundPaint extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     return CustomPaint(
         child: child,
         size: MediaQuery.of(context).size,
         painter: AppBackgroundPainter(
-            primaryColor: theme.primaryColor,
-            accentColor: theme.accentColor,
+            primaryColor: colorScheme.primary,
+            accentColor: colorScheme.secondary,
             backgroundColor: theme.scaffoldBackgroundColor,
             topPadding: MediaQuery.of(context).padding.top));
   }

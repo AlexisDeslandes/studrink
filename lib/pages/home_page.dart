@@ -76,7 +76,7 @@ class HomeScreenState extends State<HomeScreen>
                                     child: Text("Studrink",
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline2),
+                                            .titleMedium),
                                   ),
                                   ColorButton(
                                       text: "Jouer", callback: _navToPlayGame),

@@ -193,7 +193,7 @@ class _GameScreenState extends State<GameScreen>
             content = ChoseOpponentListView(
                 contentCallback: (player) => Text(
                     "Effets : ${cells[player.idCurrentCell + movingCount].effectsLabel}",
-                    style: Theme.of(context).textTheme.bodyText1),
+                    style: Theme.of(context).textTheme.bodyMedium),
                 playerList: playerList,
                 callback: (player) => context
                     .read<CurrentGameBloc>()

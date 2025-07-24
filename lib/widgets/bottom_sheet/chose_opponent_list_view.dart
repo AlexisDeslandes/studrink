@@ -27,7 +27,7 @@ class ChoseOpponentListView extends StatelessWidget {
                     player.name,
                     style: Theme.of(context)
                         .textTheme
-                        .bodyText1!
+                        .bodyMedium!
                         .copyWith(fontSize: 24, fontWeight: FontWeight.w400),
                   ),
                   leading: PlayerAvatar(player: player),

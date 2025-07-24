@@ -41,7 +41,7 @@ class _CellAnnouncerState extends State<CellAnnouncer> {
             key: ValueKey(cellName),
             alignment: Alignment.centerLeft,
             child:
-                Text(cellName, style: Theme.of(context).textTheme.headline1));
+                Text(cellName, style: Theme.of(context).textTheme.titleLarge));
     return ConditionWidget(
         appear: !kIsWeb,
         appearWidgetCallback: () => AnimatedSwitcher(

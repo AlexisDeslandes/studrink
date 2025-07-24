@@ -19,6 +19,7 @@ class MyChoiceChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var borderRadius;
+    final colorScheme = Theme.of(context).colorScheme;
     if (position == MyChoiceChipPosition.LEFT)
       borderRadius = BorderRadius.only(
           topLeft: Radius.circular(12.0), bottomLeft: Radius.circular(12.0));
@@ -37,10 +38,10 @@ class MyChoiceChip extends StatelessWidget {
             color: selected ? null : Colors.white,
             borderRadius: borderRadius,
             gradient: selected
-                ? LinearGradient(colors: [
-                    Theme.of(context).accentColor,
-                    Theme.of(context).primaryColor
-                  ], begin: Alignment.topCenter, end: Alignment.bottomCenter)
+                ? LinearGradient(
+                    colors: [colorScheme.secondary, colorScheme.primary],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter)
                 : null),
         child: Material(
           child: InkWell(
@@ -52,7 +53,7 @@ class MyChoiceChip extends StatelessWidget {
                 child: Text(label,
                     style: Theme.of(context)
                         .textTheme
-                        .headline1!
+                        .titleLarge!
                         .copyWith(fontSize: 14.0, fontWeight: FontWeight.bold)),
               ),
             ),

@@ -17,10 +17,10 @@ class PlayerAnnouncer extends StatelessWidget {
                   key: ValueKey(name),
                   alignment: Alignment.centerLeft,
                   child:
-                      Text(name, style: Theme.of(context).textTheme.subtitle1));
+                      Text(name, style: Theme.of(context).textTheme.titleSmall));
           return Row(children: [
             Text("C'est au tour de ",
-                style: Theme.of(context).textTheme.subtitle1),
+                style: Theme.of(context).textTheme.titleSmall),
             ConditionWidget(
                 appear: !kIsWeb,
                 appearWidgetCallback: () => AnimatedSwitcher(

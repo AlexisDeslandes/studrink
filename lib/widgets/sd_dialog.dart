@@ -25,7 +25,7 @@ class SdDialog extends StatelessWidget {
             Text(content,
                 style: Theme.of(context)
                     .textTheme
-                    .bodyText1!
+                    .bodyMedium!
                     .copyWith(fontSize: 14)),
             Align(
                 alignment: Alignment.centerRight,

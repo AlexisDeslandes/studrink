@@ -38,7 +38,7 @@ class SelectedPlayerCard extends StatelessWidget {
                   selectedPlayer.name,
                   style: Theme.of(context)
                       .textTheme
-                      .bodyText1!
+                      .bodyMedium!
                       .copyWith(fontSize: 24, fontWeight: FontWeight.w400),
                 ),
                 subtitle: Text(subTitle,

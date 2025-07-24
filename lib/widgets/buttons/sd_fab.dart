@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class SDFab extends StatelessWidget {
   const SDFab({Key? key, required this.icon, this.onPressed, this.heroTag})
@@ -11,6 +10,7 @@ class SDFab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return FloatingActionButton(
         heroTag: heroTag,
         child: Container(
@@ -19,8 +19,8 @@ class SDFab extends StatelessWidget {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100.0),
                 gradient: LinearGradient(colors: [
-                  Theme.of(context).accentColor,
-                  Theme.of(context).primaryColor
+                  colorScheme.secondary,
+                  colorScheme.primary,
                 ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
             child: Icon(icon, color: Colors.white)),
         onPressed: onPressed);

@@ -12,6 +12,7 @@ class ColorButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     final buttonSize = mini
         ? isTablet(context)
             ? 200.0
@@ -23,11 +24,11 @@ class ColorButton extends StatelessWidget {
       width: buttonSize,
       height: mini
           ? isTablet(context)
-          ? 60
-          : 40.0
+              ? 60
+              : 40.0
           : isTablet(context)
-          ? 70.0
-          : 61.0,
+              ? 70.0
+              : 61.0,
       child: Material(
           color: Colors.transparent,
           child: InkWell(
@@ -40,7 +41,7 @@ class ColorButton extends StatelessWidget {
                       : ButtonConstants.verticalPadding)),
               child: Text(
                 text,
-                style: Theme.of(context).textTheme.headline2!.copyWith(
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     color: Colors.white,
                     fontSize: (mini
                         ? ButtonConstants.miniFontSize
@@ -54,8 +55,8 @@ class ColorButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(ButtonConstants.buttonRadius),
           boxShadow: kElevationToShadow[4],
           gradient: LinearGradient(colors: [
-            Theme.of(context).accentColor,
-            Theme.of(context).primaryColor
+            colorScheme.secondary,
+            colorScheme.primary,
           ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
     );
   }

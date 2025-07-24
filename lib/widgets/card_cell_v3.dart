@@ -147,7 +147,7 @@ class CardCellV3 extends StatelessWidget {
                     child: Text(
                       cell.name,
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headline2,
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ),
                 ),
@@ -158,7 +158,7 @@ class CardCellV3 extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme
-                        .bodyText1
+                        .bodyMedium
                         ?.copyWith(fontSize: 14),
                   ),
                 )),

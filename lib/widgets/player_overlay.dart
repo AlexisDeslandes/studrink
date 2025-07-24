@@ -82,11 +82,11 @@ class PlayerOverlay extends StatelessWidget {
                       player.name,
                       style: Theme.of(context)
                           .textTheme
-                          .headline2!
+                          .titleMedium!
                           .copyWith(fontSize: 18),
                     ),
                     Text("C'est ton tour",
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontWeight: FontWeight.w300,
                             fontSize: 12.0,
                             color: Colors.black.withOpacity(0.6))),

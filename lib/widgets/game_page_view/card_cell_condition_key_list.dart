@@ -22,7 +22,7 @@ class CardCellConditionKeyList extends StatelessWidget {
           final conditionKeyLabels = selectedPlayer.conditionKeyLabels;
           if (conditionKeyLabels.length == 0) {
             return Text("Aucun objectifs obtenus.",
-                style: Theme.of(context).textTheme.caption);
+                style: Theme.of(context).textTheme.bodySmall);
           }
           const spacing = 10.0;
           return Wrap(
@@ -31,7 +31,7 @@ class CardCellConditionKeyList extends StatelessWidget {
             spacing: spacing,
             children: conditionKeyLabels
                 .map((conditionKey) => Text(conditionKey,
-                    style: Theme.of(context).textTheme.caption))
+                    style: Theme.of(context).textTheme.bodySmall))
                 .toList(),
           );
         }

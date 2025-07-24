@@ -28,7 +28,7 @@ class PlayerChosePlayerWonArea extends StatelessWidget {
         children: [
           Text(
             "Choisis le vainqueur",
-            style: Theme.of(context).textTheme.bodyText1,
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),

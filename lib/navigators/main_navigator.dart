@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studrink/blocs/current_game/current_game_bloc.dart';
@@ -30,10 +29,10 @@ class _MainNavigatorState extends State<MainNavigator>
               title: Text("Erreur rencontrée",
                   style: Theme.of(context)
                       .textTheme
-                      .headline1!
+                      .titleLarge!
                       .copyWith(fontSize: 20, fontWeight: FontWeight.bold)),
               content:
-                  Text(event, style: Theme.of(context).textTheme.bodyText1),
+                  Text(event, style: Theme.of(context).textTheme.bodyMedium),
               actions: [
                 TextButton(
                     onPressed: () {

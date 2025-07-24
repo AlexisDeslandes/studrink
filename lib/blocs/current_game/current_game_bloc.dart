@@ -3,7 +3,6 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:studrink/blocs/bloc_emitter.dart';
 import 'package:studrink/blocs/dice/dice_bloc.dart';
@@ -15,7 +14,6 @@ import 'package:studrink/models/condition_key.dart';
 import 'package:studrink/models/moving.dart';
 import 'package:studrink/models/player.dart';
 import 'package:studrink/pages/finish_game_page.dart';
-import 'package:studrink/pages/game_page.dart';
 import 'package:studrink/pages/game_page_v2.dart';
 import 'package:studrink/pages/tutorial_page.dart';
 import 'package:studrink/storage/local_storage.dart';

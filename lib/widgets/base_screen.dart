@@ -59,12 +59,12 @@ abstract class BaseScreenState<W extends StatefulWidget> extends State<W>
                         Padding(
                           padding: const EdgeInsets.only(left: 35.0),
                           child: Text(title,
-                              style: Theme.of(context).textTheme.headline1),
+                              style: Theme.of(context).textTheme.titleLarge),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 35.0),
                           child: Text(subTitle,
-                              style: Theme.of(context).textTheme.subtitle1),
+                              style: Theme.of(context).textTheme.titleSmall),
                         ),
                       ]),
                 ),

@@ -24,7 +24,7 @@ class CardCell extends StatelessWidget {
               child: Text(cell.name,
                   style: Theme.of(context)
                       .textTheme
-                      .headline1!
+                      .titleLarge!
                       .copyWith(fontSize: 30))),
           Expanded(
             child: Align(
@@ -46,7 +46,7 @@ class CardCell extends StatelessWidget {
             child: Center(
                 child: Text(
               cell.effectsLabel,
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context).textTheme.bodyMedium,
               textAlign: TextAlign.center,
             )),
           )

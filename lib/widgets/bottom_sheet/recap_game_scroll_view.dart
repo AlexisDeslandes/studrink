@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studrink/blocs/current_game/current_game_bloc.dart';
@@ -37,12 +36,12 @@ class _RecapGameScrollViewState extends State<RecapGameScrollView> {
                 Text("Résumé",
                     style: Theme.of(context)
                         .textTheme
-                        .headline1!
+                        .titleLarge!
                         .copyWith(fontSize: 30)),
                 Text("Classements des joueurs",
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle1!
+                        .titleSmall!
                         .copyWith(fontSize: 13)),
               ]),
         )),
@@ -87,6 +86,7 @@ class RecapGameCard extends StatelessWidget {
         return previousValue..[element] = previousValue[element]! + 1;
       return previousValue..[element] = 1;
     });
+    final colorScheme = Theme.of(context).colorScheme;
 
     return GlassWidget(
         padding: EdgeInsets.only(bottom: 10.0),
@@ -105,8 +105,8 @@ class RecapGameCard extends StatelessWidget {
                         label: Text("$value ${conditionKey.name}(s)"),
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         backgroundColor: index % 2 == 0
-                            ? Theme.of(context).primaryColor
-                            : Theme.of(context).accentColor);
+                            ? colorScheme.primary
+                            : colorScheme.secondary);
                   }).toList()),
             ),
           ),
@@ -127,7 +127,7 @@ class RecapGameCard extends StatelessWidget {
                                 "${previousValue.isNotEmpty ? "\n" : ""}$bullet ${element.value} ${element.key.label}"),
                     style: Theme.of(context)
                         .textTheme
-                        .caption!
+                        .bodySmall!
                         .copyWith(fontSize: 15),
                     softWrap: true),
               )),

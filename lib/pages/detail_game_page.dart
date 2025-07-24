@@ -84,7 +84,7 @@ class DetailGameScreenState extends State<DetailGameScreen>
                                       child: SvgPicture.asset(boardGame.imgUrl),
                                     )),
                         Text(boardGame.name,
-                            style: Theme.of(context).textTheme.headline2)
+                            style: Theme.of(context).textTheme.titleMedium)
                       ],
                     ),
                   ),

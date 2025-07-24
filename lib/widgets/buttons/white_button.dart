@@ -40,7 +40,7 @@ class WhiteButton extends StatelessWidget {
                         : ButtonConstants.verticalPadding)),
                 child: Text(
                   text,
-                  style: Theme.of(context).textTheme.headline2!.copyWith(
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       color: Colors.black,
                       fontSize: (mini
                           ? ButtonConstants.miniFontSize
